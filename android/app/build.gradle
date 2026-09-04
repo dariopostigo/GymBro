@@ -77,6 +77,14 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
+    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+        externalNativeBuild {
+            cmake {
+                buildStagingDirectory file("C:/ncb/${rootProject.name}")
+            }
+        }
+    }
+
     namespace "com.gymbro.app"
     defaultConfig {
         applicationId "com.gymbro.app"
