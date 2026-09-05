@@ -19,15 +19,18 @@ export function ScreenHeader({
   overline: over,
   title,
   subtitle,
+  left,
   right,
 }: {
   overline?: string;
   title: string;
   subtitle?: string;
+  left?: React.ReactNode;
   right?: React.ReactNode;
 }) {
   return (
     <View style={styles.header}>
+      {left}
       <View style={styles.headerText}>
         {over ? <Overline>{over}</Overline> : null}
         <Text style={styles.headerTitle}>{title}</Text>

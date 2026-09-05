@@ -8,17 +8,10 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
-import {
-  CalendarIcon,
-  ChartIcon,
-  ChevronIcon,
-  DumbbellIcon,
-  FlameIcon,
-  PlusIcon,
-  type IconProps,
-} from '../components/icons';
+import { DumbbellIcon, FlameIcon } from '../components/icons';
 import FadeInView from '../components/FadeInView';
-import { Card, Overline, PrimaryButton, ProgressBar, StatTile } from '../components/ui';
+import MenuButton from '../components/MenuButton';
+import { Card, Overline, PrimaryButton, ProgressBar, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
 import { formatVolume, totalStats, volumeByWeek } from '../utils/stats';
@@ -36,31 +29,6 @@ function greeting(): string {
   if (hour < 13) return 'Buenos días';
   if (hour < 21) return 'Buenas tardes';
   return 'Buenas noches';
-}
-
-function MenuRow({
-  Icon,
-  title,
-  subtitle,
-  onPress,
-}: {
-  Icon: (props: IconProps) => React.JSX.Element;
-  title: string;
-  subtitle: string;
-  onPress: () => void;
-}) {
-  return (
-    <TouchableOpacity activeOpacity={0.8} style={styles.menuRow} onPress={onPress}>
-      <View style={styles.menuIcon}>
-        <Icon size={18} color={colors.accent} />
-      </View>
-      <View style={styles.menuText}>
-        <Text style={styles.menuTitle}>{title}</Text>
-        <Text style={styles.menuSubtitle}>{subtitle}</Text>
-      </View>
-      <ChevronIcon size={18} color={colors.muted} />
-    </TouchableOpacity>
-  );
 }
 
 export default function HomeScreen() {
@@ -83,21 +51,18 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <FadeInView style={styles.topBar}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>GB</Text>
-          </View>
-          <View style={styles.topBarText}>
-            <Text style={styles.greeting}>{greeting()}</Text>
-            <Text style={styles.brand}>GymBro</Text>
-          </View>
+      <ScreenHeader
+        overline={greeting()}
+        title="GymBro"
+        left={<MenuButton />}
+        right={
           <View style={styles.streakPill}>
             <FlameIcon size={14} color={colors.accent} />
             <Text style={styles.streakText}>{stats.streak}</Text>
           </View>
-        </FadeInView>
-
+        }
+      />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <FadeInView delay={70}>
           <Card style={styles.hero} elevated>
             <View style={styles.heroTop}>
@@ -174,59 +139,6 @@ export default function HomeScreen() {
             </View>
           </Card>
         </FadeInView>
-
-        <Overline style={styles.sectionTitle}>Menú principal</Overline>
-        <FadeInView delay={280}>
-          <Card style={styles.menuCard}>
-            <MenuRow
-              Icon={DumbbellIcon}
-              title="Entrenar hoy"
-              subtitle={currentDay ? currentDay.name : 'Sin día activo'}
-              onPress={goToday}
-            />
-            <View style={styles.menuDivider} />
-            <MenuRow
-              Icon={CalendarIcon}
-              title="Mi rutina"
-              subtitle={
-                activeSplit
-                  ? `${activeSplit.name} · ${activeSplit.days.length} días`
-                  : 'Aún no hay split activo'
-              }
-              onPress={() => navigation.navigate('Routine')}
-            />
-            <View style={styles.menuDivider} />
-            <MenuRow
-              Icon={ChartIcon}
-              title="Progreso"
-              subtitle="Volumen, récords e historial"
-              onPress={() => navigation.navigate('Progress')}
-            />
-            {activeSplit && currentDay ? (
-              <>
-                <View style={styles.menuDivider} />
-                <MenuRow
-                  Icon={PlusIcon}
-                  title="Editar el día de hoy"
-                  subtitle="Añadir, quitar o reordenar ejercicios"
-                  onPress={() =>
-                    navigation.navigate('DayEditor', {
-                      splitId: activeSplit.id,
-                      dayId: currentDay.id,
-                    })
-                  }
-                />
-              </>
-            ) : null}
-            <View style={styles.menuDivider} />
-            <MenuRow
-              Icon={CalendarIcon}
-              title="Cambiar de split"
-              subtitle="Elegir otra rutina o crear una nueva"
-              onPress={() => navigation.navigate('SplitSelection')}
-            />
-          </Card>
-        </FadeInView>
       </ScrollView>
     </SafeAreaView>
   );
@@ -240,19 +152,6 @@ const styles = StyleSheet.create({
     paddingBottom: TAB_BAR_SPACE,
     gap: spacing.lg,
   },
-  topBar: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: radius.pill,
-    backgroundColor: colors.accent,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarText: { color: colors.onAccent, fontWeight: '900', fontSize: 15, letterSpacing: 0.5 },
-  topBarText: { flex: 1 },
-  greeting: { color: colors.muted, fontSize: 12, fontWeight: '600' },
-  brand: { color: colors.text, fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
   streakPill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -300,25 +199,4 @@ const styles = StyleSheet.create({
   chartLabel: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   chartLabelToday: { color: colors.accent },
   chartLabelFuture: { opacity: 0.5 },
-  sectionTitle: { marginTop: spacing.xs, marginLeft: spacing.xs },
-  menuCard: { padding: 0, overflow: 'hidden' },
-  menuRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 14,
-  },
-  menuIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: radius.pill,
-    backgroundColor: colors.accentSoft,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  menuText: { flex: 1, gap: 1 },
-  menuTitle: { color: colors.text, fontSize: 15, fontWeight: '700' },
-  menuSubtitle: { color: colors.muted, fontSize: 12 },
-  menuDivider: { height: 1, backgroundColor: colors.border, marginLeft: 68 },
 });

@@ -7,8 +7,10 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { getExerciseById } from '../data/exerciseCatalog';
+import { getExerciseImageSources } from '../utils/exerciseImages';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
 import FadeInView from '../components/FadeInView';
+import MenuButton from '../components/MenuButton';
 import { ChevronIcon } from '../components/icons';
 import { Card, EmptyState, Overline, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
@@ -53,7 +55,7 @@ export default function ProgressScreen() {
 
   const renderExercise = ({ item, index }: { item: ExerciseSummary; index: number }) => {
     const exercise = getExerciseById(item.exerciseId);
-    const thumbnail = exercise?.images[0];
+    const thumbnail = getExerciseImageSources(exercise)[0];
     return (
       <FadeInView delay={Math.min(index, 5) * 50}>
         <TouchableOpacity
@@ -62,7 +64,7 @@ export default function ProgressScreen() {
           onPress={() => navigation.navigate('ExerciseHistory', { exerciseId: item.exerciseId })}
         >
           {thumbnail ? (
-            <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
+            <Image source={thumbnail} style={styles.thumbnail} />
           ) : (
             <View style={[styles.thumbnail, styles.thumbnailPlaceholder]} />
           )}
@@ -86,6 +88,7 @@ export default function ProgressScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <ScreenHeader overline="Tu evolución" title="Progreso" left={<MenuButton />} />
       <FlatList
         data={summaries}
         keyExtractor={item => String(item.exerciseId)}
@@ -95,8 +98,6 @@ export default function ProgressScreen() {
         ItemSeparatorComponent={ExerciseSeparator}
         ListHeaderComponent={
           <View style={styles.headerBlock}>
-            <ScreenHeader overline="Tu evolución" title="Progreso" />
-
             <View style={styles.statsRow}>
               <StatTile value={stats.sessions} label="Sesiones" />
               <StatTile value={stats.sets} label="Series" />
@@ -179,7 +180,7 @@ export default function ProgressScreen() {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.background },
   list: { paddingHorizontal: spacing.xxl, paddingBottom: TAB_BAR_SPACE },
-  headerBlock: { gap: spacing.lg, marginHorizontal: -spacing.xxl, paddingHorizontal: spacing.xxl },
+  headerBlock: { gap: spacing.lg },
   statsRow: { flexDirection: 'row', gap: spacing.sm },
   chartCard: { gap: spacing.lg },
   chart: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },

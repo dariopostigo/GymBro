@@ -204,6 +204,43 @@ export function HistoryIcon(props: IconProps) {
   );
 }
 
+/** Cuatro esquinas hacia fuera: ampliar imagen a pantalla completa. */
+export function ExpandIcon(props: IconProps) {
+  const { s, c } = useIcon(props);
+  const thickness = Math.max(2, s * 0.11);
+  const arm = s * 0.32;
+  const bar = { borderRadius: thickness, backgroundColor: c } as const;
+  return (
+    <View style={[styles.box, { width: s, height: s }]}>
+      <View style={{ position: 'absolute', top: 0, left: 0, width: arm, height: thickness, ...bar }} />
+      <View style={{ position: 'absolute', top: 0, left: 0, width: thickness, height: arm, ...bar }} />
+
+      <View style={{ position: 'absolute', top: 0, right: 0, width: arm, height: thickness, ...bar }} />
+      <View style={{ position: 'absolute', top: 0, right: 0, width: thickness, height: arm, ...bar }} />
+
+      <View style={{ position: 'absolute', bottom: 0, left: 0, width: arm, height: thickness, ...bar }} />
+      <View style={{ position: 'absolute', bottom: 0, left: 0, width: thickness, height: arm, ...bar }} />
+
+      <View style={{ position: 'absolute', bottom: 0, right: 0, width: arm, height: thickness, ...bar }} />
+      <View style={{ position: 'absolute', bottom: 0, right: 0, width: thickness, height: arm, ...bar }} />
+    </View>
+  );
+}
+
+/** Rejilla 2x2: biblioteca de ejercicios. */
+export function GridIcon(props: IconProps) {
+  const { s, c } = useIcon(props);
+  const cell = { width: s * 0.4, height: s * 0.4, borderRadius: 3, backgroundColor: c };
+  return (
+    <View style={[styles.box, { width: s, height: s, flexDirection: 'row', flexWrap: 'wrap', gap: s * 0.08 }]}>
+      <View style={cell} />
+      <View style={cell} />
+      <View style={cell} />
+      <View style={cell} />
+    </View>
+  );
+}
+
 export function CheckIcon(props: IconProps) {
   const { s, c } = useIcon(props);
   return (

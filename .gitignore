@@ -66,6 +66,15 @@ yarn-error.log
 # testing
 /coverage
 
+# Imágenes en bruto pendientes de clasificar (ver assets/exercise-images-inbox)
+/assets/exercise-images-inbox/*
+!/assets/exercise-images-inbox/.gitkeep
+
+# Imágenes de terceros con copyright, para uso local/personal únicamente.
+# NO distribuir: no se suben a git ni se empaquetan en builds públicos.
+/src/assets/exercises-local/*
+!/src/assets/exercises-local/.gitkeep
+
 # Yarn
 .yarn/*
 !.yarn/patches

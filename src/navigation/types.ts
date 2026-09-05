@@ -12,6 +12,7 @@ export type RootStackParamList = {
   SplitSelection: undefined;
   CreateCustomSplit: undefined;
   DayEditor: { splitId: string; dayId: string };
+  ExerciseLibrary: undefined;
   ExerciseHistory: { exerciseId: number };
   /** `currentExerciseId` preselecciona el filtro por la categoría del ejercicio que se cambia. */
   ExercisePicker:

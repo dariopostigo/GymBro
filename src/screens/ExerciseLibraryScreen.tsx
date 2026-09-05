@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { useRoutine } from '../context/RoutineContext';
-import { CATEGORIES, EXERCISES, getExerciseById } from '../data/exerciseCatalog';
-import { generateId } from '../utils/id';
+import { CATEGORIES, EXERCISES } from '../data/exerciseCatalog';
 import { getExerciseImageSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { ChevronIcon } from '../components/icons';
@@ -14,40 +12,20 @@ import type { RootStackParamList } from '../navigation/types';
 import type { Exercise } from '../types/exercise';
 import { colors, radius, spacing } from '../theme';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ExercisePicker'>;
-type Nav = NativeStackNavigationProp<RootStackParamList, 'ExercisePicker'>;
+type Nav = NativeStackNavigationProp<RootStackParamList, 'ExerciseLibrary'>;
 
 const CHIP_OPTIONS = ['Todos', ...CATEGORIES];
 
 /** Los chips no tienen ancho fijo: si el scroll inicial falla, no pasa nada. */
 const noop = () => {};
 
-export default function ExercisePickerScreen({ route }: Props) {
-  const params = route.params;
+export default function ExerciseLibraryScreen() {
   const navigation = useNavigation<Nav>();
-  const { splits, updateDayExercises } = useRoutine();
   const { ref: listContainerRef, inset } = useKeyboardInset();
   const chipsRef = useRef<FlatList<string>>(null);
 
-  // Al cambiar un ejercicio se entra ya filtrado por su categoría (pecho, espalda...).
-  const currentCategory = useMemo(() => {
-    if (params.mode === 'add' || params.currentExerciseId == null) return null;
-    return getExerciseById(params.currentExerciseId)?.category.name ?? null;
-  }, [params]);
-
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState<string | null>(currentCategory);
-
-  useEffect(() => {
-    if (!currentCategory) return;
-    const index = CHIP_OPTIONS.indexOf(currentCategory);
-    if (index < 0) return;
-    // Sin animación: el filtro ya está aplicado al abrirse la pantalla.
-    const task = requestAnimationFrame(() =>
-      chipsRef.current?.scrollToIndex({ index, viewPosition: 0.5, animated: false }),
-    );
-    return () => cancelAnimationFrame(task);
-  }, [currentCategory]);
+  const [category, setCategory] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const queryWords = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -60,38 +38,7 @@ export default function ExercisePickerScreen({ route }: Props) {
   }, [search, category]);
 
   const handleSelect = (exercise: Exercise) => {
-    if (params.mode === 'today') {
-      navigation.navigate('Main', {
-        screen: 'Today',
-        params: { swap: { slotId: params.slotId, exerciseId: exercise.id } },
-      });
-      return;
-    }
-
-    const split = splits.find(s => s.id === params.splitId);
-    const day = split?.days.find(d => d.id === params.dayId);
-    if (!split || !day) return;
-
-    if (params.mode === 'add') {
-      const newSlot = {
-        id: generateId(),
-        exerciseId: exercise.id,
-        order: day.exercises.length,
-        targetSets: 4,
-        targetRepsMin: 8,
-        targetRepsMax: 12,
-      };
-      updateDayExercises(params.splitId, params.dayId, [...day.exercises, newSlot]);
-    } else {
-      updateDayExercises(
-        params.splitId,
-        params.dayId,
-        day.exercises.map(slot =>
-          slot.id === params.slotId ? { ...slot, exerciseId: exercise.id } : slot,
-        ),
-      );
-    }
-    navigation.goBack();
+    navigation.navigate('ExerciseHistory', { exerciseId: exercise.id });
   };
 
   return (
@@ -139,29 +86,29 @@ export default function ExercisePickerScreen({ route }: Props) {
           renderItem={({ item }) => {
             const thumbnail = getExerciseImageSources(item)[0];
             return (
-            <TouchableOpacity
-              activeOpacity={0.85}
-              style={styles.row}
-              onPress={() => handleSelect(item)}
-            >
-              {thumbnail ? (
-                <Image source={thumbnail} style={styles.thumbnail} />
-              ) : (
-                <View style={[styles.thumbnail, styles.thumbnailPlaceholder]} />
-              )}
-              <View style={styles.rowInfo}>
-                <Text style={styles.rowName} numberOfLines={1}>
-                  {item.name}
-                </Text>
-                <Text style={styles.rowMeta} numberOfLines={1}>
-                  {item.category.name}
-                  {item.musclesPrimary.length
-                    ? ` · ${item.musclesPrimary.map(m => m.name).join(', ')}`
-                    : ''}
-                </Text>
-              </View>
-              <ChevronIcon size={16} color={colors.muted} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.85}
+                style={styles.row}
+                onPress={() => handleSelect(item)}
+              >
+                {thumbnail ? (
+                  <Image source={thumbnail} style={styles.thumbnail} />
+                ) : (
+                  <View style={[styles.thumbnail, styles.thumbnailPlaceholder]} />
+                )}
+                <View style={styles.rowInfo}>
+                  <Text style={styles.rowName} numberOfLines={1}>
+                    {item.name}
+                  </Text>
+                  <Text style={styles.rowMeta} numberOfLines={1}>
+                    {item.category.name}
+                    {item.musclesPrimary.length
+                      ? ` · ${item.musclesPrimary.map(m => m.name).join(', ')}`
+                      : ''}
+                  </Text>
+                </View>
+                <ChevronIcon size={16} color={colors.muted} />
+              </TouchableOpacity>
             );
           }}
           ListEmptyComponent={

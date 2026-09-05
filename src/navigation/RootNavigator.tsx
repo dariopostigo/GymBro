@@ -3,11 +3,12 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
-import MainTabs from './MainTabs';
+import MainWithDrawer from './MainWithDrawer';
 import SplitSelectionScreen from '../screens/SplitSelectionScreen';
 import CreateCustomSplitScreen from '../screens/CreateCustomSplitScreen';
 import DayEditorScreen from '../screens/DayEditorScreen';
 import ExercisePickerScreen from '../screens/ExercisePickerScreen';
+import ExerciseLibraryScreen from '../screens/ExerciseLibraryScreen';
 import ExerciseHistoryScreen from '../screens/ExerciseHistoryScreen';
 import type { RootStackParamList } from './types';
 import { colors } from '../theme';
@@ -53,7 +54,7 @@ export default function RootNavigator() {
       >
         <Stack.Screen
           name="Main"
-          component={MainTabs}
+          component={MainWithDrawer}
           options={{ headerShown: false, animation: 'fade' }}
         />
         <Stack.Screen
@@ -80,6 +81,11 @@ export default function RootNavigator() {
             presentation: 'modal',
             animation: 'slide_from_bottom',
           }}
+        />
+        <Stack.Screen
+          name="ExerciseLibrary"
+          component={ExerciseLibraryScreen}
+          options={{ title: 'Ejercicios' }}
         />
         <Stack.Screen
           name="ExerciseHistory"

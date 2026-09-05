@@ -397,31 +397,6 @@
     "videos": []
   },
   {
-    "id": 1828,
-    "uuid": "793b0e5f-8dea-48a6-84c8-9123b59c2721",
-    "name": "Activación del transverso abdominal",
-    "description": "Túmbate boca arriba con las rodillas flexionadas. Lleva suavemente el ombligo hacia la columna sin mover las caderas ni contener la respiración.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1823,
     "uuid": "ca3ca5d0-5231-4420-ad06-fa3d32693a1b",
     "name": "Almeja (clamshell)",
@@ -501,35 +476,6 @@
     "videos": []
   },
   {
-    "id": 958,
-    "uuid": "596b9d2d-0f01-41a0-97e1-1839ffdb824d",
-    "name": "Biceps con TRX",
-    "description": "músculos implicados: bíceps Agarre las asas de las correas TRX, incline el cuerpo hacia atrás, brazos y piernas extendidos, cuerpo posicionado en una sola línea. (no es de abdominales, es de brazos)",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/958/947ac249-475d-44ed-bed3-8dc433374f59.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/958/95f2bbc4-2f95-476d-a9b8-81b333fe2ef5.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/958/dfad24f7-3f6f-497c-8436-7dfd909bca3f.png.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 178,
     "uuid": "d4db2355-4c99-4d80-a179-6aeced7c7fed",
     "name": "Bicho Muerto",
@@ -578,30 +524,6 @@
     "images": [
       "https://wger.de/media/exercise-images/1572/3d14e761-a73d-49da-8804-f3016a7573ff.png.400x400_q85.jpg"
     ],
-    "videos": []
-  },
-  {
-    "id": 1475,
-    "uuid": "64ebb7a5-15ec-48dd-8f82-47cdb022f215",
-    "name": "Black Widow Knee Slides",
-    "description": "En este movimiento de rotación de abajo hacia arriba, cruzarás la rodilla por encima y la llevarás hacia el codo opuesto. Comienza en posición de plancha alta (o posición de cuadrupedia) con las manos directamente debajo de los hombros. Eleva la rodilla izquierda hacia el brazo derecho y deslízala por el antebrazo para conseguir más de esa retroversión pélvica y activación de los músculos abdominales. Luego haz el lado contrario, llevando la rodilla derecha hacia la mano izquierda.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
     "videos": []
   },
   {
@@ -846,47 +768,6 @@
     "videos": []
   },
   {
-    "id": 1409,
-    "uuid": "f5ad82a8-adf8-4795-9874-1f6d183c56ed",
-    "name": "Dragon flag",
-    "description": "Mantén el cuerpo completamente rígido durante todo el movimiento, evitando que la zona lumbar se hunda. Utiliza un agarre firme para estabilizar la parte superior del cuerpo. Comienza con versiones más sencillas (como con las rodillas flexionadas) para desarrollar fuerza y control.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1889,
     "uuid": "9ac4813e-79a6-4a4d-ab93-9cfa5bf7b8fa",
     "name": "Elevación de piernas en banco declinado",
@@ -1027,8 +908,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/125/Leg-raises-2.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/125/Leg-raises-1.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/125/Leg-raises-1.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/125/Leg-raises-2.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -1106,103 +987,6 @@
       }
     ],
     "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1810,
-    "uuid": "23d2b2ce-4ae7-441a-a122-9f6784f15aa6",
-    "name": "Esfinge",
-    "description": "Túmbate boca abajo, con las piernas extendidas y el empeine de los pies en el suelo. Coloca los antebrazos bajo los hombros, con los codos justo debajo. Después presiona las manos contra el suelo para elevar el pecho. Junta los omóplatos, abre las clavículas y dirige la mirada al frente, manteniendo la zona lumbar relajada.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 56,
-    "uuid": "03db11cc-8079-463c-9399-6f346b100ce6",
-    "name": "Estabilización abdominal",
-    "description": "Acuéstate con las rodillas flexionadas y contrae el abdomen como si te prepararas para recibir un golpe suave. Siente la tensión en el frente, los costados y la espalda baja. Mantén esta firmeza durante 10-20 segundos sin dejar de respirar y sin aplastar la zona lumbar contra el suelo.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 4,
-        "name": "Esterilla"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1590,
-    "uuid": "b48cd640-dd9f-4557-a4db-8cd33d5655a6",
-    "name": "Estiramiento de brazos y cuello",
-    "description": "Alivia tensiones en la parte superior del cuerpo, especialmente útil para personas con trabajo de oficina o posturas prolongadas.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
     "images": [],
     "videos": []
   },
@@ -1286,73 +1070,6 @@
     "videos": []
   },
   {
-    "id": 1245,
-    "uuid": "f41ac754-45a0-443b-afe5-e624e215229f",
-    "name": "Front Lever",
-    "description": "The front lever is a figure where the body is kept in a horizontal position parallel to the floor.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1252,
-    "uuid": "b61dff58-6e47-4671-853b-208e7cd0ced4",
-    "name": "Front lever pull-up",
-    "description": "in the front lever position, with legs extended or easier if collected, pull by bringing the chest closer to the bar.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 6,
-        "name": "Barra de dominadas"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1377,
     "uuid": "56a03260-2901-4b28-bd41-a030185f985a",
     "name": "Giro de torso",
@@ -1415,265 +1132,6 @@
     "videos": []
   },
   {
-    "id": 1101,
-    "uuid": "8ccd5844-4b46-475d-b36f-5f58ca496840",
-    "name": "Horizontal traction isometry",
-    "description": "Perform a timed isometric pull-up on the bar",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 6,
-        "name": "Barra de dominadas"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1248,
-    "uuid": "662b9911-fa55-4564-b830-fdb6a046b162",
-    "name": "Ice Scream maker",
-    "description": "Desde la fase final de una dominada, nos empujamos hacia atrás con los hombros hasta alcanzar la posición de front lever. Desde ahí, nos volvemos a impulsar hacia arriba hasta la posición inicial.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 382,
-    "uuid": "16089e03-5afc-4a18-a40a-beb337806ac0",
-    "name": "L Hold",
-    "description": "Hold the L position for as long as possible",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1852,
-    "uuid": "16202754-f567-4d23-a866-2c9cc8eba71d",
-    "name": "L-Sit",
-    "description": "Siéntate en el suelo con las piernas juntas y los brazos a los lados. Empuja tu cuerpo hacia arriba separándolo del suelo con las manos, manteniendo la misma posición de sentado para que las piernas queden rectas y los pies no toquen el suelo. Mantén la posición el tiempo que necesites.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1853,
-    "uuid": "a092afaf-aa5a-4384-b407-a6b52cf1c008",
-    "name": "L-Sit (Foot Supported)",
-    "description": "As with an L-sit, but allow your feet to touch the floor to support the some of the weight of your legs.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1704,
-    "uuid": "9396a728-3da4-4390-ae4d-882395805008",
-    "name": "L-sit agrupado",
-    "description": "El L-sit agrupado es un sostenimiento con el peso corporal en el que te apoyas sobre barras paralelas, parallettes o el suelo con los brazos rectos mientras llevas las rodillas hacia el pecho. Las caderas permanecen elevadas, la columna se mantiene erguida y los pies flotan sin tocar el suelo. El objetivo es mantener el core firme, los hombros deprimidos y los brazos bloqueados mientras conservas la posición agrupada. Es un sostenimiento estático intenso para el core y estabilizador de los hombros que se usa a menudo como progresión hacia el L-sit completo.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 8,
-        "name": "Banco"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1847,
-    "uuid": "d2cf769a-9271-41ae-90fc-aef813e41740",
-    "name": "L-Sit en straddle",
-    "description": "Con las piernas en posición de sentado abierto, empuja tu cuerpo hacia arriba separándolo del suelo. Tus piernas deben quedar horizontales y apuntar rectas hacia fuera. Tus brazos deben estar entre las piernas. Mantén la posición de forma isométrica el tiempo que necesites.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 145,
     "uuid": "c867836d-2929-4977-b23c-014bc21ec08d",
     "name": "Leñadores en Polea",
@@ -1718,81 +1176,6 @@
         "id": 6,
         "name": "Barra de dominadas"
       },
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1259,
-    "uuid": "6679b2ad-91b7-4a75-9230-3ae1101bdd50",
-    "name": "Oblicuos en TRX",
-    "description": "1.Place your feet in the stirrups and assume a high plank with your hands directly beneath your shoulders. 2.Pull your knees to your right elbow, then push them back out and to the centre.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1293,
-    "uuid": "8911c37d-8907-4077-b883-86a7c5fcb606",
-    "name": "One armed push-ups",
-    "description": "Perform push-ups with one hand, alternating the sides",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "equipment": [
       {
         "id": 7,
         "name": "Ninguno (peso corporal)"
@@ -2002,8 +1385,6 @@
       "https://wger.de/media/exercise-images/458/b180ce8b-a2c2-40da-924f-998d97aebb63.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/458/167db646-9acb-4426-a383-c7e7dc92e3ec.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/458/e13f92a4-69ae-4043-ae1f-70f155a53024.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/458/bce9a15d-d080-4fb0-bc30-f80778b38793.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/458/2c43d623-5898-4669-b5f8-eb3e1c38cd29.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/458/122735cf-f940-4de8-aa30-49a1da148319.png.400x400_q85.png"
     ],
     "videos": []
@@ -2019,36 +1400,6 @@
     },
     "musclesPrimary": [],
     "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 580,
-    "uuid": "e1b99153-0102-47fc-b0cd-c21509827b0b",
-    "name": "Plancha de lado izquierdo",
-    "description": "La plancha lateral es un entrenamiento eficaz para fortalecer el tronco. Puede ayudarlo a fortalecer y desarrollar los músculos de la parte superior e inferior del cuerpo. Al ser un movimiento multifuncional, este ejercicio se enfoca no solo en los músculos abdominales, sino también en la columna vertebral y los glúteos. La plancha fortalece y tensa todo el cuerpo, mejora la postura y el equilibrio, reduce la grasa corporal y puede ayudar a acelerar el metabolismo.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      }
-    ],
     "equipment": [
       {
         "id": 7,
@@ -2156,36 +1507,6 @@
     "videos": []
   },
   {
-    "id": 1286,
-    "uuid": "73dbe7a5-e8f3-48fd-814e-bc3378c15be2",
-    "name": "Planche dinámica",
-    "description": "Comienza en posición de plancha, con las manos directamente debajo de los hombros y los pies separados al ancho de las caderas. Activa el core para mantener el cuerpo en línea recta de la cabeza a los pies. Desde esta posición, flexiona ligeramente las rodillas y salta con ambos pies hacia dentro, acercándolos lo máximo posible al core. En cuanto los pies toquen el suelo, empuja con fuerza para volver a saltar y regresar a la posición inicial de plancha. Continúa repitiendo este movimiento de salto, manteniendo el control y la estabilidad del core durante todo el ejercicio. Asegúrate de mantener una respiración constante mientras saltas, respirando profundamente y controlando la respiración. Mantén la mirada fija en el suelo para conservar una correcta alineación de la columna. Repite los saltos durante el tiempo deseado o el número de repeticiones recomendado para tu programa de entrenamiento. Para terminar el ejercicio, descansa soltando la posición de plancha y luego estira si es necesario para relajar los músculos.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1489,
     "uuid": "4f5de647-eb73-4394-84a7-469d02a96de8",
     "name": "Plank Jacks",
@@ -2256,43 +1577,6 @@
       }
     ],
     "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1238,
-    "uuid": "00eae665-ff78-4373-9c43-f44a4a1b43e0",
-    "name": "Postura de la rana",
-    "description": "Posición inicial: Ponte de pie con los pies separados al ancho de los hombros y las puntas de los pies apuntando hacia delante, de cara a una pared o un banco como apoyo si lo necesitas. Flexiona las rodillas hasta una posición de sentadilla. Apoya las manos en el suelo frente a ti, separadas al ancho de los hombros, con los dedos bien abiertos. Asegúrate de que los codos estén debajo de los hombros y de que tu cuerpo forme una línea recta desde la cabeza hasta los talones. Fase ascendente: Empuja con los pies y las manos para levantar el cuerpo del suelo. Estira las piernas y los brazos, manteniendo el cuerpo alineado. Activa el core y los glúteos para mantener la posición. Si lo necesitas, apoya las rodillas en la pared o el banco como ayuda.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
     "images": [],
     "videos": []
   },
@@ -2395,41 +1679,6 @@
       }
     ],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 959,
-    "uuid": "e2599e86-d8b0-434e-8a48-aa3c2df7e790",
-    "name": "Remo en TRX",
-    "description": "Ejercicio clave para construir la fuerza necesaria para las dominadas (pull-ups). Sujeta las agarraderas del TRX e inclínate hacia atrás, manteniendo el cuerpo en una línea recta. Desde ahí, jala tu pecho hacia tus manos, contrayendo fuertemente los músculos de la espalda. La dificultad del ejercicio se ajusta con el ángulo de tu cuerpo: mientras más horizontal estés, más difícil será.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/959/53a5e008-bc31-4ee0-9463-69a858c2ec18.png.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -2638,8 +1887,6 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/1573/a9ab402b-61ef-4d60-b91a-df52bf7f41a9.jpg.400x400_q85.png",
-      "https://wger.de/media/exercise-images/1573/662db55d-68d0-4297-8215-3dcf6c21c778.jpg.400x400_q85.png",
       "https://wger.de/media/exercise-images/1573/b8efea91-8fcb-4926-82a9-76c62b16925f.jpg.400x400_q85.png"
     ],
     "videos": []
@@ -2798,8 +2045,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/176/Cross-body-crunch-1.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/176/Cross-body-crunch-2.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/176/Cross-body-crunch-2.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/176/Cross-body-crunch-1.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -3051,40 +2298,6 @@
     "videos": []
   },
   {
-    "id": 1246,
-    "uuid": "069711c7-565a-4abb-90a7-614f66dd9dc3",
-    "name": "TRX roll out",
-    "description": "sostener las empuñaduras con las manos, alargar los brazos y mantenerlos paralelos a la altura del pecho. El movimiento que debes realizar es una abertura de los brazos alineados con los hombros mientas inclinas el cuerpo hacia delante. Intenta no realizar una extensión de hombro más allá de los 90º y mantén contraída la musculatura abdominal y los glúteos. Músculos implicados: Transverso, recto abdominal y erectores espinales",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 675,
     "uuid": "309bfd2b-1af4-49db-b64b-d7d7c7dd39bb",
     "name": "Turkish Get-Up",
@@ -3220,100 +2433,6 @@
     "videos": []
   },
   {
-    "id": 2462,
-    "uuid": "f311d017-23a3-4c63-aa62-f6cc56e61004",
-    "name": "Bar arm Cable Triceps Pushdown",
-    "description": "Bar arm Cable Triceps Pushdown - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2469,
-    "uuid": "afc87450-db27-4930-bd6b-f92b44132ad5",
-    "name": "Barbell Bench Press",
-    "description": "Barbell Bench Press - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2461,
-    "uuid": "b2c52988-d341-456b-a3f5-ce588dd4018e",
-    "name": "Barbell Wrist Curl (Over Bench) - Palms down",
-    "description": "Barbell Wrist Curl (Over Bench) - Palms down",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2460,
-    "uuid": "c7ac4377-4d01-4691-9825-73b2db616469",
-    "name": "Barbell Wrist Curl (Over Bench) - Palms up",
-    "description": "Barbell Wrist Curl (Over Bench) - Palms up",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1493,
     "uuid": "06968051-a818-489c-9fbb-ddb94a001245",
     "name": "Bayesian Curl",
@@ -3415,51 +2534,6 @@
     "videos": []
   },
   {
-    "id": 2476,
-    "uuid": "adb642ac-354f-49e8-940d-39864940c624",
-    "name": "Cable Reverse Wrist Curl (Outer Forearm)",
-    "description": "Cable Reverse Wrist Curl (Outer Forearm)",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2477,
-    "uuid": "319f0579-38ee-4745-979d-3b263c1f84ec",
-    "name": "Cable Wrist Curl (Inner Forearm)",
-    "description": "Cable Wrist Curl (Inner Forearm) - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 995,
     "uuid": "69b3da17-11cc-41fe-bbc1-ee6c45ced41c",
     "name": "Círculos con los Brazos Hacia Atrás",
@@ -3497,33 +2571,6 @@
       }
     ],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1223,
-    "uuid": "ecf9c0e2-a1d0-4e6e-90e9-5c029e98f2c9",
-    "name": "Claps over the head",
-    "description": "Stand with your feet shoulder width apart. Raise your arms and clap over your head",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1223/bf20836a-23b0-4f50-8b98-cfdd97684527.webp.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -4859,38 +3906,6 @@
     "videos": []
   },
   {
-    "id": 1738,
-    "uuid": "15fda45b-108b-4b28-bfe5-d0e55a0914bf",
-    "name": "Dominadas en agarre neutro o remo TRX",
-    "description": "Dominada: tracción vertical – se centra más en los dorsales (anchura de la espalda). Remo TRX: tracción horizontal – se centra más en los romboides/trapecios (grosor de la zona media de la espalda y postura).",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 6,
-        "name": "Barra de dominadas"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1738/0529acdf-ede8-42a2-a3e5-8d0c57b7a0e1.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 821,
     "uuid": "a540925e-fe66-47cc-ae28-ecdce408fb6d",
     "name": "Dominadas en Tabla de Multipresas",
@@ -4982,51 +3997,6 @@
         "name": "Mancuerna"
       }
     ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2459,
-    "uuid": "a31743c4-228d-4f3e-8583-3df4d6a573ba",
-    "name": "Dumbbell Wrist Curl (Over Bench) - Palms down",
-    "description": "Dumbbell Wrist Curl (Over Bench) - Palms down",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2458,
-    "uuid": "1a20b09a-96c2-4dda-943f-8d358d4bb266",
-    "name": "Dumbbell Wrist Curl (Over Bench) - Palms up",
-    "description": "Dumbbell Wrist Curl (Over Bench) - Palms up",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [],
     "images": [],
     "videos": []
   },
@@ -5129,125 +4099,6 @@
     "videos": []
   },
   {
-    "id": 1233,
-    "uuid": "671568f9-6653-4e11-ac71-3f34c74329a0",
-    "name": "Estiramiento de bíceps de pie derecho",
-    "description": "Ponte de pie con el brazo derecho cerca de una pared. Extiende el brazo derecho y apoya la mano derecha en la pared, luego gira suavemente el cuerpo hacia la izquierda.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1233/d7d6f9e1-7834-4cca-bd3b-f9def33ff44d.png.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1232,
-    "uuid": "a569e8c3-218f-40db-9d71-e155c68cb26e",
-    "name": "Estiramiento de bíceps de pie izquierdo",
-    "description": "Ponte de pie con el brazo izquierdo cerca de una pared. Extiende el brazo izquierdo y apoya la mano izquierda en la pared, luego gira suavemente el cuerpo hacia la derecha.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1232/2b6de046-5806-49e3-bf36-b6fae16af021.png.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1231,
-    "uuid": "1b9968f4-a00b-4157-8847-1c3c7dbb0d5a",
-    "name": "Estiramiento de tríceps derecho",
-    "description": "Coloca la mano derecha en la espalda, agarra el codo derecho con la mano izquierda y tira suavemente de él. Mantén esta posición durante unos segundos.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1231/b10457ce-5fa5-4d20-a32f-3c7100c6a9d9.webp.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1230,
-    "uuid": "aa72741d-17ae-410e-b49a-1df7aaf0afe1",
-    "name": "Estiramiento de tríceps izquierdo",
-    "description": "Coloca la mano izquierda en la espalda, agarra el codo izquierdo con la mano derecha y tira suavemente de él. Mantén esta posición durante unos segundos.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1230/9fd1e2fd-f2c4-432d-b3ae-5e5f24085777.webp.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1881,
     "uuid": "73646b21-62e3-493b-8d75-4179326cd404",
     "name": "Extensión de muñeca con mancuernas",
@@ -5299,8 +4150,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/50/44cf2c72-a78a-4d5e-a8b5-a02c6ea61fb4.jpg.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/50/60c68ac5-70c7-4ed6-bfc1-99bed63a472a.jpg.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/50/69b519d8-4861-4bb1-b504-3887aa30e7d8.png.400x400_q85.jpg"
     ],
@@ -5565,26 +4416,6 @@
     "videos": []
   },
   {
-    "id": 1266,
-    "uuid": "de8a3db6-2b05-4c4e-977b-b61342718356",
-    "name": "extensiones de triceps con trx",
-    "description": "POSICIÓN INICIAL: Suspenda su TRX a la altura de la rodilla. Agarre las asas con un agarre prono y coloque sus piernas juntas detrás de usted. Su posición debe verse como una posición de push up. Mantenga su cuerpo en línea recta y sus brazos completamente extendidos retrayendo los omóplatos. Contraiga el suelo pelvico y el core mientras mantiene su cuerpo recto. Mueva sus manos para colocarlas juntas. Las cuerdas del TRX deben estar justo por encima de su cabeza y que deberían tener tensión. EJECUCIÓN: Comience a bajar doblando los codos hasta que las manos toquen la frente mientras inhala. No separe los codos entre ellos. Asegúrese de sólo mover los codos cuando realice el ejercicio. Empuje su torso hacia la posición inicial apretando el resto del cuerpo mientras exhala. Asegúrese de que sus escápulas siempre están retraídas.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 660,
     "uuid": "f00630d6-578f-487f-8bf5-39c96366ccb8",
     "name": "Extensiones de tríceps en polea con barra",
@@ -5788,31 +4619,6 @@
     "videos": []
   },
   {
-    "id": 1269,
-    "uuid": "8019be2c-47a3-475f-8e16-a2fca761a8fe",
-    "name": "Fondos en TRX",
-    "description": "Los fondos se realizan con las manos en cada uno de los agarres de nuestro arnés y despegamos los pies desde el suelo para quedarnos completamente en suspensión. Desde ahí podremos ir haciendo fondos en suspensión exactamente igual que cuando se hacen en anillas o paralelas. Sin embargo, uno de los beneficios que tienen los fondos en TRX es que aumentan la inestabilidad y nos hacen realizar un esfuerzo más intenso.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 197,
     "uuid": "7c8eb1ac-2d7e-4ca7-919a-1848ba38e0f4",
     "name": "Fondos entre Bancos",
@@ -5913,51 +4719,6 @@
     "videos": []
   },
   {
-    "id": 2474,
-    "uuid": "9ef9d95a-db87-4030-b900-248c93a6a7d6",
-    "name": "Hoist Fitness Lateral Raise",
-    "description": "Hoist Fitness Lateral Raise - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2471,
-    "uuid": "282cb4be-dd8e-49e6-afdd-c10203cde5f1",
-    "name": "Hoist ROC-IT Leg Extension",
-    "description": "Hoist ROC-IT Leg Extension - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1467,
     "uuid": "fca05168-7212-42ec-8927-efb1e8dd0971",
     "name": "Incline Close Grip Barbell Bench Press",
@@ -6012,39 +4773,6 @@
     "videos": []
   },
   {
-    "id": 2472,
-    "uuid": "95fbecd5-baf0-4b46-aafe-0cb5c704e29d",
-    "name": "Incline trademeal walking",
-    "description": "Incline trademeal walking - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 7,
-        "name": "Gemelos"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1320,
     "uuid": "fbeb1fd5-d259-4a85-a993-03569d8146dc",
     "name": "Inmersiones De Banco En El Piso HD",
@@ -6091,35 +4819,6 @@
         "name": "Ninguno (peso corporal)"
       }
     ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2465,
-    "uuid": "caf0001b-734d-43c1-bd3f-8a56db2933de",
-    "name": "ISO Seated Row",
-    "description": "ISO Seated Row - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [],
     "images": [],
     "videos": []
   },
@@ -6240,51 +4939,6 @@
         "name": "Mancuerna"
       }
     ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1741,
-    "uuid": "547217ec-cb9e-4713-8bab-2d8bfb160667",
-    "name": "L-Sit Pull-ups",
-    "description": "L-Sit Pull-ups train both upper body and core muscles.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2467,
-    "uuid": "ec3d029e-7216-459b-a579-cf876a4fea98",
-    "name": "Machine Chest Fly Press",
-    "description": "Machine Chest Fly Press - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "equipment": [],
     "images": [],
     "videos": []
   },
@@ -6423,8 +5077,8 @@
     ],
     "images": [
       "https://wger.de/media/exercise-images/88/Narrow-grip-bench-press-1.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/76/9abec4e4-90ba-44f9-9e6e-5e35f7273078.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/88/Narrow-grip-bench-press-2.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/88/Narrow-grip-bench-press-2.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/76/9abec4e4-90ba-44f9-9e6e-5e35f7273078.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -6706,59 +5360,6 @@
     "videos": []
   },
   {
-    "id": 1462,
-    "uuid": "adf81065-407c-4dd7-8ec5-920cc5944d58",
-    "name": "punches",
-    "description": "stand stable and throw normal straight punches",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2464,
-    "uuid": "50adc61d-e486-4244-a566-00b708ac27f8",
-    "name": "Rear Delt Fly Machine",
-    "description": "Rear Delt Fly Machine - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1216,
     "uuid": "cf434716-f846-46d8-b267-8b33d311d8b5",
     "name": "Recruitment Pulls",
@@ -6844,51 +5445,6 @@
     "videos": []
   },
   {
-    "id": 501,
-    "uuid": "7671b16c-5023-4663-b00d-86dd018e024f",
-    "name": "Ring Dips",
-    "description": "Dips peformed on gymnastic rings.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2470,
-    "uuid": "eb19bdde-016b-4868-9522-58de9d9b3e08",
-    "name": "ROC-IT Pec Fly machine legs",
-    "description": "ROC-IT Pec Fly machine legs - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1485,
     "uuid": "0dfe655e-ee2e-4c49-a279-c672d5591613",
     "name": "Rocking triceps pushdown",
@@ -6910,116 +5466,6 @@
         "name": "Barra Z"
       }
     ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2463,
-    "uuid": "7bad131b-29f4-46be-ab65-4a392ab78681",
-    "name": "Rope arm Cable Triceps Pushdown",
-    "description": "Rope arm Cable Triceps Pushdown - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2457,
-    "uuid": "1863c7a4-1543-4a7b-a06c-429f9b7383ac",
-    "name": "Sample Exercise",
-    "description": "Sample Exercise - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2468,
-    "uuid": "d9981264-3065-476e-af97-21a32b101c3d",
-    "name": "Seated Decline Press Machine",
-    "description": "Seated Decline Press Machine - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2473,
-    "uuid": "4164de89-8de4-4e5f-bb45-baf39c7bc218",
-    "name": "Seated Leg Curl",
-    "description": "Seated Leg Curl - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 2475,
-    "uuid": "c89fa074-4d49-4934-b773-6cc91ff80f93",
-    "name": "Seated Machine Shoulder Press",
-    "description": "Seated Machine Shoulder Press - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [],
     "images": [],
     "videos": []
   },
@@ -7242,84 +5688,6 @@
     "videos": []
   },
   {
-    "id": 1262,
-    "uuid": "7f2628bf-6381-4228-9840-b75cbcc843a1",
-    "name": "TRX - curl de bíceps a un brazo",
-    "description": "colocar las cintas cruzadas, para dejar toda la fuerza en una sola cuerda y que sea más seguro el ejercicio. Para su realización nos vamos a colocar inclinados lateralmente. El brazo con el que vamos a trabajar será el que agarre la cinta del TRX que hemos montado combinando los dos agarres. El otro brazo lo dejaremos relajado lateralmente, ya que no actuará en este momento, pues sólo entrará en acción la parte del bíceps del brazo que tenemos agarrado a la cinta. El cuerpo, al igual que anteriormente, permanecerá recto, mirando al frente y cuanto más nos inclinemos mayor será la resistencia que tengamos que vencer durante el ejercicio. Ambas piernas, en este caso, estarán juntas para solamente mantener el brazo estirado para doblarlo por el codo. Este movimiento activará el bíceps y con ello trabajaremos esta parte del brazo.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1260,
-    "uuid": "f36a9fd0-7bd2-42a4-85fa-902b7cf3be45",
-    "name": "TRX hammer curl",
-    "description": "Colocar los agarres como si de una continuación de las cintas se tratase. Colocaremos los brazos estirados hacia adelante y el cuerpo hacia atrás totalmente recto. Los músculos de los bíceps se activarán al doblar los codos para atraer el cuerpo hacia las cintas. El movimiento de contracción terminará con un ligero movimiento d",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1261,
-    "uuid": "f9329ed4-8185-49a6-a0bb-e0f21c6cc3d8",
-    "name": "TRX- biceps gorila",
-    "description": "Nos colocaremos de frente a las cintas del TRX y las agarraremos con los puños de las manos enfrentados y al frente, con los brazos totalmente estirados a la altura más o menos de los hombros. El cuerpo lo mantendremos recto hacia atrás, como en los anteriores ejercicios, ya que lo que vamos a hacer es mediante la activación de los bíceps, elevar el cuerpo hacia las cintas del TRX. El cuerpo estará recto y los pies apoyados en el suelo. Los brazos en esta ocasión, los vamos a colocar abiertos hacia los lados, y a la altura del pecho. El movimiento que vamos a hacer será una contracción hacia el pecho. Para conseguirlo, lo que haremos será doblar los codos para que, mediante la activación de los bíceps atraigamos el cuerpo hacia las cintas.",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 713,
     "uuid": "51a80676-92d8-4f91-b51a-4666888e40db",
     "name": "Wall Pushup",
@@ -7370,97 +5738,6 @@
     "videos": []
   },
   {
-    "id": 2466,
-    "uuid": "8d6f17b0-b474-4513-a4a6-f84b438ac748",
-    "name": "Wide-Grip Lat Pulldown",
-    "description": "Wide-Grip Lat Pulldown - imported from Obsidian workout log",
-    "category": {
-      "id": 8,
-      "name": "Brazos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1630,
-    "uuid": "24f988e7-51eb-44f5-92f2-d4e0199c2269",
-    "name": "Blaze",
-    "description": "BLAZE es un entrenamiento HIIT de cuerpo completo. Está diseñado para potenciar al máximo tu resistencia cardiovascular y tu fuerza. Se imparte en un estudio creado específicamente para ello y es una mezcla única de artes marciales, cardio intenso y entrenamiento de fuerza.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 8,
-        "name": "Banco"
-      },
-      {
-        "id": 3,
-        "name": "Mancuerna"
-      },
-      {
-        "id": 10,
-        "name": "Kettlebell"
-      },
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1373,
     "uuid": "002c6a4f-28ac-4b07-8e94-053e5b05d52b",
     "name": "box jumps",
@@ -7481,26 +5758,6 @@
         "name": "Gemelos"
       }
     ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1579,
-    "uuid": "a6d880e5-bdbe-408f-b762-3b41c7fff834",
-    "name": "Bronco",
-    "description": "Test de condición física para rugby. 5 x carreras de ida y vuelta de 20 m, 40 m y 60 m (20 yd, 45 yd, 65 yd / marca lejana de 45 yd) Complétalo lo más rápido posible",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
     "equipment": [
       {
         "id": 7,
@@ -7533,93 +5790,6 @@
     "videos": []
   },
   {
-    "id": 1615,
-    "uuid": "3f8e5871-4895-48c9-928d-dc1bc134f57b",
-    "name": "Cardio en cinta",
-    "description": "Es un entrenamiento cardiovascular que se realiza en una cinta de correr para mejorar la resistencia, quemar calorías y promover la salud del corazón. Ofrece múltiples beneficios, como la capacidad de ajustar fácilmente la velocidad e inclinación, lo que permite realizar diversos entrenamientos, desde caminatas en pendiente hasta carreras a intervalos de alta intensidad (HIIT) y carreras de tempo. Para optimizar los resultados, es importante variar los entrenamientos. Beneficios del cardio en cinta: Mejora de la salud cardiovascular: El ejercicio aeróbico regular en la cinta fortalece el corazón y los pulmones, lo que puede ayudar a prevenir enfermedades cardíacas. Pérdida de peso: Al quemar calorías, el entrenamiento en cinta puede ser una herramienta eficaz para la pérdida de peso y el mantenimiento de un peso saludable. Fortalecimiento muscular: Fortalece los músculos de las piernas y glúteos, ayudando a prevenir la pérdida de masa muscular, especialmente importante con la edad. Flexibilidad en el entrenamiento: Permite variar la velocidad, la inclinación y los intervalos, lo que hace que el entrenamiento sea más dinámico y adaptable a diferentes niveles de condición física.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1615/7792295c-83b6-4ea8-9353-ce02f0ad2559.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 908,
-    "uuid": "89c3d614-e841-4c04-bee8-6761567e4b7c",
-    "name": "Carrera en Zona 2",
-    "description": "La carrera en Zona 2 es un entrenamiento cardiovascular de baja intensidad, fundamental para construir una sólida base de resistencia (endurance). Se caracteriza por mantener un ritmo que se sienta relativamente fácil y que puedas sostener por un largo periodo. La forma más sencilla de saber si estás en esta zona es la \"prueba del habla\": debes ser capaz de mantener una conversación completa y fluida sin tener que jadear para tomar aire. Técnicamente, este ritmo corresponde a un esfuerzo de entre el 60% y el 70% de tu frecuencia cardíaca máxima, lo que optimiza la capacidad del cuerpo para usar la grasa como fuente de energía.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 177,
-    "uuid": "8dedde58-a5dc-4a23-ad20-fd7cf524f8b5",
-    "name": "Ciclismo",
-    "description": "El ciclismo es el uso de la bicicleta como ejercicio, transporte o deporte. Es una de las actividades cardiovasculares más completas y populares. Descripción: Como ejercicio, el ciclismo es una actividad de bajo impacto , ideal para la salud del corazón y para proteger las articulaciones (rodillas, tobillos). Fortalece principalmente el tren inferior del cuerpo: cuádriceps, isquiotibiales, glúteos y pantorrillas. Se puede practicar al aire libre (ciclismo de ruta o de montaña) o en interiores, utilizando una bicicleta estacionaria o en clases de spinning.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 530,
     "uuid": "654793c2-e0e3-41fd-a549-0ece0f4378e8",
     "name": "Correr en cinta",
@@ -7631,196 +5801,6 @@
     "musclesPrimary": [],
     "musclesSecondary": [],
     "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1524,
-    "uuid": "a5d1f45b-ff07-45d7-a699-a654f9328934",
-    "name": "Cuerdas de batalla",
-    "description": "Sujeta los extremos de la cuerda con los brazos extendidos delante de las caderas, con las manos a la anchura de los hombros. Activa el core y empieza a subir y bajar cada brazo de forma alterna y explosiva. Sigue alternando los brazos durante tres o cuatro series de 1 a 2 minutos.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1204,
-    "uuid": "517265a2-e4f7-4b33-979f-9be1efd86343",
-    "name": "Cycling cardio session",
-    "description": "Cardio session on a Technogym Bike Excite 1000 stationary bike.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1940,
-    "uuid": "4632c471-5c5e-4570-9dec-509c5d4d58bb",
-    "name": "Diaphragmatic Breathing",
-    "description": "Belly breathing. Hand on chest stays still, hand on belly rises. 8-10 slow breaths.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1523,
-    "uuid": "32cc7175-3fda-4c7e-900f-8766c22e3b2b",
-    "name": "Empuje de trineo",
-    "description": "Carga el trineo con el 25 % de tu carga máxima. Si no la conoces, elige un peso que puedas empujar durante 10 minutos con pausas cortas. Los principiantes pueden empujar el trineo sin peso. Colócate detrás del trineo y agarra las barras con una posición de manos alta. Activa los músculos del core y empieza a empujar el trineo hacia delante lo más rápido posible, generando fuerza con toda la pierna. Extiende las caderas y las rodillas mientras desplazas el trineo hacia delante. Tu postura de pies debe parecerse a tu posición natural de carrera.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1092,
-    "uuid": "d301d901-a2c6-4916-b09e-07ab7a3c8519",
-    "name": "Entrenamiento con saco",
-    "description": "El entrenamiento con saco mejora la definición muscular de: deltoides; deltoides posteriores; tríceps; bíceps, además de ser un excelente ejercicio de cardio",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
     "images": [],
     "videos": []
   },
@@ -7849,48 +5829,6 @@
         "name": "Glúteos"
       }
     ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 927,
-    "uuid": "e0d9e9ef-09ee-4d26-9504-622093810414",
-    "name": "flexiones en TRX",
-    "description": "Las&nbsp;flexiones de brazos&nbsp;en TRX añaden un componente de inestabilidad que hará que tus&nbsp;hombros y tus pectorales trabajen de manera diferente. Puedes hacer que el ejercicio sea más o menos intenso colocando tu cuerpo más paralelo o menos al suelo. Evita que tus brazos rocen con las cuerdas porque puede que no lo notes mientras entrenas, pero podrás tener rozaduras y moratones después.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/927/7b392101-9c47-4693-935e-a88b1887eec5.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 319,
-    "uuid": "eeeb42ae-6a41-4127-b2ec-72376119531b",
-    "name": "Jogging",
-    "description": "Get your shoes on, go outside and start running at a moderate pace.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
     "equipment": [],
     "images": [],
     "videos": []
@@ -8066,131 +6004,6 @@
     "videos": []
   },
   {
-    "id": 1584,
-    "uuid": "564dc73e-e8d4-4fd1-85ab-64dce4dd3ea0",
-    "name": "Marcha o trote en el lugar",
-    "description": "Ejercicio cardiovascular de bajo impacto que simula correr sin desplazamiento, ideal para calentar, mejorar la resistencia o entrenar en espacios reducidos.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1592,
-    "uuid": "7f942691-2a01-4675-9e3a-409105d5f2bf",
-    "name": "Meditación guiada o libre",
-    "description": "Ejercicio mental de atención plena (mindfulness) que ayuda a reducir ansiedad, mejorar el enfoque y el bienestar general.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 961,
-    "uuid": "6c8b0c67-68af-4473-907e-31fb1e48430c",
-    "name": "Piques de 50m en Natación",
-    "description": "Este es un set de entrenamiento de velocidad en natación. La indicación \"a 1 minuto\" se refiere al intervalo de tiempo total para nadar el pique y descansar. Esto significa que inicias un nuevo pique de 50 metros a máxima velocidad cada 60 segundos, sin importar cuánto tardes en el anterior. El tiempo que te sobre dentro de ese minuto es tu descanso. Por ejemplo, si nadas el pique en 40 segundos, tienes 20 segundos para descansar antes de que comience el siguiente. El objetivo es desarrollar velocidad y capacidad anaeróbica.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1376,
-    "uuid": "12f88134-0f7a-4fb7-8bd9-436aa80d8b7c",
-    "name": "Recumbent Bike",
-    "description": "For this exercise Recumbent Bike is needed. You just sit on it, set level and time and start the workout",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 983,
     "uuid": "db5bd076-2f1d-4b72-9be9-610e5c3f5724",
     "name": "Rodillas elevadas",
@@ -8286,36 +6099,6 @@
     "videos": []
   },
   {
-    "id": 527,
-    "uuid": "a48295d8-21da-4625-8a85-331d7ced8d8b",
-    "name": "Run",
-    "description": "Running or jogging outside in a park, on the tracks,...",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 529,
-    "uuid": "6cf55ecc-86ee-492d-a7f6-977bf61758b3",
-    "name": "Run - Interval Training",
-    "description": "Run and do some interval trainings such as hill repat, fartlek,..",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 595,
     "uuid": "e60125f0-3a88-4707-815f-fe0e2b4be3c4",
     "name": "Saltar a la comba – estándar",
@@ -8332,26 +6115,6 @@
     ],
     "musclesSecondary": [],
     "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 993,
-    "uuid": "cd51aa2a-52b3-43df-8011-0c8ef4b7ed11",
-    "name": "Saltar la cuerda: saltos básicos",
-    "description": "Este ejercicio requiere una cuerda para saltar. Asegúrate de que la longitud de la cuerda se ajusta a tu altura. Una forma de comprobarlo es agarrar las dos asas con una mano y situarse en el centro de la cuerda colgando del suelo con un pie. Si la cuerda (excluyendo las asas) te llega justo por debajo del pecho, su longitud es la adecuada. Una cuerda más corta sería peligrosa, ya que podrías golpearte, y una cuerda más larga sería una mala forma. Pon los pies juntos, dobla un poco las rodillas, mantén la cabeza y el cuerpo rectos, mantén los codos dentro, abre los brazos. Gira sólo las muñecas con la fuerza suficiente para hacer girar la cuerda. Salta lo suficiente para pasar la cuerda por debajo de tus pies. Repite desde el paso 2.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
     "images": [],
     "videos": []
   },
@@ -8400,119 +6163,6 @@
     "images": [
       "https://wger.de/media/exercise-images/285/4141e8b2-d9f2-4597-8ef0-7768127fd0ec.png.400x400_q85.png"
     ],
-    "videos": []
-  },
-  {
-    "id": 1318,
-    "uuid": "32942c8c-0572-4d8b-9aec-48cb026fda1f",
-    "name": "Saltos Altos De Rodilla HD",
-    "description": "Puedes utilizar este ejercicio tanto como calentamiento dinámico antes de entrenar como añadirlo a tu rutina de entrenamiento cardiovascular para quemar grasa. Los saltos altos de rodilla son un ejercicio pliométrico. Los pliométricos son movimientos aeróbicos explosivos que aumentan la velocidad, la rapidez y la potencia y trabajan todo el cuerpo. Los saltos altos de rodilla se dirigen a los oblicuos, los músculos de las piernas, los músculos de la cadera y los flexores de la cadera y también trabajan en los muslos, los tendones de la rodilla, los cuádriceps y los hombros. Los saltos son beneficiosos para la salud porque combinan el acondicionamiento cardiovascular con el trabajo de fuerza. Dado que los saltos elevan el ritmo cardíaco, también pueden mejorar la condición cardiovascular.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1574,
-    "uuid": "f5252c85-04b7-48f0-97cf-711f326a5821",
-    "name": "Schwimmen",
-    "description": "800m Schwimmen in 20 Minuten",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1548,
-    "uuid": "b3e433ed-0247-46b3-be77-9f2738a09a48",
-    "name": "Stair Master",
-    "description": "Una máquina de cardio y fuerza para el tren inferior diseñada para simular la subida de escaleras. Ofrece un entrenamiento de bajo impacto y alta intensidad que trabaja las piernas, los glúteos y el core, a la vez que mejora la resistencia cardiovascular.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 624,
-    "uuid": "4d5decb3-5fbe-45c1-9ad5-ff715e53cb34",
-    "name": "Stationary Bike",
-    "description": "Ride a Stationary Bike with various&nbsp;tensions.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
     "videos": []
   },
   {
@@ -8635,26 +6285,6 @@
       {
         "id": 7,
         "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1115,
-    "uuid": "7c2a70bc-ed97-440c-afd6-ed27daf63f25",
-    "name": "Zancada 3D de calentamiento",
-    "description": "Como calentamiento, utiliza mancuernas ligeras, una en cada mano. Haz zancadas en direcciones alternas: hacia delante, hacia los lados, hacia atrás y en ángulos de 45 grados.",
-    "category": {
-      "id": 15,
-      "name": "Cardio"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 3,
-        "name": "Mancuerna"
       }
     ],
     "images": [],
@@ -8836,23 +6466,6 @@
       }
     ],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1363,
-    "uuid": "1fe103e2-1def-41de-8eab-e2e11296446d",
-    "name": "Blackroll",
-    "description": "Controlled movements Slow movements Don't use momentum",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1363/1dba566b-e799-4bde-abb0-c011a3c75e52.webp.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -9246,8 +6859,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/152/6c1a7459-266d-491a-bd50-7cbaea2bc771.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/152/b2c5a9f9-8beb-41f7-841c-9664d22a427e.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/152/b2c5a9f9-8beb-41f7-841c-9664d22a427e.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/152/6c1a7459-266d-491a-bd50-7cbaea2bc771.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -9433,144 +7046,6 @@
     "videos": []
   },
   {
-    "id": 1577,
-    "uuid": "a94c635d-096c-45a8-a68c-64941d0b6ba4",
-    "name": "Estiramiento Bretzel",
-    "description": "Cómo realizar el estiramiento Bretzel Posición inicial: Túmbate boca arriba sobre una superficie plana, como una colchoneta. Flexiona las rodillas y apoya los pies planos en el suelo. Posición de las piernas: Levanta la pierna derecha y crúzala sobre la izquierda, colocando el pie derecho por fuera de la rodilla izquierda. La pierna izquierda debe permanecer apoyada en el suelo. Posición de los brazos: Extiende el brazo izquierdo hacia el lado a la altura del hombro, manteniéndolo recto. Con la mano derecha, tira suavemente de la rodilla derecha hacia el suelo, hacia el lado izquierdo del cuerpo. Estiramiento: Mientras bajas la rodilla, intenta mantener el hombro izquierdo apoyado en el suelo. Deberías notar un estiramiento en la cadera, la zona lumbar y posiblemente el pecho. Mantén la posición: Aguanta esta posición de 20 a 30 segundos, respirando profundamente y relajándote en el estiramiento. Cambia de lado y repite el proceso.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1027,
-    "uuid": "302e02df-4270-4a0b-8c5d-b743cdb06fc9",
-    "name": "Estiramiento de oración elevado",
-    "description": "Posición inicial: Arrodíllate frente a un banco, lo bastante lejos para que tu torso quepa entre tus rodillas y el banco. Con la espalda recta, coloca los codos sobre el banco, con las palmas juntas y las manos apuntando hacia arriba. Pasos: Al exhalar, estira el pecho hacia abajo en dirección al suelo sin mover la zona lumbar. Al mismo tiempo, lleva las manos hacia los hombros, manteniendo las palmas juntas y los codos sobre el banco. Mantén la posición durante unos segundos. Al inhalar, relaja la espalda para volver a la posición inicial. Repite.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 8,
-        "name": "Banco"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1011,
-    "uuid": "dcbfa3f0-ba88-4633-a30d-c188dccc5d3f",
-    "name": "Estiramiento del cuello frontal",
-    "description": "Posición inicial: Siéntate o ponte de pie con la espalda recta. Pasos: Abre bien la boca. Inclina lentamente la cabeza hacia atrás con la boca abierta. Si sientes que necesitas apoyo, entrelaza las manos detrás de la cabeza. Cierra y abre la boca muy despacio. Al final, vuelve lentamente a la posición inicial y cierra la boca.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1013,
-    "uuid": "7f8997d2-e21f-492f-a470-b9f0c5e54f1d",
-    "name": "Estiramiento del Elevador de la Escápula",
-    "description": "Este es un estiramiento específico para un músculo que a menudo causa tensión entre el cuello y la esquina superior del omóplato. Instrucciones: Sentado o de pie con la espalda recta, gira tu cabeza unos 45 grados hacia la izquierda. Luego, baja el mentón en diagonal, como si quisieras mirar hacia tu axila izquierda. Para profundizar el estiramiento, coloca tu mano izquierda sobre la parte posterior de la cabeza y aplica una presión muy suave y gentil para guiar el movimiento. Para aumentar la sensación, puedes anclar el hombro opuesto sentándote sobre tu mano derecha o llevándola detrás de la espalda. Mantén el estiramiento por 15-30 segundos.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1014,
-    "uuid": "8374a856-9293-4b90-900e-00c3bfe21cc4",
-    "name": "Estiramiento del Elevador de la Escápula",
-    "description": "Este es un estiramiento específico para un músculo que a menudo causa tensión entre el cuello y la esquina superior del omóplato. Instrucciones: Sentado o de pie con la espalda recta, gira tu cabeza unos 45 grados hacia la derecha. Luego, baja el mentón en diagonal, como si quisieras mirar hacia tu axila derecha. Para profundizar el estiramiento, coloca tu mano derecha sobre la parte posterior de la cabeza y aplica una presión muy suave y gentil para guiar el movimiento. Para aumentar la sensación, puedes anclar el hombro opuesto sentándote sobre tu mano izquierda o llevándola detrás de la espalda. Mantén el estiramiento por 15-30 segundos.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1010,
-    "uuid": "b646e62d-c616-4460-b4d1-23cc6a6ddb51",
-    "name": "Estiramiento Posterior de Cuello (Nuca)",
-    "description": "Este ejercicio es ideal para aliviar la tensión en la parte trasera del cuello (nuca) y la parte alta de la espalda. Instrucciones: Sentado o de pie con la espalda recta y los hombros relajados, baja lentamente el mentón en dirección al pecho hasta sentir un estiramiento. Para profundizarlo, puedes entrelazar los dedos y colocar las manos sobre la parte posterior de la cabeza. Deja que solo el peso de tus brazos aplique una presión muy suave y gentil. Es crucial que no jales la cabeza hacia abajo con fuerza . Mantén el estiramiento por 15-30 segundos y regresa lentamente a la posición inicial.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1348,
     "uuid": "50a8f1f6-6772-4319-be9d-3bad1374dadf",
     "name": "Extensiones de espalda baja",
@@ -9585,21 +7060,6 @@
     "images": [
       "https://wger.de/media/exercise-images/1348/a3769120-2445-49f2-97d3-afc1238bfc2a.webp.400x400_q85.png"
     ],
-    "videos": []
-  },
-  {
-    "id": 1921,
-    "uuid": "ab808c2c-2e84-42bb-a65d-287a06ca7aa2",
-    "name": "Extreme Lat Stretch",
-    "description": "Deep loaded stretch for latissimus dorsi, performed after pulling movements.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
     "videos": []
   },
   {
@@ -9668,44 +7128,6 @@
     "images": [
       "https://wger.de/media/exercise-images/1732/d13b9adb-968e-4f73-95e6-b16690bcf616.jpg.400x400_q85.jpg"
     ],
-    "videos": []
-  },
-  {
-    "id": 1214,
-    "uuid": "e79616cb-f5fb-4b10-b99d-09d43774e142",
-    "name": "Front lever agrupado",
-    "description": "Los músculos implicados en el front lever, los más sometidos a esfuerzo, son principalmente los extensores, como por ejemplo: el dorsal ancho, el redondo mayor, el deltoides posterior y la cabeza larga del bíceps.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 6,
-        "name": "Barra de dominadas"
-      }
-    ],
-    "images": [],
     "videos": []
   },
   {
@@ -9804,48 +7226,6 @@
     "videos": []
   },
   {
-    "id": 1244,
-    "uuid": "8ca01d32-2e86-49a1-a130-b99219432e42",
-    "name": "Gato-Vaca (movilidad espinal)",
-    "description": "Ejercicio de movilidad y estiramiento para la columna vertebral. Ideal como parte del calentamiento o enfriamiento.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 4,
-        "name": "Esterilla"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1492,
     "uuid": "f80468f2-7c5d-45c5-9470-46a88c1a75c2",
     "name": "High Row",
@@ -9906,8 +7286,7 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/1018/5bbd3879-b6fc-4aaa-9e8e-33ae9a688112.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/1018/5f84cb9b-2d3a-48ff-87ec-b3d3950841f1.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/1018/5bbd3879-b6fc-4aaa-9e8e-33ae9a688112.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -9931,40 +7310,6 @@
     "images": [
       "https://wger.de/media/exercise-images/1138/6c35fd79-ef35-4cf3-abf5-9c969457b8d4.PNG.400x400_q85.jpg"
     ],
-    "videos": []
-  },
-  {
-    "id": 1282,
-    "uuid": "5fd01c23-6c54-40cb-9a67-87c7a325baee",
-    "name": "Isometria trazioni impugnatura inversa",
-    "description": "Trazioni in isometria con impugnatura inversa",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 6,
-        "name": "Barra de dominadas"
-      }
-    ],
-    "images": [],
     "videos": []
   },
   {
@@ -10480,31 +7825,6 @@
     "videos": []
   },
   {
-    "id": 1967,
-    "uuid": "85cb0a1b-250e-400b-892b-50186dac0777",
-    "name": "lento avanti seduto",
-    "description": "slow controlled seated forward exercise with dumbbells",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 3,
-        "name": "Mancuerna"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1433,
     "uuid": "6f5d4373-66d1-4acd-a16f-ba0e636fe979",
     "name": "Leñador inverso",
@@ -10667,35 +7987,6 @@
     "videos": []
   },
   {
-    "id": 423,
-    "uuid": "0027b172-a83e-4f79-af47-483302a22c02",
-    "name": "Muscle-up",
-    "description": "A continuación, el cuerpo se impulsa de forma explosiva con los brazos en una dominada potente, con mayor velocidad que una dominada normal. Cuando la barra se acerca a la parte alta del pecho, las muñecas se flexionan rápidamente para llevar los antebrazos por encima de la barra. El cuerpo se inclina hacia delante y los codos se estiran activando el tríceps. El movimiento se considera completo cuando la barra queda a la altura de la cintura y los brazos están totalmente estirados. Para bajar, se flexionan los brazos por el codo y el cuerpo desciende hacia el suelo, y el ejercicio puede repetirse. Al ser un ejercicio relativamente avanzado, los muscle-ups suelen aprenderse primero con un impulso de piernas (kip) de ayuda. Las piernas se balancean (kip) hacia arriba y aportan impulso para ayudar a generar la fuerza explosiva hacia arriba necesaria para ascender por encima de la barra. Los atletas más avanzados pueden realizar una variante estricta del muscle-up, que se hace lentamente y sin ningún impulso de piernas. Esta variante empieza desde una suspensión muerta e inmóvil y emplea la contracción muscular isométrica para ascender por encima de la barra de forma lenta y controlada.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 6,
-        "name": "Barra de dominadas"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1510,
     "uuid": "3cad7b92-a16b-45dc-a53e-d6a01a158f8e",
     "name": "Neutral Grip Lat Pulldown",
@@ -10737,26 +8028,6 @@
     "uuid": "965b0d80-544b-4f22-a64b-32dc033f071a",
     "name": "Paracaidista con brazos en posición de T",
     "description": "Túmbate boca abajo con las piernas más separadas que el ancho de los hombros y los pies elevados. Los brazos están extendidos hacia los lados y forman una T con el tronco, las palmas apoyadas en el suelo. Ahora eleva el tronco, los brazos y las piernas tan alto como puedas manteniendo el cuerpo en tensión. Gira los pulgares hacia el techo y junta las escápulas. Manteniendo el tronco y todas las extremidades en el aire, junta las piernas y luego sepáralas de nuevo, conservándolas en todo momento en el aire. Para las repeticiones restantes, mueve solo las piernas abriéndolas y cerrándolas.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1207,
-    "uuid": "89651d40-9abf-49b5-9ee5-7b0ecb25fd03",
-    "name": "Patada de escorpión",
-    "description": "Colócate en posición de flexión con los hombros directamente sobre las manos y los pies a la anchura de la cadera. Asegúrate de que tu cuerpo forme una línea recta desde la cabeza hasta los talones. Ahora lleva la rodilla derecha hacia el pecho. Manteniendo la rodilla flexionada, eleva la pierna derecha lo más alto posible con la parte inferior de la pierna apuntando recta hacia arriba. Ahora gira la cadera de modo que el pie derecho pase por encima de la pierna izquierda. Sigue girando y lleva el pie derecho hacia el suelo hasta que te veas obligado a rodar sobre el borde exterior del pie izquierdo de apoyo. Asegúrate de no girar el tronco. Ahora vuelve a la posición inicial y repite el ejercicio con la pierna izquierda.",
     "category": {
       "id": 12,
       "name": "Espalda"
@@ -10831,8 +8102,7 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/1003/772d6e47-3865-4944-9255-7435d0b06782.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/1003/a2b47fa8-79b4-4a21-920b-48765f562bc4.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/1003/772d6e47-3865-4944-9255-7435d0b06782.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -10919,58 +8189,6 @@
       }
     ],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1450,
-    "uuid": "d8d1b919-94e1-4e91-b37e-29bb8a479740",
-    "name": "Postura de la Cobra (en Yoga)",
-    "description": "El estiramiento de Cobra es un ejercicio de extensión de espalda que ayuda a mejorar la flexibilidad de la columna y aliviar la tensión en la zona lumbar. Para realizarlo, acuéstate boca abajo con las manos apoyadas debajo de los hombros. Presiona las palmas contra el suelo y levanta el pecho mientras mantienes las caderas en el suelo. Mantén los codos ligeramente flexionados y los hombros relajados. Sostén la posición por unos segundos y luego baja lentamente. Este ejercicio es ideal para mejorar la postura y reducir la rigidez en la parte baja de la espalda.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1002,
-    "uuid": "6e1af72c-f9f5-490d-8977-564df4f24b6f",
-    "name": "Postura del Niño",
-    "description": "Es una postura de descanso fundamental en yoga que estira la espalda, caderas y muslos. Desde una posición arrodillada, siéntate sobre tus talones e inclina el torso hacia adelante hasta que tu frente toque el suelo. Deja los brazos extendidos al frente o relájalos a los lados de tu cuerpo. Mantén la postura y respira profundamente.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1002/ddf91765-8045-4087-bece-de17f33332ce.png.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -11571,8 +8789,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/1022/f74644fa-f43e-46bd-8603-6e3a2ee8ee2d.jpg.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/1022/eef8fb9d-ae72-4e23-81da-4d62f2734332.jpg.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/1022/eef8fb9d-ae72-4e23-81da-4d62f2734332.jpg.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/1022/f74644fa-f43e-46bd-8603-6e3a2ee8ee2d.jpg.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -11642,8 +8860,8 @@
     "musclesSecondary": [],
     "equipment": [],
     "images": [
-      "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/1117/e74255c0-67a0-4309-b78d-2d79e6ff8c11.png.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/1117/e74255c0-67a0-4309-b78d-2d79e6ff8c11.png.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/1117/2555c4c3-a84d-47db-b83b-cbf721f12e45.png.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -12286,46 +9504,6 @@
     "videos": []
   },
   {
-    "id": 1028,
-    "uuid": "25854f7a-485a-4280-a0fa-f024655733b0",
-    "name": "Rotación torácica en cuadrupedia izquierda",
-    "description": "Posición inicial: Empieza arrodillado en cuadrupedia, con las rodillas separadas al ancho de los hombros. Coloca tu mano izquierda detrás de la cabeza mientras mantienes la mano derecha extendida y tocando el suelo. Pasos: Al inhalar, lleva tu codo izquierdo hacia tu mano derecha, manteniendo la mano izquierda detrás de la cabeza. Al exhalar, lleva tu codo izquierdo a apuntar hacia arriba, hacia el techo. Repite.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 674,
-    "uuid": "8766d43c-e035-4c37-b824-b94dce5bf710",
-    "name": "Rowing with TRX band",
-    "description": "Rowing with resistance bands - Bodyweight Exercise",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 510,
     "uuid": "88dbcc74-0304-4fcf-8a47-92d14a484b0a",
     "name": "Rowing, Lying on Bench",
@@ -12459,23 +9637,6 @@
     "musclesSecondary": [],
     "equipment": [],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1861,
-    "uuid": "e3f424e1-4c9f-4892-8df2-230624680439",
-    "name": "Side stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1861/0ffe4e99-71ad-47fb-b98c-1f243faa0499.png.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -12846,31 +10007,6 @@
     "videos": []
   },
   {
-    "id": 1203,
-    "uuid": "db4eaf0f-f4d4-4e63-b9fb-258985bc2858",
-    "name": "Elevación de gemelos, pierna izquierda",
-    "description": "Ponte de pie en el suelo o en el borde de un escalón para aumentar el rango de movimiento. Levanta un pie. Eleva el talón hasta quedar de puntillas. (variable) Permanece en esta posición durante tres segundos. Baja lentamente el pie hasta casi tocar el suelo con el talón - ¡no dejes caer el pie de golpe!",
-    "category": {
-      "id": 14,
-      "name": "Gemelos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1021,
     "uuid": "04ba9a37-4725-43f0-a0b6-767cdab9a79e",
     "name": "Elevación de pantorrilla derecha",
@@ -12887,26 +10023,6 @@
         "name": "Ninguno (peso corporal)"
       }
     ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 702,
-    "uuid": "4e752292-051a-4043-8f80-a390c23875e6",
-    "name": "Elevación de pantorrilla izquierda",
-    "description": "Párese en el suelo o en el borde de un escalón para aumentar el rango de movimiento. Levante un pie, colocando la parte superior de su pantorrilla Levante los talones hasta que esté de pie Manténgase en esta posición durante tres segundos, luego baje el pie sin tocar el suelo con el talón.",
-    "category": {
-      "id": 14,
-      "name": "Gemelos"
-    },
-    "musclesPrimary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
     "images": [],
     "videos": []
   },
@@ -13068,23 +10184,6 @@
       }
     ],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1876,
-    "uuid": "b81f4e3c-64e2-4fbd-9198-d422f6f2151f",
-    "name": "Supported Calf Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 14,
-      "name": "Gemelos"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1876/ca7b3fe7-5908-4ec2-9d85-7fa1b80bb105.png.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -13389,26 +10488,6 @@
       "name": "Hombros"
     },
     "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1536,
-    "uuid": "6a448382-0ea9-4f41-8a83-0b7cd7d8a2bf",
-    "name": "Delt Stretch",
-    "description": "Stretch your deltoids for a certain period of time.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
     "musclesSecondary": [],
     "equipment": [],
     "images": [],
@@ -13731,8 +10810,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-1.png.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-1.png.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png.400x400_q85.jpg"
     ],
     "videos": [
       "https://wger.de/media/exercise-video/348/de69928a-8a35-4096-821c-1f46de5e0e03.MOV"
@@ -13918,8 +10997,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/487/ad724e5c-b1ed-49e8-9279-a17545b0dd0b.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/487/692c598c-0493-42a5-be8b-b9d2e9adcd00.png.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/487/692c598c-0493-42a5-be8b-b9d2e9adcd00.png.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/487/ad724e5c-b1ed-49e8-9279-a17545b0dd0b.png.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -14163,185 +11242,10 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/151/Dumbbell-shrugs-2.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/572/9e730259-1dcd-4b5e-b4cc-9ebc0cfda75c.webp.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/151/Dumbbell-shrugs-2.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/151/Dumbbell-shrugs-1.png.400x400_q85.jpg"
     ],
-    "videos": []
-  },
-  {
-    "id": 1710,
-    "uuid": "4885c051-154b-4a9b-a0fe-ccb70a652fa4",
-    "name": "Estiramiento Butcher's Block",
-    "description": "Arrodíllate con las manos juntas Apoya los codos sobre un banco frente a ti y baja el pecho Mantén los codos flexionados con una buena postura y aguanta la posición",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 8,
-        "name": "Banco"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1835,
-    "uuid": "a4413bcc-dcd1-4332-a09a-fee94a265e22",
-    "name": "Estiramiento con rotación externa",
-    "description": "Siéntate con las plantas de los pies juntas y una rodilla elevada completamente hacia el lado del cuerpo. Apoya el codo sobre la rodilla elevada, flexiónalo a 90 grados y apunta la mano directamente hacia adelante, sujetando tu barra o mancuerna. Mantén el hombro descendido y retraído, y eleva la mano hasta que el antebrazo quede vertical, como si fueras a saludar a alguien como un robot. Baja la mano a la posición inicial y repite.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 1,
-        "name": "Barra"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1835/ca4a0b7e-9fdd-4173-843a-f0392824abe1.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1841,
-    "uuid": "a00b852c-0d2b-4b4a-bbc2-ef538f211b6c",
-    "name": "Estiramiento de extensión de hombro sentado",
-    "description": "Siéntate con las manos detrás de ti, separadas al ancho de los hombros. Bloquea los codos. Desplaza los pies y las caderas hacia adelante, bajando los hombros hacia el suelo. Llega tan lejos como puedas para conseguir un buen estiramiento. Consulta el vídeo: https://www.youtube.com/watch?v=ihUAbG0e8zw",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1712,
-    "uuid": "ca4c8872-e53c-47ca-bc33-448b9ba9360f",
-    "name": "Estiramiento de flexión horizontal del hombro",
-    "description": "Levanta el brazo hacia el lado, apoyando la mano en una pared o el marco de una puerta junto a ti, a la altura del hombro Gira el cuerpo alejándolo del brazo para estirar el pecho, tanto como te resulte cómodo",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1009,
-    "uuid": "7ea504e7-3310-4638-a111-054fabfd4b80",
-    "name": "Estiramiento Lateral Derecho de Cuello",
-    "description": "Este ejercicio busca alargar los músculos del costado del cuello, principalmente el trapecio superior y escalenos. Instrucciones: Sentado o de pie, con la espalda recta y los hombros relajados, inclina suavemente tu oreja derecha hacia tu hombro derecho. Para profundizar el estiramiento, coloca tu mano derecha sobre el costado izquierdo de la cabeza y aplica una presión muy suave y gentil para ayudar a bajar un poco más. Mantén el estiramiento de 15 a 30 segundos sin forzar ni rebotar.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1008,
-    "uuid": "2ecf2e55-c1f3-40ac-b20e-0954f41a2021",
-    "name": "Estiramiento Lateral Izquierdo de Cuello",
-    "description": "Este ejercicio busca alargar los músculos del costado del cuello, principalmente el trapecio superior. Instrucciones: Sentado o de pie, con la espalda recta y los hombros relajados, inclina suavemente tu oreja izquierda hacia tu hombro izquierdo. Para profundizar el estiramiento, coloca tu mano izquierda sobre el costado derecho de la cabeza y aplica una presión muy suave y gentil para ayudar a bajar un poco más. Mantén el estiramiento de 15 a 30 segundos sin forzar ni rebotar. Luego, hazlo del otro lado.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1920,
-    "uuid": "4925b6c0-bbe6-4864-a649-23ec18d49985",
-    "name": "Extreme Shoulder Stretch",
-    "description": "Deep loaded stretch for deltoids, performed after pressing movements.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
     "videos": []
   },
   {
@@ -14355,36 +11259,6 @@
     },
     "musclesPrimary": [],
     "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1284,
-    "uuid": "c38b0f69-7f01-4f0f-82cc-e33cdc658f9e",
-    "name": "Flexión pseudo planche",
-    "description": "Debes tener la línea de los hombros por delante de las muñecas y realizar una flexión, manteniendo el hombro en la misma posición.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
     "equipment": [
       {
         "id": 7,
@@ -14450,26 +11324,6 @@
     "uuid": "be9dfe16-9fc3-463d-a9cd-7aade27ef571",
     "name": "Front Raise (Cable)",
     "description": "Raise the handle in a slight arc with controlled movement. Don’t swing your torso to start the rep.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1516,
-    "uuid": "35008ce6-74ca-40db-b965-44a1eccfa061",
-    "name": "Handstand",
-    "description": "Handstand free standing by pressing arms into the ground and contracting core and glutes",
     "category": {
       "id": 13,
       "name": "Hombros"
@@ -15052,8 +11906,8 @@
     ],
     "equipment": [],
     "images": [
-      "https://wger.de/media/exercise-images/53/Shoulder-press-machine-2.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/53/Shoulder-press-machine-1.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/53/Shoulder-press-machine-1.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/53/Shoulder-press-machine-2.png.400x400_q85.png"
     ],
     "videos": [
       "https://wger.de/media/exercise-video/543/dbfd396b-1aab-4a64-a50b-2c31ff0a2cf7.MOV"
@@ -15406,10 +12260,7 @@
     "musclesSecondary": [],
     "equipment": [],
     "images": [
-      "https://wger.de/media/exercise-images/349/9d969203-9cb6-4d47-9c31-fef53bfe1de5.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/349/8dc5ad63-a93a-496f-9473-ac414236e58d.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/349/7359ab6a-72a4-4ed8-b7da-35d57aaa2199.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/349/d74d171e-d39a-4c13-bbcd-6821bc94d424.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/349/9d969203-9cb6-4d47-9c31-fef53bfe1de5.png.400x400_q85.png"
     ],
     "videos": [
       "https://wger.de/media/exercise-video/349/9896d82e-d8b6-48af-bdd5-b8545dc523e9.MOV"
@@ -15808,36 +12659,6 @@
     "videos": []
   },
   {
-    "id": 1711,
-    "uuid": "90f12b1b-b33e-4d83-9f9e-e26d3a4b8e0b",
-    "name": "Sleeper Stretch",
-    "description": "Túmbate de lado de modo que apoyes un poco de peso sobre el omóplato para mantenerlo quieto Extiende el brazo 90 grados frente a ti, apoyado en el suelo o la colchoneta Levanta la mano desde el codo de forma que los dedos apunten al techo y la palma mire hacia tus pies Manteniendo el codo quieto, baja suavemente la palma hacia el suelo",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1575,
     "uuid": "083bc8a6-0eb4-4049-b2ef-88415aa15459",
     "name": "Standing Dowel Shoulder press",
@@ -15855,54 +12676,6 @@
       }
     ],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1916,
-    "uuid": "3e9973f6-c218-4dd4-850b-da6f4f1622bb",
-    "name": "Tuck planche",
-    "description": "Basic calisthenics progression for the full planche",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      },
-      {
-        "id": 4,
-        "name": "Pecho"
-      },
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1916/e7d97b4b-9fe4-4378-aea3-5a9d93b6eb8d.png.400x400_q85.jpg"
-    ],
     "videos": []
   },
   {
@@ -16000,8 +12773,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/238/2fc242d3-5bdd-4f97-99bd-678adb8c96fc.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/238/c6464fb3-1924-4ff1-adfa-fd36da9b5d13.png.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/238/c6464fb3-1924-4ff1-adfa-fd36da9b5d13.png.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/238/2fc242d3-5bdd-4f97-99bd-678adb8c96fc.png.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -16595,76 +13368,6 @@
     "videos": []
   },
   {
-    "id": 1713,
-    "uuid": "adbb1d4c-962b-4a26-a353-9c47a2b37a93",
-    "name": "Estiramiento de pectoral en el marco de la puerta",
-    "description": "Coloca el antebrazo en vertical sobre el marco de una puerta o un objeto fijo a la altura de la cabeza. Da un paso hacia delante sobrepasando el brazo, manteniéndolo inmóvil contra el objeto para estirar el pecho.",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1451,
-    "uuid": "1e9b886f-0dbe-4434-829e-7159bcc40692",
-    "name": "Estiramiento de rotación del torso",
-    "description": "El estiramiento de rotación del torso mejora la movilidad de la columna y alivia la tensión en la espalda baja y los oblicuos. Puede realizarse de pie o sentado. Variante de pie : Párate derecho con los pies a la altura de los hombros. Coloca las manos en las caderas o extiende los brazos al frente. Gira lentamente el torso hacia un lado, manteniendo las caderas estables. Mantén la posición unos segundos y luego gira hacia el otro lado. Variante sentada : Siéntate en una silla con los pies planos en el suelo. Coloca una mano en el exterior del muslo contrario y gira suavemente el torso hacia ese lado. Mantén el estiramiento antes de cambiar de lado.",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1919,
-    "uuid": "3c33c9fd-20cc-4dff-ac88-c992bb9b2e33",
-    "name": "Extreme Pec Stretch",
-    "description": "Deep loaded stretch for pectorals, typically performed at end of chest work.",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1964,
     "uuid": "1842e1be-ac67-4f34-a527-4ca2b72d8e11",
     "name": "Flexión con manos abiertas",
@@ -17212,21 +13915,6 @@
     "videos": []
   },
   {
-    "id": 1832,
-    "uuid": "6c9c9d14-e6bf-43ed-9859-a689e2131fe0",
-    "name": "Mantenimiento en apoyo en anillas",
-    "description": "Mantente en posición de apoyo sobre las anillas de gimnasia, con los brazos rectos a los costados. Concéntrate en mantener las anillas ligeramente giradas hacia afuera y en conservar la posición de hollow body (cuerpo hueco). Este es un sostenimiento isométrico para el pecho, los hombros y los tríceps.",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 996,
     "uuid": "53324f8e-df38-456f-9b7d-8f3a43f45f31",
     "name": "Montañeros",
@@ -17462,8 +14150,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/97/Dumbbell-bench-press-1.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/75/7b700f5d-17fc-41a9-bd41-e98e45c15768.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/97/Dumbbell-bench-press-1.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/97/Dumbbell-bench-press-2.png.400x400_q85.jpg"
     ],
     "videos": [
@@ -17625,9 +14313,9 @@
       }
     ],
     "images": [
+      "https://wger.de/media/exercise-images/538/a1c23996-c8aa-42e3-9dfc-bed0654d849f.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/41/Incline-bench-press-1.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/41/Incline-bench-press-2.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/538/a1c23996-c8aa-42e3-9dfc-bed0654d849f.png.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/41/Incline-bench-press-2.png.400x400_q85.jpg"
     ],
     "videos": [
       "https://wger.de/media/exercise-video/538/4349a6f6-4cee-4c09-828b-c5e7fc2c1ff1.MOV"
@@ -17918,9 +14606,9 @@
       }
     ],
     "images": [
+      "https://wger.de/media/exercise-images/537/d44aeb87-d654-4033-ad2a-368946b0a97e.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/16/Incline-press-1.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/537/9f3c7817-3e3d-417d-8b08-2c0a1aa5fe03.jpg.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/537/d44aeb87-d654-4033-ad2a-368946b0a97e.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/16/Incline-press-2.png.400x400_q85.png"
     ],
     "videos": [
@@ -18157,21 +14845,6 @@
         "name": "Mancuerna"
       }
     ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1778,
-    "uuid": "86237d20-f4e3-49a6-bf28-9e4660377bc9",
-    "name": "Supino inclinado",
-    "description": "Inclinado 90 graus e movimentos leves e precisos",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
     "images": [],
     "videos": []
   },
@@ -18693,23 +15366,6 @@
     "videos": []
   },
   {
-    "id": 1865,
-    "uuid": "fcdc26c0-a20d-4b93-a629-2a3a15eae426",
-    "name": "Banded Ankle Mobility",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1865/c2c9848e-5094-4ed9-bd81-0831b6551483.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
     "id": 1953,
     "uuid": "4ce9740f-313d-4419-8a23-6c884d3a1a17",
     "name": "Bent-knee Iron Cross",
@@ -18721,26 +15377,6 @@
     "musclesPrimary": [],
     "musclesSecondary": [],
     "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1840,
-    "uuid": "abdd2b41-0c30-4ec1-8d14-f6dc5deb3561",
-    "name": "Bent-Leg Hamstring Stretch",
-    "description": "See this instructional video from Stretch Therapy: https://www.youtube.com/watch?v=CrF2iMnn09w .",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
     "images": [],
     "videos": []
   },
@@ -18991,8 +15627,8 @@
     "musclesSecondary": [],
     "equipment": [],
     "images": [
-      "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/369/4d621b17-f6cb-4107-97c0-9f44e9a2dbc6.webp.400x400_q85.png"
+      "https://wger.de/media/exercise-images/369/4d621b17-f6cb-4107-97c0-9f44e9a2dbc6.webp.400x400_q85.png",
+      "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -19528,244 +16164,6 @@
     "videos": []
   },
   {
-    "id": 1400,
-    "uuid": "4f38cc2e-5904-4ef5-b811-e729105cfd3b",
-    "name": "Estiramiento cruzado de isquiotibiales",
-    "description": "De pie, cruza una pierna por detrás de la otra (mantén esta pierna recta). Estira hacia abajo e intenta tocar los dedos del pie de esa pierna. Flexiona ligeramente la otra pierna para poder inclinarte hacia abajo.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1680,
-    "uuid": "73144238-414e-438f-8b0c-832a6591aa2f",
-    "name": "Estiramiento de cuatro sentado",
-    "description": "Siéntate en un banco. Los pies planos en el suelo. Coloca tu tobillo izquierdo sobre tu rodilla derecha. Tu rodilla derecha permanece plana. Mantén la espalda recta. Empuja suavemente tu rodilla izquierda hacia abajo.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 8,
-        "name": "Banco"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1239,
-    "uuid": "f36dfa40-7586-4721-a434-1fd878232c62",
-    "name": "Estiramiento de gemelos de pie",
-    "description": "Este estiramiento trabaja el gastrocnemio (el músculo principal de la pantorrilla, que flexiona la rodilla y el pie). Es fácil de realizar en cualquier lugar. Todo lo que necesitas es una pared o una silla.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1239/5026373a-a7b4-4e26-a0aa-c46634205196.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1393,
-    "uuid": "45cd73d7-98ac-4451-849a-a645fcfe9bee",
-    "name": "Estiramiento de isquiotibiales a una pierna",
-    "description": "Siéntate en el suelo con una pierna estirada recta hacia adelante y la otra flexionada hacia ti. Estira ambas manos hacia adelante e intenta tocar los dedos del pie de tu pierna estirada.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1843,
-    "uuid": "df3a6900-55c1-435b-bcde-7510dc229b20",
-    "name": "Estiramiento de mariposa",
-    "description": "Siéntate en posición de oración con las plantas de los pies suavemente juntas. Usa las manos para tirar lentamente de los pies hacia dentro, en dirección a la ingle. Mantén durante el tiempo que necesites.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1844,
-    "uuid": "a37001e9-b4b3-45db-8ee3-046f40350efa",
-    "name": "Estiramiento de rana",
-    "description": "Ponte a cuatro patas, apoyado sobre manos y rodillas. Abre las rodillas hacia afuera y baja hasta apoyarte sobre los codos. Sin mover los codos ni las rodillas, empieza a balancearte hacia adelante y hacia atrás, intentando acercar los glúteos a los pies.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1452,
-    "uuid": "492e90a5-1ecb-4a06-8e9d-26a00042560e",
-    "name": "Estiramiento de rodilla al pecho",
-    "description": "El estiramiento de rodilla al pecho es un ejercicio simple pero efectivo para aliviar la tensión en la zona lumbar y mejorar la movilidad de la cadera. Para realizarlo, acuéstate de espaldas con las piernas extendidas. Lleva una rodilla hacia el pecho y abraza la pierna con ambas manos, sujetando la espinilla o la parte posterior del muslo. Tira suavemente de la rodilla hacia el pecho mientras mantienes la otra pierna estirada en el suelo. Mantén el estiramiento durante 15–30 segundos y luego cambia de lado. Para un estiramiento más profundo, puedes llevar ambas rodillas al pecho al mismo tiempo.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1452/85a6b9de-4eec-445b-8ebb-f1950b076aba.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1884,
-    "uuid": "ceb58be5-2927-48c5-bb2d-4cc42b0a60e2",
-    "name": "Estiramiento de rotación interna en shinbox",
-    "description": "Posición inicial: Siéntate en el suelo con las caderas y las rodillas flexionadas a 90 grados. Colocación de las piernas: Coloca una pierna delante de ti (rotación externa) y la otra hacia el lado o detrás de ti (rotación interna). Las espinillas y las rodillas deben permanecer apoyadas en el suelo. El movimiento: Manteniendo las caderas alineadas, flexiona el torso hacia adelante o inclínalo lateralmente (de lado a lado) hacia la pierna delantera para profundizar el estiramiento. Zonas objetivo: Estira los glúteos y el piriforme (pierna delantera) y los flexores de la cadera y los cuádriceps (pierna trasera). Activa el core y los oblicuos durante la flexión lateral. Objetivo: Mejora la movilidad de la cadera, en concreto la rotación interna y externa, y alivia la tensión en la zona lumbar.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 14,
-        "name": "Oblicuos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1960,
-    "uuid": "2f2192c3-6e95-41b5-9438-2f1497f56767",
-    "name": "Estiramiento del flexor de cadera con pie trasero elevado",
-    "description": "Estiramiento del flexor de cadera con pie trasero elevado Parte de: Limber 11 Fuente: Joe DeFranco Indicación: 5-10 repeticiones por lado Tipo: dinámico Incluye movimiento dinámico más una retención de 3s.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1959,
-    "uuid": "ad5653e4-098e-4a84-af5b-a9349b108555",
-    "name": "Estiramiento del piriforme sentado",
-    "description": "Estiramiento del piriforme sentado Parte de: Limber 11 Fuente: Joe DeFranco Indicación: 20-30 seg por lado Tipo: estático Incluye una pausa isométrica.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1241,
     "uuid": "29a361d5-1300-4fb4-90d6-d6350bec9cb9",
     "name": "Exercise Band Dorsiflexion",
@@ -19935,87 +16333,6 @@
     "videos": []
   },
   {
-    "id": 1857,
-    "uuid": "4d96e62c-e4ac-45be-9428-b97f18ca26d9",
-    "name": "Foam Roller Cintillar iliotibial",
-    "description": "Deslizate sobr el Foam Roller sobre tu Cintilla iliotibial",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1857/92291128-cc7e-4f70-9663-80840c516fc9.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1858,
-    "uuid": "b8ffa641-55e7-4761-ad5d-8336bb3ab3d4",
-    "name": "Foam Roller cuadriceps",
-    "description": "Deslizate sobre el Foam Roller sobre tus cuadriceps",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1858/058b6fdb-8093-4b6d-a504-cbf869f3e3d3.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1854,
-    "uuid": "05b36227-a331-45b8-b1d5-5c7293c2df17",
-    "name": "Foam Roller Gemelos",
-    "description": "Mueve sobre el foam roller tus gemelos lentamente",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1854/ccd3c18e-c864-426f-8176-15dce14305e3.webp.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1859,
     "uuid": "164a31e9-ce70-4339-aee5-4ea7a3bdd246",
     "name": "Foam roller Gluteo",
@@ -20039,50 +16356,6 @@
     ],
     "images": [
       "https://wger.de/media/exercise-images/1859/2465d5eb-c249-454d-93eb-58aa13bdc080.webp.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1855,
-    "uuid": "fae5378b-db4b-4ab5-9207-07a6abab917f",
-    "name": "Foam Roller isquitobiales",
-    "description": "Mueve sobre el foam roller tus isquitobiales lentamente",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1855/a6597ed8-1613-4458-ba56-4b63bc946a35.webp.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1856,
-    "uuid": "8a9fff1e-0908-4706-8baa-7f400e2dac19",
-    "name": "Foam Roller Tibial anterior",
-    "description": "Deslice el tibial anterior lentamente sobre el Foam Roller",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1856/19c31c63-4968-4887-b8e6-4127be27fdde.jpg.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -20223,8 +16496,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/1392/a02c9c7d-f42d-43e0-9946-1b99b014daee.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/1392/af848376-3db3-4b16-a056-4aa936d49da4.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/1392/af848376-3db3-4b16-a056-4aa936d49da4.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/1392/a02c9c7d-f42d-43e0-9946-1b99b014daee.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -20355,23 +16628,6 @@
     "equipment": [],
     "images": [
       "https://wger.de/media/exercise-images/1863/5f29959d-0fd1-46d2-98b7-0c2cb5d9ee13.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1867,
-    "uuid": "0cf08c73-6af3-4852-97a5-1dff53531971",
-    "name": "Hip Flexor Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1867/767631e5-10d2-46b8-b03f-cc298f96963b.png.400x400_q85.png"
     ],
     "videos": []
   },
@@ -20568,44 +16824,6 @@
     "videos": []
   },
   {
-    "id": 1589,
-    "uuid": "505d6a28-1e24-4349-ab2b-49af3300e08e",
-    "name": "Leg and hip stretch",
-    "description": "Gentle movements to improve the flexibility of the lower body and release tension in the hips.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      },
-      {
-        "id": 10,
-        "name": "Cuádriceps"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 367,
     "uuid": "49189e88-40b6-4c0d-a784-0cc3abbb8e75",
     "name": "Leg Curls (standing)",
@@ -20717,57 +16935,6 @@
     "videos": []
   },
   {
-    "id": 1868,
-    "uuid": "558b3385-f1a2-47d2-8473-e1be2c7726aa",
-    "name": "Lunge with Twist Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1868/446e7065-215d-4a91-9da7-9416101442bb.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1869,
-    "uuid": "76b6e798-e484-4606-aa64-8421aea51e88",
-    "name": "Lying Figure Four Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1869/c49187bd-9f90-4a7a-b25e-1d50e857a104.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1870,
-    "uuid": "b5529305-04a2-4ca2-af6a-4a67d3e4aca4",
-    "name": "Lying Hamstring Stretch with Band",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1870/7465bbcf-3b86-42a6-8d2f-12a3d1f60a15.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
     "id": 2479,
     "uuid": "afa8935d-754a-4729-bd6f-de97b5baab2e",
     "name": "Machine Squat",
@@ -20837,26 +17004,6 @@
     "uuid": "1d8599d8-59a5-4faf-a9cf-b81639cbf68b",
     "name": "Media sentadillas derecha",
     "description": "Párese con la espalda recta De un largo paso adelante con su pierna derecha Baje la pelvis hasta que casi toque el suelo con la rodilla izquierda Suba la pelvis Repita desde el paso 3.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 991,
-    "uuid": "80d83f98-efe5-4d87-a403-c0feadc8650f",
-    "name": "Media sentadillas izquierda",
-    "description": "Párese con la espalda recta De un largo paso adelante con su pierna izquierda Baje la pelvis hasta que casi toque el suelo con la rodilla derecha Suba la pelvis Repita desde el paso 3.",
     "category": {
       "id": 9,
       "name": "Piernas"
@@ -21252,23 +17399,6 @@
     "videos": []
   },
   {
-    "id": 1872,
-    "uuid": "91adc5c9-bdeb-4ed8-b261-b7fcd3157330",
-    "name": "Pigeon Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1872/df982df1-512a-4eb9-acd9-68cc1c265df6.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
     "id": 1410,
     "uuid": "94f2dea6-b336-41b2-a438-3ab7b13adbf7",
     "name": "Plancha con elevación de pierna",
@@ -21328,23 +17458,6 @@
     "videos": []
   },
   {
-    "id": 1275,
-    "uuid": "f397656d-6f26-47c6-9e4c-221687f3f2fa",
-    "name": "Plantarflexion Stretch with Band",
-    "description": "This stretch is for the ankles, as well as Tibialis anterior.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1275/0652d306-93eb-42f0-b564-7c3261ea809a.png.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 320,
     "uuid": "4d255f25-f199-401a-bc81-7ffab1d0ed24",
     "name": "Polichilenas",
@@ -21365,31 +17478,6 @@
       "https://wger.de/media/exercise-images/320/6c9124b6-3551-47a8-9c22-20141c8b9c53.png.400x400_q85.png",
       "https://wger.de/media/exercise-images/320/85a075aa-53ff-4d61-bad3-5f47e14e0f8e.png.400x400_q85.png"
     ],
-    "videos": []
-  },
-  {
-    "id": 1846,
-    "uuid": "36411665-4a87-4ab5-b5d3-e4eaa2802a62",
-    "name": "Postura del jinete (split lateral)",
-    "description": "Colócate como para una sentadilla, con los pies bien separados y las puntas de los pies ligeramente hacia afuera. Baja suavemente a una sentadilla profunda y amplia: las caderas deben quedar por debajo de las rodillas. Mantén entre 3 y 5 segundos. Sube de forma controlada y repite las veces que necesites.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
     "videos": []
   },
   {
@@ -21553,23 +17641,6 @@
     "videos": []
   },
   {
-    "id": 1873,
-    "uuid": "6c6d7b02-20e1-49ac-b734-f5ee5f72f5a3",
-    "name": "Quad Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1873/c0ed299b-6d87-4d90-885d-bb3b5d85f1eb.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
     "id": 1954,
     "uuid": "752c0380-a0f9-4332-8265-cf503bac4703",
     "name": "Roll-overs into V-sits",
@@ -21582,23 +17653,6 @@
     "musclesSecondary": [],
     "equipment": [],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 1874,
-    "uuid": "92cd0459-5cd1-46a0-934d-e7cff8d4ccda",
-    "name": "Runners Lunge Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1874/66fca8a5-41e8-42d1-8776-5e46a4902650.png.400x400_q85.png"
-    ],
     "videos": []
   },
   {
@@ -21741,28 +17795,6 @@
     "videos": []
   },
   {
-    "id": 988,
-    "uuid": "7ce489d2-1948-46de-aa80-277b2ca737aa",
-    "name": "Sentadilla búlgara izquierda",
-    "description": "Póngase de pie delante de una silla y dé un largo paso. Ponga la parte superior de uno de sus pies en la silla Doble la rodilla delantera, balanceando los brazos hasta que la rodilla trasera casi toque el suelo. Empuje hacia atrás a la posición inicial y repita.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/988/6283b258-a4d7-4833-84f7-a38987022d3d.png.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1803,
     "uuid": "d18407c2-75d0-43d8-8bbc-dfbb256b6b2f",
     "name": "Sentadilla con barra hexagonal",
@@ -21882,7 +17914,6 @@
     ],
     "images": [
       "https://wger.de/media/exercise-images/203/1c052351-2af0-4227-aeb0-244008e4b0a8.jpeg.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/203/2ab30113-4e08-4d39-9d23-d901ce2c0971.jpeg.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/203/300a44ac-4368-48e2-8b18-beea32ab915d.gif"
     ],
     "videos": []
@@ -22077,26 +18108,6 @@
     "videos": []
   },
   {
-    "id": 986,
-    "uuid": "9801e20b-69c3-43d0-9066-450a68230c42",
-    "name": "Sentadilla de lado izquierdo",
-    "description": "Póngase de pie y dé un amplio paso lateral, un poco más grande que el ancho de los hombros Doble una rodilla hasta que su muslo esté paralelo al suelo. La rodilla doblada debe estar en línea con el pie Vuelva a la posición inicial y repita.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
     "id": 1208,
     "uuid": "f9866335-e489-404b-84b5-248fb8512702",
     "name": "Sentadilla del prisionero",
@@ -22177,8 +18188,8 @@
       }
     ],
     "images": [
-      "https://wger.de/media/exercise-images/191/Front-squat-1-857x1024.png.400x400_q85.png",
-      "https://wger.de/media/exercise-images/191/Front-squat-2-857x1024.png.400x400_q85.png"
+      "https://wger.de/media/exercise-images/191/Front-squat-2-857x1024.png.400x400_q85.png",
+      "https://wger.de/media/exercise-images/191/Front-squat-1-857x1024.png.400x400_q85.png"
     ],
     "videos": [
       "https://wger.de/media/exercise-video/257/ad8ac7d9-b04d-415f-ae0e-837942ce2840.MOV",
@@ -22497,68 +18508,6 @@
     "videos": []
   },
   {
-    "id": 1020,
-    "uuid": "ec9dca8d-1456-430a-abed-70b8bab4779a",
-    "name": "Sentadillas en pistol derecha",
-    "description": "Párese en una pierna, con la otra pierna estirada y ligeramente hacia adelante. Doble una rodilla lentamente, bajando en sentadilla y manteniendo la espalda y la otra pierna estirada. Levántese lentamente de la sentadilla, enderezando la rodilla doblada y manteniendo la otra pierna recta. Repita",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 456,
-    "uuid": "fe04cf35-1af5-4b51-89d4-c38d7eaa0db1",
-    "name": "Sentadillas en pistol izquierda",
-    "description": "Párese en una pierna, con la otra pierna estirada y ligeramente hacia adelante. Doble una rodilla lentamente, bajando en sentadilla y manteniendo la espalda y la otra pierna estirada. Levántese lentamente de la sentadilla, enderezando la rodilla doblada y manteniendo la otra pierna recta. Repita",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoide anterior)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/456/3b681e59-377b-40db-9113-ca5873ce084b.jpg.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/456/c51d875b-0c07-495e-a7cf-08893a9f125d.jpg.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/456/93716d06-c378-49b8-820a-8bf3e1d7e45c.jpg.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/456/b8f007b1-d43f-416d-a44b-fb3c15291414.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1414,
     "uuid": "f462df26-3264-48c2-b5aa-2374d0670c24",
     "name": "Sentadillas Hack",
@@ -22693,32 +18642,6 @@
     "videos": []
   },
   {
-    "id": 1274,
-    "uuid": "9f9bfa54-4702-4eb1-a72a-0fc12c846c72",
-    "name": "Sitting Calf Stretch (Dorsiflexion)",
-    "description": "This is a light stretch for the calf that is great for rehab.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 15,
-        "name": "Sóleo"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1274/bcffdf52-3c36-4b0c-b787-fb84f20bf82d.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
     "id": 1952,
     "uuid": "99a7651b-afc1-4007-ab80-aac590bbfbfe",
     "name": "SMR Glutes (lax ball)",
@@ -22767,26 +18690,6 @@
       }
     ],
     "equipment": [],
-    "images": [],
-    "videos": []
-  },
-  {
-    "id": 1839,
-    "uuid": "33a55e1a-ff83-4c34-b056-887a121b0978",
-    "name": "Solo Hip Flexor Stretch",
-    "description": "See this instructive video: https://www.youtube.com/watch?v=qHwyBHS6MQs .",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
     "images": [],
     "videos": []
   },
@@ -22851,48 +18754,6 @@
     "videos": [
       "https://wger.de/media/exercise-video/341/0cbfeace-dda9-4166-8424-f51358e88a4f.MOV"
     ]
-  },
-  {
-    "id": 1875,
-    "uuid": "f4bb000a-c855-4497-95e0-abc1b71725e7",
-    "name": "Standing IT Band Stretch",
-    "description": "View the video to undestand the exercise",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://wger.de/media/exercise-images/1875/e1128391-4b73-43a9-ab27-657d8bb43083.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1240,
-    "uuid": "56631e7a-471a-469c-958a-c3ff78b1e73c",
-    "name": "Standing Soleus Stretch",
-    "description": "This stretch targets the Soleus part of your calf. It may be performed with a wall or chair.",
-    "category": {
-      "id": 9,
-      "name": "Piernas"
-    },
-    "musclesPrimary": [
-      {
-        "id": 15,
-        "name": "Sóleo"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [],
-    "videos": []
   },
   {
     "id": 627,
@@ -23406,10 +19267,10 @@
     ],
     "images": [
       "https://wger.de/media/exercise-images/113/Walking-lunges-1.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/206/6ec66efd-e74f-4142-bed1-0a0ac74e3294.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/113/Walking-lunges-2.png.400x400_q85.jpg",
       "https://wger.de/media/exercise-images/113/Walking-lunges-3.png.400x400_q85.jpg",
-      "https://wger.de/media/exercise-images/113/Walking-lunges-4.png.400x400_q85.jpg"
+      "https://wger.de/media/exercise-images/113/Walking-lunges-4.png.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/113/Walking-lunges-2.png.400x400_q85.jpg",
+      "https://wger.de/media/exercise-images/206/6ec66efd-e74f-4142-bed1-0a0ac74e3294.png.400x400_q85.jpg"
     ],
     "videos": [
       "https://wger.de/media/exercise-video/206/47a65c45-6fd1-4181-b71a-3a6c882e516b.MOV"

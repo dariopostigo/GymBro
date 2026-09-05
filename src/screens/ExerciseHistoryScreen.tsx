@@ -1,9 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { getExerciseById } from '../data/exerciseCatalog';
+import { getExerciseMediaSources } from '../utils/exerciseImages';
+import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
+import ExerciseImageModal from '../components/ExerciseImageModal';
+import { ExpandIcon } from '../components/icons';
 import { Card, Chip, EmptyState, Overline, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
@@ -26,6 +30,8 @@ export default function ExerciseHistoryScreen({ route }: Props) {
   const { getEntriesForExercise } = useSession();
   const exercise = getExerciseById(exerciseId);
   const entries = getEntriesForExercise(exerciseId);
+  const media = useMemo(() => getExerciseMediaSources(exercise), [exercise]);
+  const [imageModalVisible, setImageModalVisible] = useState(false);
 
   const positions = useMemo(
     () => [...new Set(entries.map(e => e.positionInSession))].sort((a, b) => a - b),
@@ -99,6 +105,25 @@ export default function ExerciseHistoryScreen({ route }: Props) {
           <Overline>{exercise?.category.name ?? 'Ejercicio'}</Overline>
           <Text style={styles.title}>{exercise?.name ?? `Ejercicio #${exerciseId}`}</Text>
         </View>
+
+        {media.length > 0 && (
+          <View style={styles.mediaWrapper}>
+            <ExerciseImageCarousel media={media} style={styles.media} />
+            <TouchableOpacity
+              onPress={() => setImageModalVisible(true)}
+              style={styles.expandButton}
+              activeOpacity={0.8}
+              accessibilityLabel="Ampliar imagen del ejercicio"
+            >
+              <ExpandIcon size={16} color={colors.text} />
+            </TouchableOpacity>
+            <ExerciseImageModal
+              visible={imageModalVisible}
+              media={media}
+              onClose={() => setImageModalVisible(false)}
+            />
+          </View>
+        )}
 
         {entries.length === 0 ? (
           <EmptyState
@@ -220,6 +245,19 @@ const styles = StyleSheet.create({
   content: { padding: spacing.xxl, gap: spacing.lg },
   titleBlock: { gap: 2 },
   title: { fontSize: 24, fontWeight: '800', color: colors.text, letterSpacing: -0.4 },
+  mediaWrapper: { borderRadius: radius.md, overflow: 'hidden' },
+  media: { width: '100%', height: 200, backgroundColor: colors.surfaceAlt },
+  expandButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 28,
+    height: 28,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(13, 14, 16, 0.82)',
+  },
   statsRow: { flexDirection: 'row', gap: spacing.sm },
   section: { gap: spacing.sm },
   hint: { color: colors.muted, fontSize: 12, lineHeight: 17 },

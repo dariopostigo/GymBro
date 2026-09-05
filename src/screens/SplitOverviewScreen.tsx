@@ -8,6 +8,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
 import FadeInView from '../components/FadeInView';
+import MenuButton from '../components/MenuButton';
 import { ChevronIcon } from '../components/icons';
 import { EmptyState, GhostButton, ScreenHeader } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
@@ -26,7 +27,7 @@ export default function SplitOverviewScreen() {
   if (!activeSplit) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScreenHeader overline="Tu rutina" title="Rutina" />
+        <ScreenHeader overline="Tu rutina" title="Rutina" left={<MenuButton />} />
         <EmptyState
           title="No hay split activo"
           hint="Elige una rutina para ver aquí todos tus días de entrenamiento."
@@ -103,6 +104,7 @@ export default function SplitOverviewScreen() {
         overline="Tu rutina"
         title={activeSplit.name}
         subtitle={`${activeSplit.days.length} días · día ${todayIndex + 1} en curso`}
+        left={<MenuButton />}
         right={
           <TouchableOpacity
             style={styles.changeButton}

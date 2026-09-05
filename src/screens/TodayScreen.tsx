@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   FlatList,
-  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -18,10 +17,14 @@ import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { getExerciseById } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
+import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
+import ExerciseImageModal from '../components/ExerciseImageModal';
 import FadeInView from '../components/FadeInView';
-import { HistoryIcon, PlusIcon } from '../components/icons';
+import MenuButton from '../components/MenuButton';
+import { ExpandIcon, HistoryIcon, PlusIcon } from '../components/icons';
 import { Card, EmptyState, GhostButton, Overline, PrimaryButton, ScreenHeader } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
@@ -64,9 +67,10 @@ function ExerciseCard({
   onInputFocus,
 }: ExerciseCardProps) {
   const exercise = getExerciseById(slot.exerciseId);
-  const thumbnail = exercise?.images[0];
+  const media = getExerciseMediaSources(exercise);
   const [weightText, setWeightText] = useState(suggested ? String(suggested.weight) : '');
   const [repsText, setRepsText] = useState(suggested ? String(suggested.reps) : '');
+  const [imageModalVisible, setImageModalVisible] = useState(false);
 
   const handleAdd = () => {
     const weight = parseFloat(weightText.replace(',', '.'));
@@ -114,8 +118,23 @@ function ExerciseCard({
       </View>
 
       <View style={styles.mediaWrapper}>
-        {thumbnail ? (
-          <Image source={{ uri: thumbnail }} style={styles.image} />
+        {media.length > 0 ? (
+          <>
+            <ExerciseImageCarousel media={media} style={styles.image} />
+            <TouchableOpacity
+              onPress={() => setImageModalVisible(true)}
+              style={styles.expandButton}
+              activeOpacity={0.8}
+              accessibilityLabel="Ampliar imagen del ejercicio"
+            >
+              <ExpandIcon size={16} color={colors.text} />
+            </TouchableOpacity>
+            <ExerciseImageModal
+              visible={imageModalVisible}
+              media={media}
+              onClose={() => setImageModalVisible(false)}
+            />
+          </>
         ) : (
           <View style={[styles.image, styles.imagePlaceholder]}>
             <Text style={styles.imagePlaceholderText}>Sin imagen disponible</Text>
@@ -265,7 +284,7 @@ export default function TodayScreen({ route }: Props) {
   if (!activeSplit || !currentDay) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScreenHeader overline="Entrenamiento" title="Hoy" />
+        <ScreenHeader overline="Entrenamiento" title="Hoy" left={<MenuButton />} />
         <EmptyState
           title="No hay split activo"
           hint="Elige una rutina desde el menú principal para empezar a entrenar."
@@ -366,6 +385,7 @@ export default function TodayScreen({ route }: Props) {
         overline={activeSplit.name}
         title={currentDay.name}
         subtitle={`${exercises.length} ejercicios · ${doneSets}/${targetSets} series registradas`}
+        left={<MenuButton />}
         right={
           <TouchableOpacity
             style={styles.routineButton}
@@ -464,6 +484,17 @@ const styles = StyleSheet.create({
   image: { width: '100%', height: 170, backgroundColor: colors.surfaceAlt },
   imagePlaceholder: { alignItems: 'center', justifyContent: 'center' },
   imagePlaceholderText: { color: colors.muted, fontSize: 13 },
+  expandButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 28,
+    height: 28,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(13, 14, 16, 0.82)',
+  },
   targetPill: {
     position: 'absolute',
     left: 10,

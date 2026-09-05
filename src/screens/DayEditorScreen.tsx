@@ -5,6 +5,7 @@ import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-n
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { getExerciseById } from '../data/exerciseCatalog';
+import { getExerciseImageSources } from '../utils/exerciseImages';
 import FadeInView from '../components/FadeInView';
 import { ChevronIcon } from '../components/icons';
 import { Card, EmptyState, GhostButton, Overline, ScreenHeader } from '../components/ui';
@@ -113,7 +114,7 @@ export default function DayEditorScreen({ route }: Props) {
 
   const renderItem = ({ item, index }: { item: DayExerciseSlot; index: number }) => {
     const exercise = getExerciseById(item.exerciseId);
-    const thumbnail = exercise?.images[0];
+    const thumbnail = getExerciseImageSources(exercise)[0];
     const isFirst = index === 0;
     const isLast = index === exercises.length - 1;
 
@@ -122,7 +123,7 @@ export default function DayEditorScreen({ route }: Props) {
         <Card style={styles.exerciseCard}>
           <View style={styles.exerciseRow}>
             {thumbnail ? (
-              <Image source={{ uri: thumbnail }} style={styles.thumbnail} />
+              <Image source={thumbnail} style={styles.thumbnail} />
             ) : (
               <View style={[styles.thumbnail, styles.thumbnailPlaceholder]}>
                 <Text style={styles.thumbnailPlaceholderText}>Sin{'\n'}imagen</Text>
