@@ -227,6 +227,41 @@ export function ExpandIcon(props: IconProps) {
   );
 }
 
+/** Cuadrado con triángulo: reproducir el vídeo del ejercicio. */
+export function VideoIcon(props: IconProps) {
+  const { s, c } = useIcon(props);
+  return (
+    <View style={[styles.box, { width: s, height: s }]}>
+      <View
+        style={[
+          styles.box,
+          {
+            width: s * 0.86,
+            height: s * 0.86,
+            borderRadius: s * 0.22,
+            borderWidth: 2,
+            borderColor: c,
+          },
+        ]}
+      >
+        <View
+          style={{
+            width: 0,
+            height: 0,
+            marginLeft: s * 0.06,
+            borderTopWidth: s * 0.16,
+            borderBottomWidth: s * 0.16,
+            borderLeftWidth: s * 0.26,
+            borderTopColor: 'transparent',
+            borderBottomColor: 'transparent',
+            borderLeftColor: c,
+          }}
+        />
+      </View>
+    </View>
+  );
+}
+
 /** Rejilla 2x2: biblioteca de ejercicios. */
 export function GridIcon(props: IconProps) {
   const { s, c } = useIcon(props);

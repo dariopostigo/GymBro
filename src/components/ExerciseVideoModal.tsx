@@ -1,33 +1,35 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
-import ExerciseImageCarousel from './ExerciseImageCarousel';
-import type { ExerciseMediaItem } from '../utils/exerciseImages';
+import Video from 'react-native-video';
 import { colors, radius, spacing } from '../theme';
 
 interface Props {
   visible: boolean;
-  media: ExerciseMediaItem[];
+  uri: string | undefined;
   onClose: () => void;
 }
 
-/** Visor a pantalla completa: mismo carrusel de imágenes que la tarjeta, pero a tamaño grande y
- * sin recortar (el vídeo se reproduce aparte en ExerciseVideoModal).
- * El fondo que cierra al tocar es un Pressable HERMANO del contenido, no un ancestro: si el
- * carrusel quedara anidado dentro de un Pressable, este compite por el gesto de swipe con el
- * FlatList interno y lo bloquea a partir del segundo swipe. */
-export default function ExerciseImageModal({ visible, media, onClose }: Props) {
+/** Visor a pantalla completa del vídeo del ejercicio, con controles nativos de reproducción.
+ * A diferencia del carrusel de imágenes no hay gesto de swipe que proteger, así que aquí sí
+ * pueden estar activos los controles nativos de react-native-video. */
+export default function ExerciseVideoModal({ visible, uri, onClose }: Props) {
   const { width: windowWidth } = useWindowDimensions();
   const size = Math.min(windowWidth - spacing.xxl * 2, 420);
+
+  if (!uri) return null;
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <View style={styles.overlay}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
         <View style={[styles.content, { width: size }]}>
-          <ExerciseImageCarousel
-            media={media}
-            style={[styles.image, { width: size, height: size }]}
+          <Video
+            source={{ uri }}
+            style={[styles.video, { width: size, height: size }]}
             resizeMode="contain"
+            controls
+            paused={!visible}
+            repeat
           />
           <Pressable style={styles.closeButton} onPress={onClose} hitSlop={10}>
             <Text style={styles.closeText}>✕</Text>
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.surfaceAlt,
   },
-  image: {
+  video: {
     backgroundColor: colors.surfaceAlt,
   },
   closeButton: {

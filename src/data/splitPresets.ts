@@ -43,7 +43,7 @@ const pplSplit: Split = {
       ex(537, 3, 8, 12), // Press inclinado
       ex(238, 3, 8, 12), // Aperturas
       ex(348, 3, 8, 12), // Elevaciones laterales
-      ex(1900, 3, 8, 20), // Pushdown
+      ex(1185, 3, 8, 20), // Pushdown
       ex(1336, 3, 8, 20), // Extensión sobre la cabeza
     ]),
     day('ppl-pull-1', 'Pull 1', 1, [
@@ -51,7 +51,7 @@ const pplSplit: Split = {
       ex(81, 3, 8, 12), // Remo con mancuerna
       ex(152, 3, 8, 12), // Dominadas (Chin Up)
       ex(572, 3, 8, 20), // Encogimientos de hombros
-      ex(1448, 3, 8, 12), // Curl inclinado
+      ex(204, 3, 8, 12), // Curl inclinado
       ex(1567, 3, 8, 12), // Curl martillo
       ex(465, 2, 8, 12), // Curl predicador
       ex(1639, 4, 8, 20), // Facepull

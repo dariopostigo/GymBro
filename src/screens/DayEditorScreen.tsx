@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
@@ -112,138 +113,135 @@ export default function DayEditorScreen({ route }: Props) {
     });
   };
 
-  const renderItem = ({ item, index }: { item: DayExerciseSlot; index: number }) => {
+  const renderItem = (item: DayExerciseSlot, index: number) => {
     const exercise = getExerciseById(item.exerciseId);
     const thumbnail = getExerciseImageSources(exercise)[0];
     const isFirst = index === 0;
     const isLast = index === exercises.length - 1;
 
     return (
-      <FadeInView delay={Math.min(index, 4) * 60}>
-        <Card style={styles.exerciseCard}>
-          <View style={styles.exerciseRow}>
-            {thumbnail ? (
-              <Image source={thumbnail} style={styles.thumbnail} />
-            ) : (
-              <View style={[styles.thumbnail, styles.thumbnailPlaceholder]}>
-                <Text style={styles.thumbnailPlaceholderText}>Sin{'\n'}imagen</Text>
+      <Animated.View key={item.id} layout={LinearTransition.duration(260)}>
+        <FadeInView delay={Math.min(index, 4) * 60}>
+          <Card style={styles.exerciseCard}>
+            <View style={styles.exerciseRow}>
+              {thumbnail ? (
+                <Image source={thumbnail} style={styles.thumbnail} />
+              ) : (
+                <View style={[styles.thumbnail, styles.thumbnailPlaceholder]}>
+                  <Text style={styles.thumbnailPlaceholderText}>Sin{'\n'}imagen</Text>
+                </View>
+              )}
+
+              <View style={styles.exerciseInfo}>
+                <Text style={styles.exerciseName} numberOfLines={2}>
+                  {exercise?.name ?? `Ejercicio #${item.exerciseId}`}
+                </Text>
+                <Text style={styles.exerciseMeta} numberOfLines={1}>
+                  {exercise?.category.name}
+                  {exercise?.musclesPrimary.length
+                    ? ` · ${exercise.musclesPrimary.map(m => m.name).join(', ')}`
+                    : ''}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ExercisePicker', {
+                      mode: 'replace',
+                      splitId,
+                      dayId,
+                      slotId: item.id,
+                      currentExerciseId: item.exerciseId,
+                    })
+                  }
+                >
+                  <Text style={styles.replaceText}>Cambiar ejercicio</Text>
+                </TouchableOpacity>
               </View>
-            )}
 
-            <View style={styles.exerciseInfo}>
-              <Text style={styles.exerciseName} numberOfLines={2}>
-                {exercise?.name ?? `Ejercicio #${item.exerciseId}`}
-              </Text>
-              <Text style={styles.exerciseMeta} numberOfLines={1}>
-                {exercise?.category.name}
-                {exercise?.musclesPrimary.length
-                  ? ` · ${exercise.musclesPrimary.map(m => m.name).join(', ')}`
-                  : ''}
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ExercisePicker', {
-                    mode: 'replace',
-                    splitId,
-                    dayId,
-                    slotId: item.id,
-                    currentExerciseId: item.exerciseId,
-                  })
-                }
-              >
-                <Text style={styles.replaceText}>Cambiar ejercicio</Text>
-              </TouchableOpacity>
+              <View style={styles.orderButtons}>
+                <TouchableOpacity
+                  onPress={() => moveUp(index)}
+                  disabled={isFirst}
+                  style={[styles.orderButton, isFirst && styles.orderButtonDisabled]}
+                >
+                  <ChevronIcon
+                    direction="up"
+                    size={14}
+                    color={isFirst ? colors.border : colors.text}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => moveDown(index)}
+                  disabled={isLast}
+                  style={[styles.orderButton, isLast && styles.orderButtonDisabled]}
+                >
+                  <ChevronIcon
+                    direction="down"
+                    size={14}
+                    color={isLast ? colors.border : colors.text}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
 
-            <View style={styles.orderButtons}>
-              <TouchableOpacity
-                onPress={() => moveUp(index)}
-                disabled={isFirst}
-                style={[styles.orderButton, isFirst && styles.orderButtonDisabled]}
-              >
-                <ChevronIcon
-                  direction="up"
-                  size={14}
-                  color={isFirst ? colors.border : colors.text}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => moveDown(index)}
-                disabled={isLast}
-                style={[styles.orderButton, isLast && styles.orderButtonDisabled]}
-              >
-                <ChevronIcon
-                  direction="down"
-                  size={14}
-                  color={isLast ? colors.border : colors.text}
-                />
-              </TouchableOpacity>
+            <View style={styles.targetsRow}>
+              <Stepper
+                label="Series"
+                value={item.targetSets}
+                onDecrease={() => changeSets(item, -1)}
+                onIncrease={() => changeSets(item, 1)}
+              />
+              <Stepper
+                label="Reps min"
+                value={item.targetRepsMin}
+                onDecrease={() => changeRepsMin(item, -1)}
+                onIncrease={() => changeRepsMin(item, 1)}
+              />
+              <Stepper
+                label="Reps max"
+                value={item.targetRepsMax}
+                onDecrease={() => changeRepsMax(item, -1)}
+                onIncrease={() => changeRepsMax(item, 1)}
+              />
             </View>
-          </View>
 
-          <View style={styles.targetsRow}>
-            <Stepper
-              label="Series"
-              value={item.targetSets}
-              onDecrease={() => changeSets(item, -1)}
-              onIncrease={() => changeSets(item, 1)}
-            />
-            <Stepper
-              label="Reps min"
-              value={item.targetRepsMin}
-              onDecrease={() => changeRepsMin(item, -1)}
-              onIncrease={() => changeRepsMin(item, 1)}
-            />
-            <Stepper
-              label="Reps max"
-              value={item.targetRepsMax}
-              onDecrease={() => changeRepsMax(item, -1)}
-              onIncrease={() => changeRepsMax(item, 1)}
-            />
-          </View>
-
-          <TouchableOpacity onPress={() => removeExercise(item.id)} style={styles.removeButton}>
-            <Text style={styles.removeButtonText}>Quitar del día</Text>
-          </TouchableOpacity>
-        </Card>
-      </FadeInView>
+            <TouchableOpacity onPress={() => removeExercise(item.id)} style={styles.removeButton}>
+              <Text style={styles.removeButtonText}>Quitar del día</Text>
+            </TouchableOpacity>
+          </Card>
+        </FadeInView>
+      </Animated.View>
     );
   };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-      <FlatList
-        data={exercises}
-        keyExtractor={item => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <View style={styles.headerBlock}>
-            <ScreenHeader
-              overline={split.name}
-              title={day.name}
-              subtitle={`${exercises.length} ejercicios · mantén el orden en el que los harás`}
-            />
-          </View>
-        }
-        ListEmptyComponent={
+      <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
+        <View style={styles.headerBlock}>
+          <ScreenHeader
+            overline={split.name}
+            title={day.name}
+            subtitle={`${exercises.length} ejercicios · mantén el orden en el que los harás`}
+          />
+        </View>
+
+        {exercises.length === 0 ? (
           <EmptyState
             title="Este día está vacío"
             hint="Añade los ejercicios que quieras entrenar en esta sesión."
           />
-        }
-        ListFooterComponent={
-          <View style={styles.footer}>
-            <Overline>Añadir</Overline>
-            <GhostButton
-              label="+ Añadir ejercicio"
-              dashed
-              onPress={() => navigation.navigate('ExercisePicker', { mode: 'add', splitId, dayId })}
-            />
-          </View>
-        }
-      />
+        ) : (
+          exercises.map((item, index) => renderItem(item, index))
+        )}
+
+        <View style={styles.footer}>
+          <Overline>Añadir</Overline>
+          <GhostButton
+            label="+ Añadir ejercicio"
+            dashed
+            onPress={() => navigation.navigate('ExercisePicker', { mode: 'add', splitId, dayId })}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

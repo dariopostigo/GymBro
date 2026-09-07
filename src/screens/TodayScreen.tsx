@@ -22,9 +22,10 @@ import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseImageModal from '../components/ExerciseImageModal';
+import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
-import { ExpandIcon, HistoryIcon, PlusIcon } from '../components/icons';
+import { ExpandIcon, HistoryIcon, PlusIcon, VideoIcon } from '../components/icons';
 import { Card, EmptyState, GhostButton, Overline, PrimaryButton, ScreenHeader } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
@@ -68,9 +69,11 @@ function ExerciseCard({
 }: ExerciseCardProps) {
   const exercise = getExerciseById(slot.exerciseId);
   const media = getExerciseMediaSources(exercise);
+  const video = media.find(item => item.type === 'video');
   const [weightText, setWeightText] = useState(suggested ? String(suggested.weight) : '');
   const [repsText, setRepsText] = useState(suggested ? String(suggested.reps) : '');
   const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [videoModalVisible, setVideoModalVisible] = useState(false);
 
   const handleAdd = () => {
     const weight = parseFloat(weightText.replace(',', '.'));
@@ -121,6 +124,16 @@ function ExerciseCard({
         {media.length > 0 ? (
           <>
             <ExerciseImageCarousel media={media} style={styles.image} />
+            {video && (
+              <TouchableOpacity
+                onPress={() => setVideoModalVisible(true)}
+                style={styles.videoButton}
+                activeOpacity={0.8}
+                accessibilityLabel="Ver vídeo del ejercicio"
+              >
+                <VideoIcon size={16} color={colors.text} />
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               onPress={() => setImageModalVisible(true)}
               style={styles.expandButton}
@@ -133,6 +146,11 @@ function ExerciseCard({
               visible={imageModalVisible}
               media={media}
               onClose={() => setImageModalVisible(false)}
+            />
+            <ExerciseVideoModal
+              visible={videoModalVisible}
+              uri={video?.type === 'video' ? video.uri : undefined}
+              onClose={() => setVideoModalVisible(false)}
             />
           </>
         ) : (
@@ -488,6 +506,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
+    width: 28,
+    height: 28,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(13, 14, 16, 0.82)',
+  },
+  videoButton: {
+    position: 'absolute',
+    top: 10,
+    right: 46,
     width: 28,
     height: 28,
     borderRadius: radius.pill,

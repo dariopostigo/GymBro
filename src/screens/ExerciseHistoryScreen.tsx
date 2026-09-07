@@ -7,7 +7,8 @@ import { getExerciseById } from '../data/exerciseCatalog';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseImageModal from '../components/ExerciseImageModal';
-import { ExpandIcon } from '../components/icons';
+import ExerciseVideoModal from '../components/ExerciseVideoModal';
+import { ExpandIcon, VideoIcon } from '../components/icons';
 import { Card, Chip, EmptyState, Overline, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
@@ -31,7 +32,9 @@ export default function ExerciseHistoryScreen({ route }: Props) {
   const exercise = getExerciseById(exerciseId);
   const entries = getEntriesForExercise(exerciseId);
   const media = useMemo(() => getExerciseMediaSources(exercise), [exercise]);
+  const video = media.find(item => item.type === 'video');
   const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [videoModalVisible, setVideoModalVisible] = useState(false);
 
   const positions = useMemo(
     () => [...new Set(entries.map(e => e.positionInSession))].sort((a, b) => a - b),
@@ -109,6 +112,16 @@ export default function ExerciseHistoryScreen({ route }: Props) {
         {media.length > 0 && (
           <View style={styles.mediaWrapper}>
             <ExerciseImageCarousel media={media} style={styles.media} />
+            {video && (
+              <TouchableOpacity
+                onPress={() => setVideoModalVisible(true)}
+                style={styles.videoButton}
+                activeOpacity={0.8}
+                accessibilityLabel="Ver vídeo del ejercicio"
+              >
+                <VideoIcon size={16} color={colors.text} />
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               onPress={() => setImageModalVisible(true)}
               style={styles.expandButton}
@@ -121,6 +134,11 @@ export default function ExerciseHistoryScreen({ route }: Props) {
               visible={imageModalVisible}
               media={media}
               onClose={() => setImageModalVisible(false)}
+            />
+            <ExerciseVideoModal
+              visible={videoModalVisible}
+              uri={video?.type === 'video' ? video.uri : undefined}
+              onClose={() => setVideoModalVisible(false)}
             />
           </View>
         )}
@@ -251,6 +269,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
+    width: 28,
+    height: 28,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(13, 14, 16, 0.82)',
+  },
+  videoButton: {
+    position: 'absolute',
+    top: 10,
+    right: 46,
     width: 28,
     height: 28,
     borderRadius: radius.pill,
