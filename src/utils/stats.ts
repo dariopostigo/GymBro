@@ -20,6 +20,19 @@ export function sessionVolume(session: WorkoutSession): number {
   return session.sets.reduce((total, set) => total + set.weight * set.reps, 0);
 }
 
+/**
+ * 1RM estimado con la fórmula de Epley: peso * (1 + reps / 30).
+ *
+ * Sirve para comparar sesiones donde cambian peso y repeticiones a la vez:
+ * 80x5 y 70x10 rinden 93 y 93, así que subir reps cuenta como progreso igual
+ * que subir kilos. La fórmula pierde fiabilidad por encima de ~10 reps, donde
+ * tiende a sobreestimar.
+ */
+export function estimatedOneRepMax(weight: number, reps: number): number {
+  if (weight <= 0 || reps <= 0) return 0;
+  return Math.round(weight * (1 + reps / 30));
+}
+
 export interface TotalStats {
   sessions: number;
   sets: number;

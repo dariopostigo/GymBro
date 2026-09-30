@@ -9,21 +9,75 @@ import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseImageModal from '../components/ExerciseImageModal';
 import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import { ExpandIcon, VideoIcon } from '../components/icons';
+import TrendLine, { type TrendPoint } from '../components/TrendLine';
 import { Card, Chip, EmptyState, Overline, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
-import { formatFullDate, formatShortDate } from '../utils/stats';
+import { estimatedOneRepMax, formatFullDate, formatShortDate } from '../utils/stats';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ExerciseHistory'>;
 
 const CHART_HEIGHT = 130;
 const BAR_WIDTH = 34;
+const BAR_GAP = spacing.md;
+const BAR_VALUE_HEIGHT = 14;
+const BAR_DETAIL_HEIGHT = 12;
+const BAR_COLUMN_GAP = 6;
+
+/** Distancia desde el techo de la columna hasta el techo del area de barras. */
+const CHART_TOP_OFFSET =
+  BAR_VALUE_HEIGHT + BAR_COLUMN_GAP + BAR_DETAIL_HEIGHT + BAR_COLUMN_GAP;
+
+/** Métrica que dibujan las barras. Una cada vez: kg y reps no comparten escala. */
+type Metric = 'weight' | 'reps' | 'orm';
+
+const METRIC_CHIPS: { value: Metric; label: string }[] = [
+  { value: 'weight', label: 'Peso máx' },
+  { value: 'reps', label: 'Reps' },
+  { value: 'orm', label: '1RM est.' },
+];
+
+const METRIC_TITLES: Record<Metric, string> = {
+  weight: 'Peso máximo',
+  reps: 'Repeticiones',
+  orm: '1RM estimado',
+};
+
+const METRIC_HINTS: Record<Metric, string> = {
+  weight: 'La serie más pesada de cada sesión, con las reps que hiciste a ese peso.',
+  reps: 'Repeticiones totales del ejercicio en cada sesión, y cuántas series fueron.',
+  orm: 'Peso teórico a 1 repetición (Epley). Sube tanto si añades kilos como si añades reps, así que es la mejor vista para ver si progresas.',
+};
 
 interface SessionBar {
   sessionId: string;
   date: string;
+  /** Serie más pesada de la sesión y las reps que aguantó con ese peso. */
   maxWeight: number;
+  repsAtMaxWeight: number;
+  totalReps: number;
+  setCount: number;
+  /** Mejor 1RM estimado de la sesión, y la serie que lo produjo. */
+  oneRepMax: number;
+  ormWeight: number;
+  ormReps: number;
+}
+
+const barHeight = (value: number, maxValue: number) =>
+  Math.max(6, (value / maxValue) * CHART_HEIGHT);
+
+function metricValue(bar: SessionBar, metric: Metric): number {
+  if (metric === 'weight') return bar.maxWeight;
+  if (metric === 'reps') return bar.totalReps;
+  return bar.oneRepMax;
+}
+
+/** Contexto bajo cada barra: lo que la cifra principal por sí sola esconde. */
+function metricDetail(bar: SessionBar, metric: Metric): string {
+  if (metric === 'weight') return `×${bar.repsAtMaxWeight}`;
+  if (metric === 'reps') return `${bar.setCount} ser.`;
+  return `${bar.ormWeight}×${bar.ormReps}`;
 }
 
 export default function ExerciseHistoryScreen({ route }: Props) {
@@ -69,19 +123,60 @@ export default function ExerciseHistoryScreen({ route }: Props) {
   );
 
   const sessionBars: SessionBar[] = useMemo(() => {
-    const bySession = new Map<string, { date: string; maxWeight: number }>();
+    const bySession = new Map<string, SessionBar>();
     for (const entry of filteredEntries) {
-      const existing = bySession.get(entry.sessionId);
-      if (!existing || entry.weight > existing.maxWeight) {
-        bySession.set(entry.sessionId, { date: entry.sessionDate, maxWeight: entry.weight });
+      const bar = bySession.get(entry.sessionId) ?? {
+        sessionId: entry.sessionId,
+        date: entry.sessionDate,
+        maxWeight: 0,
+        repsAtMaxWeight: 0,
+        totalReps: 0,
+        setCount: 0,
+        oneRepMax: 0,
+        ormWeight: 0,
+        ormReps: 0,
+      };
+
+      // A igualdad de peso nos quedamos con la serie de más repeticiones.
+      if (
+        entry.weight > bar.maxWeight ||
+        (entry.weight === bar.maxWeight && entry.reps > bar.repsAtMaxWeight)
+      ) {
+        bar.maxWeight = entry.weight;
+        bar.repsAtMaxWeight = entry.reps;
       }
+
+      // El mejor 1RM no tiene por qué venir de la serie más pesada: una serie
+      // más ligera a muchas reps puede estimar más alto.
+      const orm = estimatedOneRepMax(entry.weight, entry.reps);
+      if (orm > bar.oneRepMax) {
+        bar.oneRepMax = orm;
+        bar.ormWeight = entry.weight;
+        bar.ormReps = entry.reps;
+      }
+
+      bar.totalReps += entry.reps;
+      bar.setCount += 1;
+      bySession.set(entry.sessionId, bar);
     }
-    return [...bySession.entries()]
-      .map(([sessionId, v]) => ({ sessionId, ...v }))
-      .sort((a, b) => a.date.localeCompare(b.date));
+    return [...bySession.values()].sort((a, b) => a.date.localeCompare(b.date));
   }, [filteredEntries]);
 
-  const maxWeight = Math.max(1, ...sessionBars.map(b => b.maxWeight));
+  const [metric, setMetric] = useState<Metric>('weight');
+
+  const maxValue = Math.max(1, ...sessionBars.map(bar => metricValue(bar, metric)));
+
+  const trendPoints = useMemo<TrendPoint[]>(
+    () =>
+      sessionBars.map((bar, index) => ({
+        key: bar.sessionId,
+        highlight: index === sessionBars.length - 1,
+        x: index * (BAR_WIDTH + BAR_GAP) + BAR_WIDTH / 2,
+        y: CHART_HEIGHT - barHeight(metricValue(bar, metric), maxValue),
+      })),
+    [sessionBars, metric, maxValue],
+  );
+
   const record = entries.length ? Math.max(...entries.map(e => e.weight)) : 0;
   const totalSessions = new Set(entries.map(e => e.sessionId)).size;
 
@@ -202,33 +297,50 @@ export default function ExerciseHistoryScreen({ route }: Props) {
 
             <Card style={styles.chartCard}>
               <Overline>
-                Peso máximo ·{' '}
+                {METRIC_TITLES[metric]} ·{' '}
                 {filterMode === 'session'
                   ? `posición #${activePosition}`
                   : `${activeMuscleGroupPosition}º de ${exercise?.category.name ?? 'categoría'}`}
               </Overline>
+              <View style={styles.metricRow}>
+                {METRIC_CHIPS.map(chip => (
+                  <Chip
+                    key={chip.value}
+                    label={chip.label}
+                    active={metric === chip.value}
+                    onPress={() => setMetric(chip.value)}
+                  />
+                ))}
+              </View>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.chart}>
-                  {sessionBars.map((bar, index) => {
-                    const isLast = index === sessionBars.length - 1;
-                    return (
-                      <View key={bar.sessionId} style={styles.barColumn}>
-                        <Text style={[styles.barValue, isLast && styles.barValueLast]}>
-                          {bar.maxWeight}
-                        </Text>
-                        <View
-                          style={[
-                            styles.bar,
-                            isLast && styles.barLast,
-                            { height: Math.max(6, (bar.maxWeight / maxWeight) * CHART_HEIGHT) },
-                          ]}
-                        />
-                        <Text style={styles.barDate}>{formatShortDate(bar.date)}</Text>
-                      </View>
-                    );
-                  })}
+                <View style={styles.chartArea}>
+                  <View style={styles.chart}>
+                    {sessionBars.map((bar, index) => {
+                      const isLast = index === sessionBars.length - 1;
+                      return (
+                        <View key={bar.sessionId} style={styles.barColumn}>
+                          <Text style={[styles.barValue, isLast && styles.barValueLast]}>
+                            {metricValue(bar, metric)}
+                          </Text>
+                          <Text style={styles.barDetail}>{metricDetail(bar, metric)}</Text>
+                          <View style={styles.barTrack}>
+                            <View
+                              style={[
+                                styles.bar,
+                                isLast && styles.barLast,
+                                { height: barHeight(metricValue(bar, metric), maxValue) },
+                              ]}
+                            />
+                          </View>
+                          <Text style={styles.barDate}>{formatShortDate(bar.date)}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <TrendLine points={trendPoints} style={styles.trendOverlay} />
                 </View>
               </ScrollView>
+              <Text style={styles.chartHint}>{METRIC_HINTS[metric]}</Text>
             </Card>
 
             <Overline style={styles.sectionTitle}>Historial detallado</Overline>
@@ -292,14 +404,32 @@ const styles = StyleSheet.create({
   hint: { color: colors.muted, fontSize: 12, lineHeight: 17 },
   modeRow: { flexDirection: 'row', gap: spacing.sm, marginTop: 4 },
   chipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: 2 },
-  chartCard: { gap: spacing.lg },
-  chart: { flexDirection: 'row', alignItems: 'flex-end', gap: spacing.md, paddingBottom: 2 },
-  barColumn: { alignItems: 'center', width: BAR_WIDTH, gap: 6 },
-  barValue: { color: colors.muted, fontSize: 11, fontWeight: '700' },
+  chartCard: { gap: spacing.md },
+  metricRow: { flexDirection: 'row', gap: spacing.sm },
+  chartArea: { position: 'relative', paddingTop: spacing.xs },
+  chart: { flexDirection: 'row', alignItems: 'flex-end', gap: BAR_GAP, paddingBottom: 2 },
+  barColumn: { alignItems: 'center', width: BAR_WIDTH, gap: BAR_COLUMN_GAP },
+  barValue: {
+    color: colors.muted,
+    fontSize: 11,
+    fontWeight: '700',
+    height: BAR_VALUE_HEIGHT,
+    lineHeight: BAR_VALUE_HEIGHT,
+  },
   barValueLast: { color: colors.accent },
+  barDetail: {
+    color: colors.muted,
+    fontSize: 9,
+    height: BAR_DETAIL_HEIGHT,
+    lineHeight: BAR_DETAIL_HEIGHT,
+    opacity: 0.8,
+  },
+  barTrack: { height: CHART_HEIGHT, justifyContent: 'flex-end' },
   bar: { width: BAR_WIDTH, backgroundColor: colors.surfaceHigh, borderRadius: 6 },
   barLast: { backgroundColor: colors.accent },
   barDate: { color: colors.muted, fontSize: 10 },
+  trendOverlay: { top: spacing.xs + CHART_TOP_OFFSET, height: CHART_HEIGHT },
+  chartHint: { color: colors.muted, fontSize: 11, lineHeight: 16 },
   sectionTitle: { marginLeft: spacing.xs },
   tableGroup: { gap: spacing.sm },
   tableDate: { color: colors.text, fontWeight: '800', fontSize: 13 },

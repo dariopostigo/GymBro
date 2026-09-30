@@ -1,10 +1,12 @@
 {
   "name": "gymbro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "doctor": "react-native doctor",
     "fetch:exercises": "node scripts/fetch-exercises.js",
+    "fix:exercise-names": "node scripts/apply-exercise-names.js",
+    "fix:exercise-images": "node scripts/apply-exercise-images.js",
     "generate:icon": "node scripts/generate-icon.js",
     "android": "scripts\\run-android.bat",
     "ios": "react-native run-ios",

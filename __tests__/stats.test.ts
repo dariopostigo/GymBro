@@ -2,7 +2,7 @@
  * @format
  */
 
-import { volumeByWeek } from '../src/utils/stats';
+import { estimatedOneRepMax, volumeByWeek } from '../src/utils/stats';
 import type { WorkoutSession } from '../src/types/session';
 
 function sessionOn(date: Date, weight: number, reps: number): WorkoutSession {
@@ -42,4 +42,21 @@ test('los días posteriores a hoy quedan marcados como futuros', () => {
   week.forEach((day, index) => {
     expect(day.isFuture).toBe(index > todayIndex);
   });
+});
+
+test('una serie a una repetición estima su propio peso', () => {
+  expect(estimatedOneRepMax(100, 1)).toBe(103);
+});
+
+test('subir reps al mismo peso sube el 1RM estimado', () => {
+  expect(estimatedOneRepMax(80, 8)).toBeGreaterThan(estimatedOneRepMax(80, 5));
+});
+
+test('más peso a menos reps puede empatar con menos peso a más reps', () => {
+  expect(estimatedOneRepMax(80, 5)).toBe(estimatedOneRepMax(70, 10));
+});
+
+test('sin peso o sin reps no hay estimación', () => {
+  expect(estimatedOneRepMax(0, 10)).toBe(0);
+  expect(estimatedOneRepMax(80, 0)).toBe(0);
 });

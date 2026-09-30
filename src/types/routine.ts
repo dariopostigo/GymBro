@@ -27,3 +27,15 @@ export interface ActiveSplitState {
   splitId: string;
   currentDayIndex: number;
 }
+
+/** Ajustes de un hueco del día que solo valen para la sesión en curso. */
+export interface SlotOverride {
+  exerciseId?: number;
+  targetSets?: number;
+}
+
+/**
+ * Cambios que solo valen para la sesión en curso, sin tocar la plantilla:
+ * `${splitId}:${dayId}` → slotId → ajustes.
+ */
+export type DayOverrides = Record<string, Record<string, SlotOverride>>;

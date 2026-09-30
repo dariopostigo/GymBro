@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SPLIT_PRESETS } from '../data/splitPresets';
-import type { ActiveSplitState, Split } from '../types/routine';
+import type { ActiveSplitState, DayOverrides, SlotOverride, Split } from '../types/routine';
 
 const SPLITS_KEY = 'gymbro:splits';
 const ACTIVE_SPLIT_KEY = 'gymbro:activeSplit';
+const DAY_OVERRIDES_KEY = 'gymbro:dayOverrides';
 
 export async function loadSplits(): Promise<Split[]> {
   const raw = await AsyncStorage.getItem(SPLITS_KEY);
@@ -29,4 +30,26 @@ export async function saveActiveSplit(state: ActiveSplitState | null): Promise<v
     return;
   }
   await AsyncStorage.setItem(ACTIVE_SPLIT_KEY, JSON.stringify(state));
+}
+
+export async function loadDayOverrides(): Promise<DayOverrides> {
+  const raw = await AsyncStorage.getItem(DAY_OVERRIDES_KEY);
+  if (!raw) return {};
+  const stored = JSON.parse(raw) as Record<string, Record<string, SlotOverride | number>>;
+  // La primera versión guardaba solo el exerciseId como número suelto.
+  return Object.fromEntries(
+    Object.entries(stored).map(([dayKey, slots]) => [
+      dayKey,
+      Object.fromEntries(
+        Object.entries(slots).map(([slotId, value]) => [
+          slotId,
+          typeof value === 'number' ? { exerciseId: value } : value,
+        ]),
+      ),
+    ]),
+  );
+}
+
+export async function saveDayOverrides(overrides: DayOverrides): Promise<void> {
+  await AsyncStorage.setItem(DAY_OVERRIDES_KEY, JSON.stringify(overrides));
 }

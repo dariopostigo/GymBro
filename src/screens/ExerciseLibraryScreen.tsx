@@ -1,12 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { CATEGORIES, EXERCISES } from '../data/exerciseCatalog';
-import { getExerciseImageSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { ChevronIcon } from '../components/icons';
+import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import { Chip, EmptyState } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { Exercise } from '../types/exercise';
@@ -84,18 +84,13 @@ export default function ExerciseLibraryScreen() {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           renderItem={({ item }) => {
-            const thumbnail = getExerciseImageSources(item)[0];
             return (
               <TouchableOpacity
                 activeOpacity={0.85}
                 style={styles.row}
                 onPress={() => handleSelect(item)}
               >
-                {thumbnail ? (
-                  <Image source={thumbnail} style={styles.thumbnail} />
-                ) : (
-                  <View style={[styles.thumbnail, styles.thumbnailPlaceholder]} />
-                )}
+                <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
                 <View style={styles.rowInfo}>
                   <Text style={styles.rowName} numberOfLines={1}>
                     {item.name}
@@ -152,9 +147,8 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     alignItems: 'center',
   },
-  thumbnail: { width: 48, height: 48, borderRadius: radius.sm, backgroundColor: colors.surfaceAlt },
-  thumbnailPlaceholder: {},
+  thumbnail: { width: 84, height: 84, borderRadius: radius.md, backgroundColor: colors.surfaceAlt },
   rowInfo: { flex: 1, gap: 2 },
-  rowName: { color: colors.text, fontWeight: '700', fontSize: 14 },
+  rowName: { color: colors.text, fontWeight: '700', fontSize: 15 },
   rowMeta: { color: colors.muted, fontSize: 12 },
 });

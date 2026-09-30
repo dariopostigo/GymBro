@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { CATEGORIES, EXERCISES, getExerciseById } from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
-import { getExerciseImageSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { ChevronIcon } from '../components/icons';
+import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import { Chip, EmptyState } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { Exercise } from '../types/exercise';
@@ -25,7 +25,7 @@ const noop = () => {};
 export default function ExercisePickerScreen({ route }: Props) {
   const params = route.params;
   const navigation = useNavigation<Nav>();
-  const { splits, updateDayExercises } = useRoutine();
+  const { splits, updateDayExercises, setDayOverride } = useRoutine();
   const { ref: listContainerRef, inset } = useKeyboardInset();
   const chipsRef = useRef<FlatList<string>>(null);
 
@@ -61,10 +61,8 @@ export default function ExercisePickerScreen({ route }: Props) {
 
   const handleSelect = (exercise: Exercise) => {
     if (params.mode === 'today') {
-      navigation.navigate('Main', {
-        screen: 'Today',
-        params: { swap: { slotId: params.slotId, exerciseId: exercise.id } },
-      });
+      setDayOverride(params.splitId, params.dayId, params.slotId, { exerciseId: exercise.id });
+      navigation.goBack();
       return;
     }
 
@@ -90,6 +88,9 @@ export default function ExercisePickerScreen({ route }: Props) {
           slot.id === params.slotId ? { ...slot, exerciseId: exercise.id } : slot,
         ),
       );
+      // Cambiar la plantilla manda sobre el cambio de ejercicio de hoy, pero las
+      // series que hayas ajustado para hoy se respetan.
+      setDayOverride(params.splitId, params.dayId, params.slotId, { exerciseId: undefined });
     }
     navigation.goBack();
   };
@@ -137,18 +138,13 @@ export default function ExercisePickerScreen({ route }: Props) {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           renderItem={({ item }) => {
-            const thumbnail = getExerciseImageSources(item)[0];
             return (
             <TouchableOpacity
               activeOpacity={0.85}
               style={styles.row}
               onPress={() => handleSelect(item)}
             >
-              {thumbnail ? (
-                <Image source={thumbnail} style={styles.thumbnail} />
-              ) : (
-                <View style={[styles.thumbnail, styles.thumbnailPlaceholder]} />
-              )}
+              <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
               <View style={styles.rowInfo}>
                 <Text style={styles.rowName} numberOfLines={1}>
                   {item.name}
@@ -205,9 +201,8 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     alignItems: 'center',
   },
-  thumbnail: { width: 48, height: 48, borderRadius: radius.sm, backgroundColor: colors.surfaceAlt },
-  thumbnailPlaceholder: {},
+  thumbnail: { width: 84, height: 84, borderRadius: radius.md, backgroundColor: colors.surfaceAlt },
   rowInfo: { flex: 1, gap: 2 },
-  rowName: { color: colors.text, fontWeight: '700', fontSize: 14 },
+  rowName: { color: colors.text, fontWeight: '700', fontSize: 15 },
   rowMeta: { color: colors.muted, fontSize: 12 },
 });

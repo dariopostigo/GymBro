@@ -8,6 +8,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const { NAME_ES } = require('./exerciseNamesEs');
+const { FREE_DB_IMAGES } = require('./exerciseImagesFree');
+const { loadFreeExerciseImages } = require('./freeExerciseDb');
 
 const API_BASE = 'https://wger.de/api/v2';
 const SPANISH_LANGUAGE_ID = 4;
@@ -98,11 +101,19 @@ function mapCategory(category) {
   };
 }
 
-function mapImages(images) {
-  return [...images]
+/**
+ * wger solo ilustra una parte del catálogo. Cuando no tiene foto propia se usa
+ * la equivalencia de FREE_DB_IMAGES (free-exercise-db, dominio público), que es
+ * lo que evita que la app se llene de huecos grises.
+ */
+function mapImages(images, exerciseId, freeImages) {
+  const propias = [...images]
     .sort((a, b) => Number(b.is_main) - Number(a.is_main))
     .map(img => img.thumbnails?.medium || img.image)
     .filter(Boolean);
+  if (propias.length) return propias;
+
+  return freeImages.get(FREE_DB_IMAGES[exerciseId]) || [];
 }
 
 function mapVideos(videos) {
@@ -131,6 +142,9 @@ async function main() {
   const rawExercises = await fetchAllExercises();
   console.log(`Descargados ${rawExercises.length} ejercicios en bruto.`);
 
+  const freeImages = await loadFreeExerciseImages();
+  console.log(`${freeImages.size} ejercicios con foto en free-exercise-db.`);
+
   const exercises = [];
   for (const raw of rawExercises) {
     const translation = pickTranslation(raw.translations);
@@ -139,13 +153,14 @@ async function main() {
     exercises.push({
       id: raw.id,
       uuid: raw.uuid,
-      name: translation.name,
+      // wger deja muchos nombres sin traducir: NAME_ES manda sobre la API.
+      name: NAME_ES[raw.id] || translation.name,
       description: stripHtml(translation.description || ''),
       category: mapCategory(raw.category),
       musclesPrimary: (raw.muscles || []).map(mapMuscle),
       musclesSecondary: (raw.muscles_secondary || []).map(mapMuscle),
       equipment: (raw.equipment || []).map(mapEquipment),
-      images: mapImages(raw.images || []),
+      images: mapImages(raw.images || [], raw.id, freeImages),
       videos: mapVideos(raw.videos),
     });
   }

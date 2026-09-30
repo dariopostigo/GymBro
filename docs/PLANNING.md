@@ -83,7 +83,7 @@ SetEntry                   (id, session_id, exercise_id, position_in_session, se
 - Script [`scripts/fetch-exercises.js`](../scripts/fetch-exercises.js) (`npm run fetch:exercises`): descarga `exerciseinfo` de wger, elige la traducción en español (con fallback a inglés), traduce categoría/músculo/equipo (vocabulario fijo, mapeado a mano) y guarda en [`src/data/exercises.json`](../src/data/exercises.json).
 - Tipos en [`src/types/exercise.ts`](../src/types/exercise.ts).
 - **Resultado**: 844 ejercicios guardados, 8 categorías (Pecho, Espalda, Piernas, Hombros, Brazos, Abdominales, Gemelos, Cardio).
-- **Caveat detectado**: solo **264/844** ejercicios tienen imagen y **46/844** tienen vídeo (limitación de los datos comunitarios de wger, no del script). A tener en cuenta en Fase 2/3: puede que al montar el split personal convenga priorizar ejercicios con imagen/vídeo disponible, o aceptar que algunos se muestren solo con descripción de texto.
+- **Caveat detectado**: solo **264/844** ejercicios tenían imagen y **46/844** vídeo (limitación de los datos comunitarios de wger, no del script). Resuelto en la Fase 9 completando el catálogo con free-exercise-db.
 
 ### Fase 2 — Splits y plantillas de día ✅ Hecho
 - Presets reales en [`src/data/splitPresets.ts`](../src/data/splitPresets.ts): **PPL** (Push/Pull/Legs), **Torso/Pierna** y **Bro Split** (Pecho/Espalda/Piernas/Hombros/Brazos), con ejercicios reales del catálogo (priorizando los que tienen imagen).
@@ -142,8 +142,17 @@ SetEntry                   (id, session_id, exercise_id, position_in_session, se
   - "Abdominales declinados": `1889` (elevación de piernas en banco declinado) → **`427` Crunches negativos**, que es el crunch en banco declinado y además tiene fotos.
   - "Jalón unilateral": `1795` (jalón cruzado en polea, catalogado en *Hombros* y con el deltoides como músculo principal) → **`1972` Jalón al pecho a un brazo** (*Espalda*, dorsales).
 - [`__tests__/pplPreset.test.ts`](../__tests__/pplPreset.test.ts) fija la rutina como contrato: nombres reales del catálogo y esquema `NxMin-Max` día por día, más una comprobación de que ningún preset apunta a un id inexistente.
-- Los 6 ejercicios del PPL sin foto en el catálogo de wger (Jalón al pecho, Sentadillas Hack, Hip thrust con barra, T-Bar row, Jalón al pecho a un brazo y Pájaro de pie) se completaron a mano en [`exercises.json`](../src/data/exercises.json) con imágenes de [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (dominio público, licencia Unlicense), servidas vía jsDelivr (`cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/...`) igual que las de wger ya son URLs remotas.
+- Los 6 ejercicios del PPL sin foto en el catálogo de wger (Jalón al pecho, Sentadillas Hack, Empuje de cadera con barra, Remo en T, Jalón al pecho a un brazo y Pájaro de pie) se completaron a mano en [`exercises.json`](../src/data/exercises.json) con imágenes de [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (dominio público, licencia Unlicense), servidas vía jsDelivr (`cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/...`) igual que las de wger ya son URLs remotas.
 - ⚠️ Pendiente conocido: [`loadSplits`](../src/storage/routineStorage.ts) reescribe los presets desde el código en cada arranque, así que los cambios que el usuario haga sobre un split de preset (editor de día) se pierden al reiniciar la app.
+
+### Fase 9 — Fotos para (casi) todo el catálogo ✅ Hecho
+- **Problema**: de 430 ejercicios, **231 salían sin foto**. Las que había se venían completando a mano (52 URLs escritas dentro de `exercises.json` + 55 imágenes locales en [`exerciseImageMap.ts`](../src/assets/exerciseImageMap.ts)), y además las 52 del JSON **se borraban en cada `npm run fetch:exercises`**, porque el script reescribe el fichero entero.
+- **Solución**: el emparejamiento wger ↔ [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (873 ejercicios ilustrados, dominio público) vive ahora en [`scripts/exerciseImagesFree.js`](../scripts/exerciseImagesFree.js), igual que `NAME_ES` para los nombres. Sobrevive a las descargas: `fetch-exercises.js` lo aplica al vuelo y [`apply-exercise-images.js`](../scripts/apply-exercise-images.js) (`npm run fix:exercise-images`) lo aplica al JSON ya descargado.
+- Los 231 se revisaron **uno a uno** comparando el nombre inglés de wger con el catálogo de free-exercise-db: 191 tienen equivalente y los 40 sin equivalente están listados en `SIN_EQUIVALENTE` para no repetir la búsqueda y para que el script avise de los ejercicios nuevos que entren sin revisar.
+- Criterio: la foto tiene que enseñar el mismo movimiento. Para variantes del mismo gesto que free-exercise-db no distingue (plancha, crunch, zancada...) se reutiliza la foto del gesto base; nunca se cuelga la foto de otro ejercicio.
+- **Resultado**: **390/430 con foto (91%)**, antes 199/430 (46%).
+- Los 40 restantes ya no dejan un cuadro gris: [`ExerciseThumbnail`](../src/components/ExerciseThumbnail.tsx) unifica el hueco (icono de mancuerna sobre el fondo de la tarjeta) en las cinco pantallas que lo pintaban cada una a su manera.
+- [`__tests__/exerciseImages.test.ts`](../__tests__/exerciseImages.test.ts) fija el resultado: sin foto solo los revisados, mínimo 90% ilustrado y ningún id huérfano en el mapa.
 
 ---
 
@@ -163,5 +172,6 @@ SetEntry                   (id, session_id, exercise_id, position_in_session, se
 - [x] Fase 6 — Menú principal navegable (tabs Inicio/Hoy/Rutina/Progreso) y rediseño visual negro + amarillo
 - [x] Fase 7 — Correcciones de UX (semana L→D, inputs sobre el teclado, animaciones de barra y transiciones, filtro precargado al cambiar ejercicio)
 - [x] Fase 8 — Rutina PPL de referencia verificada contra el catálogo y fijada con tests
+- [x] Fase 9 — Fotos para el 91% del catálogo (mapa a free-exercise-db que sobrevive a `fetch:exercises`) y hueco unificado para el resto
 
 **Proyecto v1 completo**: las 5 fases del roadmap original están implementadas. Pendiente de tu parte: instalar/correr en un emulador o dispositivo real (este entorno no tiene uno conectado) y probar el flujo de principio a fin para afinar cualquier detalle de UX.

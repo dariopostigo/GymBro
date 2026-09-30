@@ -6,6 +6,19 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest'),
 );
 
+// Reanimated arrastra react-native-worklets, que necesita su módulo nativo y
+// revienta al importarse en Jest (su propio /mock también lo importa). La app
+// solo usa Animated.View con `layout`, así que basta con este doble de cuerda.
+jest.mock('react-native-reanimated', () => {
+  const { View } = require('react-native');
+  const layoutTransition = { duration: () => layoutTransition, delay: () => layoutTransition };
+  return {
+    __esModule: true,
+    default: { View, createAnimatedComponent: component => component },
+    LinearTransition: layoutTransition,
+  };
+});
+
 // Sin este mock el SafeAreaProvider nunca recibe un layout en tests y no pinta hijos.
 jest.mock('react-native-safe-area-context', () =>
   require('react-native-safe-area-context/jest/mock').default,

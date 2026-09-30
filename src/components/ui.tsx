@@ -152,6 +152,54 @@ export function ProgressBar({ progress }: { progress: number }) {
   );
 }
 
+/**
+ * Control −/+ para valores pequeños (series, repeticiones).
+ * `stacked` apila etiqueta y controles (varios en fila); `inline` los enfrenta.
+ */
+export function Stepper({
+  label,
+  value,
+  layout = 'stacked',
+  minusDisabled,
+  plusDisabled,
+  onDecrease,
+  onIncrease,
+}: {
+  label: string;
+  value: React.ReactNode;
+  layout?: 'stacked' | 'inline';
+  minusDisabled?: boolean;
+  plusDisabled?: boolean;
+  onDecrease: () => void;
+  onIncrease: () => void;
+}) {
+  const button = (text: string, disabled: boolean | undefined, onPress: () => void) => (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={[styles.stepperButton, disabled && styles.stepperButtonDisabled]}
+      activeOpacity={0.7}
+      hitSlop={6}
+      accessibilityLabel={`${text === '−' ? 'Quitar' : 'Añadir'} ${label.toLowerCase()}`}
+    >
+      <Text style={[styles.stepperButtonText, disabled && styles.stepperButtonTextDisabled]}>
+        {text}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    <View style={layout === 'inline' ? styles.stepperInline : styles.stepperStacked}>
+      <Text style={styles.stepperLabel}>{label}</Text>
+      <View style={styles.stepperControls}>
+        {button('−', minusDisabled, onDecrease)}
+        <Text style={styles.stepperValue}>{value}</Text>
+        {button('+', plusDisabled, onIncrease)}
+      </View>
+    </View>
+  );
+}
+
 export function EmptyState({ title, hint }: { title: string; hint?: string }) {
   return (
     <View style={styles.empty}>
@@ -247,6 +295,37 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFill: { height: '100%', borderRadius: radius.pill, backgroundColor: colors.accent },
+  stepperStacked: { alignItems: 'center', gap: 6, flex: 1 },
+  stepperInline: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.md,
+    paddingVertical: 10,
+    paddingHorizontal: spacing.md,
+  },
+  stepperLabel: { ...overline, fontSize: 9, color: colors.muted },
+  stepperControls: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  stepperButton: {
+    width: 26,
+    height: 26,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surfaceHigh,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stepperButtonDisabled: { opacity: 0.35 },
+  stepperButtonText: { color: colors.accent, fontSize: 15, fontWeight: '800', lineHeight: 18 },
+  stepperButtonTextDisabled: { color: colors.muted },
+  stepperValue: {
+    color: colors.text,
+    fontWeight: '800',
+    fontSize: 15,
+    minWidth: 22,
+    textAlign: 'center',
+  },
   empty: { alignItems: 'center', gap: 6, paddingVertical: 48, paddingHorizontal: spacing.xxl },
   emptyTitle: { color: colors.textDim, fontSize: 15, fontWeight: '700', textAlign: 'center' },
   emptyHint: { color: colors.muted, fontSize: 13, textAlign: 'center', lineHeight: 18 },

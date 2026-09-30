@@ -54,13 +54,13 @@ const pplSplit: Split = {
       ex(204, 3, 8, 12), // Curl inclinado
       ex(1567, 3, 8, 12), // Curl martillo
       ex(465, 2, 8, 12), // Curl predicador
-      ex(1639, 4, 8, 20), // Facepull
+      ex(1639, 4, 8, 20), // Jalón a la cara
     ]),
     day('ppl-legs-1', 'Legs 1', 2, [
       ex(1414, 4, 8, 12), // Sentadilla Hack
       ex(206, 4, 8, 12), // Zancadas
       ex(1652, 4, 8, 12), // Peso muerto rumano
-      ex(294, 4, 8, 12), // Hip Thrust
+      ex(294, 4, 8, 12), // Empuje de cadera
       ex(622, 4, 8, 20), // Elevaciones de talones
       ex(427, 4, 8, 20), // Abdominales declinados (crunch en banco declinado)
     ]),
@@ -83,7 +83,7 @@ const pplSplit: Split = {
     ]),
     day('ppl-legs-2', 'Legs 2', 5, [
       ex(1706, 3, 8, 12), // Sentadilla búlgara
-      ex(294, 3, 8, 12), // Hip Thrust
+      ex(294, 3, 8, 12), // Empuje de cadera
       ex(364, 4, 8, 12), // Curl femoral
       ex(371, 4, 8, 12), // Prensa de pierna
       ex(622, 4, 8, 20), // Elevaciones de talones

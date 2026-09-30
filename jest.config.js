@@ -8,6 +8,8 @@ module.exports = {
       '|@react-navigation' +
       '|react-native-screens' +
       '|react-native-gesture-handler' +
+      '|react-native-reanimated' +
+      '|react-native-worklets' +
       '|react-native-safe-area-context)/)',
   ],
 };

@@ -2,7 +2,7 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 
 export type MainTabParamList = {
   Home: undefined;
-  Today: { swap?: { slotId: string; exerciseId: number } } | undefined;
+  Today: undefined;
   Routine: undefined;
   Progress: undefined;
 };
@@ -24,5 +24,11 @@ export type RootStackParamList = {
         slotId: string;
         currentExerciseId?: number;
       }
-    | { mode: 'today'; dayId: string; slotId: string; currentExerciseId?: number };
+    | {
+        mode: 'today';
+        splitId: string;
+        dayId: string;
+        slotId: string;
+        currentExerciseId?: number;
+      };
 };

@@ -37,6 +37,6 @@ test('con un split activo entra en el menú principal con sus pestañas', async 
 
   const texts = textContent(renderer!.toJSON());
   expect(texts).toContain('Menú principal');
-  expect(texts).toContain('Entrenar hoy');
+  expect(texts).toContain('Entrenamiento de hoy');
   expect(texts).toContain('Inicio');
 });

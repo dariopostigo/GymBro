@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
@@ -7,10 +7,11 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { getExerciseById } from '../data/exerciseCatalog';
-import { getExerciseImageSources } from '../utils/exerciseImages';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
+import TrendLine, { type TrendPoint } from '../components/TrendLine';
 import { ChevronIcon } from '../components/icons';
 import { Card, EmptyState, Overline, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
@@ -31,7 +32,12 @@ type Nav = CompositeNavigationProp<
 >;
 
 const CHART_HEIGHT = 96;
+const CHART_VALUE_HEIGHT = 12;
+const CHART_COLUMN_GAP = 6;
 const RECENT_SESSIONS = 5;
+
+const barHeight = (volume: number, maxVolume: number) =>
+  Math.max(4, (volume / maxVolume) * CHART_HEIGHT);
 
 const ExerciseSeparator = () => <View style={styles.separator} />;
 
@@ -53,9 +59,31 @@ export default function ProgressScreen() {
 
   const maxVolume = Math.max(1, ...week.map(d => d.volume));
 
+  const [chartWidth, setChartWidth] = useState(0);
+
+  // Puntos de la linea de tendencia: centro de cada columna, a la altura de la barra.
+  // Los dias futuros se omiten para que la linea no caiga a cero antes de tiempo.
+  const trendPoints = useMemo<TrendPoint[]>(() => {
+    if (chartWidth <= 0) {
+      return [];
+    }
+    const columnWidth = chartWidth / week.length;
+    return week.flatMap((day, index) =>
+      day.isFuture
+        ? []
+        : [
+            {
+              key: day.key,
+              highlight: day.isToday,
+              x: columnWidth * (index + 0.5),
+              y: CHART_HEIGHT - barHeight(day.volume, maxVolume),
+            },
+          ],
+    );
+  }, [chartWidth, week, maxVolume]);
+
   const renderExercise = ({ item, index }: { item: ExerciseSummary; index: number }) => {
     const exercise = getExerciseById(item.exerciseId);
-    const thumbnail = getExerciseImageSources(exercise)[0];
     return (
       <FadeInView delay={Math.min(index, 5) * 50}>
         <TouchableOpacity
@@ -63,11 +91,7 @@ export default function ProgressScreen() {
           style={styles.exerciseRow}
           onPress={() => navigation.navigate('ExerciseHistory', { exerciseId: item.exerciseId })}
         >
-          {thumbnail ? (
-            <Image source={thumbnail} style={styles.thumbnail} />
-          ) : (
-            <View style={[styles.thumbnail, styles.thumbnailPlaceholder]} />
-          )}
+          <ExerciseThumbnail exercise={exercise} style={styles.thumbnail} />
           <View style={styles.exerciseInfo}>
             <Text style={styles.exerciseName} numberOfLines={1}>
               {exercise?.name ?? `Ejercicio #${item.exerciseId}`}
@@ -106,33 +130,39 @@ export default function ProgressScreen() {
 
             <Card style={styles.chartCard}>
               <Overline>Volumen · esta semana</Overline>
-              <View style={styles.chart}>
-                {week.map(day => (
-                  <View key={day.key} style={styles.chartColumn}>
-                    <Text style={styles.chartValue}>
-                      {day.volume > 0 ? formatVolume(day.volume) : ''}
-                    </Text>
-                    <View style={styles.chartTrack}>
-                      <View
+              <View style={styles.chartArea}>
+                <View
+                  style={styles.chart}
+                  onLayout={event => setChartWidth(event.nativeEvent.layout.width)}
+                >
+                  {week.map(day => (
+                    <View key={day.key} style={styles.chartColumn}>
+                      <Text style={styles.chartValue}>
+                        {day.volume > 0 ? formatVolume(day.volume) : ''}
+                      </Text>
+                      <View style={styles.chartTrack}>
+                        <View
+                          style={[
+                            styles.chartBar,
+                            day.isToday && styles.chartBarToday,
+                            day.isFuture && styles.chartBarFuture,
+                            { height: barHeight(day.volume, maxVolume) },
+                          ]}
+                        />
+                      </View>
+                      <Text
                         style={[
-                          styles.chartBar,
-                          day.isToday && styles.chartBarToday,
-                          day.isFuture && styles.chartBarFuture,
-                          { height: Math.max(4, (day.volume / maxVolume) * CHART_HEIGHT) },
+                          styles.chartLabel,
+                          day.isToday && styles.chartLabelToday,
+                          day.isFuture && styles.chartLabelFuture,
                         ]}
-                      />
+                      >
+                        {day.label}
+                      </Text>
                     </View>
-                    <Text
-                      style={[
-                        styles.chartLabel,
-                        day.isToday && styles.chartLabelToday,
-                        day.isFuture && styles.chartLabelFuture,
-                      ]}
-                    >
-                      {day.label}
-                    </Text>
-                  </View>
-                ))}
+                  ))}
+                </View>
+                <TrendLine points={trendPoints} style={styles.trendOverlay} />
               </View>
             </Card>
 
@@ -183,9 +213,15 @@ const styles = StyleSheet.create({
   headerBlock: { gap: spacing.lg },
   statsRow: { flexDirection: 'row', gap: spacing.sm },
   chartCard: { gap: spacing.lg },
+  chartArea: { position: 'relative' },
   chart: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
-  chartColumn: { flex: 1, alignItems: 'center', gap: 6 },
-  chartValue: { color: colors.muted, fontSize: 9, fontWeight: '700', height: 12 },
+  chartColumn: { flex: 1, alignItems: 'center', gap: CHART_COLUMN_GAP },
+  chartValue: {
+    color: colors.muted,
+    fontSize: 9,
+    fontWeight: '700',
+    height: CHART_VALUE_HEIGHT,
+  },
   chartTrack: { height: CHART_HEIGHT, justifyContent: 'flex-end' },
   chartBar: { width: 18, borderRadius: 6, backgroundColor: colors.surfaceHigh },
   chartBarToday: { backgroundColor: colors.accent },
@@ -193,6 +229,7 @@ const styles = StyleSheet.create({
   chartLabel: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   chartLabelToday: { color: colors.accent },
   chartLabelFuture: { opacity: 0.5 },
+  trendOverlay: { top: CHART_VALUE_HEIGHT + CHART_COLUMN_GAP, height: CHART_HEIGHT },
   sectionTitle: { marginTop: spacing.xs, marginLeft: spacing.xs },
   sessionsCard: { padding: 0, marginBottom: spacing.xs },
   sessionRow: {
@@ -220,7 +257,6 @@ const styles = StyleSheet.create({
   },
   separator: { height: spacing.sm },
   thumbnail: { width: 46, height: 46, borderRadius: radius.sm, backgroundColor: colors.surfaceAlt },
-  thumbnailPlaceholder: {},
   exerciseInfo: { flex: 1, gap: 2 },
   exerciseName: { color: colors.text, fontSize: 14, fontWeight: '700' },
   exerciseMeta: { color: colors.muted, fontSize: 12 },

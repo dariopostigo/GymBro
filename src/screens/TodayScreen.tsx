@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
-import type { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
@@ -21,24 +21,36 @@ import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
+import { ExerciseImagePlaceholder } from '../components/ExerciseThumbnail';
 import ExerciseImageModal from '../components/ExerciseImageModal';
 import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
 import { ExpandIcon, HistoryIcon, PlusIcon, VideoIcon } from '../components/icons';
-import { Card, EmptyState, GhostButton, Overline, PrimaryButton, ScreenHeader } from '../components/ui';
+import {
+  Card,
+  EmptyState,
+  GhostButton,
+  Overline,
+  PrimaryButton,
+  ScreenHeader,
+  Stepper,
+} from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
 import { colors, overline, radius, spacing } from '../theme';
 
-type Props = BottomTabScreenProps<MainTabParamList, 'Today'>;
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList, 'Today'>,
   NativeStackNavigationProp<RootStackParamList>
 >;
 
 const noop = () => {};
+
+// Mismos límites que el editor del día, para que plantilla y "solo hoy" coincidan.
+const MIN_SETS = 1;
+const MAX_SETS = 10;
 
 interface ExerciseCardProps {
   slot: DayExerciseSlot;
@@ -50,6 +62,7 @@ interface ExerciseCardProps {
   onRemoveSet: (setEntryId: string) => void;
   onSwapToday: () => void;
   onSwapPermanent: () => void;
+  onChangeSets: (delta: number) => void;
   onViewHistory: () => void;
   onInputFocus: () => void;
 }
@@ -64,6 +77,7 @@ function ExerciseCard({
   onRemoveSet,
   onSwapToday,
   onSwapPermanent,
+  onChangeSets,
   onViewHistory,
   onInputFocus,
 }: ExerciseCardProps) {
@@ -154,9 +168,7 @@ function ExerciseCard({
             />
           </>
         ) : (
-          <View style={[styles.image, styles.imagePlaceholder]}>
-            <Text style={styles.imagePlaceholderText}>Sin imagen disponible</Text>
-          </View>
+          <ExerciseImagePlaceholder style={styles.image} iconSize={44} />
         )}
         <View style={styles.targetPill}>
           <Text style={styles.targetPillText}>
@@ -169,6 +181,16 @@ function ExerciseCard({
           </Text>
         </View>
       </View>
+
+      <Stepper
+        label="Series objetivo"
+        layout="inline"
+        value={slot.targetSets}
+        minusDisabled={slot.targetSets <= MIN_SETS}
+        plusDisabled={slot.targetSets >= MAX_SETS}
+        onDecrease={() => onChangeSets(-1)}
+        onIncrease={() => onChangeSets(1)}
+      />
 
       <View style={styles.swapRow}>
         <GhostButton label="Cambiar hoy" onPress={onSwapToday} style={styles.swapButton} />
@@ -240,9 +262,10 @@ function ExerciseCard({
   );
 }
 
-export default function TodayScreen({ route }: Props) {
+export default function TodayScreen() {
   const navigation = useNavigation<Nav>();
-  const { activeSplit, currentDay, advanceToNextDay } = useRoutine();
+  const { activeSplit, currentDay, advanceToNextDay, getDayOverrides, setDayOverride } =
+    useRoutine();
   const {
     getActiveSession,
     addSet,
@@ -251,15 +274,12 @@ export default function TodayScreen({ route }: Props) {
     getLastEntryForPosition,
     getLastEntryForMuscleGroupPosition,
   } = useSession();
-  const [overrides, setOverrides] = useState<Record<string, number>>({});
+  // Los cambios "solo por hoy" viven en el contexto: sobreviven a remontajes y al cierre de la app.
+  const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
   const { ref: listContainerRef, inset, visible: keyboardVisible } = useKeyboardInset();
   const listRef = useRef<FlatList<DayExerciseSlot>>(null);
   // Ejercicio cuyo input está enfocado; el "tick" repite el aviso en cada toque.
   const [focusRequest, setFocusRequest] = useState<{ index: number; tick: number } | null>(null);
-
-  useEffect(() => {
-    setOverrides({});
-  }, [currentDay?.id]);
 
   useEffect(() => {
     if (!keyboardVisible) setFocusRequest(null);
@@ -280,18 +300,19 @@ export default function TodayScreen({ route }: Props) {
     return () => cancelAnimationFrame(task);
   }, [focusRequest, keyboardVisible, inset]);
 
-  useEffect(() => {
-    const swap = route.params?.swap;
-    if (!swap) return;
-    setOverrides(prev => ({ ...prev, [swap.slotId]: swap.exerciseId }));
-    navigation.setParams({ swap: undefined });
-  }, [route.params?.swap, navigation]);
-
   const exercises = useMemo(() => {
     if (!currentDay) return [];
     return [...currentDay.exercises]
       .sort((a, b) => a.order - b.order)
-      .map(slot => (overrides[slot.id] ? { ...slot, exerciseId: overrides[slot.id] } : slot));
+      .map(slot => {
+        const override = overrides[slot.id];
+        if (!override) return slot;
+        return {
+          ...slot,
+          exerciseId: override.exerciseId ?? slot.exerciseId,
+          targetSets: override.targetSets ?? slot.targetSets,
+        };
+      });
   }, [currentDay, overrides]);
 
   const muscleGroupPositions = useMemo(
@@ -312,12 +333,14 @@ export default function TodayScreen({ route }: Props) {
   }
 
   const activeSession = getActiveSession(activeSplit.id, currentDay.id);
-  const targetSets = currentDay.exercises.reduce((sum, slot) => sum + slot.targetSets, 0);
+  // Con los ajustes de hoy aplicados: el objetivo del encabezado es el de la sesión real.
+  const targetSets = exercises.reduce((sum, slot) => sum + slot.targetSets, 0);
   const doneSets = activeSession?.sets.length ?? 0;
 
   const swapToday = (slot: DayExerciseSlot) => {
     navigation.navigate('ExercisePicker', {
       mode: 'today',
+      splitId: activeSplit.id,
       dayId: currentDay.id,
       slotId: slot.id,
       currentExerciseId: slot.exerciseId,
@@ -325,17 +348,22 @@ export default function TodayScreen({ route }: Props) {
   };
 
   const swapPermanent = (slot: DayExerciseSlot) => {
-    setOverrides(prev => {
-      const next = { ...prev };
-      delete next[slot.id];
-      return next;
-    });
     navigation.navigate('ExercisePicker', {
       mode: 'replace',
       splitId: activeSplit.id,
       dayId: currentDay.id,
       slotId: slot.id,
       currentExerciseId: slot.exerciseId,
+    });
+  };
+
+  const changeSets = (slot: DayExerciseSlot, delta: number) => {
+    const next = Math.min(Math.max(slot.targetSets + delta, MIN_SETS), MAX_SETS);
+    if (next === slot.targetSets) return;
+    // Volver al valor de la plantilla borra el ajuste en vez de guardarlo repetido.
+    const template = currentDay.exercises.find(s => s.id === slot.id)?.targetSets;
+    setDayOverride(activeSplit.id, currentDay.id, slot.id, {
+      targetSets: next === template ? undefined : next,
     });
   };
 
@@ -388,6 +416,7 @@ export default function TodayScreen({ route }: Props) {
           onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}
           onSwapToday={() => swapToday(item)}
           onSwapPermanent={() => swapPermanent(item)}
+          onChangeSets={delta => changeSets(item, delta)}
           onViewHistory={() =>
             navigation.navigate('ExerciseHistory', { exerciseId: item.exerciseId })
           }
@@ -419,7 +448,8 @@ export default function TodayScreen({ route }: Props) {
         <FlatList
           ref={listRef}
           data={exercises}
-          keyExtractor={item => item.id}
+          // El ejercicio entra en la key: al cambiarlo, la tarjeta se rehace con su sugerencia.
+          keyExtractor={item => `${item.id}:${item.exerciseId}`}
           renderItem={renderItem}
           contentContainerStyle={[styles.list, { paddingBottom: TAB_BAR_SPACE + inset }]}
           showsVerticalScrollIndicator={false}
@@ -500,8 +530,6 @@ const styles = StyleSheet.create({
   },
   mediaWrapper: { borderRadius: radius.md, overflow: 'hidden' },
   image: { width: '100%', height: 170, backgroundColor: colors.surfaceAlt },
-  imagePlaceholder: { alignItems: 'center', justifyContent: 'center' },
-  imagePlaceholderText: { color: colors.muted, fontSize: 13 },
   expandButton: {
     position: 'absolute',
     top: 10,

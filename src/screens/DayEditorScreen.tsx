@@ -1,18 +1,18 @@
 import React, { useMemo } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { getExerciseById } from '../data/exerciseCatalog';
-import { getExerciseImageSources } from '../utils/exerciseImages';
 import FadeInView from '../components/FadeInView';
 import { ChevronIcon } from '../components/icons';
-import { Card, EmptyState, GhostButton, Overline, ScreenHeader } from '../components/ui';
+import ExerciseThumbnail from '../components/ExerciseThumbnail';
+import { Card, EmptyState, GhostButton, Overline, ScreenHeader, Stepper } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
-import { colors, overline, radius, spacing } from '../theme';
+import { colors, radius, spacing } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DayEditor'>;
 type Nav = NativeStackNavigationProp<RootStackParamList, 'DayEditor'>;
@@ -23,33 +23,6 @@ function reorder(exercises: DayExerciseSlot[]): DayExerciseSlot[] {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
-}
-
-function Stepper({
-  label,
-  value,
-  onDecrease,
-  onIncrease,
-}: {
-  label: string;
-  value: number;
-  onDecrease: () => void;
-  onIncrease: () => void;
-}) {
-  return (
-    <View style={styles.stepper}>
-      <Text style={styles.stepperLabel}>{label}</Text>
-      <View style={styles.stepperControls}>
-        <TouchableOpacity onPress={onDecrease} style={styles.stepperButton} activeOpacity={0.7}>
-          <Text style={styles.stepperButtonText}>−</Text>
-        </TouchableOpacity>
-        <Text style={styles.stepperValue}>{value}</Text>
-        <TouchableOpacity onPress={onIncrease} style={styles.stepperButton} activeOpacity={0.7}>
-          <Text style={styles.stepperButtonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
 }
 
 export default function DayEditorScreen({ route }: Props) {
@@ -115,7 +88,6 @@ export default function DayEditorScreen({ route }: Props) {
 
   const renderItem = (item: DayExerciseSlot, index: number) => {
     const exercise = getExerciseById(item.exerciseId);
-    const thumbnail = getExerciseImageSources(exercise)[0];
     const isFirst = index === 0;
     const isLast = index === exercises.length - 1;
 
@@ -124,13 +96,7 @@ export default function DayEditorScreen({ route }: Props) {
         <FadeInView delay={Math.min(index, 4) * 60}>
           <Card style={styles.exerciseCard}>
             <View style={styles.exerciseRow}>
-              {thumbnail ? (
-                <Image source={thumbnail} style={styles.thumbnail} />
-              ) : (
-                <View style={[styles.thumbnail, styles.thumbnailPlaceholder]}>
-                  <Text style={styles.thumbnailPlaceholderText}>Sin{'\n'}imagen</Text>
-                </View>
-              )}
+              <ExerciseThumbnail exercise={exercise} style={styles.thumbnail} />
 
               <View style={styles.exerciseInfo}>
                 <Text style={styles.exerciseName} numberOfLines={2}>
@@ -253,8 +219,6 @@ const styles = StyleSheet.create({
   exerciseCard: { gap: spacing.lg },
   exerciseRow: { flexDirection: 'row', gap: spacing.md },
   thumbnail: { width: 64, height: 64, borderRadius: radius.sm, backgroundColor: colors.surfaceAlt },
-  thumbnailPlaceholder: { alignItems: 'center', justifyContent: 'center' },
-  thumbnailPlaceholderText: { color: colors.muted, fontSize: 10, textAlign: 'center' },
   exerciseInfo: { flex: 1, gap: 3 },
   exerciseName: { color: colors.text, fontWeight: '800', fontSize: 15 },
   exerciseMeta: { color: colors.muted, fontSize: 12 },
@@ -277,19 +241,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.sm,
   },
-  stepper: { alignItems: 'center', gap: 6, flex: 1 },
-  stepperLabel: { ...overline, fontSize: 9, color: colors.muted },
-  stepperControls: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  stepperButton: {
-    width: 26,
-    height: 26,
-    borderRadius: radius.pill,
-    backgroundColor: colors.surfaceHigh,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  stepperButtonText: { color: colors.accent, fontSize: 15, fontWeight: '800', lineHeight: 18 },
-  stepperValue: { color: colors.text, fontWeight: '800', fontSize: 15, minWidth: 22, textAlign: 'center' },
   removeButton: { alignSelf: 'flex-start' },
   removeButtonText: { color: colors.danger, fontSize: 12, fontWeight: '700' },
   footer: { gap: spacing.sm, marginTop: spacing.xs },
