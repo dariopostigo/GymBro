@@ -12,6 +12,7 @@ import {
   GridIcon,
   HomeIcon,
   PlusIcon,
+  SettingsIcon,
   type IconProps,
 } from './icons';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
@@ -86,6 +87,11 @@ export default function DrawerContent() {
     navigation.navigate('ExerciseLibrary');
   };
 
+  const goToSettings = () => {
+    closeDrawer();
+    navigation.navigate('Settings');
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -135,6 +141,11 @@ export default function DrawerContent() {
             active={false}
             onPress={goToSplitSelection}
           />
+        </View>
+
+        <Text style={styles.sectionTitle}>Configuración</Text>
+        <View style={styles.navGroup}>
+          <NavRow Icon={SettingsIcon} label="Ajustes" active={false} onPress={goToSettings} />
         </View>
       </ScrollView>
     </SafeAreaView>

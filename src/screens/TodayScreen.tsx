@@ -10,17 +10,21 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import KeepAwake from '@sayem314/react-native-keep-awake';
+import { useRestTimer } from '../context/RestTimerContext';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
+import { useSettings } from '../context/SettingsContext';
 import { getExerciseById } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import { REST_BAR_SPACE } from '../components/RestTimerBar';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import { ExerciseImagePlaceholder } from '../components/ExerciseThumbnail';
 import ExerciseImageModal from '../components/ExerciseImageModal';
@@ -34,6 +38,7 @@ import {
   ExpandIcon,
   HistoryIcon,
   PlusIcon,
+  TrendingUpIcon,
   VideoIcon,
 } from '../components/icons';
 import {
@@ -48,6 +53,12 @@ import {
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
+import {
+  formatWeight,
+  lastSessionSets,
+  suggestNextLoad,
+  type LoadSuggestion,
+} from '../utils/progression';
 import { colors, overline, radius, spacing } from '../theme';
 
 type Nav = CompositeNavigationProp<
@@ -66,7 +77,7 @@ interface ExerciseCardProps {
   positionInSession: number;
   positionInMuscleGroup?: number;
   loggedSets: SetEntry[];
-  suggested?: { weight: number; reps: number };
+  suggested?: LoadSuggestion;
   onAddSet: (weight: number, reps: number) => void;
   onRemoveSet: (setEntryId: string) => void;
   onSwapToday: () => void;
@@ -93,28 +104,16 @@ function ExerciseCard({
   const exercise = getExerciseById(slot.exerciseId);
   const media = getExerciseMediaSources(exercise);
   const video = media.find(item => item.type === 'video');
-  const [weightText, setWeightText] = useState(
-    suggested ? String(suggested.weight) : '',
-  );
-  const [repsText, setRepsText] = useState(
-    suggested ? String(suggested.reps) : '',
-  );
+  const [weightText, setWeightText] = useState(suggested ? String(suggested.weight) : '');
+  const [repsText, setRepsText] = useState(suggested ? String(suggested.reps) : '');
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
 
   const handleAdd = () => {
     const weight = parseFloat(weightText.replace(',', '.'));
     const reps = parseInt(repsText, 10);
-    if (
-      !Number.isFinite(weight) ||
-      weight <= 0 ||
-      !Number.isFinite(reps) ||
-      reps <= 0
-    ) {
-      Alert.alert(
-        'Datos inválidos',
-        'Introduce un peso y unas repeticiones válidas.',
-      );
+    if (!Number.isFinite(weight) || weight <= 0 || !Number.isFinite(reps) || reps <= 0) {
+      Alert.alert('Datos inválidos', 'Introduce un peso y unas repeticiones válidas.');
       return;
     }
     onAddSet(weight, reps);
@@ -140,29 +139,17 @@ function ExerciseCard({
   };
 
   return (
-    <Card
-      style={[styles.card, collapsed && isComplete && styles.cardDone]}
-      elevated
-    >
+    <Card style={[styles.card, collapsed && isComplete && styles.cardDone]} elevated>
       <TouchableOpacity
         style={styles.cardHead}
         onPress={toggleCollapsed}
         activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityState={{ expanded: !collapsed }}
-        accessibilityLabel={
-          collapsed ? 'Desplegar ejercicio' : 'Plegar ejercicio'
-        }
+        accessibilityLabel={collapsed ? 'Desplegar ejercicio' : 'Plegar ejercicio'}
       >
-        <View
-          style={[styles.positionBadge, isComplete && styles.positionBadgeDone]}
-        >
-          <Text
-            style={[
-              styles.positionBadgeText,
-              isComplete && styles.positionBadgeTextDone,
-            ]}
-          >
+        <View style={[styles.positionBadge, isComplete && styles.positionBadgeDone]}>
+          <Text style={[styles.positionBadgeText, isComplete && styles.positionBadgeTextDone]}>
             {positionInSession}
           </Text>
         </View>
@@ -188,11 +175,7 @@ function ExerciseCard({
         >
           <HistoryIcon size={18} color={colors.accent} />
         </TouchableOpacity>
-        <ChevronIcon
-          direction={collapsed ? 'down' : 'up'}
-          size={20}
-          color={colors.muted}
-        />
+        <ChevronIcon direction={collapsed ? 'down' : 'up'} size={20} color={colors.muted} />
       </TouchableOpacity>
 
       {collapsed ? (
@@ -258,15 +241,8 @@ function ExerciseCard({
                 {slot.targetSets} × {slot.targetRepsMin}-{slot.targetRepsMax}
               </Text>
             </View>
-            <View
-              style={[styles.donePill, isComplete && styles.donePillComplete]}
-            >
-              <Text
-                style={[
-                  styles.donePillText,
-                  isComplete && styles.donePillTextComplete,
-                ]}
-              >
+            <View style={[styles.donePill, isComplete && styles.donePillComplete]}>
+              <Text style={[styles.donePillText, isComplete && styles.donePillTextComplete]}>
                 {done}/{slot.targetSets}
               </Text>
             </View>
@@ -283,11 +259,7 @@ function ExerciseCard({
           />
 
           <View style={styles.swapRow}>
-            <GhostButton
-              label="Cambiar hoy"
-              onPress={onSwapToday}
-              style={styles.swapButton}
-            />
+            <GhostButton label="Cambiar hoy" onPress={onSwapToday} style={styles.swapButton} />
             <GhostButton
               label="Cambiar en plantilla"
               onPress={onSwapPermanent}
@@ -299,9 +271,7 @@ function ExerciseCard({
 
           <Overline>Series de hoy</Overline>
           {loggedSets.length === 0 ? (
-            <Text style={styles.noSetsText}>
-              Todavía no has registrado ninguna serie.
-            </Text>
+            <Text style={styles.noSetsText}>Todavía no has registrado ninguna serie.</Text>
           ) : (
             <View style={styles.setList}>
               {loggedSets.map(set => (
@@ -314,21 +284,30 @@ function ExerciseCard({
                       <Text style={styles.setRowStrong}>{set.weight}</Text> kg ×{' '}
                       <Text style={styles.setRowStrong}>{set.reps}</Text> reps
                     </Text>
-                    <TouchableOpacity
-                      onPress={() => onRemoveSet(set.id)}
-                      hitSlop={8}
-                    >
+                    <TouchableOpacity onPress={() => onRemoveSet(set.id)} hitSlop={8}>
                       <View style={styles.removeSetIcon}>
-                        <CloseIcon
-                          size={14}
-                          color={colors.danger}
-                          strokeWidth={2.5}
-                        />
+                        <CloseIcon size={14} color={colors.danger} strokeWidth={2.5} />
                       </View>
                     </TouchableOpacity>
                   </View>
                 </FadeInView>
               ))}
+            </View>
+          )}
+
+          {suggested && (
+            <View style={styles.suggestion}>
+              {suggested.increase && <TrendingUpIcon size={16} color={colors.accent} />}
+              <Text style={styles.suggestionText}>
+                {suggested.increase ? (
+                  <Text style={styles.suggestionStrong}>
+                    Sube a {formatWeight(suggested.weight)} kg ·{' '}
+                  </Text>
+                ) : null}
+                Última vez: {formatWeight(suggested.previous.weight)} kg ×{' '}
+                {suggested.previous.reps.join(' · ')}
+                {suggested.increase ? '' : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
+              </Text>
             </View>
           )}
 
@@ -359,11 +338,7 @@ function ExerciseCard({
                 style={styles.setInput}
               />
             </View>
-            <TouchableOpacity
-              style={styles.addSetButton}
-              onPress={handleAdd}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity style={styles.addSetButton} onPress={handleAdd} activeOpacity={0.85}>
               <PlusIcon size={20} color={colors.onAccent} />
             </TouchableOpacity>
           </View>
@@ -375,28 +350,21 @@ function ExerciseCard({
 
 export default function TodayScreen() {
   const navigation = useNavigation<Nav>();
-  const {
-    activeSplit,
-    currentDay,
-    advanceToNextDay,
-    getDayOverrides,
-    setDayOverride,
-  } = useRoutine();
+  const { activeSplit, currentDay, advanceToNextDay, getDayOverrides, setDayOverride } =
+    useRoutine();
   const {
     getActiveSession,
     addSet,
     removeSet,
     finishSession,
-    getLastEntryForPosition,
-    getLastEntryForMuscleGroupPosition,
+    sessions,
   } = useSession();
   // Los cambios "solo por hoy" viven en el contexto: sobreviven a remontajes y al cierre de la app.
   const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
-  const {
-    ref: listContainerRef,
-    inset,
-    visible: keyboardVisible,
-  } = useKeyboardInset();
+  const { settings } = useSettings();
+  const { timer: restTimer, start: startRest } = useRestTimer();
+  const isFocused = useIsFocused();
+  const { ref: listContainerRef, inset, visible: keyboardVisible } = useKeyboardInset();
   const listRef = useRef<FlatList<DayExerciseSlot>>(null);
   // Ejercicio cuyo input está enfocado; el "tick" repite el aviso en cada toque.
   const [focusRequest, setFocusRequest] = useState<{
@@ -438,19 +406,12 @@ export default function TodayScreen() {
       });
   }, [currentDay, overrides]);
 
-  const muscleGroupPositions = useMemo(
-    () => computeMuscleGroupPositions(exercises),
-    [exercises],
-  );
+  const muscleGroupPositions = useMemo(() => computeMuscleGroupPositions(exercises), [exercises]);
 
   if (!activeSplit || !currentDay) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScreenHeader
-          overline="Entrenamiento"
-          title="Hoy"
-          left={<MenuButton />}
-        />
+        <ScreenHeader overline="Entrenamiento" title="Hoy" left={<MenuButton />} />
         <EmptyState
           title="No hay split activo"
           hint="Elige una rutina desde el menú principal para empezar a entrenar."
@@ -485,15 +446,10 @@ export default function TodayScreen() {
   };
 
   const changeSets = (slot: DayExerciseSlot, delta: number) => {
-    const next = Math.min(
-      Math.max(slot.targetSets + delta, MIN_SETS),
-      MAX_SETS,
-    );
+    const next = Math.min(Math.max(slot.targetSets + delta, MIN_SETS), MAX_SETS);
     if (next === slot.targetSets) return;
     // Volver al valor de la plantilla borra el ajuste en vez de guardarlo repetido.
-    const template = currentDay.exercises.find(
-      s => s.id === slot.id,
-    )?.targetSets;
+    const template = currentDay.exercises.find(s => s.id === slot.id)?.targetSets;
     setDayOverride(activeSplit.id, currentDay.id, slot.id, {
       targetSets: next === template ? undefined : next,
     });
@@ -516,26 +472,21 @@ export default function TodayScreen() {
     );
   };
 
-  const renderItem = ({
-    item,
-    index,
-  }: {
-    item: DayExerciseSlot;
-    index: number;
-  }) => {
+  const renderItem = ({ item, index }: { item: DayExerciseSlot; index: number }) => {
     const positionInSession = index + 1;
     const positionInMuscleGroup = muscleGroupPositions.get(item.id);
-    const loggedSets = (activeSession?.sets ?? []).filter(
-      s => s.exerciseId === item.exerciseId,
+    const loggedSets = (activeSession?.sets ?? []).filter(s => s.exerciseId === item.exerciseId);
+    // La sesión de hoy no cuenta: la sugerencia no cambia a mitad del entreno.
+    const suggestion = suggestNextLoad(
+      lastSessionSets(
+        sessions,
+        item.exerciseId,
+        { positionInSession, positionInMuscleGroup },
+        activeSession?.id,
+      ),
+      { sets: item.targetSets, repsMin: item.targetRepsMin, repsMax: item.targetRepsMax },
+      settings.weightIncrement,
     );
-    const suggestion =
-      (positionInMuscleGroup !== undefined
-        ? getLastEntryForMuscleGroupPosition(
-            item.exerciseId,
-            positionInMuscleGroup,
-          )
-        : undefined) ??
-      getLastEntryForPosition(item.exerciseId, positionInSession);
 
     return (
       <FadeInView delay={Math.min(index, 4) * 60}>
@@ -544,12 +495,9 @@ export default function TodayScreen() {
           positionInSession={positionInSession}
           positionInMuscleGroup={positionInMuscleGroup}
           loggedSets={loggedSets}
-          suggested={
-            suggestion
-              ? { weight: suggestion.weight, reps: suggestion.reps }
-              : undefined
-          }
-          onAddSet={(weight, reps) =>
+          suggested={suggestion}
+          onAddSet={(weight, reps) => {
+            startRest();
             addSet({
               splitId: activeSplit.id,
               splitDayId: currentDay.id,
@@ -559,11 +507,9 @@ export default function TodayScreen() {
               positionInMuscleGroup,
               weight,
               reps,
-            })
-          }
-          onRemoveSet={setEntryId =>
-            activeSession && removeSet(activeSession.id, setEntryId)
-          }
+            });
+          }}
+          onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}
           onSwapToday={() => swapToday(item)}
           onSwapPermanent={() => swapPermanent(item)}
           onChangeSets={delta => changeSets(item, delta)}
@@ -580,6 +526,7 @@ export default function TodayScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
+      {settings.keepScreenOn && isFocused && <KeepAwake />}
       <ScreenHeader
         overline={activeSplit.name}
         title={currentDay.name}
@@ -605,7 +552,7 @@ export default function TodayScreen() {
           renderItem={renderItem}
           contentContainerStyle={[
             styles.list,
-            { paddingBottom: TAB_BAR_SPACE + inset },
+            { paddingBottom: TAB_BAR_SPACE + (restTimer ? REST_BAR_SPACE : 0) + inset },
           ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
@@ -789,6 +736,9 @@ const styles = StyleSheet.create({
   setRowText: { color: colors.textDim, fontSize: 14, flex: 1 },
   setRowStrong: { color: colors.text, fontWeight: '800' },
   removeSetIcon: { paddingHorizontal: 4 },
+  suggestion: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  suggestionText: { flex: 1, color: colors.muted, fontSize: 12.5, lineHeight: 17 },
+  suggestionStrong: { color: colors.accent, fontWeight: '800' },
   addSetRow: { flexDirection: 'row', gap: spacing.sm, alignItems: 'flex-end' },
   inputWrapper: { flex: 1, gap: 4 },
   inputLabel: {

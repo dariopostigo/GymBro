@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Dimensions, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import MainTabs from './MainTabs';
 import DrawerContent from '../components/DrawerContent';
+import RestTimerBar from '../components/RestTimerBar';
 import { DrawerProvider, useDrawer } from '../context/DrawerContext';
 import { colors } from '../theme';
 
@@ -47,6 +48,7 @@ export default function MainWithDrawer() {
     <DrawerProvider>
       <View style={styles.root}>
         <MainTabs />
+        <RestTimerBar />
         <DrawerOverlay />
       </View>
     </DrawerProvider>

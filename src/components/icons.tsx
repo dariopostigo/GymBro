@@ -14,8 +14,10 @@ import {
   LayoutGrid,
   Maximize2,
   Plus,
+  Settings,
   SquarePlay,
   Star,
+  TrendingUp,
   X,
   type LucideIcon,
 } from 'lucide-react-native';
@@ -61,6 +63,10 @@ export const GridIcon = wrap(LayoutGrid);
 export const CheckIcon = wrap(Check);
 /** Cerrar modales / eliminar elementos. */
 export const CloseIcon = wrap(X);
+/** Sugerencia de subir peso. */
+export const TrendingUpIcon = wrap(TrendingUp);
+/** Pantalla de ajustes. */
+export const SettingsIcon = wrap(Settings);
 
 const CHEVRONS = {
   right: ChevronRight,

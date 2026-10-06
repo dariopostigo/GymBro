@@ -10,6 +10,7 @@ import DayEditorScreen from '../screens/DayEditorScreen';
 import ExercisePickerScreen from '../screens/ExercisePickerScreen';
 import ExerciseLibraryScreen from '../screens/ExerciseLibraryScreen';
 import ExerciseHistoryScreen from '../screens/ExerciseHistoryScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import type { RootStackParamList } from './types';
 import { colors } from '../theme';
 
@@ -92,6 +93,7 @@ export default function RootNavigator() {
           component={ExerciseHistoryScreen}
           options={{ title: 'Historial' }}
         />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ajustes' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

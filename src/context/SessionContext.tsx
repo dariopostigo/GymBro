@@ -22,14 +22,6 @@ interface SessionContextValue {
   removeSet: (sessionId: string, setEntryId: string) => void;
   finishSession: (sessionId: string) => void;
   getEntriesForExercise: (exerciseId: number) => ExerciseHistoryEntry[];
-  getLastEntryForPosition: (
-    exerciseId: number,
-    positionInSession: number,
-  ) => ExerciseHistoryEntry | undefined;
-  getLastEntryForMuscleGroupPosition: (
-    exerciseId: number,
-    positionInMuscleGroup: number,
-  ) => ExerciseHistoryEntry | undefined;
 }
 
 const SessionContext = createContext<SessionContextValue | null>(null);
@@ -128,26 +120,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     [sessions],
   );
 
-  const getLastEntryForPosition = useCallback(
-    (exerciseId: number, positionInSession: number) => {
-      const matches = getEntriesForExercise(exerciseId).filter(
-        e => e.positionInSession === positionInSession,
-      );
-      return matches.length ? matches[matches.length - 1] : undefined;
-    },
-    [getEntriesForExercise],
-  );
-
-  const getLastEntryForMuscleGroupPosition = useCallback(
-    (exerciseId: number, positionInMuscleGroup: number) => {
-      const matches = getEntriesForExercise(exerciseId).filter(
-        e => e.positionInMuscleGroup === positionInMuscleGroup,
-      );
-      return matches.length ? matches[matches.length - 1] : undefined;
-    },
-    [getEntriesForExercise],
-  );
-
   const value: SessionContextValue = {
     loading,
     sessions,
@@ -156,8 +128,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     removeSet,
     finishSession,
     getEntriesForExercise,
-    getLastEntryForPosition,
-    getLastEntryForMuscleGroupPosition,
   };
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

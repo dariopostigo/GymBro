@@ -2,20 +2,15 @@
 
 ## Prioridad alta
 
-- [ ] **Copia de seguridad (exportar / importar datos)**
-  Todo vive solo en AsyncStorage: si se desinstala la app, se reinstala o se cambia de móvil, se pierden rutinas, historial y favoritos.
-  - Botón "Exportar datos" que genere un archivo JSON y abra el menú de compartir (Drive, Telegram...).
-  - Botón "Importar datos" que lo restaure (pasando los ids por `canonicalExerciseId`, como al cargar).
-
-- [ ] **Temporizador de descanso**
+- [x] **Temporizador de descanso** (desactivable en Ajustes)
   - Arranca solo al apuntar una serie.
   - Duración configurable (p. ej. 90 s por defecto).
   - Vibración al terminar.
 
-- [ ] **Sugerencia de sobrecarga progresiva**
+- [x] **Sugerencia de sobrecarga progresiva** (incremento en Ajustes)
   Si en la última sesión se llegó a `targetRepsMax` en todas las series, proponer subir peso (p. ej. +2,5 kg) en vez de repetir lo de la última vez.
 
-- [ ] **Pantalla siempre encendida** mientras se está en la pestaña Hoy.
+- [x] **Pantalla siempre encendida** mientras se está en la pestaña Hoy.
 
 ## Muy útil
 
@@ -26,6 +21,11 @@
 - [ ] **Notas** por ejercicio o por sesión (altura del asiento, molestias...).
 
 ## Si apetece
+
+- [ ] **Copia de seguridad (exportar / importar datos)**
+  Todo vive solo en AsyncStorage: si se desinstala la app, se reinstala o se cambia de móvil, se pierden rutinas, historial y favoritos.
+  - Botón "Exportar datos" que genere un archivo JSON y abra el menú de compartir (Drive, Telegram...).
+  - Botón "Importar datos" que lo restaure (pasando los ids por `canonicalExerciseId`, como al cargar).
 
 - [ ] Registro de peso corporal con gráfica.
 - [ ] Calendario con los días entrenados.
