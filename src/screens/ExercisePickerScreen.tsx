@@ -7,8 +7,11 @@ import { useRoutine } from '../context/RoutineContext';
 import { CATEGORIES, EXERCISES, getExerciseById } from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
+import { useFavorites } from '../context/FavoritesContext';
+import { searchExercises } from '../utils/exerciseSearch';
 import { ChevronIcon } from '../components/icons';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
+import FavoriteButton from '../components/FavoriteButton';
 import { Chip, EmptyState } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { Exercise } from '../types/exercise';
@@ -35,6 +38,7 @@ export default function ExercisePickerScreen({ route }: Props) {
     return getExerciseById(params.currentExerciseId)?.category.name ?? null;
   }, [params]);
 
+  const { favoriteIds } = useFavorites();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<string | null>(currentCategory);
 
@@ -49,15 +53,10 @@ export default function ExercisePickerScreen({ route }: Props) {
     return () => cancelAnimationFrame(task);
   }, [currentCategory]);
 
-  const filtered = useMemo(() => {
-    const queryWords = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    return EXERCISES.filter(e => {
-      const matchesCategory = !category || e.category.name === category;
-      const name = e.name.toLowerCase();
-      const matchesSearch = queryWords.every(word => name.includes(word));
-      return matchesCategory && matchesSearch;
-    });
-  }, [search, category]);
+  const filtered = useMemo(
+    () => searchExercises(EXERCISES, { search, category, favoriteIds }),
+    [search, category, favoriteIds],
+  );
 
   const handleSelect = (exercise: Exercise) => {
     if (params.mode === 'today') {
@@ -156,6 +155,7 @@ export default function ExercisePickerScreen({ route }: Props) {
                     : ''}
                 </Text>
               </View>
+              <FavoriteButton exerciseId={item.id} />
               <ChevronIcon size={16} color={colors.muted} />
             </TouchableOpacity>
             );

@@ -20,7 +20,6 @@ export const EXERCISE_IMAGE_MAP: Record<string, ImageSourcePropType[]> = {
   '2e7ffff9-e603-4b28-98c8-31d1a6ce8cd9': [require('./exercises-local/2e7ffff9-e603-4b28-98c8-31d1a6ce8cd9/1.png')], // Peso muerto rumano con barra
   '6f79b381-98a4-40d5-8a45-3bb0558be6fe': [require('./exercises-local/6f79b381-98a4-40d5-8a45-3bb0558be6fe/1.png')], // Elevaciones Posteriores
   'a2f5b6ef-b780-49c0-8d96-fdaff23e27ce': [require('./exercises-local/a2f5b6ef-b780-49c0-8d96-fdaff23e27ce/1.png')], // Sentadillas
-  '117df66c-bc8d-43cc-9903-0be2a0864486': [require('./exercises-local/117df66c-bc8d-43cc-9903-0be2a0864486/1.png')], // Press Banca Sentado
   '2ac901e6-f0c2-416f-998f-e01e00fe0aa1': [require('./exercises-local/2ac901e6-f0c2-416f-998f-e01e00fe0aa1/1.png')], // Crunch abdominal
   'c5015ed9-042b-42d3-9dac-13759ea9571e': [require('./exercises-local/c5015ed9-042b-42d3-9dac-13759ea9571e/1.png')], // Caminata lateral
   'f9a0a918-3c0c-464e-bbba-1bd309d4a519': [require('./exercises-local/f9a0a918-3c0c-464e-bbba-1bd309d4a519/1.png')], // Zancada con el peso corporal

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Modal, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import Video from 'react-native-video';
+import { CloseIcon } from './icons';
 import { colors, radius, spacing } from '../theme';
 
 interface Props {
@@ -32,7 +33,7 @@ export default function ExerciseVideoModal({ visible, uri, onClose }: Props) {
             repeat
           />
           <Pressable style={styles.closeButton} onPress={onClose} hitSlop={10}>
-            <Text style={styles.closeText}>✕</Text>
+            <CloseIcon size={18} color={colors.text} strokeWidth={2.5} />
           </Pressable>
         </View>
       </View>
@@ -66,5 +67,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(13, 14, 16, 0.82)',
   },
-  closeText: { color: colors.text, fontSize: 16, fontWeight: '700' },
 });

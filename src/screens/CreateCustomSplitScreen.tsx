@@ -7,6 +7,7 @@ import { useRoutine } from '../context/RoutineContext';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import FadeInView from '../components/FadeInView';
 import { GhostButton, Overline, PrimaryButton } from '../components/ui';
+import { CloseIcon } from '../components/icons';
 import type { RootStackParamList } from '../navigation/types';
 import { colors, radius, spacing } from '../theme';
 
@@ -83,7 +84,7 @@ export default function CreateCustomSplitScreen() {
                 />
                 {dayNames.length > 1 && (
                   <TouchableOpacity onPress={() => removeDay(index)} style={styles.removeButton}>
-                    <Text style={styles.removeButtonText}>✕</Text>
+                    <CloseIcon size={16} color={colors.danger} strokeWidth={2.5} />
                   </TouchableOpacity>
                 )}
               </View>
@@ -141,7 +142,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  removeButtonText: { color: colors.danger, fontSize: 15, fontWeight: '700' },
   addDayButton: { marginTop: spacing.xs },
   createButton: { marginTop: spacing.sm },
 });

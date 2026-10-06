@@ -17,7 +17,7 @@
 const fs = require('fs');
 const path = require('path');
 const { FREE_DB_IMAGES, SIN_EQUIVALENTE } = require('./exerciseImagesFree');
-const { loadFreeExerciseImages, IMAGE_BASE } = require('./freeExerciseDb');
+const { loadFreeExerciseImages, isFreeDbImageUrl } = require('./freeExerciseDb');
 
 const CATALOG_PATH = path.join(__dirname, '..', 'src', 'data', 'exercises.json');
 const LOCAL_MAP_PATH = path.join(__dirname, '..', 'src', 'assets', 'exerciseImageMap.ts');
@@ -61,7 +61,7 @@ async function main() {
 
     // Si wger ya ilustra el ejercicio, su foto manda: es la del ejercicio
     // exacto, no una equivalencia nuestra.
-    const propias = exercise.images.filter(url => !url.startsWith(IMAGE_BASE));
+    const propias = exercise.images.filter(url => !isFreeDbImageUrl(url));
     if (propias.length) {
       conFotoPropia.push(`${wgerId} (${exercise.name})`);
       continue;

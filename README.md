@@ -5,8 +5,12 @@ Template de React Native (CLI, TypeScript) para una app de gimnasio y fitness. I
 ## Requisitos
 
 - Node.js >= 22.11
-- JDK 17 y [Android Studio](https://developer.android.com/studio) configurado (SDK + emulador o dispositivo físico con depuración USB)
+- JDK 17 o superior y [Android Studio](https://developer.android.com/studio) configurado (SDK + emulador o dispositivo físico con depuración USB)
 - Solo en macOS, si además quieres compilar para iOS: Xcode y CocoaPods
+
+Gradle usa el SDK de `android/local.properties` (`sdk.dir=...`, no se sube a git) o, si no existe, `ANDROID_HOME`. Comprueba que apunta a un SDK con el NDK `27.1.12297006` (o sus licencias aceptadas, para que Gradle lo descargue).
+
+Las imágenes de `src/assets/exercises-local/` no están en git (copyright). Si faltan, la app usa las imágenes remotas del catálogo.
 
 ## Empezar
 

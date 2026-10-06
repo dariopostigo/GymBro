@@ -1,3 +1,4 @@
+/* eslint-env node */
 /**
  * Descarga las ilustraciones de ejercicios de simplyfitness.com para USO LOCAL
  * Y PERSONAL únicamente (contenido con copyright de un sitio comercial de

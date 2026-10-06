@@ -9,6 +9,8 @@
 const fs = require('fs');
 const path = require('path');
 const { NAME_ES } = require('./exerciseNamesEs');
+const { CUSTOM_EXERCISES } = require('./customExercises');
+const { applyExerciseFixes } = require('./exerciseFixes');
 const { FREE_DB_IMAGES } = require('./exerciseImagesFree');
 const { loadFreeExerciseImages } = require('./freeExerciseDb');
 
@@ -48,7 +50,7 @@ const EQUIPMENT_ES = {
 
 const MUSCLE_ES = {
   1: 'Bíceps',
-  2: 'Hombros (deltoide anterior)',
+  2: 'Hombros (deltoides)',
   3: 'Serrato anterior',
   4: 'Pecho',
   5: 'Tríceps',
@@ -145,12 +147,12 @@ async function main() {
   const freeImages = await loadFreeExerciseImages();
   console.log(`${freeImages.size} ejercicios con foto en free-exercise-db.`);
 
-  const exercises = [];
+  const fetched = [];
   for (const raw of rawExercises) {
     const translation = pickTranslation(raw.translations);
     if (!translation || !translation.name) continue;
 
-    exercises.push({
+    fetched.push({
       id: raw.id,
       uuid: raw.uuid,
       // wger deja muchos nombres sin traducir: NAME_ES manda sobre la API.
@@ -165,6 +167,14 @@ async function main() {
     });
   }
 
+  // Duplicados fuera y categorías/músculos corregidos: ver exerciseFixes.js.
+  const { exercises } = applyExerciseFixes(fetched);
+
+  // Los que wger no tiene (Smith, prensas de pecho...): ver customExercises.js.
+  for (const custom of CUSTOM_EXERCISES) {
+    exercises.push({ ...custom, images: mapImages([], custom.id, freeImages) });
+  }
+
   exercises.sort((a, b) => {
     if (a.category.name !== b.category.name) {
       return a.category.name.localeCompare(b.category.name, 'es');
@@ -177,7 +187,7 @@ async function main() {
 
   console.log(`Guardados ${exercises.length} ejercicios en ${OUTPUT_PATH}`);
   console.log(
-    `Omitidos ${rawExercises.length - exercises.length} ejercicios sin traducción utilizable.`,
+    `Omitidos ${rawExercises.length - fetched.length} ejercicios sin traducción utilizable.`,
   );
 }
 

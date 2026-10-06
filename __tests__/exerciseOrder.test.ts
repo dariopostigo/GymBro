@@ -25,10 +25,10 @@ function slot(id: string, exerciseName: string, order: number): DayExerciseSlot 
 
 test('cuenta la posición dentro de la misma categoría, ignorando otras categorías intercaladas', () => {
   const slots = [
-    slot('a', 'Press de Banca', 1), // Pecho #1
+    slot('a', 'Press de banca con barra', 1), // Pecho #1
     slot('b', 'Remo con mancuernas', 2), // Espalda #1
-    slot('c', 'Aperturas con Mancuernas', 3), // Pecho #2
-    slot('d', 'Cruce de Poleas para Pecho', 4), // Pecho #3
+    slot('c', 'Aperturas con mancuernas', 3), // Pecho #2
+    slot('d', 'Cruce de poleas para pecho', 4), // Pecho #3
   ];
 
   const positions = computeMuscleGroupPositions(slots);
@@ -40,7 +40,7 @@ test('cuenta la posición dentro de la misma categoría, ignorando otras categor
 });
 
 test('un único ejercicio de la sesión es siempre el 1º de su categoría', () => {
-  const positions = computeMuscleGroupPositions([slot('a', 'Press de Banca', 1)]);
+  const positions = computeMuscleGroupPositions([slot('a', 'Press de banca con barra', 1)]);
   expect(positions.get('a')).toBe(1);
 });
 
@@ -54,8 +54,8 @@ test('un exerciseId inexistente en el catálogo no recibe posición', () => {
 
 test('respeta el orden de la lista recibida, no el campo order de cada slot', () => {
   const slots = [
-    slot('later', 'Aperturas con Mancuernas', 5),
-    slot('earlier', 'Press de Banca', 1),
+    slot('later', 'Aperturas con mancuernas', 5),
+    slot('earlier', 'Press de banca con barra', 1),
   ];
   const positions = computeMuscleGroupPositions(slots);
   expect(positions.get('later')).toBe(1);

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Modal, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import ExerciseImageCarousel from './ExerciseImageCarousel';
 import type { ExerciseMediaItem } from '../utils/exerciseImages';
+import { CloseIcon } from './icons';
 import { colors, radius, spacing } from '../theme';
 
 interface Props {
@@ -30,7 +31,7 @@ export default function ExerciseImageModal({ visible, media, onClose }: Props) {
             resizeMode="contain"
           />
           <Pressable style={styles.closeButton} onPress={onClose} hitSlop={10}>
-            <Text style={styles.closeText}>✕</Text>
+            <CloseIcon size={18} color={colors.text} strokeWidth={2.5} />
           </Pressable>
         </View>
       </View>
@@ -64,5 +65,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(13, 14, 16, 0.82)',
   },
-  closeText: { color: colors.text, fontSize: 16, fontWeight: '700' },
 });

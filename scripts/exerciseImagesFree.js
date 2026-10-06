@@ -32,7 +32,6 @@ const FREE_DB_IMAGES = {
   1287: 'Toe_Touchers', // Crunch con alcance
   1478: 'Crunches', // Crunch de tronco superior
   1772: 'Reverse_Crunch', // Crunch inverso
-  1292: 'Chin-Up', // Dominadas supinas
   283: 'Hanging_Leg_Raise', // Elevaciones de Piernas (Colgado)
   377: 'Flat_Bench_Lying_Leg_Raise', // Elevaciones de piernas tumbado
   1105: 'Seated_Leg_Tucks', // Encogimiento de rodillas sentado
@@ -212,7 +211,6 @@ const FREE_DB_IMAGES = {
   238: 'Dumbbell_Flyes', // Aperturas con Mancuernas
   239: 'Decline_Dumbbell_Flyes', // Aperturas con Mancuernas Declinadas
   308: 'Incline_Dumbbell_Flyes', // Aperturas con mancuernas en banco inclinado
-  135: 'Butterfly', // Aperturas en máquina
   323: 'Low_Cable_Crossover', // Aperturas en polea
   1270: 'Low_Cable_Crossover', // Aperturas en polea baja
   1469: 'Incline_Cable_Flye', // Aperturas en polea inclinado
@@ -223,13 +221,63 @@ const FREE_DB_IMAGES = {
   1554: 'Plyo_Push-up', // Flexión con palmada
   1964: 'Push-Up_Wide', // Flexión con manos abiertas
   1777: 'Pushups', // Flexiones con déficit
+  // Ilustrados en local (exercises-local), con foto remota de respaldo para
+  // cuando las imágenes locales no están en disco.
+  172: 'Ab_Crunch_Machine', // Abdominales en máquina
+  1933: 'Crunches', // Crunch abdominal
+  1307: 'Plank', // Plancha frontal
+  204: 'Incline_Dumbbell_Curl', // Curl inclinado con mancuernas
+  495: 'Reverse_Barbell_Curl', // Curl invertido
+  803: 'Cable_One_Arm_Tricep_Extension', // Extensión de tríceps a una mano en polea
+  723: 'Wide-Grip_Lat_Pulldown', // Jalón con agarre ancho
+  628: 'Straight-Arm_Pulldown', // Jalón con brazos rectos (agarre de barra)
+  629: 'Rope_Straight-Arm_Pulldown', // Jalón con brazos rectos (agarre de cuerda)
+  189: 'Deficit_Deadlift', // Peso muerto con déficit
+  1700: 'Romanian_Deadlift', // Peso muerto rumano con barra
+  1701: 'One-Arm_Dumbbell_Row', // Remo pesado a una mano
+  1443: 'Side_Laterals_to_Front_Raise', // Elevación lateral y frontal con mancuernas
+  82: 'Bent_Over_Dumbbell_Rear_Delt_Raise_With_Head_On_Bench', // Elevaciones posteriores
+  569: 'Smith_Machine_Overhead_Shoulder_Press', // Press de hombros en máquina Smith
+  445: 'Barbell_Bench_Press_-_Medium_Grip', // Press de banca con pausa
+  1436: 'Pin_Presses', // Press de banca con pines
+  186: 'Decline_Dumbbell_Bench_Press', // Press de banca declinado con mancuernas
+  1096: 'Side_Leg_Raises', // Abducción de pie
+  71: 'Single-Leg_Leg_Extension', // Extensión de cuádriceps a una pierna
+  1388: 'Kettlebell_One-Legged_Deadlift', // Peso muerto rumano a una pierna
+  989: 'Split_Squat_with_Dumbbells', // Sentadilla búlgara
+  615: 'Barbell_Full_Squat', // Sentadilla con barra
+  1324: 'Bodyweight_Walking_Lunge', // Zancada con el peso corporal
+  // Ejercicios propios (scripts/customExercises.js)
+  90001: 'Smith_Machine_Bench_Press', // Press de banca en máquina Smith
+  90002: 'Smith_Machine_Incline_Bench_Press', // Press inclinado en máquina Smith
+  90003: 'Smith_Machine_Decline_Press', // Press declinado en máquina Smith
+  90004: 'Leverage_Incline_Chest_Press', // Press inclinado en máquina
+  90005: 'Leverage_Decline_Chest_Press', // Press declinado en máquina
+  90006: 'Standing_Cable_Chest_Press', // Press de pecho en polea de pie
+  90007: 'Bent-Arm_Barbell_Pullover', // Pullover con barra
+  90008: 'Svend_Press', // Press Svend con disco
+  90009: 'Goblet_Squat', // Sentadilla goblet
+  90010: 'Smith_Machine_Stiff-Legged_Deadlift', // Peso muerto rumano en máquina Smith
+  90011: 'Natural_Glute_Ham_Raise', // Curl nórdico
+  90013: 'One-Arm_Kettlebell_Swings', // Swing con kettlebell
+  90014: 'Smith_Machine_Calf_Raise', // Elevación de gemelos en máquina Smith
+  90015: 'Standing_Dumbbell_Calf_Raise', // Elevación de gemelos de pie con mancuernas
+  90016: 'Smith_Machine_Bent_Over_Row', // Remo en máquina Smith
+  90017: 'Leverage_High_Row', // Remo alto en máquina
+  90018: 'Weighted_Pull_Ups', // Dominadas lastradas
+  90019: 'Leverage_Shrug', // Encogimientos de hombros en máquina
+  90020: 'Machine_Preacher_Curls', // Curl de bíceps en máquina
+  90021: 'Cable_Hammer_Curls_-_Rope_Attachment', // Curl martillo en polea con cuerda
+  90022: 'Dip_Machine', // Fondos en máquina
+  90023: 'Knee_Hip_Raise_On_Parallel_Bars', // Elevación de rodillas en paralelas (silla del capitán)
+  90024: 'Recumbent_Bike', // Bicicleta reclinada
+  90025: 'Battling_Ropes', // Cuerdas de batalla
   801: 'Close-Grip_Push-Up_off_of_a_Dumbbell', // Flexiones con mancuernas
   583: 'Pushups', // Flexiones de lado a lado
   386: 'Push-Ups_-_Close_Triceps_Position', // Flexiones diamante
   1111: 'Incline_Push-Up', // Flexiones inclinadas
   194: 'Parallel_Bar_Dip', // Fondos en Paralelas
   1546: 'Barbell_Bench_Press_-_Medium_Grip', // Larsen Press
-  137: 'Butterfly', // Pectoral en Máquina
   1001: 'Plank', // Plancha Alta
   73: 'Barbell_Bench_Press_-_Medium_Grip', // Press de Banca
   498: 'Reverse_Triceps_Bench_Press', // Press de banca con agarre supino
@@ -335,6 +383,7 @@ const SIN_EQUIVALENTE = [
   718, // Asiento en pared
   1829, // Sentadilla con barra landmine y press
   1527, // Sentadilla péndulo
+  90012, // Hip thrust en máquina
 ];
 
 module.exports = { FREE_DB_IMAGES, SIN_EQUIVALENTE };

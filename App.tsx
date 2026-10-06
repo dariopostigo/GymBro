@@ -7,6 +7,7 @@
 import { StatusBar, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { FavoritesProvider } from './src/context/FavoritesContext';
 import { RoutineProvider } from './src/context/RoutineContext';
 import { SessionProvider } from './src/context/SessionContext';
 import RootNavigator from './src/navigation/RootNavigator';
@@ -19,7 +20,9 @@ function App() {
         <StatusBar barStyle="light-content" backgroundColor={colors.background} />
         <RoutineProvider>
           <SessionProvider>
-            <RootNavigator />
+            <FavoritesProvider>
+              <RootNavigator />
+            </FavoritesProvider>
           </SessionProvider>
         </RoutineProvider>
       </SafeAreaProvider>
