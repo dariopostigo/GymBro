@@ -7,6 +7,7 @@
 import { StatusBar, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { DataReloadProvider } from './src/context/DataReloadContext';
 import { FavoritesProvider } from './src/context/FavoritesContext';
 import { RestTimerProvider } from './src/context/RestTimerContext';
 import { RoutineProvider } from './src/context/RoutineContext';
@@ -20,17 +21,19 @@ function App() {
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <StatusBar barStyle="light-content" backgroundColor={colors.background} />
-        <SettingsProvider>
-          <RestTimerProvider>
-            <RoutineProvider>
-              <SessionProvider>
-                <FavoritesProvider>
-                  <RootNavigator />
-                </FavoritesProvider>
-              </SessionProvider>
-            </RoutineProvider>
-          </RestTimerProvider>
-        </SettingsProvider>
+        <DataReloadProvider>
+          <SettingsProvider>
+            <RestTimerProvider>
+              <RoutineProvider>
+                <SessionProvider>
+                  <FavoritesProvider>
+                    <RootNavigator />
+                  </FavoritesProvider>
+                </SessionProvider>
+              </RoutineProvider>
+            </RestTimerProvider>
+          </SettingsProvider>
+        </DataReloadProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

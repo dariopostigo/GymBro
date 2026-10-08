@@ -15,6 +15,7 @@ export type RootStackParamList = {
   ExerciseLibrary: undefined;
   ExerciseHistory: { exerciseId: number };
   Settings: undefined;
+  WorkoutSummary: { sessionId: string };
   /** `currentExerciseId` preselecciona el filtro por la categoría del ejercicio que se cambia. */
   ExercisePicker:
     | { mode: 'add'; splitId: string; dayId: string }

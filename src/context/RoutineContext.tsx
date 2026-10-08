@@ -11,6 +11,8 @@ import {
   loadActiveSplit,
   loadDayOverrides,
   loadSplits,
+  migrateToRecommendedSplit,
+  presetDay,
   saveActiveSplit,
   saveDayOverrides,
   saveSplits,
@@ -35,6 +37,8 @@ interface RoutineContextValue {
   advanceToNextDay: () => Promise<void>;
   selectDay: (dayId: string) => Promise<void>;
   updateDayExercises: (splitId: string, dayId: string, exercises: DayExerciseSlot[]) => Promise<void>;
+  /** Devuelve un día editado de una rutina predefinida a como viene en la app. */
+  restoreDay: (splitId: string, dayId: string) => void;
   createCustomSplit: (name: string, dayNames: string[]) => Promise<Split>;
   /** Cambios "solo por hoy" (ejercicio, series...): slotId → ajustes de ese día del split. */
   getDayOverrides: (splitId?: string, dayId?: string) => Record<string, SlotOverride>;
@@ -68,6 +72,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
+      await migrateToRecommendedSplit();
       const [loadedSplits, loadedActive, loadedOverrides] = await Promise.all([
         loadSplits(),
         loadActiveSplit(),
@@ -162,15 +167,15 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     [activeSplit],
   );
 
-  const updateDayExercises = useCallback(
-    async (splitId: string, dayId: string, exercises: DayExerciseSlot[]) => {
+  const setDayExercises = useCallback(
+    (splitId: string, dayId: string, exercises: DayExerciseSlot[], customized: boolean) => {
       setSplits(prev => {
         const next = prev.map(split =>
           split.id !== splitId
             ? split
             : {
                 ...split,
-                days: split.days.map(d => (d.id !== dayId ? d : { ...d, exercises })),
+                days: split.days.map(d => (d.id !== dayId ? d : { ...d, exercises, customized })),
               },
         );
         saveSplits(next);
@@ -192,6 +197,21 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
       });
     },
     [],
+  );
+
+  // Editar un día lo marca como personalizado: se respeta aunque cambie la rutina del código.
+  const updateDayExercises = useCallback(
+    async (splitId: string, dayId: string, exercises: DayExerciseSlot[]) =>
+      setDayExercises(splitId, dayId, exercises, true),
+    [setDayExercises],
+  );
+
+  const restoreDay = useCallback(
+    (splitId: string, dayId: string) => {
+      const original = presetDay(splitId, dayId);
+      if (original) setDayExercises(splitId, dayId, original.exercises, false);
+    },
+    [setDayExercises],
   );
 
   const createCustomSplit = useCallback(async (name: string, dayNames: string[]) => {
@@ -225,6 +245,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     advanceToNextDay,
     selectDay,
     updateDayExercises,
+    restoreDay,
     createCustomSplit,
     getDayOverrides,
     setDayOverride,

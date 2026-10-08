@@ -1,8 +1,17 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { useReloadData } from '../context/DataReloadContext';
 import { useSettings } from '../context/SettingsContext';
 import { WEIGHT_INCREMENTS } from '../storage/settingsStorage';
-import { Card, Chip, Overline, Stepper } from '../components/ui';
+import {
+  describeBackup,
+  hasPreImportBackup,
+  importBackup,
+  undoImport,
+  type BackupFile,
+} from '../storage/backup';
+import { exportBackupFile, pickBackupFile } from '../storage/backupFiles';
+import { Card, Chip, GhostButton, Overline, PrimaryButton, Stepper } from '../components/ui';
 import {
   MAX_REST,
   MIN_REST,
@@ -42,6 +51,110 @@ function SettingSwitch({
   );
 }
 
+const errorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : 'Ha ocurrido un error inesperado.';
+
+function formatDate(iso: string): string {
+  const date = new Date(iso);
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+}
+
+/** Exportar e importar todos los datos en un archivo JSON. */
+function BackupSection() {
+  const reloadData = useReloadData();
+  const [busy, setBusy] = useState(false);
+  const [canUndo, setCanUndo] = useState(false);
+
+  useEffect(() => {
+    hasPreImportBackup().then(setCanUndo);
+  }, []);
+
+  // Tras importar o deshacer, la app se vuelve a montar con los datos nuevos.
+  const run = async (task: () => Promise<void>) => {
+    setBusy(true);
+    try {
+      await task();
+    } catch (error) {
+      Alert.alert('Copia de seguridad', errorMessage(error));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleExport = () =>
+    run(async () => {
+      if (await exportBackupFile()) {
+        Alert.alert('Copia guardada', 'Guárdala en un sitio seguro, como Drive.');
+      }
+    });
+
+  const confirmImport = (backup: BackupFile) =>
+    Alert.alert(
+      'Importar copia',
+      `Copia del ${formatDate(backup.exportedAt)}: ${describeBackup(backup)}.\n\n` +
+        'Se reemplazarán tus rutinas, historial, favoritos y ajustes actuales. ' +
+        'Podrás deshacerlo desde esta pantalla.',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Importar',
+          style: 'destructive',
+          onPress: () =>
+            run(async () => {
+              await importBackup(backup);
+              reloadData();
+              Alert.alert('Datos importados', 'La copia se ha restaurado correctamente.');
+            }),
+        },
+      ],
+    );
+
+  const handleImport = () =>
+    run(async () => {
+      const backup = await pickBackupFile();
+      if (backup) confirmImport(backup);
+    });
+
+  const handleUndo = () =>
+    Alert.alert(
+      'Deshacer importación',
+      '¿Volver a los datos que tenías antes de importar la copia?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Deshacer',
+          style: 'destructive',
+          onPress: () =>
+            run(async () => {
+              await undoImport();
+              reloadData();
+            }),
+        },
+      ],
+    );
+
+  return (
+    <Card style={styles.card}>
+      <View style={styles.switchText}>
+        <Text style={styles.switchLabel}>Copia de seguridad</Text>
+        <Text style={styles.switchHint}>
+          Rutinas, historial, favoritos y ajustes en un archivo. Guárdalo fuera del móvil para no
+          perder nada si reinstalas la app o cambias de teléfono.
+        </Text>
+      </View>
+      <PrimaryButton label="Exportar datos" onPress={handleExport} disabled={busy} />
+      <GhostButton label="Importar datos" onPress={busy ? () => {} : handleImport} />
+      {canUndo && (
+        <GhostButton
+          label="Deshacer la última importación"
+          onPress={busy ? () => {} : handleUndo}
+          dashed
+        />
+      )}
+    </Card>
+  );
+}
+
 export default function SettingsScreen() {
   const { settings, updateSettings } = useSettings();
   const setRest = (seconds: number) => updateSettings({ restSeconds: clampRestSeconds(seconds) });
@@ -57,6 +170,18 @@ export default function SettingsScreen() {
           onChange={restTimerEnabled => updateSettings({ restTimerEnabled })}
         />
         {settings.restTimerEnabled && (
+          <SettingSwitch
+            label="Descanso según el ejercicio"
+            hint={
+              'Sale del rango de reps: 2:30 en básicos pesados (desde 6-7), 2:00 en básicos (8-9), ' +
+              '1:30 en accesorios (10-11) y 1:00 en aislamientos (12 o más). ' +
+              'Se puede cambiar por ejercicio en el editor del día.'
+            }
+            value={settings.autoRest}
+            onChange={autoRest => updateSettings({ autoRest })}
+          />
+        )}
+        {settings.restTimerEnabled && !settings.autoRest && (
           <View style={styles.restOptions}>
             <Stepper
               label="Duración"
@@ -108,6 +233,9 @@ export default function SettingsScreen() {
           ))}
         </View>
       </Card>
+
+      <Overline style={styles.sectionGap}>Datos</Overline>
+      <BackupSection />
     </ScrollView>
   );
 }

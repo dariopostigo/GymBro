@@ -6,9 +6,12 @@ import {
   adjustRest,
   formatRest,
   remainingMs,
+  restForReps,
+  restForSlot,
   restProgress,
   startRest,
 } from '../src/utils/restTimer';
+import { SPLIT_PRESETS } from '../src/data/splitPresets';
 
 const NOW = 1_000_000;
 
@@ -42,4 +45,21 @@ test('la cuenta atrás redondea hacia arriba', () => {
 test('los ajustes guardados se completan con los valores por defecto', async () => {
   await AsyncStorage.setItem('gymbro:settings', JSON.stringify({ restTimerEnabled: false }));
   expect(await loadSettings()).toEqual({ ...DEFAULT_SETTINGS, restTimerEnabled: false });
+});
+
+test('el descanso automático sale del mínimo del rango de reps', () => {
+  expect([6, 7, 8, 9, 10, 11, 12, 15].map(restForReps)).toEqual([
+    150, 150, 120, 120, 90, 90, 60, 60,
+  ]);
+});
+
+test('el descanso elegido a mano manda sobre el automático', () => {
+  expect(restForSlot({ targetRepsMin: 12 })).toBe(60);
+  expect(restForSlot({ targetRepsMin: 12, restSeconds: 105 })).toBe(105);
+});
+
+test('en el PPL los básicos descansan más que los aislamientos', () => {
+  const pushA = SPLIT_PRESETS.find(s => s.id === 'ppl')!.days[0].exercises;
+  // Press inclinado (6-10), press en máquina (8-12), tríceps (10-12) y laterales (12-15).
+  expect([0, 1, 5, 3].map(i => restForSlot(pushA[i]))).toEqual([150, 120, 90, 60]);
 });

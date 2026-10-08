@@ -53,7 +53,8 @@ export default function RestTimerBar() {
   if ((!timer && !finished) || keyboardVisible) return null;
 
   const pickPreset = (seconds: number) => {
-    updateSettings({ restSeconds: seconds });
+    // Con el descanso automático el atajo solo vale para este descanso.
+    if (!settings.autoRest) updateSettings({ restSeconds: seconds });
     start(seconds);
     setPresetsOpen(false);
   };
@@ -69,7 +70,8 @@ export default function RestTimerBar() {
             {presetsOpen && (
               <View style={styles.presets}>
                 {REST_PRESETS.map(seconds => {
-                  const active = seconds === settings.restSeconds;
+                  const current = settings.autoRest ? timer.duration : settings.restSeconds;
+                  const active = seconds === current;
                   return (
                     <TouchableOpacity
                       key={seconds}

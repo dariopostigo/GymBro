@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
+import { useSettings } from '../context/SettingsContext';
+import { presetDay } from '../storage/routineStorage';
 import { getExerciseById } from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { ChevronIcon } from '../components/icons';
@@ -12,6 +14,14 @@ import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import { Card, EmptyState, GhostButton, Overline, ScreenHeader, Stepper } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
+import {
+  MAX_REST,
+  MIN_REST,
+  REST_STEP,
+  clampRestSeconds,
+  formatRest,
+  restForSlot,
+} from '../utils/restTimer';
 import { colors, radius, spacing } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DayEditor'>;
@@ -28,7 +38,10 @@ function clamp(value: number, min: number, max: number): number {
 export default function DayEditorScreen({ route }: Props) {
   const { splitId, dayId } = route.params;
   const navigation = useNavigation<Nav>();
-  const { splits, updateDayExercises } = useRoutine();
+  const { splits, updateDayExercises, restoreDay } = useRoutine();
+  const { settings } = useSettings();
+  // El descanso por ejercicio solo se usa con el descanso automático activado.
+  const restEditable = settings.restTimerEnabled && settings.autoRest;
 
   const split = useMemo(() => splits.find(s => s.id === splitId), [splits, splitId]);
   const day = useMemo(() => split?.days.find(d => d.id === dayId), [split, dayId]);
@@ -84,6 +97,20 @@ export default function DayEditorScreen({ route }: Props) {
     updateSlot(slot.id, {
       targetRepsMax: clamp(slot.targetRepsMax + delta, slot.targetRepsMin, 50),
     });
+  };
+
+  const confirmRestore = () =>
+    Alert.alert(
+      'Restaurar el día original',
+      `¿Deshacer tus cambios en "${day.name}" y volver a la rutina tal y como viene en la app?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Restaurar', style: 'destructive', onPress: () => restoreDay(splitId, dayId) },
+      ],
+    );
+
+  const changeRest = (slot: DayExerciseSlot, delta: number) => {
+    updateSlot(slot.id, { restSeconds: clampRestSeconds(restForSlot(slot) + delta) });
   };
 
   const renderItem = (item: DayExerciseSlot, index: number) => {
@@ -170,6 +197,27 @@ export default function DayEditorScreen({ route }: Props) {
               />
             </View>
 
+            {restEditable && (
+              <View style={styles.restRow}>
+                <Stepper
+                  label="Descanso"
+                  layout="inline"
+                  value={`${formatRest(restForSlot(item) * 1000)}${
+                    item.restSeconds === undefined ? ' · auto' : ''
+                  }`}
+                  minusDisabled={restForSlot(item) <= MIN_REST}
+                  plusDisabled={restForSlot(item) >= MAX_REST}
+                  onDecrease={() => changeRest(item, -REST_STEP)}
+                  onIncrease={() => changeRest(item, REST_STEP)}
+                />
+                {item.restSeconds !== undefined && (
+                  <TouchableOpacity onPress={() => updateSlot(item.id, { restSeconds: undefined })}>
+                    <Text style={styles.replaceText}>Volver al descanso automático</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            )}
+
             <TouchableOpacity onPress={() => removeExercise(item.id)} style={styles.removeButton}>
               <Text style={styles.removeButtonText}>Quitar del día</Text>
             </TouchableOpacity>
@@ -207,6 +255,17 @@ export default function DayEditorScreen({ route }: Props) {
             onPress={() => navigation.navigate('ExercisePicker', { mode: 'add', splitId, dayId })}
           />
         </View>
+
+        {day.customized && presetDay(splitId, dayId) && (
+          <View style={styles.footer}>
+            <Overline>Día personalizado</Overline>
+            <Text style={styles.customizedHint}>
+              Has cambiado este día de la rutina predefinida. Tus cambios se mantienen aunque la
+              rutina se actualice.
+            </Text>
+            <GhostButton label="Restaurar el día original" onPress={confirmRestore} />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -241,6 +300,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.sm,
   },
+  restRow: { gap: spacing.sm },
+  customizedHint: { color: colors.muted, fontSize: 13, lineHeight: 18 },
   removeButton: { alignSelf: 'flex-start' },
   removeButtonText: { color: colors.danger, fontSize: 12, fontWeight: '700' },
   footer: { gap: spacing.sm, marginTop: spacing.xs },

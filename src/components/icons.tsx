@@ -18,6 +18,7 @@ import {
   SquarePlay,
   Star,
   TrendingUp,
+  Trophy,
   X,
   type LucideIcon,
 } from 'lucide-react-native';
@@ -65,6 +66,8 @@ export const CheckIcon = wrap(Check);
 export const CloseIcon = wrap(X);
 /** Sugerencia de subir peso. */
 export const TrendingUpIcon = wrap(TrendingUp);
+/** Récords personales. */
+export const TrophyIcon = wrap(Trophy);
 /** Pantalla de ajustes. */
 export const SettingsIcon = wrap(Settings);
 

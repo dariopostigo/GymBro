@@ -25,6 +25,7 @@ import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
 import { REST_BAR_SPACE } from '../components/RestTimerBar';
+import { restForSlot } from '../utils/restTimer';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import { ExerciseImagePlaceholder } from '../components/ExerciseThumbnail';
 import ExerciseImageModal from '../components/ExerciseImageModal';
@@ -466,6 +467,9 @@ export default function TodayScreen() {
           onPress: () => {
             if (activeSession) finishSession(activeSession.id);
             advanceToNextDay();
+            if (activeSession?.sets.length) {
+              navigation.navigate('WorkoutSummary', { sessionId: activeSession.id });
+            }
           },
         },
       ],
@@ -497,7 +501,7 @@ export default function TodayScreen() {
           loggedSets={loggedSets}
           suggested={suggestion}
           onAddSet={(weight, reps) => {
-            startRest();
+            startRest(settings.autoRest ? restForSlot(item) : undefined);
             addSet({
               splitId: activeSplit.id,
               splitDayId: currentDay.id,

@@ -173,7 +173,14 @@ export default function ProgressScreen() {
                   {recent.map((session, index) => (
                     <View key={session.id}>
                       {index > 0 ? <View style={styles.sessionDivider} /> : null}
-                      <View style={styles.sessionRow}>
+                      <TouchableOpacity
+                        activeOpacity={0.85}
+                        style={styles.sessionRow}
+                        onPress={() =>
+                          navigation.navigate('WorkoutSummary', { sessionId: session.id })
+                        }
+                        accessibilityLabel={`Ver el resumen de ${session.dayName}`}
+                      >
                         <View style={styles.sessionInfo}>
                           <Text style={styles.sessionName}>{session.dayName}</Text>
                           <Text style={styles.sessionMeta}>{formatFullDate(session.date)}</Text>
@@ -184,7 +191,8 @@ export default function ProgressScreen() {
                           </Text>
                           <Text style={styles.sessionMeta}>{session.sets.length} series</Text>
                         </View>
-                      </View>
+                        <ChevronIcon size={16} color={colors.muted} />
+                      </TouchableOpacity>
                     </View>
                   ))}
                 </Card>
@@ -235,12 +243,12 @@ const styles = StyleSheet.create({
   sessionRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: spacing.md,
     paddingHorizontal: spacing.lg,
     paddingVertical: 14,
   },
   sessionDivider: { height: 1, backgroundColor: colors.border, marginHorizontal: spacing.lg },
-  sessionInfo: { gap: 2 },
+  sessionInfo: { flex: 1, gap: 2 },
   sessionName: { color: colors.text, fontSize: 15, fontWeight: '700' },
   sessionMeta: { color: colors.muted, fontSize: 12 },
   sessionStats: { alignItems: 'flex-end', gap: 2 },

@@ -33,61 +33,65 @@ function day(id: string, name: string, order: number, specs: ExerciseSpec[]): Sp
   };
 }
 
+/**
+ * Push / Pull / Legs orientado a hipertrofia (acordado el 8/10/2026). Los 6 días
+ * rotan en orden sin depender del calendario, pensado para 3-4 días por semana.
+ * Básicos a 6-10 reps, secundarios a 8-12 y aislamientos a 10-15 para que la
+ * sugerencia de progresión suba peso a menudo. Sin peso muerto rumano ni abdominales.
+ */
 const pplSplit: Split = {
   id: 'ppl',
   name: 'Push / Pull / Legs',
   type: 'ppl',
   days: [
-    day('ppl-push-1', 'Push 1', 0, [
-      ex(73, 3, 8, 12), // Press banca
-      ex(537, 3, 8, 12), // Press inclinado
-      ex(238, 3, 8, 12), // Aperturas
-      ex(348, 3, 8, 12), // Elevaciones laterales
-      ex(1185, 3, 8, 20), // Pushdown
-      ex(1336, 3, 8, 20), // Extensión sobre la cabeza
+    day('ppl-push-a', 'Push A', 0, [
+      ex(537, 4, 6, 10), // Press inclinado con mancuernas
+      ex(129, 4, 8, 12), // Press de banca sentado en máquina
+      ex(543, 3, 8, 12), // Press de hombros en máquina
+      ex(348, 4, 12, 15), // Elevación lateral con mancuernas
+      ex(1378, 3, 12, 15), // Elevaciones laterales en polea (a un brazo)
+      ex(1185, 4, 10, 12), // Extensión de tríceps en polea con cuerda
+      ex(1336, 3, 10, 12), // Extensión de tríceps sobre la cabeza (mancuerna)
     ]),
-    day('ppl-pull-1', 'Pull 1', 1, [
+    day('ppl-pull-a', 'Pull A', 1, [
+      ex(1136, 4, 6, 10), // Jalón al pecho con agarre neutro
+      ex(1725, 4, 8, 12), // Remo sentado (máquina)
+      ex(81, 3, 8, 12), // Remo con mancuernas
+      ex(222, 3, 12, 15), // Jalón a la cara (face pull)
+      ex(204, 4, 10, 12), // Curl inclinado con mancuernas
+      ex(272, 3, 10, 12), // Curl martillo
+    ]),
+    day('ppl-legs-a', 'Legs A', 2, [
+      ex(1414, 4, 6, 10), // Sentadilla hack en máquina
+      ex(366, 5, 10, 12), // Curl femoral sentado
+      ex(371, 3, 10, 12), // Prensa de piernas
+      ex(369, 3, 12, 15), // Extensión de cuádriceps en máquina
+      ex(622, 5, 10, 15), // Elevación de gemelos de pie en máquina
+    ]),
+    day('ppl-push-b', 'Push B', 3, [
+      ex(75, 4, 6, 10), // Press de banca con mancuernas
+      ex(537, 3, 8, 12), // Press inclinado con mancuernas
+      ex(129, 3, 8, 12), // Press de banca sentado en máquina
+      ex(1744, 4, 12, 15), // Elevación lateral en máquina
+      ex(1378, 3, 12, 15), // Elevaciones laterales en polea (a un brazo)
+      ex(1336, 4, 10, 12), // Extensión de tríceps sobre la cabeza (mancuerna)
+      ex(1185, 3, 10, 12), // Extensión de tríceps en polea con cuerda
+    ]),
+    day('ppl-pull-b', 'Pull B', 4, [
+      ex(81, 4, 6, 10), // Remo con mancuernas
       ex(355, 4, 8, 12), // Jalón al pecho
-      ex(81, 3, 8, 12), // Remo con mancuerna
-      ex(152, 3, 8, 12), // Dominadas (Chin Up)
-      ex(572, 3, 8, 20), // Encogimientos de hombros
-      ex(204, 3, 8, 12), // Curl inclinado
-      ex(1567, 3, 8, 12), // Curl martillo
-      ex(465, 2, 8, 12), // Curl predicador
-      ex(1639, 4, 8, 20), // Jalón a la cara
+      ex(1725, 3, 8, 12), // Remo sentado (máquina)
+      ex(139, 3, 12, 15), // Contractora inversa (pec deck)
+      ex(272, 4, 10, 12), // Curl martillo
+      ex(204, 3, 10, 12), // Curl inclinado con mancuernas
     ]),
-    day('ppl-legs-1', 'Legs 1', 2, [
-      ex(1414, 4, 8, 12), // Sentadilla Hack
-      ex(206, 4, 8, 12), // Zancadas
-      ex(1652, 4, 8, 12), // Peso muerto rumano
-      ex(294, 4, 8, 12), // Empuje de cadera
-      ex(622, 4, 8, 20), // Elevaciones de talones
-      ex(427, 4, 8, 20), // Abdominales declinados (crunch en banco declinado)
-    ]),
-    day('ppl-push-2', 'Push 2', 3, [
-      ex(73, 3, 8, 12), // Press banca
-      ex(237, 3, 8, 12), // Cables cruzados
-      ex(194, 3, 8, 12), // Fondos
-      ex(246, 4, 8, 12), // Press francés
-      ex(418, 3, 8, 12), // Press militar
-      ex(348, 3, 8, 12), // Elevaciones laterales
-    ]),
-    day('ppl-pull-2', 'Pull 2', 4, [
-      ex(919, 4, 8, 12), // Remo en T
-      ex(512, 3, 8, 12), // Remo Gironda
-      ex(1972, 3, 8, 12), // Jalón unilateral (jalón al pecho a un brazo)
-      ex(572, 4, 8, 20), // Encogimientos de hombros
-      ex(465, 3, 8, 12), // Curl predicador
-      ex(1567, 3, 8, 12), // Curl martillo
-      ex(1709, 4, 8, 20), // Pájaros con mancuernas
-    ]),
-    day('ppl-legs-2', 'Legs 2', 5, [
-      ex(1706, 3, 8, 12), // Sentadilla búlgara
-      ex(294, 3, 8, 12), // Empuje de cadera
-      ex(364, 4, 8, 12), // Curl femoral
-      ex(371, 4, 8, 12), // Prensa de pierna
-      ex(622, 4, 8, 20), // Elevaciones de talones
-      ex(427, 4, 8, 20), // Abdominales declinados (crunch en banco declinado)
+    day('ppl-legs-b', 'Legs B', 5, [
+      ex(365, 5, 8, 12), // Curl de piernas (tumbado)
+      ex(371, 4, 6, 10), // Prensa de piernas
+      ex(1706, 3, 8, 12), // Sentadilla búlgara con mancuernas
+      ex(294, 3, 8, 12), // Empuje de cadera con barra
+      ex(369, 3, 12, 15), // Extensión de cuádriceps en máquina
+      ex(590, 5, 12, 15), // Elevación de gemelos sentado en máquina
     ]),
   ],
 };

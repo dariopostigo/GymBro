@@ -4,6 +4,7 @@ import MainTabs from './MainTabs';
 import DrawerContent from '../components/DrawerContent';
 import RestTimerBar from '../components/RestTimerBar';
 import { DrawerProvider, useDrawer } from '../context/DrawerContext';
+import { useStaleSessionPrompt } from '../hooks/useStaleSessionPrompt';
 import { colors } from '../theme';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -44,6 +45,8 @@ function DrawerOverlay() {
 }
 
 export default function MainWithDrawer() {
+  useStaleSessionPrompt();
+
   return (
     <DrawerProvider>
       <View style={styles.root}>

@@ -7,6 +7,8 @@ export interface DayExerciseSlot {
   targetSets: number;
   targetRepsMin: number;
   targetRepsMax: number;
+  /** Descanso elegido a mano, en segundos. Sin él se calcula del rango de reps. */
+  restSeconds?: number;
 }
 
 export interface SplitDay {
@@ -14,6 +16,8 @@ export interface SplitDay {
   name: string;
   order: number;
   exercises: DayExerciseSlot[];
+  /** Día de una rutina predefinida que el usuario ha editado: no se pisa con la del código. */
+  customized?: boolean;
 }
 
 export interface Split {

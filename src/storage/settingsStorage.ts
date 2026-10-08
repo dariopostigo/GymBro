@@ -6,6 +6,8 @@ const REST_TIMER_KEY = 'gymbro:restTimer';
 
 export interface Settings {
   restTimerEnabled: boolean;
+  /** El descanso depende de cada ejercicio (ver `restForSlot`) en vez de ser fijo. */
+  autoRest: boolean;
   /** Duración por defecto del descanso, en segundos. */
   restSeconds: number;
   /** Pantalla encendida mientras se está en la pestaña Hoy. */
@@ -16,6 +18,7 @@ export interface Settings {
 
 export const DEFAULT_SETTINGS: Settings = {
   restTimerEnabled: true,
+  autoRest: true,
   restSeconds: 90,
   keepScreenOn: true,
   weightIncrement: 2.5,

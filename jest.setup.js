@@ -41,3 +41,19 @@ jest.mock('react-native/Libraries/Animated/Animated', () => {
   const mocked = jest.requireActual('react-native/Libraries/Animated/AnimatedMock').default;
   return { __esModule: true, default: { ...actual, ...mocked } };
 });
+
+// Módulos nativos de la copia de seguridad: en Jest solo hace falta que importen.
+jest.mock('@dr.pogodin/react-native-fs', () => ({
+  CachesDirectoryPath: '/cache',
+  readFile: jest.fn(),
+  writeFile: jest.fn(),
+  unlink: jest.fn(() => Promise.resolve()),
+}));
+jest.mock('@react-native-documents/picker', () => ({
+  errorCodes: { OPERATION_CANCELED: 'OPERATION_CANCELED' },
+  isErrorWithCode: () => false,
+  keepLocalCopy: jest.fn(),
+  pick: jest.fn(),
+  saveDocuments: jest.fn(),
+  types: { allFiles: '*/*' },
+}));

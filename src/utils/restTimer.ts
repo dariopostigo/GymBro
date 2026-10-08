@@ -46,3 +46,19 @@ export function formatRest(ms: number): string {
   const seconds = total % 60;
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
+
+/**
+ * Descanso automático según el mínimo del rango de reps, que dice qué tipo de
+ * ejercicio es: los básicos pesados descansan más que los aislamientos.
+ */
+export function restForReps(repsMin: number): number {
+  if (repsMin <= 7) return 150;
+  if (repsMin <= 9) return 120;
+  if (repsMin <= 11) return 90;
+  return 60;
+}
+
+/** Descanso de un ejercicio del día: el elegido a mano o, si no hay, el automático. */
+export function restForSlot(slot: { targetRepsMin: number; restSeconds?: number }): number {
+  return slot.restSeconds ?? restForReps(slot.targetRepsMin);
+}

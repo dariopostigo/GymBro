@@ -11,6 +11,7 @@ import ExercisePickerScreen from '../screens/ExercisePickerScreen';
 import ExerciseLibraryScreen from '../screens/ExerciseLibraryScreen';
 import ExerciseHistoryScreen from '../screens/ExerciseHistoryScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import WorkoutSummaryScreen from '../screens/WorkoutSummaryScreen';
 import type { RootStackParamList } from './types';
 import { colors } from '../theme';
 
@@ -94,6 +95,11 @@ export default function RootNavigator() {
           options={{ title: 'Historial' }}
         />
         <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ajustes' }} />
+        <Stack.Screen
+          name="WorkoutSummary"
+          component={WorkoutSummaryScreen}
+          options={{ headerShown: false, presentation: 'modal', animation: 'slide_from_bottom' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
