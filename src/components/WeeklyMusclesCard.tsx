@@ -4,7 +4,9 @@ import { BodyHeatMap } from './BodyFigure';
 import { Card, Overline } from './ui';
 import {
   CATEGORY_PARTS,
+  UNTRAINED_DAYS,
   WEEKLY_SETS_TARGET,
+  untrainedMuscleGroups,
   weeklyMuscleSets,
   type WeeklyMuscleSets,
 } from '../utils/muscleMap';
@@ -62,10 +64,11 @@ function MuscleRow({ row, scale }: { row: WeeklyMuscleSets; scale: number }) {
 /**
  * Series por grupo muscular esta semana: mapa de calor sobre la silueta y una
  * barra por grupo con la franja recomendada (10-20) y el cambio respecto a la
- * semana pasada.
+ * semana pasada. Al final, los grupos que llevan días sin trabajarse.
  */
 export default function WeeklyMusclesCard({ sessions }: { sessions: WorkoutSession[] }) {
   const rows = useMemo(() => weeklyMuscleSets(sessions), [sessions]);
+  const untrained = useMemo(() => untrainedMuscleGroups(sessions), [sessions]);
   const heat = useMemo(() => {
     const map = new Map<string, number>();
     for (const row of rows) {
@@ -93,6 +96,19 @@ export default function WeeklyMusclesCard({ sessions }: { sessions: WorkoutSessi
           {rows.map(row => (
             <MuscleRow key={row.group} row={row} scale={scale} />
           ))}
+        </View>
+      )}
+      {untrained.length > 0 && (
+        <View style={styles.untrained}>
+          <Text style={styles.untrainedTitle}>Sin entrenar desde hace {UNTRAINED_DAYS}+ días</Text>
+          <View style={styles.untrainedList}>
+            {untrained.map(({ group, days }) => (
+              <View key={group} style={styles.untrainedPill}>
+                <Text style={styles.untrainedGroup}>{group}</Text>
+                <Text style={styles.untrainedDays}>{days === null ? 'nunca' : `${days} días`}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       )}
     </Card>
@@ -123,4 +139,23 @@ const styles = StyleSheet.create({
   values: { width: 86, alignItems: 'flex-end' },
   sets: { color: colors.text, fontSize: 13, fontWeight: '800' },
   status: { fontSize: 10.5, fontWeight: '700' },
+  untrained: {
+    gap: spacing.sm,
+    paddingTop: spacing.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.border,
+  },
+  untrainedTitle: { color: colors.textDim, fontSize: 12.5, fontWeight: '700' },
+  untrainedList: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  untrainedPill: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surfaceAlt,
+  },
+  untrainedGroup: { color: colors.text, fontSize: 12.5, fontWeight: '700' },
+  untrainedDays: { color: colors.muted, fontSize: 11.5, fontWeight: '700' },
 });

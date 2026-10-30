@@ -5,6 +5,7 @@ import {
   CATEGORY_PARTS,
   musclesWorked,
   startOfWeek,
+  untrainedMuscleGroups,
   weeklyMuscleSets,
 } from '../src/utils/muscleMap';
 
@@ -95,5 +96,35 @@ describe('weeklyMuscleSets', () => {
     ]);
     expect(week.Pecho.sets).toBe(3);
     expect(week.Pecho.previous).toBe(5);
+  });
+});
+
+describe('untrainedMuscleGroups', () => {
+  const NOW = new Date(2026, 9, 30, 20);
+  const at = (id: string, day: number, exerciseId: number): WorkoutSession => ({
+    id,
+    date: new Date(2026, 9, day, 18).toISOString(),
+    splitId: 's',
+    splitDayId: 'd',
+    dayName: 'Día',
+    completed: true,
+    sets: [{ id: `${id}-1`, exerciseId, positionInSession: 1, setNumber: 1, weight: 60, reps: 8 }],
+  });
+
+  it('sin entrenos no avisa de nada', () => {
+    expect(untrainedMuscleGroups([], NOW)).toEqual([]);
+  });
+
+  it('cuenta los días desde la última vez como principal, de más a menos y nunca al final', () => {
+    const sessions = [at('a', 21, BENCH), at('b', 23, BENCH), at('c', 20, ROW), at('d', 29, 1312)];
+    const result = untrainedMuscleGroups(sessions, NOW);
+    expect(result.slice(0, 2)).toEqual([
+      { group: 'Espalda', days: 10 },
+      { group: 'Pecho', days: 7 },
+    ]);
+    // Cuádriceps se hizo ayer; el tríceps solo como secundario del press, así que nunca.
+    expect(result.find(r => r.group === 'Cuádriceps')).toBeUndefined();
+    expect(result.find(r => r.group === 'Tríceps')).toEqual({ group: 'Tríceps', days: null });
+    expect(result.slice(2).every(r => r.days === null)).toBe(true);
   });
 });

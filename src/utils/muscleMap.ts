@@ -164,3 +164,47 @@ export function weeklyMuscleSets(sessions: WorkoutSession[], now = new Date()): 
     previous: previous.get(group) ?? 0,
   }));
 }
+
+/** A partir de cuántos días sin trabajar un grupo se avisa en Progreso. */
+export const UNTRAINED_DAYS = 7;
+
+export interface UntrainedGroup {
+  group: MuscleGroup;
+  /** Días desde la última vez que fue principal en una serie; `null` si nunca. */
+  days: number | null;
+}
+
+/**
+ * Grupos que llevan `UNTRAINED_DAYS` días o más sin trabajar como músculo
+ * principal (de secundario no cuenta: el bíceps en un remo no es entrenarlo),
+ * del que más lleva al que menos y los que nunca al final. Sin entrenos, nada.
+ */
+export function untrainedMuscleGroups(
+  sessions: WorkoutSession[],
+  now = new Date(),
+): UntrainedGroup[] {
+  const last = new Map<MuscleGroup, number>();
+  let anySets = false;
+  for (const session of sessions) {
+    if (!session.sets.length) continue;
+    anySets = true;
+    const date = new Date(session.date);
+    const day = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    for (const set of session.sets) {
+      for (const muscle of getExerciseById(set.exerciseId)?.musclesPrimary ?? []) {
+        const group = MUSCLE_GROUP[muscle.id];
+        if (group && day > (last.get(group) ?? -Infinity)) last.set(group, day);
+      }
+    }
+  }
+  if (!anySets) return [];
+
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  return MUSCLE_GROUPS.map(group => {
+    const day = last.get(group);
+    // Redondeo: un cambio de hora deja días de 23 o 25 horas.
+    return { group, days: day === undefined ? null : Math.round((today - day) / 86_400_000) };
+  })
+    .filter(({ days }) => days === null || days >= UNTRAINED_DAYS)
+    .sort((a, b) => (b.days ?? -1) - (a.days ?? -1));
+}

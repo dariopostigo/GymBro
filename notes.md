@@ -71,8 +71,9 @@ Segunda vuelta (30/10/2026, mirando su código): se hacen poco a poco, de una en
 - [x] **Deshacer al borrar una serie**: al borrar sale "Serie borrada · 17,5 kg × 12 · Deshacer" durante 5 s, encima del descanso si está en marcha; deshacer la devuelve a su sitio con su id, número y hora.
 - [x] **Editar entrenos pasados**: "Editar entreno" en el resumen abre una pantalla para corregir, añadir o borrar series, añadir o quitar ejercicios, cambiar el día de la rutina, mover la fecha (‹ ›, nunca al futuro) y borrar el entreno. En el calendario, tocar un día pasado sin entreno ofrece apuntar uno hecho sin la app (trae los ejercicios del día elegido; si se deja sin series no se guarda).
 - [x] **Ejercicios por tiempo**: lista en `src/data/timedExercises.ts` (planchas, isometrías, paseo del granjero y del maletín; "colgarse" no está en el catálogo). Las reps guardan los segundos: rango "3 × 30-60 s" (en el editor de 5 en 5), campo "Segundos" con cronómetro, sin RIR, se muestra "45 s" / "PC+10 · 45 s" / "32 · 1:00". No suman volumen y el récord es más segundos con el mismo peso (sin 1RM). Al cambiar un ejercicio de reps por uno de tiempo (o al revés) el rango pasa a 30-60 s / 8-12.
-- [ ] **Músculos sin entrenar** en Progreso ("Bíceps: 9 días sin entrenar"), versión simple.
+- [x] **Músculos sin entrenar**: al final de "Series por músculo" en Progreso, los grupos que llevan 7 días o más sin hacer una serie como músculo principal (de secundario no cuenta), con los días o "nunca".
 - [ ] **Crear ejercicios propios desde la app**, con foto.
+- [ ] **Cambiar el orden del entreno de hoy**: si se hace el 3º ejercicio antes que el 2º, poder reordenar Hoy (solo para hoy) para que las series se guarden con la posición real en la que se hicieron (`positionInSession` / `positionInMuscleGroup`), que es con lo que se comparan la sugerencia de peso y el historial por posición. Ahora se guarda la posición de la plantilla aunque se haya hecho en otro orden.
 - [ ] Inicio no cuenta los ejercicios "solo hoy": dice 6 ejercicios / 23 series cuando Hoy dice 7 / 26.
 
 ## Pendientes (de momento no)
