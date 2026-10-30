@@ -19,6 +19,7 @@ import { useRestTimer } from '../context/RestTimerContext';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
+import { useWeightStacks } from '../context/WeightStacksContext';
 import { defaultBackupId, getExerciseById } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
@@ -62,6 +63,14 @@ import {
   type LoadSuggestion,
 } from '../utils/progression';
 import { describeRecord, liveRecords, type PersonalRecord } from '../utils/workoutSummary';
+import { stepWeight } from '../utils/weightStack';
+import {
+  RIR_OPTIONS,
+  effortDescription,
+  effortLabel,
+  effortOption,
+  type EffortMode,
+} from '../utils/effort';
 import { colors, overline, radius, spacing } from '../theme';
 
 type Nav = CompositeNavigationProp<
@@ -86,7 +95,11 @@ interface ExerciseCardProps {
   suggested?: LoadSuggestion;
   /** Cambio de un toque al plan B del hueco (o de vuelta al ejercicio principal). */
   planB?: { label: string; onPress: () => void };
-  onAddSet: (weight: number, reps: number) => void;
+  /** Cómo se apunta el esfuerzo de cada serie (o si no se apunta). */
+  effortMode: EffortMode;
+  /** Pesos reales de la máquina, si se han configurado: el peso sube y baja por ellos. */
+  weights?: number[];
+  onAddSet: (weight: number, reps: number, rir?: number) => void;
   onRemoveSet: (setEntryId: string) => void;
   onSwapToday: () => void;
   onSwapPermanent: () => void;
@@ -103,6 +116,8 @@ function ExerciseCard({
   records,
   suggested,
   planB,
+  effortMode,
+  weights,
   onAddSet,
   onRemoveSet,
   onSwapToday,
@@ -114,10 +129,18 @@ function ExerciseCard({
   const exercise = getExerciseById(slot.exerciseId);
   const media = getExerciseMediaSources(exercise);
   const video = media.find(item => item.type === 'video');
-  const [weightText, setWeightText] = useState(suggested ? String(suggested.weight) : '');
+  const [weightText, setWeightText] = useState(suggested ? formatWeight(suggested.weight) : '');
   const [repsText, setRepsText] = useState(suggested ? String(suggested.reps) : '');
+  // Opcional y para una sola serie: tras apuntarla se vuelve a dejar sin marcar.
+  const [rir, setRir] = useState<number | undefined>(undefined);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+
+  const stepStack = (direction: 1 | -1) => {
+    if (!weights) return;
+    const current = parseFloat(weightText.replace(',', '.'));
+    setWeightText(formatWeight(stepWeight(weights, current, direction)));
+  };
 
   const handleAdd = () => {
     const weight = parseFloat(weightText.replace(',', '.'));
@@ -126,7 +149,8 @@ function ExerciseCard({
       Alert.alert('Datos inválidos', 'Introduce un peso y unas repeticiones válidas.');
       return;
     }
-    onAddSet(weight, reps);
+    onAddSet(weight, reps, effortMode === 'off' ? undefined : rir);
+    setRir(undefined);
   };
 
   const done = loggedSets.length;
@@ -304,6 +328,12 @@ function ExerciseCard({
                         <Text style={styles.setRowText}>
                           <Text style={styles.setRowStrong}>{formatWeight(set.weight)}</Text> kg ×{' '}
                           <Text style={styles.setRowStrong}>{set.reps}</Text> reps
+                          {set.rir !== undefined && effortMode !== 'off' && (
+                            <Text style={[styles.setEffort, set.rir <= 0 && styles.setEffortHard]}>
+                              {'  ·  '}
+                              {effortLabel(set.rir, effortMode)}
+                            </Text>
+                          )}
                         </Text>
                         {record && (
                           <Text style={styles.recordText} numberOfLines={1}>
@@ -334,24 +364,89 @@ function ExerciseCard({
                 ) : null}
                 Última vez: {formatWeight(suggested.previous.weight)} kg ×{' '}
                 {suggested.previous.reps.join(' · ')}
-                {suggested.increase ? '' : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
+                {suggested.increase
+                  ? suggested.reason === 'easy'
+                    ? ' · te sobraban reps'
+                    : ''
+                  : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
               </Text>
+            </View>
+          )}
+
+          {effortMode !== 'off' && (
+            <View style={styles.effortBlock}>
+              <View style={styles.effortHeader}>
+                <Text style={styles.inputLabel}>
+                  {effortMode === 'rpe' ? 'RPE' : 'Reps en reserva (RIR)'} · opcional
+                </Text>
+                {rir !== undefined && (
+                  <Text style={styles.effortHint} numberOfLines={1}>
+                    {effortDescription(rir)}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.effortRow}>
+                {RIR_OPTIONS.map(option => {
+                  const selected = rir === option;
+                  return (
+                    <TouchableOpacity
+                      key={option}
+                      style={[styles.effortButton, selected && styles.effortButtonSelected]}
+                      onPress={() => setRir(selected ? undefined : option)}
+                      activeOpacity={0.8}
+                      accessibilityLabel={effortDescription(option)}
+                      accessibilityState={{ selected }}
+                    >
+                      <Text
+                        style={[
+                          styles.effortButtonText,
+                          selected && styles.effortButtonTextSelected,
+                        ]}
+                      >
+                        {effortOption(option, effortMode)}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
           )}
 
           <View style={styles.addSetRow}>
             <View style={styles.inputWrapper}>
               <Text style={styles.inputLabel}>Peso</Text>
-              <TextInput
-                value={weightText}
-                onChangeText={setWeightText}
-                onFocus={onInputFocus}
-                placeholder="kg"
-                placeholderTextColor={colors.muted}
-                keyboardType="decimal-pad"
-                returnKeyType="done"
-                style={styles.setInput}
-              />
+              <View style={styles.weightRow}>
+                {weights && (
+                  <TouchableOpacity
+                    style={styles.stackButton}
+                    onPress={() => stepStack(-1)}
+                    activeOpacity={0.8}
+                    accessibilityLabel="Bajar al peso anterior de la máquina"
+                  >
+                    <Text style={styles.stackButtonText}>−</Text>
+                  </TouchableOpacity>
+                )}
+                <TextInput
+                  value={weightText}
+                  onChangeText={setWeightText}
+                  onFocus={onInputFocus}
+                  placeholder="kg"
+                  placeholderTextColor={colors.muted}
+                  keyboardType="decimal-pad"
+                  returnKeyType="done"
+                  style={[styles.setInput, styles.weightInput]}
+                />
+                {weights && (
+                  <TouchableOpacity
+                    style={styles.stackButton}
+                    onPress={() => stepStack(1)}
+                    activeOpacity={0.8}
+                    accessibilityLabel="Subir al siguiente peso de la máquina"
+                  >
+                    <Text style={styles.stackButtonText}>+</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
             <View style={styles.inputWrapper}>
               <Text style={styles.inputLabel}>Reps</Text>
@@ -391,6 +486,7 @@ export default function TodayScreen() {
   const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
   const { settings } = useSettings();
   const { timer: restTimer, start: startRest } = useRestTimer();
+  const { getWeights } = useWeightStacks();
   const isFocused = useIsFocused();
   const { ref: listContainerRef, inset, visible: keyboardVisible } = useKeyboardInset();
   const listRef = useRef<FlatList<DayExerciseSlot>>(null);
@@ -534,6 +630,7 @@ export default function TodayScreen() {
       ? liveRecords(item.exerciseId, activeSession, sessions)
       : NO_RECORDS;
     const planB = planBFor(item);
+    const weights = getWeights(item.exerciseId);
     // La sesión de hoy no cuenta: la sugerencia no cambia a mitad del entreno.
     const suggestion = suggestNextLoad(
       lastSessionSets(
@@ -544,6 +641,7 @@ export default function TodayScreen() {
       ),
       { sets: item.targetSets, repsMin: item.targetRepsMin, repsMax: item.targetRepsMax },
       settings.weightIncrement,
+      weights,
     );
 
     return (
@@ -556,7 +654,9 @@ export default function TodayScreen() {
           records={records}
           suggested={suggestion}
           planB={planB}
-          onAddSet={(weight, reps) => {
+          effortMode={settings.effortMode}
+          weights={weights}
+          onAddSet={(weight, reps, rir) => {
             startRest(settings.autoRest ? restForSlot(item) : undefined);
             addSet({
               splitId: activeSplit.id,
@@ -567,6 +667,7 @@ export default function TodayScreen() {
               positionInMuscleGroup,
               weight,
               reps,
+              rir,
             });
           }}
           onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}
@@ -802,6 +903,41 @@ const styles = StyleSheet.create({
   setNumberRecord: { backgroundColor: colors.accent },
   setRowBody: { flex: 1, gap: 2 },
   setRowText: { color: colors.textDim, fontSize: 14 },
+  weightRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  weightInput: { flex: 1, textAlign: 'center' },
+  stackButton: {
+    width: 30,
+    height: 44,
+    borderRadius: radius.sm,
+    backgroundColor: colors.surfaceHigh,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stackButtonText: { color: colors.accent, fontSize: 18, fontWeight: '800' },
+  setEffort: { color: colors.muted, fontWeight: '700', fontSize: 12.5 },
+  setEffortHard: { color: colors.danger },
+  effortBlock: { gap: 6 },
+  effortHeader: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm },
+  effortHint: {
+    flex: 1,
+    color: colors.accent,
+    fontSize: 11.5,
+    fontWeight: '700',
+    textAlign: 'right',
+  },
+  effortRow: { flexDirection: 'row', gap: 6 },
+  effortButton: {
+    flex: 1,
+    paddingVertical: 8,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceAlt,
+    alignItems: 'center',
+  },
+  effortButtonSelected: { backgroundColor: colors.accent, borderColor: colors.accent },
+  effortButtonText: { color: colors.textDim, fontWeight: '800', fontSize: 13 },
+  effortButtonTextSelected: { color: colors.onAccent },
   recordText: { color: colors.accent, fontSize: 12, fontWeight: '800' },
   setRowStrong: { color: colors.text, fontWeight: '800' },
   removeSetIcon: { paddingHorizontal: 4 },

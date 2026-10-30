@@ -22,6 +22,13 @@ import {
 } from '../utils/restTimer';
 import { formatWeight } from '../utils/progression';
 import { colors, spacing } from '../theme';
+import type { EffortMode } from '../utils/effort';
+
+const EFFORT_MODES: { mode: EffortMode; label: string }[] = [
+  { mode: 'rir', label: 'RIR' },
+  { mode: 'rpe', label: 'RPE' },
+  { mode: 'off', label: 'No apuntar' },
+];
 
 function SettingSwitch({
   label,
@@ -229,6 +236,26 @@ export default function SettingsScreen() {
               label={`+${formatWeight(increment)} kg`}
               active={settings.weightIncrement === increment}
               onPress={() => updateSettings({ weightIncrement: increment })}
+            />
+          ))}
+        </View>
+      </Card>
+
+      <Card style={styles.card}>
+        <View style={styles.switchText}>
+          <Text style={styles.switchLabel}>Esfuerzo de cada serie</Text>
+          <Text style={styles.switchHint}>
+            Apunta cuántas repeticiones te quedaban (RIR) o lo duro que fue del 1 al 10 (RPE). Es
+            opcional en cada serie; si en todas te sobraban 3 o más, se sugiere subir peso.
+          </Text>
+        </View>
+        <View style={styles.presets}>
+          {EFFORT_MODES.map(({ mode, label }) => (
+            <Chip
+              key={mode}
+              label={label}
+              active={settings.effortMode === mode}
+              onPress={() => updateSettings({ effortMode: mode })}
             />
           ))}
         </View>

@@ -11,6 +11,7 @@ import {
 } from './routineStorage';
 import { loadSessions, saveSessions } from './sessionStorage';
 import { loadSettings, saveSettings, type Settings } from './settingsStorage';
+import { loadWeightStacks, saveWeightStacks, type WeightStacks } from './weightStackStorage';
 import type { ActiveSplitState, DayOverrides, Split } from '../types/routine';
 import type { WorkoutSession } from '../types/session';
 
@@ -32,6 +33,8 @@ export interface BackupData {
   sessions: WorkoutSession[];
   favorites: number[];
   settings: Partial<Settings>;
+  /** Pesos de cada máquina. Las copias antiguas no lo traen. */
+  weightStacks?: WeightStacks;
 }
 
 export interface BackupFile {
@@ -45,14 +48,16 @@ export class BackupError extends Error {}
 
 export async function createBackup(now = new Date()): Promise<BackupFile> {
   const presetIds = new Set(SPLIT_PRESETS.map(s => s.id));
-  const [splits, activeSplit, dayOverrides, sessions, favorites, settings] = await Promise.all([
-    loadSplits(),
-    loadActiveSplit(),
-    loadDayOverrides(),
-    loadSessions(),
-    loadFavoriteExerciseIds(),
-    loadSettings(),
-  ]);
+  const [splits, activeSplit, dayOverrides, sessions, favorites, settings, weightStacks] =
+    await Promise.all([
+      loadSplits(),
+      loadActiveSplit(),
+      loadDayOverrides(),
+      loadSessions(),
+      loadFavoriteExerciseIds(),
+      loadSettings(),
+      loadWeightStacks(),
+    ]);
   return {
     app: 'gymbro',
     version: BACKUP_VERSION,
@@ -64,6 +69,7 @@ export async function createBackup(now = new Date()): Promise<BackupFile> {
       sessions,
       favorites,
       settings,
+      weightStacks,
     },
   };
 }
@@ -97,7 +103,8 @@ export function parseBackup(text: string): BackupFile {
     isObject(data.dayOverrides) &&
     (data.activeSplit === null ||
       (isObject(data.activeSplit) && typeof data.activeSplit.splitId === 'string')) &&
-    (data.settings === undefined || isObject(data.settings));
+    (data.settings === undefined || isObject(data.settings)) &&
+    (data.weightStacks === undefined || isObject(data.weightStacks));
   if (!valid) throw new BackupError('La copia de seguridad está incompleta o dañada.');
 
   return parsed as unknown as BackupFile;
@@ -115,6 +122,8 @@ export async function restoreBackup({ data }: BackupFile): Promise<void> {
     saveSessions(data.sessions),
     saveFavoriteExerciseIds(data.favorites),
     saveSettings({ ...(await loadSettings()), ...data.settings }),
+    // Una copia antigua sin pesos de máquinas no borra los que ya hay.
+    data.weightStacks ? saveWeightStacks(data.weightStacks) : Promise.resolve(),
   ]);
 }
 

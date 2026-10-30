@@ -13,6 +13,7 @@ import { RestTimerProvider } from './src/context/RestTimerContext';
 import { RoutineProvider } from './src/context/RoutineContext';
 import { SessionProvider } from './src/context/SessionContext';
 import { SettingsProvider } from './src/context/SettingsContext';
+import { WeightStacksProvider } from './src/context/WeightStacksContext';
 import RootNavigator from './src/navigation/RootNavigator';
 import { colors } from './src/theme';
 
@@ -27,7 +28,9 @@ function App() {
               <RoutineProvider>
                 <SessionProvider>
                   <FavoritesProvider>
-                    <RootNavigator />
+                    <WeightStacksProvider>
+                      <RootNavigator />
+                    </WeightStacksProvider>
                   </FavoritesProvider>
                 </SessionProvider>
               </RoutineProvider>

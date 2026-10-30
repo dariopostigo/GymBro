@@ -3,10 +3,12 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
+import { useSettings } from '../context/SettingsContext';
 import { getExerciseById } from '../data/exerciseCatalog';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseInfo from '../components/ExerciseInfo';
+import WeightStackCard from '../components/WeightStackCard';
 import ExerciseImageModal from '../components/ExerciseImageModal';
 import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import { ExpandIcon, VideoIcon } from '../components/icons';
@@ -15,6 +17,7 @@ import { Card, Chip, EmptyState, Overline, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
+import { effortLabel } from '../utils/effort';
 import { formatWeight } from '../utils/progression';
 import { estimatedOneRepMax, formatFullDate, formatShortDate } from '../utils/stats';
 
@@ -85,6 +88,7 @@ function metricDetail(bar: SessionBar, metric: Metric): string {
 export default function ExerciseHistoryScreen({ route, navigation }: Props) {
   const { exerciseId } = route.params;
   const { getEntriesForExercise } = useSession();
+  const { settings } = useSettings();
   const exercise = getExerciseById(exerciseId);
   const entries = getEntriesForExercise(exerciseId);
   const media = useMemo(() => getExerciseMediaSources(exercise), [exercise]);
@@ -247,6 +251,8 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
           />
         )}
 
+        {exercise && <WeightStackCard exerciseId={exercise.id} />}
+
         {entries.length === 0 ? (
           <EmptyState
             title="Sin datos todavía"
@@ -367,6 +373,11 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                     <Text style={styles.tableRowText}>
                       <Text style={styles.tableRowStrong}>{set.reps}</Text> reps
                     </Text>
+                    {set.rir !== undefined && settings.effortMode !== 'off' && (
+                      <Text style={styles.tableRowEffort}>
+                        {effortLabel(set.rir, settings.effortMode)}
+                      </Text>
+                    )}
                     <Text style={styles.tableRowVolume}>{formatWeight(set.weight * set.reps)} kg vol.</Text>
                   </View>
                 ))}
@@ -454,5 +465,6 @@ const styles = StyleSheet.create({
   setNumberText: { color: colors.accent, fontWeight: '800', fontSize: 11 },
   tableRowText: { color: colors.textDim, fontSize: 13, minWidth: 62 },
   tableRowStrong: { color: colors.text, fontWeight: '800' },
+  tableRowEffort: { color: colors.muted, fontSize: 12, fontWeight: '700' },
   tableRowVolume: { color: colors.muted, fontSize: 12, marginLeft: 'auto' },
 });

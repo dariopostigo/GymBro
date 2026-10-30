@@ -1,14 +1,18 @@
 import type { SetEntry, WorkoutSession } from '../types/session';
+import { EASY_RIR } from './effort';
 
 /**
  * Sobrecarga progresiva: a partir de la última vez que se hizo el ejercicio,
- * propone subir peso si se completaron todas las series al máximo de reps.
+ * propone subir peso si se completaron todas las series al máximo de reps, o
+ * si en todas sobraban muchas repeticiones (RIR alto).
  */
 export interface LoadSuggestion {
   weight: number;
   reps: number;
   /** true si se propone subir peso respecto a la última vez. */
   increase: boolean;
+  /** Por qué se sube: se llegó al máximo de reps o el peso se quedó ligero (RIR alto). */
+  reason?: 'reps' | 'easy';
   /** Peso de trabajo de la última vez y las reps de cada serie con ese peso. */
   previous: { weight: number; reps: number[] };
 }
@@ -60,22 +64,35 @@ function roundWeight(weight: number): number {
   return Math.round(weight * 100) / 100;
 }
 
+/**
+ * `weights` son los pesos reales de la máquina, si se han configurado: subir
+ * es ir al siguiente de la lista en vez de sumar `increment`.
+ */
 export function suggestNextLoad(
-  sets: Pick<SetEntry, 'weight' | 'reps'>[],
+  sets: Pick<SetEntry, 'weight' | 'reps' | 'rir'>[],
   target: SlotTarget,
   increment: number,
+  weights?: number[],
 ): LoadSuggestion | undefined {
   if (!sets.length) return undefined;
   const weight = Math.max(...sets.map(set => set.weight));
-  const reps = sets.filter(set => set.weight === weight).map(set => set.reps);
+  const working = sets.filter(set => set.weight === weight);
+  const reps = working.map(set => set.reps);
   const previous = { weight, reps };
 
   const allAtMax = reps.length >= target.sets && reps.every(r => r >= target.repsMax);
-  if (allAtMax) {
+  // Solo cuenta si se apuntó el esfuerzo de todas las series de trabajo.
+  const allEasy = working.every(set => set.rir !== undefined && set.rir >= EASY_RIR);
+  const next = weights?.length
+    ? weights.find(w => w > weight + 1e-9)
+    : roundWeight(weight + increment);
+  // En el tope de la pila no hay a dónde subir: se sigue con el mismo peso.
+  if ((allAtMax || allEasy) && next !== undefined) {
     return {
-      weight: roundWeight(weight + increment),
+      weight: next,
       reps: target.repsMin,
       increase: true,
+      reason: allAtMax ? 'reps' : 'easy',
       previous,
     };
   }

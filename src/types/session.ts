@@ -7,6 +7,8 @@ export interface SetEntry {
   setNumber: number;
   weight: number;
   reps: number;
+  /** Repeticiones que quedaban en reserva (RIR). Opcional: solo si se apuntó el esfuerzo. */
+  rir?: number;
 }
 
 export interface WorkoutSession {

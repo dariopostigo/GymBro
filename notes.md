@@ -32,6 +32,10 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Pesos reales de cada máquina** (ficha del ejercicio → "Pesos de la máquina", por saltos fijos o lista a mano): la sugerencia sube al siguiente peso que existe y en Hoy el peso sube y baja por la pila con − / +. Entra en la copia de seguridad. Las máquinas de placas y las poleas traen pesos por defecto aproximados (`src/data/defaultWeightStacks.ts`) que se corrigen en la ficha.
+
+- [x] **Esfuerzo RIR / RPE** opcional por serie (Ajustes → Progresión): botones al apuntar, etiqueta en Hoy y en el historial, y si en todas las series sobraban 3 o más reps se sugiere subir peso. Se guarda siempre como RIR.
+
 - [x] **Series por grupo muscular a la semana** en Progreso: mapa de calor sobre la silueta y barras con la franja 10-20 y el cambio respecto a la semana pasada (1 serie por principal, 0,5 por secundario).
 
 - [x] **Siluetas de MuscleMap** (MIT, `scripts/generate-body-paths.js` → `src/data/bodyPaths.ts`) en los iconos de categoría y **mapa corporal por sesión** en Inicio y en cada día de la rutina (principal / secundario).
@@ -52,10 +56,7 @@
 Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gym visual) no se pueden reutilizar. Las siluetas de MuscleMap sí (MIT).
 
 - [ ] **Repeticiones por lado** en zancadas, búlgaras y ejercicios a una mano.
-- [ ] **Esfuerzo RIR / RPE** opcional por serie; afinaría la sugerencia de subir peso.
-- [ ] **Pila de pesos real de cada máquina**, para que la progresión sugiera pesos que existen.
 - [ ] **Calculadora de discos** para barra, barra Z y Smith, según los discos que se tengan.
-- [ ] **Series de calentamiento** que no cuentan en volumen ni récords, con sugerencia automática (50 % × 10, 70 % × 5...).
 - [ ] **Drop sets y rest-pause.**
 - [ ] **Superseries** (dos ejercicios alternados con el descanso al final del par).
 

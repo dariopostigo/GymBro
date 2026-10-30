@@ -12,6 +12,7 @@ interface AddSetParams {
   positionInMuscleGroup?: number;
   weight: number;
   reps: number;
+  rir?: number;
 }
 
 interface SessionContextValue {
@@ -74,6 +75,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
             setNumber,
             weight: params.weight,
             reps: params.reps,
+            ...(params.rir !== undefined && { rir: params.rir }),
           },
         ],
       };

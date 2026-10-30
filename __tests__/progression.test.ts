@@ -1,4 +1,5 @@
 import type { SetEntry, WorkoutSession } from '../src/types/session';
+import { effortLabel, effortOption } from '../src/utils/effort';
 import { formatWeight, lastSessionSets, suggestNextLoad } from '../src/utils/progression';
 
 const TARGET = { sets: 3, repsMin: 8, repsMax: 12 };
@@ -33,8 +34,25 @@ describe('suggestNextLoad', () => {
       weight: 62.5,
       reps: 8,
       increase: true,
+      reason: 'reps',
       previous: { weight: 60, reps: [12, 12, 12] },
     });
+  });
+
+  test('sube peso si en todas las series sobraban muchas reps, aunque no llegaran al máximo', () => {
+    const easy = sets(60, [10, 10, 10]).map(set => ({ ...set, rir: 4 }));
+    expect(suggestNextLoad(easy, TARGET, 2.5)).toMatchObject({
+      weight: 62.5,
+      increase: true,
+      reason: 'easy',
+    });
+  });
+
+  test('no sube por esfuerzo si falta el RIR de alguna serie o alguna fue dura', () => {
+    const partial = sets(60, [10, 10, 10]).map((set, i) => (i === 0 ? set : { ...set, rir: 4 }));
+    const hard = sets(60, [10, 10, 10]).map((set, i) => ({ ...set, rir: i === 2 ? 1 : 4 }));
+    expect(suggestNextLoad(partial, TARGET, 2.5)?.increase).toBe(false);
+    expect(suggestNextLoad(hard, TARGET, 2.5)?.increase).toBe(false);
   });
 
   test('mantiene el peso y propone las mejores reps si alguna serie se quedó corta', () => {
@@ -90,4 +108,17 @@ describe('lastSessionSets', () => {
 test('los pesos se muestran con coma decimal', () => {
   expect(formatWeight(62.5)).toBe('62,5');
   expect(formatWeight(60)).toBe('60');
+});
+
+describe('esfuerzo (RIR / RPE)', () => {
+  test('RPE es la escala del RIR vista al revés', () => {
+    expect(effortLabel(2, 'rir')).toBe('RIR 2');
+    expect(effortLabel(2, 'rpe')).toBe('RPE 8');
+    expect(effortLabel(0, 'rpe')).toBe('RPE 10');
+  });
+
+  test('el último botón significa "ese o más"', () => {
+    expect(effortOption(4, 'rir')).toBe('4+');
+    expect(effortOption(4, 'rpe')).toBe('6-');
+  });
 });

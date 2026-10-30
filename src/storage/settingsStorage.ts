@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import type { EffortMode } from '../utils/effort';
 import type { RestTimer } from '../utils/restTimer';
 
 const SETTINGS_KEY = 'gymbro:settings';
@@ -14,6 +15,8 @@ export interface Settings {
   keepScreenOn: boolean;
   /** Kilos que se suben al completar todas las series al máximo de reps. */
   weightIncrement: number;
+  /** Apuntar el esfuerzo de cada serie como RIR, como RPE o no apuntarlo. */
+  effortMode: EffortMode;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -22,6 +25,7 @@ export const DEFAULT_SETTINGS: Settings = {
   restSeconds: 90,
   keepScreenOn: true,
   weightIncrement: 2.5,
+  effortMode: 'rir',
 };
 
 export const WEIGHT_INCREMENTS = [1, 1.25, 2.5, 5];
