@@ -18,8 +18,16 @@ export type RootStackParamList = {
   WorkoutSummary: { sessionId: string };
   /** `addExerciseId` lo devuelve el buscador al añadir un ejercicio al entreno. */
   EditWorkout: { sessionId: string; addExerciseId?: number };
-  /** `currentExerciseId` preselecciona el filtro por la categoría del ejercicio que se cambia. */
-  ExercisePicker:
+  /**
+   * Crear un ejercicio propio o editarlo (`exerciseId`). `then` dice qué hacer al crearlo:
+   * abrir su ficha (desde la biblioteca) o elegirlo en el buscador del que se vino.
+   */
+  CustomExercise: { exerciseId?: number; then?: 'open' | 'pick' } | undefined;
+  /**
+   * `currentExerciseId` preselecciona el filtro por la categoría del ejercicio que se cambia.
+   * `createdExerciseId` lo devuelve la pantalla de crear ejercicio para elegirlo directamente.
+   */
+  ExercisePicker: { createdExerciseId?: number } & (
     | { mode: 'add'; splitId: string; dayId: string }
     /** Añadir un ejercicio solo para la sesión de hoy, sin tocar la plantilla. */
     | { mode: 'todayAdd'; splitId: string; dayId: string }
@@ -46,5 +54,6 @@ export type RootStackParamList = {
         dayId: string;
         slotId: string;
         currentExerciseId?: number;
-      };
+      }
+  );
 };

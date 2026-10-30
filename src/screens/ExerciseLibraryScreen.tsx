@@ -3,7 +3,8 @@ import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { CATEGORIES, EXERCISES, primaryMusclesSuffix } from '../data/exerciseCatalog';
+import { CATEGORIES, allExercises, primaryMusclesSuffix } from '../data/exerciseCatalog';
+import { useCustomExercises } from '../context/CustomExercisesContext';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useFavorites } from '../context/FavoritesContext';
 import { searchExercises } from '../utils/exerciseSearch';
@@ -28,12 +29,15 @@ export default function ExerciseLibraryScreen() {
   const chipsRef = useRef<FlatList<string>>(null);
 
   const { favoriteIds } = useFavorites();
+  const { customExercises } = useCustomExercises();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<string | null>(null);
 
   const filtered = useMemo(
-    () => searchExercises(EXERCISES, { search, category, favoriteIds }),
-    [search, category, favoriteIds],
+    () => searchExercises(allExercises(), { search, category, favoriteIds }),
+    // allExercises() cambia cuando cambian los propios.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [search, category, favoriteIds, customExercises],
   );
 
   const handleSelect = (exercise: Exercise) => {
@@ -50,9 +54,17 @@ export default function ExerciseLibraryScreen() {
           placeholderTextColor={colors.muted}
           style={styles.searchInput}
         />
-        <Text style={styles.resultCount}>
-          {filtered.length} ejercicio{filtered.length === 1 ? '' : 's'}
-        </Text>
+        <View style={styles.countRow}>
+          <Text style={styles.resultCount}>
+            {filtered.length} ejercicio{filtered.length === 1 ? '' : 's'}
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CustomExercise', { then: 'open' })}
+            hitSlop={8}
+          >
+            <Text style={styles.createLink}>+ Crear ejercicio</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.chipsWrapper}>
@@ -130,7 +142,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  countRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   resultCount: { color: colors.muted, fontSize: 11.5, marginLeft: 4 },
+  createLink: { color: colors.accent, fontSize: 12.5, fontWeight: '800', marginRight: 4 },
   chipsWrapper: { paddingVertical: spacing.md },
   chipsList: { paddingHorizontal: spacing.xxl, gap: spacing.sm },
   listContainer: { flex: 1 },

@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import {
   CATEGORIES,
-  EXERCISES,
+  allExercises,
   defaultRepRange,
   getExerciseById,
   primaryMusclesSuffix,
@@ -17,6 +17,7 @@ import {
 } from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
+import { useCustomExercises } from '../context/CustomExercisesContext';
 import { useFavorites } from '../context/FavoritesContext';
 import { searchExercises } from '../utils/exerciseSearch';
 import { ChevronIcon } from '../components/icons';
@@ -56,6 +57,7 @@ export default function ExercisePickerScreen({ route }: Props) {
   }, [params]);
 
   const { favoriteIds } = useFavorites();
+  const { customExercises } = useCustomExercises();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<string | null>(currentCategory);
 
@@ -71,8 +73,10 @@ export default function ExercisePickerScreen({ route }: Props) {
   }, [currentCategory]);
 
   const filtered = useMemo(
-    () => searchExercises(EXERCISES, { search, category, favoriteIds }),
-    [search, category, favoriteIds],
+    () => searchExercises(allExercises(), { search, category, favoriteIds }),
+    // allExercises() cambia cuando cambian los propios.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [search, category, favoriteIds, customExercises],
   );
 
   const handleSelect = (exercise: Exercise) => {
@@ -149,6 +153,15 @@ export default function ExercisePickerScreen({ route }: Props) {
     navigation.goBack();
   };
 
+  // Recién creado desde aquí ("+ Crear ejercicio"): se elige sin tener que buscarlo.
+  const createdId = params.createdExerciseId;
+  useEffect(() => {
+    const created = createdId !== undefined ? getExerciseById(createdId) : undefined;
+    if (created) handleSelect(created);
+    // Solo al volver con uno nuevo; handleSelect cambia en cada render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createdId]);
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
       <View style={styles.header}>
@@ -159,9 +172,17 @@ export default function ExercisePickerScreen({ route }: Props) {
           placeholderTextColor={colors.muted}
           style={styles.searchInput}
         />
-        <Text style={styles.resultCount}>
-          {filtered.length} ejercicio{filtered.length === 1 ? '' : 's'}
-        </Text>
+        <View style={styles.countRow}>
+          <Text style={styles.resultCount}>
+            {filtered.length} ejercicio{filtered.length === 1 ? '' : 's'}
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CustomExercise', { then: 'pick' })}
+            hitSlop={8}
+          >
+            <Text style={styles.createLink}>+ Crear ejercicio</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.chipsWrapper}>
@@ -239,7 +260,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  countRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   resultCount: { color: colors.muted, fontSize: 11.5, marginLeft: 4 },
+  createLink: { color: colors.accent, fontSize: 12.5, fontWeight: '800', marginRight: 4 },
   chipsWrapper: { paddingVertical: spacing.md },
   chipsList: { paddingHorizontal: spacing.xxl, gap: spacing.sm },
   listContainer: { flex: 1 },

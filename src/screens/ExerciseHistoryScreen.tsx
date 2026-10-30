@@ -4,7 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
-import { getExerciseById, isBodyweight, isTimed } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight, isCustomExercise, isTimed } from '../data/exerciseCatalog';
+import { useCustomExercises } from '../context/CustomExercisesContext';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseInfo from '../components/ExerciseInfo';
@@ -13,7 +14,7 @@ import ExerciseImageModal from '../components/ExerciseImageModal';
 import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import { ExpandIcon, VideoIcon } from '../components/icons';
 import TrendLine, { type TrendPoint } from '../components/TrendLine';
-import { Card, Chip, EmptyState, Overline, StatTile } from '../components/ui';
+import { Card, Chip, EmptyState, GhostButton, Overline, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
@@ -110,6 +111,8 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
   const { exerciseId } = route.params;
   const { getEntriesForExercise } = useSession();
   const { settings } = useSettings();
+  // Al editar un ejercicio propio, la ficha se vuelve a pintar con lo nuevo.
+  useCustomExercises();
   const exercise = getExerciseById(exerciseId);
   const entries = getEntriesForExercise(exerciseId);
   const media = useMemo(() => getExerciseMediaSources(exercise), [exercise]);
@@ -240,6 +243,13 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
           <Overline>{exercise?.category.name ?? 'Ejercicio'}</Overline>
           <Text style={styles.title}>{exercise?.name ?? `Ejercicio #${exerciseId}`}</Text>
         </View>
+
+        {exercise && isCustomExercise(exerciseId) && (
+          <GhostButton
+            label="Editar ejercicio"
+            onPress={() => navigation.navigate('CustomExercise', { exerciseId })}
+          />
+        )}
 
         {media.length > 0 && (
           <View style={styles.mediaWrapper}>

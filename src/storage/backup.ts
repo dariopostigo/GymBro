@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SPLIT_PRESETS } from '../data/splitPresets';
+import { loadCustomExercises, saveCustomExercises } from './customExerciseStorage';
 import { loadFavoriteExerciseIds, saveFavoriteExerciseIds } from './favoritesStorage';
 import {
   loadActiveSplit,
@@ -12,6 +13,7 @@ import {
 import { loadSessions, saveSessions } from './sessionStorage';
 import { loadSettings, saveSettings, type Settings } from './settingsStorage';
 import { loadWeightStacks, saveWeightStacks, type WeightStacks } from './weightStackStorage';
+import type { CustomExercise } from '../types/exercise';
 import type { ActiveSplitState, DayOverrides, Split } from '../types/routine';
 import type { WorkoutSession } from '../types/session';
 
@@ -35,6 +37,11 @@ export interface BackupData {
   settings: Partial<Settings>;
   /** Pesos de cada máquina. Las copias antiguas no lo traen. */
   weightStacks?: WeightStacks;
+  /**
+   * Ejercicios creados en la app, sin las fotos (son archivos aparte): en el
+   * mismo móvil siguen ahí; en otro, quedan sin foto. Las copias antiguas no lo traen.
+   */
+  customExercises?: CustomExercise[];
 }
 
 export interface BackupFile {
@@ -48,16 +55,25 @@ export class BackupError extends Error {}
 
 export async function createBackup(now = new Date()): Promise<BackupFile> {
   const presetIds = new Set(SPLIT_PRESETS.map(s => s.id));
-  const [splits, activeSplit, dayOverrides, sessions, favorites, settings, weightStacks] =
-    await Promise.all([
-      loadSplits(),
-      loadActiveSplit(),
-      loadDayOverrides(),
-      loadSessions(),
-      loadFavoriteExerciseIds(),
-      loadSettings(),
-      loadWeightStacks(),
-    ]);
+  const [
+    splits,
+    activeSplit,
+    dayOverrides,
+    sessions,
+    favorites,
+    settings,
+    weightStacks,
+    customExercises,
+  ] = await Promise.all([
+    loadSplits(),
+    loadActiveSplit(),
+    loadDayOverrides(),
+    loadSessions(),
+    loadFavoriteExerciseIds(),
+    loadSettings(),
+    loadWeightStacks(),
+    loadCustomExercises(),
+  ]);
   return {
     app: 'gymbro',
     version: BACKUP_VERSION,
@@ -70,6 +86,7 @@ export async function createBackup(now = new Date()): Promise<BackupFile> {
       favorites,
       settings,
       weightStacks,
+      customExercises,
     },
   };
 }
@@ -104,7 +121,12 @@ export function parseBackup(text: string): BackupFile {
     (data.activeSplit === null ||
       (isObject(data.activeSplit) && typeof data.activeSplit.splitId === 'string')) &&
     (data.settings === undefined || isObject(data.settings)) &&
-    (data.weightStacks === undefined || isObject(data.weightStacks));
+    (data.weightStacks === undefined || isObject(data.weightStacks)) &&
+    (data.customExercises === undefined ||
+      (Array.isArray(data.customExercises) &&
+        data.customExercises.every(
+          e => isObject(e) && typeof e.id === 'number' && typeof e.name === 'string',
+        )));
   if (!valid) throw new BackupError('La copia de seguridad está incompleta o dañada.');
 
   return parsed as unknown as BackupFile;
@@ -124,6 +146,8 @@ export async function restoreBackup({ data }: BackupFile): Promise<void> {
     saveSettings({ ...(await loadSettings()), ...data.settings }),
     // Una copia antigua sin pesos de máquinas no borra los que ya hay.
     data.weightStacks ? saveWeightStacks(data.weightStacks) : Promise.resolve(),
+    // Igual con los ejercicios propios: una copia de antes de tenerlos no los borra.
+    data.customExercises ? saveCustomExercises(data.customExercises) : Promise.resolve(),
   ]);
 }
 

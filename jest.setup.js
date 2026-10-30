@@ -46,6 +46,11 @@ jest.mock('react-native/Libraries/Animated/Animated', () => {
 // Módulos nativos de la copia de seguridad: en Jest solo hace falta que importen.
 jest.mock('@dr.pogodin/react-native-fs', () => ({
   CachesDirectoryPath: '/cache',
+  DocumentDirectoryPath: '/documents',
+  copyFile: jest.fn(() => Promise.resolve()),
+  exists: jest.fn(() => Promise.resolve(true)),
+  mkdir: jest.fn(() => Promise.resolve()),
+  readDir: jest.fn(() => Promise.resolve([])),
   readFile: jest.fn(),
   writeFile: jest.fn(),
   unlink: jest.fn(() => Promise.resolve()),
@@ -56,5 +61,5 @@ jest.mock('@react-native-documents/picker', () => ({
   keepLocalCopy: jest.fn(),
   pick: jest.fn(),
   saveDocuments: jest.fn(),
-  types: { allFiles: '*/*' },
+  types: { allFiles: '*/*', images: 'image/*' },
 }));
