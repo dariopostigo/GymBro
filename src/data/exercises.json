@@ -327,7 +327,7 @@
   {
     "id": 178,
     "uuid": "d4db2355-4c99-4d80-a179-6aeced7c7fed",
-    "name": "Bicho Muerto",
+    "name": "Bicho muerto",
     "description": "Este es un ejercicio fundamental para el control y la estabilidad del core, enfocado en mantener la espalda baja segura mientras se mueven las extremidades. Instrucciones: Acuéstate boca arriba con las caderas y rodillas flexionadas a 90° (posición de \"mesa\") y los brazos extendidos rectos hacia el techo. La regla de oro: Presiona tu espalda baja contra el suelo para eliminar cualquier espacio. Esta conexión debe mantenerse durante todo el ejercicio. De forma lenta y controlada, baja tu brazo derecho y tu pierna izquierda simultáneamente, casi hasta tocar el suelo. Regresa a la posición inicial y alterna con el otro lado. Exhala profundamente a medida que extiendes las extremidades.",
     "category": {
       "id": 10,
@@ -2678,12 +2678,7 @@
         "name": "Braquial"
       }
     ],
-    "musclesSecondary": [
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
+    "musclesSecondary": [],
     "equipment": [
       {
         "id": 2,
@@ -2943,12 +2938,7 @@
         "name": "Braquial"
       }
     ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      }
-    ],
+    "musclesSecondary": [],
     "equipment": [
       {
         "id": 1,
@@ -2993,7 +2983,7 @@
   {
     "id": 272,
     "uuid": "c0d9fe98-f4fe-49f3-8037-05e1984e7d2d",
-    "name": "Curl Martillo",
+    "name": "Curl martillo",
     "description": "Esta variante del curl utiliza un agarre neutro (como si sostuvieras un martillo) para enfocar el trabajo en el músculo braquial (ubicado debajo del bíceps) y el antebrazo (braquiorradial), lo que ayuda a dar más grosor y densidad al brazo. Instrucciones Posición: De pie o sentado, sostén un par de mancuernas a los costados de tu cuerpo con las palmas de las manos mirándose entre sí (agarre neutro). Movimiento: Manteniendo los codos fijos a los costados de tu torso, levanta las mancuernas hasta la altura de los hombros. La clave es no rotar las muñecas en ningún momento; la orientación de las palmas no cambia. Tempo: Sube el peso de forma potente y bájalo de manera lenta y controlada para maximizar la tensión muscular. Evita balancear el cuerpo.",
     "category": {
       "id": 101,
@@ -4130,16 +4120,7 @@
         "name": "Cuádriceps"
       }
     ],
-    "musclesSecondary": [
-      {
-        "id": 7,
-        "name": "Gemelos"
-      },
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
+    "musclesSecondary": [],
     "equipment": [],
     "images": [
       "https://wger.de/media/exercise-images/371/d2136f96-3a43-4d4c-9944-1919c4ca1ce1.webp.400x400_q85.png"
@@ -10723,7 +10704,7 @@
   {
     "id": 567,
     "uuid": "87affa4b-395b-437c-9581-2bd20ea5aa7c",
-    "name": "Press Militar mancuerna",
+    "name": "Press militar sentado con mancuernas",
     "description": "Siéntate en un banco, con el respaldo casi vertical. Toma dos mancuernas y súbelas a la altura de los hombros, con las palmas y los codos apuntando hacia adelante durante todo el ejercicio. Empuja las mancuernas hacia arriba; en el punto más alto, se acercarán mucho, pero sin tocarse. Baja lentamente y repite.",
     "category": {
       "id": 13,
@@ -11912,12 +11893,7 @@
         "name": "Tríceps"
       }
     ],
-    "musclesSecondary": [
-      {
-        "id": 5,
-        "name": "Tríceps"
-      }
-    ],
+    "musclesSecondary": [],
     "equipment": [
       {
         "id": 7,

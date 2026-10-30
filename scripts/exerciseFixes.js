@@ -213,6 +213,9 @@ function applyExerciseFixes(exercises) {
       description: DESCRIPTION_ES[exercise.id] ?? cleanDescription(exercise.description),
       ...EXERCISE_FIXES[exercise.id],
     };
+    // wger a veces pone el mismo músculo como principal y secundario: manda el principal.
+    const primaryIds = new Set(next.musclesPrimary.map(muscle => muscle.id));
+    next.musclesSecondary = next.musclesSecondary.filter(muscle => !primaryIds.has(muscle.id));
     next.category = splitCategory(next);
     if (JSON.stringify(next) === JSON.stringify(exercise)) continue;
     Object.assign(exercise, next);

@@ -23,7 +23,7 @@ Todo se guarda en el móvil con AsyncStorage; no hay cuentas ni servidor.
 - JDK 17 y [Android Studio](https://developer.android.com/studio) configurado (SDK + emulador o móvil con depuración USB). `npm run android` usa el JDK 17 de `/usr/lib/jvm` si lo encuentra, porque Gradle falla con JDKs muy nuevos.
 - Solo en macOS, si además quieres compilar para iOS: Xcode y CocoaPods
 
-Gradle usa el SDK de `android/local.properties` (`sdk.dir=...`, no se sube a git) o, si no existe, `ANDROID_HOME`. Comprueba que apunta a un SDK con el NDK `27.1.12297006` (o sus licencias aceptadas, para que Gradle lo descargue).
+Gradle usa el SDK de `android/local.properties` (`sdk.dir=...`, no se sube a git) o, si no existe, `ANDROID_HOME`. `npm run android` también lo usa para adb y el emulador aunque el sistema fije otro `ANDROID_HOME` (Manjaro pone `/opt/android-sdk`), y compila solo la arquitectura del dispositivo conectado. Comprueba que apunta a un SDK con el NDK `27.1.12297006` (o sus licencias aceptadas, para que Gradle lo descargue).
 
 Las imágenes de `src/assets/exercises-local/` no están en git (copyright). Si faltan, la app usa las imágenes remotas del catálogo.
 

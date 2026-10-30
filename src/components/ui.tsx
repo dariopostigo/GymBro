@@ -139,8 +139,18 @@ export function StatTile({
   return (
     <View style={[styles.statTile, accent && styles.statTileAccent]}>
       <View style={styles.statValueRow}>
-        <Text style={[styles.statValue, accent && styles.statValueAccent]}>{value}</Text>
-        {unit ? <Text style={[styles.statUnit, accent && styles.statUnitAccent]}>{unit}</Text> : null}
+        {/* "254,9k" no cabe entero en cuatro casillas: encoge en vez de partirse. */}
+        <Text
+          style={[styles.statValue, accent && styles.statValueAccent]}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
+        >
+          {value}
+        </Text>
+        {unit ? (
+          <Text style={[styles.statUnit, accent && styles.statUnitAccent]}>{unit}</Text>
+        ) : null}
       </View>
       {/* Cuatro casillas en fila son estrechas: la etiqueta encoge antes que partirse. */}
       <Text
@@ -202,7 +212,9 @@ export function Stepper({
 
   return (
     <View style={layout === 'inline' ? styles.stepperInline : styles.stepperStacked}>
-      <Text style={styles.stepperLabel}>{label}</Text>
+      <Text style={[styles.stepperLabel, layout === 'inline' && styles.stepperLabelInline]}>
+        {label}
+      </Text>
       <View style={styles.stepperControls}>
         {button('−', minusDisabled, onDecrease)}
         <Text style={styles.stepperValue}>{value}</Text>
@@ -301,7 +313,7 @@ const styles = StyleSheet.create({
   },
   statTileAccent: { backgroundColor: colors.accent, borderColor: colors.accent },
   statValueRow: { flexDirection: 'row', alignItems: 'baseline', gap: 3 },
-  statValue: { color: colors.text, fontSize: 20, fontWeight: '800' },
+  statValue: { color: colors.text, fontSize: 20, fontWeight: '800', flexShrink: 1 },
   statValueAccent: { color: colors.onAccent },
   statUnit: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   statUnitAccent: { color: colors.onAccent, opacity: 0.7 },
@@ -326,6 +338,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   stepperLabel: { ...overline, fontSize: 9, color: colors.muted },
+  // Una etiqueta larga baja de línea en vez de empujar los botones fuera de la fila.
+  stepperLabelInline: { flexShrink: 1 },
   stepperControls: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   stepperButton: {
     width: 26,

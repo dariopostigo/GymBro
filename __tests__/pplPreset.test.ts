@@ -25,7 +25,7 @@ const PPL_ROUTINE: Record<string, [string, string][]> = {
     ['Remo con mancuernas', '3x8-12'],
     ['Jalón a la cara (face pull)', '3x12-15'],
     ['Curl inclinado con mancuernas', '4x10-12'],
-    ['Curl Martillo', '3x10-12'],
+    ['Curl martillo', '3x10-12'],
   ],
   'Legs A': [
     ['Sentadilla hack en máquina', '4x6-10'],
@@ -48,7 +48,7 @@ const PPL_ROUTINE: Record<string, [string, string][]> = {
     ['Jalón al pecho', '4x8-12'],
     ['Remo sentado en máquina de placas', '3x8-12'],
     ['Contractora inversa (pec deck)', '3x12-15'],
-    ['Curl Martillo', '4x10-12'],
+    ['Curl martillo', '4x10-12'],
     ['Curl inclinado con mancuernas', '3x10-12'],
   ],
   'Legs B': [

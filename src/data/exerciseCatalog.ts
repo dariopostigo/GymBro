@@ -37,6 +37,17 @@ export function isUnilateral(id: number): boolean {
   return UNILATERAL_EXERCISES.has(canonicalExerciseId(id));
 }
 
+/**
+ * " · Isquiotibiales, Glúteos" para poner tras la categoría en las listas, sin
+ * repetir el músculo que se llama como ella ("Pecho · Pecho"); vacío si no queda ninguno.
+ */
+export function primaryMusclesSuffix(exercise: Exercise): string {
+  const muscles = exercise.musclesPrimary
+    .map(m => m.name)
+    .filter(name => name !== exercise.category.name);
+  return muscles.length ? ` · ${muscles.join(', ')}` : '';
+}
+
 export const CATEGORIES = [...new Set(EXERCISES.map(e => e.category.name))].sort((a, b) =>
   a.localeCompare(b, 'es'),
 );

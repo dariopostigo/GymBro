@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { useSettings } from '../context/SettingsContext';
 import { presetDay } from '../storage/routineStorage';
-import { defaultBackupId, getExerciseById } from '../data/exerciseCatalog';
+import { defaultBackupId, getExerciseById, primaryMusclesSuffix } from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { ChevronIcon } from '../components/icons';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
@@ -135,9 +135,7 @@ export default function DayEditorScreen({ route }: Props) {
                 </Text>
                 <Text style={styles.exerciseMeta} numberOfLines={1}>
                   {exercise?.category.name}
-                  {exercise?.musclesPrimary.length
-                    ? ` · ${exercise.musclesPrimary.map(m => m.name).join(', ')}`
-                    : ''}
+                  {exercise && primaryMusclesSuffix(exercise)}
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
@@ -163,7 +161,7 @@ export default function DayEditorScreen({ route }: Props) {
                   <ChevronIcon
                     direction="up"
                     size={14}
-                    color={isFirst ? colors.border : colors.text}
+                    color={isFirst ? colors.muted : colors.text}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -174,7 +172,7 @@ export default function DayEditorScreen({ route }: Props) {
                   <ChevronIcon
                     direction="down"
                     size={14}
-                    color={isLast ? colors.border : colors.text}
+                    color={isLast ? colors.muted : colors.text}
                   />
                 </TouchableOpacity>
               </View>

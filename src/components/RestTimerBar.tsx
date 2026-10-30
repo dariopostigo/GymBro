@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRestTimer } from '../context/RestTimerContext';
 import { useSettings } from '../context/SettingsContext';
 import FadeInView from './FadeInView';
+import { TAB_BAR_SPACE } from './MainTabBar';
 import { CheckIcon, CloseIcon } from './icons';
 import { REST_PRESETS, REST_STEP, formatRest, remainingMs, restProgress } from '../utils/restTimer';
 import { colors, overline, radius, shadow, spacing } from '../theme';
@@ -12,6 +13,12 @@ import { colors, overline, radius, shadow, spacing } from '../theme';
 const TAB_BAR_HEIGHT = 64 + 10;
 /** Espacio extra que deben dejar las listas mientras la barra del descanso está visible. */
 export const REST_BAR_SPACE = 76;
+
+/** Hueco al final de una pantalla con pestañas: también el de la barra del descanso si se ve. */
+export function useTabScreenBottomSpace(): number {
+  const { timer, finished } = useRestTimer();
+  return TAB_BAR_SPACE + (timer || finished ? REST_BAR_SPACE : 0);
+}
 
 const SHOW_EVENT = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
 const HIDE_EVENT = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';

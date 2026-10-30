@@ -23,7 +23,7 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   976: 172, // Abdominales en V con balón medicinal → Abdominales en máquina
   1193: 145, // Abdominales rusas → Leñadores en Polea
   1823: 1842, // Almeja → Almeja con banda
-  178: 1572, // Bicho Muerto → Perro-pájaro
+  178: 1572, // Bicho muerto → Perro-pájaro
   1909: 172, // Círculos con las piernas → Abdominales en máquina
   1933: 172, // Crunch abdominal → Abdominales en máquina
   1287: 145, // Crunch con alcance → Leñadores en Polea
@@ -50,7 +50,7 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1374: 145, // Máquina de giro de torso → Leñadores en Polea
   1776: 577, // Paseo del maletín → Flexión lateral del tronco con mancuerna
   235: 145, // Patadas de aleteo → Leñadores en Polea
-  1572: 178, // Perro-pájaro → Bicho Muerto
+  1572: 178, // Perro-pájaro → Bicho muerto
   1091: 1001, // Plancha a una mano alterna → Plancha alta
   1001: 1307, // Plancha alta → Plancha frontal
   1766: 1307, // Plancha con extensión de brazo → Plancha frontal
@@ -85,7 +85,7 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   // --- Bíceps ---
   1109: 584, // Bíceps concentrado → Curl en banco Scott a un brazo
   1717: 95, // Codo unilateral polea alta → Curl de bíceps en polea
-  1567: 272, // Curl alterno de martillo con mancuernas → Curl Martillo
+  1567: 272, // Curl alterno de martillo con mancuernas → Curl martillo
   1465: 465, // Curl araña → Curl en banco Scott
   1493: 204, // Curl bayesiano en polea → Curl inclinado con mancuernas
   1224: 91, // Curl con arrastre con mancuernas → Curl con barra
@@ -113,10 +113,10 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   914: 913, // Curl Inverso con Barra EZ en Polea → Curl en banco Scott inverso
   495: 914, // Curl invertido → Curl Inverso con Barra EZ en Polea
   1511: 91, // Curl Kong → Curl con barra
-  272: 90021, // Curl Martillo → Curl martillo en polea con cuerda
-  1502: 272, // Curl martillo cruzado con mancuernas → Curl Martillo
-  90021: 272, // Curl martillo en polea con cuerda → Curl Martillo
-  1683: 272, // Curl Zottman → Curl Martillo
+  272: 90021, // Curl martillo → Curl martillo en polea con cuerda
+  1502: 272, // Curl martillo cruzado con mancuernas → Curl martillo
+  90021: 272, // Curl martillo en polea con cuerda → Curl martillo
+  1683: 272, // Curl Zottman → Curl martillo
   1530: 204, // Curls con mancuernas tumbado → Curl inclinado con mancuernas
   1225: 91, // Curls de bíceps abiertos con mancuernas → Curl con barra
   1971: 95, // Jalón Mentzer → Curl de bíceps en polea
@@ -343,28 +343,28 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   571: 572, // Encogimientos de hombros con barra → Encogimientos de hombros con mancuernas
   572: 571, // Encogimientos de hombros con mancuernas → Encogimientos de hombros con barra
   90019: 572, // Encogimientos de hombros en máquina → Encogimientos de hombros con mancuernas
-  454: 567, // Flexiones de pica → Press Militar mancuerna
+  454: 567, // Flexiones de pica → Press militar sentado con mancuernas
   222: 139, // Jalón a la cara (face pull) → Contractora inversa (pec deck)
   79: 1755, // Jalón alto inclinado con mancuernas → Jalón en Y en polea
   1795: 1755, // Jalón cruzado unilateral en polea → Jalón en Y en polea
   1755: 1602, // Jalón en Y en polea → Scaption con mancuernas
-  346: 567, // Landmine press → Press Militar mancuerna
+  346: 567, // Landmine press → Press militar sentado con mancuernas
   1709: 139, // Pájaro de pie → Contractora inversa (pec deck)
-  20: 567, // Press Arnold → Press Militar mancuerna
-  1893: 567, // Press de barra por encima de la cabeza → Press Militar mancuerna
-  1968: 567, // Press de hombro con mancuerna a un brazo → Press Militar mancuerna
+  20: 567, // Press Arnold → Press militar sentado con mancuernas
+  1893: 567, // Press de barra por encima de la cabeza → Press militar sentado con mancuernas
+  1968: 567, // Press de hombro con mancuerna a un brazo → Press militar sentado con mancuernas
   478: 543, // Press de hombro con mancuernas → Press de hombros en máquina de placas
-  566: 567, // Press de hombros con barra → Press Militar mancuerna
+  566: 567, // Press de hombros con barra → Press militar sentado con mancuernas
   90029: 543, // Press de hombros en máquina de discos → Press de hombros en máquina de placas
   543: 90029, // Press de hombros en máquina de placas → Press de hombros en máquina de discos
-  569: 567, // Press de hombros en máquina Smith → Press Militar mancuerna
-  90030: 567, // Press de hombros en polea → Press Militar mancuerna
-  1581: 567, // Press de trapecio → Press Militar mancuerna
-  193: 567, // Press diagonal para hombros → Press Militar mancuerna
-  418: 567, // Press militar → Press Militar mancuerna
+  569: 567, // Press de hombros en máquina Smith → Press militar sentado con mancuernas
+  90030: 567, // Press de hombros en polea → Press militar sentado con mancuernas
+  1581: 567, // Press de trapecio → Press militar sentado con mancuernas
+  193: 567, // Press diagonal para hombros → Press militar sentado con mancuernas
+  418: 567, // Press militar → Press militar sentado con mancuernas
   1439: 566, // Press militar desde pines → Press de hombros con barra
-  1441: 567, // Press militar en banco inclinado con mancuernas → Press Militar mancuerna
-  567: 543, // Press Militar mancuerna → Press de hombros en máquina de placas
+  1441: 567, // Press militar en banco inclinado con mancuernas → Press militar sentado con mancuernas
+  567: 543, // Press militar sentado con mancuernas → Press de hombros en máquina de placas
   693: 90031, // Remo al mentón con barra → Remo al mentón en polea
   694: 693, // Remo al mentón con mancuernas → Remo al mentón con barra
   691: 693, // Remo al mentón en máquina Smith → Remo al mentón con barra

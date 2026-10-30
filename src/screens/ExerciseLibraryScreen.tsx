@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { CategoryIcon } from '../components/CategoryIcon';
-import { CATEGORIES, EXERCISES } from '../data/exerciseCatalog';
+import { CATEGORIES, EXERCISES, primaryMusclesSuffix } from '../data/exerciseCatalog';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useFavorites } from '../context/FavoritesContext';
 import { searchExercises } from '../utils/exerciseSearch';
@@ -97,14 +97,12 @@ export default function ExerciseLibraryScreen() {
               >
                 <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
                 <View style={styles.rowInfo}>
-                  <Text style={styles.rowName} numberOfLines={1}>
+                  <Text style={styles.rowName} numberOfLines={2}>
                     {item.name}
                   </Text>
                   <Text style={styles.rowMeta} numberOfLines={1}>
                     {item.category.name}
-                    {item.musclesPrimary.length
-                      ? ` · ${item.musclesPrimary.map(m => m.name).join(', ')}`
-                      : ''}
+                    {primaryMusclesSuffix(item)}
                   </Text>
                 </View>
                 <FavoriteButton exerciseId={item.id} />

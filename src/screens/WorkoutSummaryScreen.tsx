@@ -9,7 +9,7 @@ import { CheckIcon, DumbbellIcon, TrophyIcon } from '../components/icons';
 import { Card, EmptyState, Overline, PrimaryButton, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import { formatWeight } from '../utils/progression';
-import { formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
+import { dayKey, formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
 import {
   buildWorkoutSummary,
   describeRecord,
@@ -65,6 +65,8 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
   }
 
   const improved = (summary.comparison?.volumeChange ?? 0) > 0;
+  const isToday = dayKey(session.date) === dayKey(new Date());
+  const recordIds = new Set(summary.records.map(record => record.exerciseId));
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
@@ -102,7 +104,7 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
 
         {summary.records.length > 0 && (
           <FadeInView delay={120}>
-            <Overline>Récords de hoy</Overline>
+            <Overline>{isToday ? 'Récords de hoy' : 'Récords'}</Overline>
             <Card style={styles.records}>
               {summary.records.map(record => (
                 <View key={record.exerciseId} style={styles.recordRow}>
@@ -142,12 +144,20 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
                       {exercise.sets.some(set => set.perSide) ? ' (reps por lado)' : ''}
                     </Text>
                   </View>
-                  <Text
-                    style={[styles.trend, { color: trend.color }]}
-                    accessibilityLabel={trend.label}
-                  >
-                    {trend.symbol}
-                  </Text>
+                  {/* Un récord manda sobre la flecha, que solo mira el volumen: más kilos
+                      con menos reps saldría con ↓ junto al trofeo de arriba. */}
+                  {recordIds.has(exercise.exerciseId) ? (
+                    <View accessibilityLabel="Récord">
+                      <TrophyIcon size={16} color={colors.accent} />
+                    </View>
+                  ) : (
+                    <Text
+                      style={[styles.trend, { color: trend.color }]}
+                      accessibilityLabel={trend.label}
+                    >
+                      {trend.symbol}
+                    </Text>
+                  )}
                 </View>
               );
             })}

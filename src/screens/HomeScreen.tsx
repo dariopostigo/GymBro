@@ -7,7 +7,7 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
-import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import { BodyMap } from '../components/BodyFigure';
 import { DumbbellIcon, FlameIcon } from '../components/icons';
 import FadeInView from '../components/FadeInView';
@@ -34,6 +34,7 @@ function greeting(): string {
 }
 
 export default function HomeScreen() {
+  const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
   const { activeSplit, currentDay } = useRoutine();
   const { sessions, getActiveSession } = useSession();
@@ -68,7 +69,10 @@ export default function HomeScreen() {
           </View>
         }
       />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[styles.content, { paddingBottom: bottomSpace }]}
+        showsVerticalScrollIndicator={false}
+      >
         <FadeInView delay={70}>
           <Card style={styles.hero} elevated>
             <View style={styles.heroTop}>
@@ -157,7 +161,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing.xxl,
     paddingTop: spacing.lg,
-    paddingBottom: TAB_BAR_SPACE,
     gap: spacing.lg,
   },
   streakPill: {

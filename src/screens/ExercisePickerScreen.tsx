@@ -5,7 +5,12 @@ import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-n
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { CategoryIcon } from '../components/CategoryIcon';
-import { CATEGORIES, EXERCISES, getExerciseById } from '../data/exerciseCatalog';
+import {
+  CATEGORIES,
+  EXERCISES,
+  getExerciseById,
+  primaryMusclesSuffix,
+} from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useFavorites } from '../context/FavoritesContext';
@@ -181,14 +186,12 @@ export default function ExercisePickerScreen({ route }: Props) {
             >
               <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
               <View style={styles.rowInfo}>
-                <Text style={styles.rowName} numberOfLines={1}>
+                <Text style={styles.rowName} numberOfLines={2}>
                   {item.name}
                 </Text>
                 <Text style={styles.rowMeta} numberOfLines={1}>
                   {item.category.name}
-                  {item.musclesPrimary.length
-                    ? ` · ${item.musclesPrimary.map(m => m.name).join(', ')}`
-                    : ''}
+                  {primaryMusclesSuffix(item)}
                 </Text>
               </View>
               <FavoriteButton exerciseId={item.id} />

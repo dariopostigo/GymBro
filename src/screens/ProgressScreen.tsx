@@ -7,7 +7,7 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { getExerciseById } from '../data/exerciseCatalog';
-import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
@@ -45,6 +45,7 @@ const barHeight = (volume: number, maxVolume: number) =>
 const ExerciseSeparator = () => <View style={styles.separator} />;
 
 export default function ProgressScreen() {
+  const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
   const { sessions } = useSession();
 
@@ -96,7 +97,7 @@ export default function ProgressScreen() {
         >
           <ExerciseThumbnail exercise={exercise} style={styles.thumbnail} />
           <View style={styles.exerciseInfo}>
-            <Text style={styles.exerciseName} numberOfLines={1}>
+            <Text style={styles.exerciseName} numberOfLines={2}>
               {exercise?.name ?? `Ejercicio #${item.exerciseId}`}
             </Text>
             <Text style={styles.exerciseMeta}>
@@ -120,7 +121,7 @@ export default function ProgressScreen() {
         data={summaries}
         keyExtractor={item => String(item.exerciseId)}
         renderItem={renderExercise}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { paddingBottom: bottomSpace }]}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={ExerciseSeparator}
         ListHeaderComponent={
@@ -227,7 +228,7 @@ export default function ProgressScreen() {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.background },
-  list: { paddingHorizontal: spacing.xxl, paddingBottom: TAB_BAR_SPACE },
+  list: { paddingHorizontal: spacing.xxl },
   headerBlock: { gap: spacing.lg },
   statsRow: { flexDirection: 'row', gap: spacing.sm },
   chartCard: { gap: spacing.lg },

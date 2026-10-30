@@ -199,6 +199,9 @@ const NAME_ES = {
   987: 'Sentadilla lateral',
   257: 'Sentadilla frontal',
   31: 'Sostenimiento lateral isométrico',
+  178: 'Bicho muerto',
+  272: 'Curl martillo',
+  567: 'Press militar sentado con mancuernas',
 };
 
 module.exports = { NAME_ES };

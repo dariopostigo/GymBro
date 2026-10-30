@@ -1,12 +1,13 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
-import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import { useSession } from '../context/SessionContext';
+import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import { BodyMap } from '../components/BodyFigure';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
@@ -23,8 +24,10 @@ type Nav = CompositeNavigationProp<
 >;
 
 export default function SplitOverviewScreen() {
+  const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
-  const { activeSplit, currentDayIndex, clearActiveSplit, selectDay } = useRoutine();
+  const { activeSplit, currentDay, currentDayIndex, clearActiveSplit, selectDay } = useRoutine();
+  const { getActiveSession } = useSession();
 
   if (!activeSplit) {
     return (
@@ -48,9 +51,29 @@ export default function SplitOverviewScreen() {
     navigation.navigate('SplitSelection');
   };
 
-  const handlePickDay = async (item: SplitDay) => {
+  const pickDay = async (item: SplitDay) => {
     await selectDay(item.id);
     navigation.navigate('Today');
+  };
+
+  // Con series ya apuntadas hoy, cambiar de día por un toque sin querer deja el entreno a medias.
+  const handlePickDay = (item: SplitDay) => {
+    const inProgress =
+      currentDay && item.id !== currentDay.id
+        ? getActiveSession(activeSplit.id, currentDay.id)
+        : null;
+    if (!currentDay || !inProgress?.sets.length) {
+      pickDay(item);
+      return;
+    }
+    Alert.alert(
+      `¿Cambiar a ${item.name}?`,
+      `Llevas ${inProgress.sets.length} series de ${currentDay.name} sin terminar. Seguirán guardadas y podrás volver a ese día desde aquí.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Cambiar', onPress: () => pickDay(item) },
+      ],
+    );
   };
 
   const renderDay = ({ item, index }: { item: SplitDay; index: number }) => {
@@ -123,7 +146,7 @@ export default function SplitOverviewScreen() {
       <FlatList
         data={activeSplit.days}
         keyExtractor={item => item.id}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, { paddingBottom: bottomSpace }]}
         showsVerticalScrollIndicator={false}
         renderItem={renderDay}
         ListFooterComponent={
@@ -151,7 +174,7 @@ const styles = StyleSheet.create({
     borderColor: colors.accentDim,
   },
   changeButtonText: { color: colors.accent, fontWeight: '800', fontSize: 12 },
-  list: { paddingHorizontal: spacing.xxl, paddingBottom: TAB_BAR_SPACE, gap: spacing.md },
+  list: { paddingHorizontal: spacing.xxl, gap: spacing.md },
   dayCard: {
     backgroundColor: colors.surface,
     borderRadius: radius.lg,

@@ -20,12 +20,16 @@ import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
 import { useWeightStacks } from '../context/WeightStacksContext';
-import { defaultBackupId, getExerciseById, isUnilateral } from '../data/exerciseCatalog';
+import {
+  defaultBackupId,
+  getExerciseById,
+  isUnilateral,
+  primaryMusclesSuffix,
+} from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
-import { TAB_BAR_SPACE } from '../components/MainTabBar';
-import { REST_BAR_SPACE } from '../components/RestTimerBar';
+import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import { restForSlot } from '../utils/restTimer';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import { ExerciseImagePlaceholder } from '../components/ExerciseThumbnail';
@@ -267,13 +271,10 @@ function ExerciseCard({
           </Text>
           <Text style={styles.exerciseMeta} numberOfLines={1}>
             {extra && <Text style={styles.extraTag}>Solo hoy · </Text>}
-            {exercise?.category.name}
             {positionInMuscleGroup && positionInMuscleGroup > 1
-              ? ` · ${positionInMuscleGroup}º de ${exercise?.category.name}`
-              : ''}
-            {exercise?.musclesPrimary.length
-              ? ` · ${exercise.musclesPrimary.map(m => m.name).join(', ')}`
-              : ''}
+              ? `${positionInMuscleGroup}º de ${exercise?.category.name}`
+              : exercise?.category.name}
+            {exercise && primaryMusclesSuffix(exercise)}
           </Text>
         </View>
         <TouchableOpacity
@@ -589,6 +590,7 @@ function ExerciseCard({
 }
 
 export default function TodayScreen() {
+  const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
   const { activeSplit, currentDay, advanceToNextDay, getDayOverrides, setDayOverride } =
     useRoutine();
@@ -603,7 +605,7 @@ export default function TodayScreen() {
   // Los cambios "solo por hoy" viven en el contexto: sobreviven a remontajes y al cierre de la app.
   const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
   const { settings } = useSettings();
-  const { timer: restTimer, start: startRest } = useRestTimer();
+  const { start: startRest } = useRestTimer();
   const { getWeights } = useWeightStacks();
   const isFocused = useIsFocused();
   const { ref: listContainerRef, inset, visible: keyboardVisible } = useKeyboardInset();
@@ -883,10 +885,7 @@ export default function TodayScreen() {
           // El ejercicio entra en la key: al cambiarlo, la tarjeta se rehace con su sugerencia.
           keyExtractor={item => `${item.id}:${item.exerciseId}`}
           renderItem={renderItem}
-          contentContainerStyle={[
-            styles.list,
-            { paddingBottom: TAB_BAR_SPACE + (restTimer ? REST_BAR_SPACE : 0) + inset },
-          ]}
+          contentContainerStyle={[styles.list, { paddingBottom: bottomSpace + inset }]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           onScrollToIndexFailed={noop}

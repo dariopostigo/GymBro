@@ -27,7 +27,7 @@ const FREE_DB_IMAGES = {
   171: 'Decline_Crunch', // Abdominales en Banco Inclinado
   165: 'Exercise_Ball_Crunch', // Abdominales en Bola de Estabilidad
   1412: 'Air_Bike', // Abdominales en bicicleta
-  178: 'Dead_Bug', // Bicho Muerto
+  178: 'Dead_Bug', // Bicho muerto
   1287: 'Toe_Touchers', // Crunch con alcance
   1772: 'Reverse_Crunch', // Crunch inverso
   283: 'Hanging_Leg_Raise', // Elevaciones de Piernas (Colgado)
@@ -71,7 +71,7 @@ const FREE_DB_IMAGES = {
   584: 'One_Arm_Dumbbell_Preacher_Curl', // Curl en banco Scott a un brazo
   1657: 'Preacher_Curl', // Curl en banco Scott con rotación interna
   914: 'Reverse_Cable_Curl', // Curl Inverso con Barra EZ en Polea
-  272: 'Hammer_Curls', // Curl Martillo
+  272: 'Hammer_Curls', // Curl martillo
   1502: 'Cross_Body_Hammer_Curl', // Curl martillo cruzado con mancuernas
   1683: 'Zottman_Curl', // Curl Zottman
   1530: 'Lying_Supine_Dumbbell_Curl', // Curls con mancuernas tumbado
@@ -189,7 +189,7 @@ const FREE_DB_IMAGES = {
   193: 'Dumbbell_Shoulder_Press', // Press Diagonal para Hombros
   1439: 'Barbell_Shoulder_Press', // Press militar desde pines
   1441: 'Seated_Dumbbell_Press', // Press militar en banco inclinado con mancuernas
-  567: 'Seated_Dumbbell_Press', // Press Militar mancuerna
+  567: 'Seated_Dumbbell_Press', // Press militar sentado con mancuernas
   691: 'Smith_Machine_Upright_Row', // Remo al mentón en multipower
   1729: 'External_Rotation_with_Cable', // Rotación externa de hombro (polea)
   578: 'External_Rotation', // Rotación externa tumbado de lado
