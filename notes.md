@@ -32,6 +32,8 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Calculadora de discos** en Hoy para barra, barra Z, Smith y máquinas de discos ("Por lado: 25 · 5 · 1,25"); discos y peso de cada barra en Ajustes → Discos y barras.
+
 - [x] **Pesos reales de cada máquina** (ficha del ejercicio → "Pesos de la máquina", por saltos fijos o lista a mano): la sugerencia sube al siguiente peso que existe y en Hoy el peso sube y baja por la pila con − / +. Entra en la copia de seguridad. Las máquinas de placas y las poleas traen pesos por defecto aproximados (`src/data/defaultWeightStacks.ts`) que se corrigen en la ficha.
 
 - [x] **Esfuerzo RIR / RPE** opcional por serie (Ajustes → Progresión): botones al apuntar, etiqueta en Hoy y en el historial, y si en todas las series sobraban 3 o más reps se sugiere subir peso. Se guarda siempre como RIR.
@@ -56,7 +58,6 @@
 Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gym visual) no se pueden reutilizar. Las siluetas de MuscleMap sí (MIT).
 
 - [ ] **Repeticiones por lado** en zancadas, búlgaras y ejercicios a una mano.
-- [ ] **Calculadora de discos** para barra, barra Z y Smith, según los discos que se tengan.
 - [ ] **Drop sets y rest-pause.**
 - [ ] **Superseries** (dos ejercicios alternados con el descanso al final del par).
 

@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { EffortMode } from '../utils/effort';
+import { DEFAULT_BAR_WEIGHTS, DEFAULT_PLATES, type BarWeights } from '../utils/plates';
 import type { RestTimer } from '../utils/restTimer';
 
 const SETTINGS_KEY = 'gymbro:settings';
@@ -17,6 +18,9 @@ export interface Settings {
   weightIncrement: number;
   /** Apuntar el esfuerzo de cada serie como RIR, como RPE o no apuntarlo. */
   effortMode: EffortMode;
+  /** Discos que hay en el gimnasio, para la calculadora de discos. */
+  plates: number[];
+  barWeights: BarWeights;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -26,6 +30,8 @@ export const DEFAULT_SETTINGS: Settings = {
   keepScreenOn: true,
   weightIncrement: 2.5,
   effortMode: 'rir',
+  plates: DEFAULT_PLATES,
+  barWeights: DEFAULT_BAR_WEIGHTS,
 };
 
 export const WEIGHT_INCREMENTS = [1, 1.25, 2.5, 5];

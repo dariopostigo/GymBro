@@ -64,6 +64,7 @@ import {
 } from '../utils/progression';
 import { describeRecord, liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { stepWeight } from '../utils/weightStack';
+import { BAR_LABELS, barTypeFor, barWeightFor, plateLoad, type BarType } from '../utils/plates';
 import {
   RIR_OPTIONS,
   effortDescription,
@@ -99,6 +100,8 @@ interface ExerciseCardProps {
   effortMode: EffortMode;
   /** Pesos reales de la máquina, si se han configurado: el peso sube y baja por ellos. */
   weights?: number[];
+  /** Con qué se carga (barra, Smith, máquina de discos), para decir qué discos poner. */
+  loading?: { type: BarType; bar: number; plates: number[] };
   onAddSet: (weight: number, reps: number, rir?: number) => void;
   onRemoveSet: (setEntryId: string) => void;
   onSwapToday: () => void;
@@ -118,6 +121,7 @@ function ExerciseCard({
   planB,
   effortMode,
   weights,
+  loading,
   onAddSet,
   onRemoveSet,
   onSwapToday,
@@ -135,6 +139,23 @@ function ExerciseCard({
   const [rir, setRir] = useState<number | undefined>(undefined);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+
+  const plateHint = useMemo(() => {
+    if (!loading) return undefined;
+    const total = parseFloat(weightText.replace(',', '.'));
+    if (!(total > 0)) return undefined;
+    const { type, bar, plates } = loading;
+    const barText = type === 'machine' ? '' : ` · ${BAR_LABELS[type]} ${formatWeight(bar)} kg`;
+    if (total < bar) return `Menos que la barra (${formatWeight(bar)} kg)`;
+    const load = plateLoad(total, bar, plates);
+    if (!load) return 'Marca en Ajustes los discos que hay en tu gimnasio';
+    if (!load.exact) {
+      const options = [load.lower, load.upper].filter((w): w is number => w !== undefined);
+      return `No sale exacto con tus discos: ${options.map(formatWeight).join(' o ')} kg`;
+    }
+    if (!load.perSide.length) return type === 'machine' ? 'Sin discos' : `Solo la barra${barText}`;
+    return `Por lado: ${load.perSide.map(formatWeight).join(' · ')}${barText}`;
+  }, [loading, weightText]);
 
   const stepStack = (direction: 1 | -1) => {
     if (!weights) return;
@@ -465,6 +486,7 @@ function ExerciseCard({
               <PlusIcon size={20} color={colors.onAccent} />
             </TouchableOpacity>
           </View>
+          {plateHint && <Text style={styles.plateHint}>{plateHint}</Text>}
         </>
       )}
     </Card>
@@ -631,6 +653,12 @@ export default function TodayScreen() {
       : NO_RECORDS;
     const planB = planBFor(item);
     const weights = getWeights(item.exerciseId);
+    const barType = barTypeFor(getExerciseById(item.exerciseId));
+    const loading = barType && {
+      type: barType,
+      bar: barWeightFor(barType, settings.barWeights),
+      plates: settings.plates,
+    };
     // La sesión de hoy no cuenta: la sugerencia no cambia a mitad del entreno.
     const suggestion = suggestNextLoad(
       lastSessionSets(
@@ -656,6 +684,7 @@ export default function TodayScreen() {
           planB={planB}
           effortMode={settings.effortMode}
           weights={weights}
+          loading={loading}
           onAddSet={(weight, reps, rir) => {
             startRest(settings.autoRest ? restForSlot(item) : undefined);
             addSet({
@@ -903,6 +932,7 @@ const styles = StyleSheet.create({
   setNumberRecord: { backgroundColor: colors.accent },
   setRowBody: { flex: 1, gap: 2 },
   setRowText: { color: colors.textDim, fontSize: 14 },
+  plateHint: { color: colors.accent, fontSize: 12.5, fontWeight: '700', marginTop: -4 },
   weightRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   weightInput: { flex: 1, textAlign: 'center' },
   stackButton: {

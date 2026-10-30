@@ -23,6 +23,14 @@ import {
 import { formatWeight } from '../utils/progression';
 import { colors, spacing } from '../theme';
 import type { EffortMode } from '../utils/effort';
+import { PLATE_OPTIONS, type BarWeights } from '../utils/plates';
+
+const BAR_STEP = 2.5;
+const BAR_SETTINGS: { key: keyof BarWeights; label: string; min: number; max: number }[] = [
+  { key: 'olympic', label: 'Barra olímpica', min: 5, max: 25 },
+  { key: 'ez', label: 'Barra Z', min: 0, max: 20 },
+  { key: 'smith', label: 'Barra Smith (0 si tiene contrapeso)', min: 0, max: 25 },
+];
 
 const EFFORT_MODES: { mode: EffortMode; label: string }[] = [
   { mode: 'rir', label: 'RIR' },
@@ -164,6 +172,19 @@ function BackupSection() {
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useSettings();
+
+  const togglePlate = (plate: number) => {
+    const plates = settings.plates.includes(plate)
+      ? settings.plates.filter(p => p !== plate)
+      : [...settings.plates, plate].sort((a, b) => b - a);
+    updateSettings({ plates });
+  };
+
+  const changeBar = (key: keyof BarWeights, delta: number) => {
+    const { min, max } = BAR_SETTINGS.find(bar => bar.key === key)!;
+    const value = Math.min(Math.max(settings.barWeights[key] + delta, min), max);
+    updateSettings({ barWeights: { ...settings.barWeights, [key]: value } });
+  };
   const setRest = (seconds: number) => updateSettings({ restSeconds: clampRestSeconds(seconds) });
 
   return (
@@ -259,6 +280,39 @@ export default function SettingsScreen() {
             />
           ))}
         </View>
+      </Card>
+
+      <Overline style={styles.sectionGap}>Discos y barras</Overline>
+      <Card style={styles.card}>
+        <View style={styles.switchText}>
+          <Text style={styles.switchLabel}>Discos del gimnasio</Text>
+          <Text style={styles.switchHint}>
+            En Hoy, los ejercicios con barra, Smith o máquina de discos te dicen qué discos poner en
+            cada lado. Marca los que hay.
+          </Text>
+        </View>
+        <View style={styles.presets}>
+          {PLATE_OPTIONS.map(plate => (
+            <Chip
+              key={plate}
+              label={`${formatWeight(plate)} kg`}
+              active={settings.plates.includes(plate)}
+              onPress={() => togglePlate(plate)}
+            />
+          ))}
+        </View>
+        {BAR_SETTINGS.map(({ key, label, min, max }) => (
+          <Stepper
+            key={key}
+            label={label}
+            layout="inline"
+            value={`${formatWeight(settings.barWeights[key])} kg`}
+            minusDisabled={settings.barWeights[key] <= min}
+            plusDisabled={settings.barWeights[key] >= max}
+            onDecrease={() => changeBar(key, -BAR_STEP)}
+            onIncrease={() => changeBar(key, BAR_STEP)}
+          />
+        ))}
       </Card>
 
       <Overline style={styles.sectionGap}>Datos</Overline>
