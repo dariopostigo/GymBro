@@ -11,7 +11,7 @@ App de gimnasio para uso personal, en español y sin conexión: rutinas por día
   - Pesos reales de cada máquina.
   - Aviso de récord al momento.
 - **Resumen al terminar**: volumen, comparación con la vez anterior, récords y mapa corporal de lo trabajado.
-- **Progreso**: series semanales por grupo muscular (con la banda de 10-20), historial y gráfica por ejercicio, sesiones pasadas.
+- **Progreso**: series semanales por grupo muscular (con la banda de 10-20), calendario de los días entrenados, historial y gráfica por ejercicio, sesiones pasadas con su duración.
 - **Catálogo de ~450 ejercicios** con fotos, descripción, músculos y búsqueda por grupo (bíceps, tríceps, cuádriceps, femoral...).
 - **Copia de seguridad** a JSON (exportar, importar y deshacer la importación).
 

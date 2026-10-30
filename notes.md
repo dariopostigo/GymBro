@@ -67,12 +67,12 @@ Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósit
 ## Pendientes (de momento no)
 
 - [ ] **Notas** por ejercicio o por sesión (altura del asiento, molestias...).
+- [ ] **Peso corporal** con gráfica. Va ligado a otra idea que está por concretar: esperar a tenerla.
 - [x] **Duración del entreno** en el resumen y en las sesiones recientes: cada serie guarda su hora (`loggedAt`) y se cuenta de la primera a la última. Las sesiones antiguas no la muestran.
 
 ## Si apetece
 
-- [ ] Registro de peso corporal con gráfica.
-- [ ] Calendario con los días entrenados.
+- [x] **Calendario** con los días entrenados en Progreso: un color por día de la rutina (con leyenda), hoy marcado, tocar un día abre su resumen, flechas para los meses anteriores y total del mes con la media por semana.
 - [x] Recordar qué tarjetas de Hoy se han plegado a mano (se guarda con los cambios "solo hoy": sobrevive al cierre de la app y a las listas largas; se olvida al terminar el día, al cambiar el ejercicio o al completarse/descompletarse).
 
 ## Diseño

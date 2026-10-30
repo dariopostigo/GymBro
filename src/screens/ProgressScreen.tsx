@@ -11,6 +11,7 @@ import { TAB_BAR_SPACE } from '../components/MainTabBar';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
+import TrainingCalendarCard from '../components/TrainingCalendarCard';
 import TrendLine, { type TrendPoint } from '../components/TrendLine';
 import WeeklyMusclesCard from '../components/WeeklyMusclesCard';
 import { ChevronIcon } from '../components/icons';
@@ -169,6 +170,11 @@ export default function ProgressScreen() {
             </Card>
 
             <WeeklyMusclesCard sessions={sessions} />
+
+            <TrainingCalendarCard
+              sessions={sessions}
+              onOpenSession={sessionId => navigation.navigate('WorkoutSummary', { sessionId })}
+            />
 
             {recent.length > 0 ? (
               <>
