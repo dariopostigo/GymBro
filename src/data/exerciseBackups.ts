@@ -196,7 +196,7 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1487: 636, // Combinación hiperextensión Y-W → Superman
   1929: 355, // Dominada asistida → Jalón al pecho
   475: 355, // Dominadas → Jalón al pecho
-  1695: 723, // Dominadas (agarre ancho) → Jalón con agarre ancho
+  1695: 355, // Dominadas (agarre ancho) → Jalón al pecho
   1696: 1136, // Dominadas (agarre neutro) → Jalón al pecho con agarre neutro
   1219: 394, // Dominadas australianas (remo invertido) → Remo con polea
   152: 1927, // Dominadas con agarre supino → Jalón al pecho con agarre supino
@@ -218,7 +218,6 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1136: 1696, // Jalón al pecho con agarre neutro → Dominadas (agarre neutro)
   1927: 1737, // Jalón al pecho con agarre supino → Dominadas supinas asistidas
   90034: 355, // Jalón al pecho en máquina de discos → Jalón al pecho
-  723: 1695, // Jalón con agarre ancho → Dominadas (agarre ancho)
   695: 1136, // Jalón con barra en V → Jalón al pecho con agarre neutro
   628: 1727, // Jalón con brazos rectos (agarre de barra) → Jalón lateral con brazo recto (polea)
   629: 1727, // Jalón con brazos rectos (agarre de cuerda) → Jalón lateral con brazo recto (polea)

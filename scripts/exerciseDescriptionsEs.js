@@ -33,6 +33,7 @@ const DESCRIPTION_ES = {
   1285: 'Corre en el sitio o avanzando llevando los talones a tocar los glúteos en cada zancada. Mantén el tronco recto y un ritmo rápido.',
 
   // --- Espalda ---
+  355: 'Siéntate en la máquina de jalón con los muslos bajo los rodillos y coge la barra con un agarre algo más ancho que los hombros. Con los brazos estirados y los hombros abajo (sin encogerlos), tira de la barra hasta la parte alta del pecho llevando los codos hacia abajo y hacia atrás. Mantén el pecho alto, aprieta los omóplatos abajo y sube controlando el peso.',
   395: 'Siéntate en la polea baja con los pies en los apoyos y coge el agarre estrecho en V con las palmas enfrentadas. Con la espalda recta, tira del agarre hacia el ombligo llevando los codos pegados al cuerpo y junta los omóplatos al final. Vuelve despacio hasta estirar los brazos sin inclinarte hacia delante.',
   1737: 'Sube a la máquina de dominadas asistidas, apoya las rodillas en la plataforma y agarra la barra con las palmas mirando hacia ti, al ancho de los hombros. Sube hasta pasar la barbilla por encima de la barra y baja controlado. Cuanto más contrapeso pongas, más fácil es.',
   1537: 'Cuélgate de la barra de dominadas, sube hasta la posición que quieras trabajar (arriba, a media altura o casi abajo) y mantenla el mayor tiempo posible apretando la espalda.',

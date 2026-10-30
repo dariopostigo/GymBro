@@ -79,6 +79,7 @@ const EXERCISE_FIXES = {
   // --- Músculo principal que no cuadraba ---
   51: m([ANTEBRAZOS]), // Curl de muñeca con barra (tenía deltoides + isquiotibiales)
   1519: m([TRICEPS]), // Extensión de tríceps por encima de la cabeza (tenía trapecio)
+  355: m([DORSALES], [BICEPS, BRAQUIAL, HOMBRO, TRAPECIO]), // Jalón al pecho (sin secundarios; recoge los del 723 fusionado)
   484: m([DORSALES, TRAPECIO], [GLUTEOS, ISQUIOS]), // Peso muerto en rack (solo glúteos)
   1718: m([DORSALES], [BICEPS, TRAPECIO]), // Remo alto desde polea (oblicuos, serrato y tríceps)
   12: m([ADUCTORES]), // Aducción de cadera en máquina (glúteos)

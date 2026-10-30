@@ -217,7 +217,6 @@ const FREE_DB_IMAGES = {
   204: 'Incline_Dumbbell_Curl', // Curl inclinado con mancuernas
   495: 'Reverse_Barbell_Curl', // Curl invertido
   803: 'Cable_One_Arm_Tricep_Extension', // Extensión de tríceps a una mano en polea
-  723: 'Wide-Grip_Lat_Pulldown', // Jalón con agarre ancho
   628: 'Straight-Arm_Pulldown', // Jalón con brazos rectos (agarre de barra)
   629: 'Rope_Straight-Arm_Pulldown', // Jalón con brazos rectos (agarre de cuerda)
   189: 'Deficit_Deadlift', // Peso muerto con déficit

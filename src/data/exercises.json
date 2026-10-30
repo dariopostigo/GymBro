@@ -6176,7 +6176,7 @@
     "id": 355,
     "uuid": "fff05d7a-f374-4c8a-9885-39f49076918f",
     "name": "Jalón al pecho",
-    "description": "El jalón al pecho es un ejercicio que se utiliza para desarrollar los músculos de la espalda. Aunque el ejercicio trabaja principalmente los dorsales, también notarás una considerable activación del bíceps y de la parte media de la espalda.",
+    "description": "Siéntate en la máquina de jalón con los muslos bajo los rodillos y coge la barra con un agarre algo más ancho que los hombros. Con los brazos estirados y los hombros abajo (sin encogerlos), tira de la barra hasta la parte alta del pecho llevando los codos hacia abajo y hacia atrás. Mantén el pecho alto, aprieta los omóplatos abajo y sube controlando el peso.",
     "category": {
       "id": 12,
       "name": "Espalda"
@@ -6187,7 +6187,24 @@
         "name": "Dorsales"
       }
     ],
-    "musclesSecondary": [],
+    "musclesSecondary": [
+      {
+        "id": 1,
+        "name": "Bíceps"
+      },
+      {
+        "id": 13,
+        "name": "Braquial"
+      },
+      {
+        "id": 2,
+        "name": "Hombros (deltoides)"
+      },
+      {
+        "id": 9,
+        "name": "Trapecio"
+      }
+    ],
     "equipment": [],
     "images": [
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
@@ -6433,46 +6450,6 @@
     ],
     "equipment": [],
     "images": [],
-    "videos": []
-  },
-  {
-    "id": 723,
-    "uuid": "55b9d286-c4cc-4a29-97ad-58cb13c2bb7e",
-    "name": "Jalón con agarre ancho",
-    "description": "Posición inicial: Brazos extendidos por encima de la cabeza, sintiendo un estiramiento en los dorsales. Mantén los hombros deprimidos (no los encojas hacia arriba). Fase de tirón (concéntrica): Tira de la barra hacia la parte alta del pecho o la zona de la clavícula impulsando los codos hacia abajo y hacia atrás. Mantén el pecho elevado y aprieta los omóplatos en la parte baja.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoides)"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Wide-Grip_Lat_Pulldown/1.jpg"
-    ],
     "videos": []
   },
   {

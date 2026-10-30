@@ -37,7 +37,6 @@ export const DEFAULT_WEIGHT_STACKS: Record<number, WeightStack> = {
   158: POLEA, // Jalón al pecho con agarre cerrado
   1136: POLEA, // Jalón al pecho con agarre neutro
   1927: POLEA, // Jalón al pecho con agarre supino
-  723: POLEA, // Jalón con agarre ancho
   695: POLEA, // Jalón con barra en V
   628: POLEA, // Jalón con brazos rectos (agarre de barra)
   629: POLEA, // Jalón con brazos rectos (agarre de cuerda)
