@@ -32,6 +32,10 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Corregir una serie ya apuntada** tocándola en Hoy (peso, reps y esfuerzo), sin reiniciar el descanso.
+
+- [x] **Añadir un ejercicio solo para hoy** desde Hoy: sale al final marcado "Solo hoy", se puede quitar y desaparece al terminar el día.
+
 - [x] **Repeticiones por lado** en 57 ejercicios a un lado (`src/data/unilateralExercises.ts`): se apuntan "por lado", el volumen cuenta los dos lados y una serie sigue siendo una serie para el músculo. Solo afecta a las series nuevas.
 
 - [x] **Calculadora de discos** en Hoy para barra, barra Z, Smith y máquinas de discos ("Por lado: 25 · 5 · 1,25"); discos y peso de cada barra en Ajustes → Discos y barras.
@@ -53,18 +57,15 @@
 
 ## Muy útil
 
-- [ ] **Añadir un ejercicio solo para hoy** desde la pestaña Hoy (ahora solo se puede cambiar uno por otro).
 
 ## Ideas sacadas de openGym
 
 Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gym visual) no se pueden reutilizar. Las siluetas de MuscleMap sí (MIT).
 
-- [ ] **Drop sets y rest-pause.**
-- [ ] **Superseries** (dos ejercicios alternados con el descanso al final del par).
+Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósito: series de calentamiento, drop sets / rest-pause y superseries.
 
 ## Pendientes (de momento no)
 
-- [ ] **Editar una serie ya apuntada** (ahora solo se puede borrar).
 - [ ] **Notas** por ejercicio o por sesión (altura del asiento, molestias...).
 - [ ] **Duración del entreno** en el resumen y el historial (requiere guardar la hora de cada serie).
 

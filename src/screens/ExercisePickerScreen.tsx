@@ -35,7 +35,9 @@ export default function ExercisePickerScreen({ route }: Props) {
 
   // Al cambiar un ejercicio se entra ya filtrado por su categoría (pecho, espalda...).
   const currentCategory = useMemo(() => {
-    if (params.mode === 'add' || params.currentExerciseId == null) return null;
+    if (params.mode === 'add' || params.mode === 'todayAdd' || params.currentExerciseId == null) {
+      return null;
+    }
     return getExerciseById(params.currentExerciseId)?.category.name ?? null;
   }, [params]);
 
@@ -62,6 +64,16 @@ export default function ExercisePickerScreen({ route }: Props) {
   const handleSelect = (exercise: Exercise) => {
     if (params.mode === 'today') {
       setDayOverride(params.splitId, params.dayId, params.slotId, { exerciseId: exercise.id });
+      navigation.goBack();
+      return;
+    }
+
+    if (params.mode === 'todayAdd') {
+      setDayOverride(params.splitId, params.dayId, generateId(), {
+        exerciseId: exercise.id,
+        targetSets: 3,
+        extra: { repsMin: 8, repsMax: 12 },
+      });
       navigation.goBack();
       return;
     }

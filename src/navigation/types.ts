@@ -19,6 +19,8 @@ export type RootStackParamList = {
   /** `currentExerciseId` preselecciona el filtro por la categoría del ejercicio que se cambia. */
   ExercisePicker:
     | { mode: 'add'; splitId: string; dayId: string }
+    /** Añadir un ejercicio solo para la sesión de hoy, sin tocar la plantilla. */
+    | { mode: 'todayAdd'; splitId: string; dayId: string }
     | {
         mode: 'replace';
         splitId: string;

@@ -22,6 +22,12 @@ interface SessionContextValue {
   getActiveSession: (splitId: string, splitDayId: string) => WorkoutSession | null;
   addSet: (params: AddSetParams) => void;
   removeSet: (sessionId: string, setEntryId: string) => void;
+  /** Corrige peso, reps y esfuerzo de una serie ya apuntada. */
+  updateSet: (
+    sessionId: string,
+    setEntryId: string,
+    values: { weight: number; reps: number; rir?: number },
+  ) => void;
   finishSession: (sessionId: string) => void;
   getEntriesForExercise: (exerciseId: number) => ExerciseHistoryEntry[];
 }
@@ -101,6 +107,34 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const updateSet = useCallback(
+    (
+      sessionId: string,
+      setEntryId: string,
+      { weight, reps, rir }: { weight: number; reps: number; rir?: number },
+    ) => {
+      setSessions(prev => {
+        const next = prev.map(s =>
+          s.id !== sessionId
+            ? s
+            : {
+                ...s,
+                sets: s.sets.map(set => {
+                  if (set.id !== setEntryId) return set;
+                  const updated = { ...set, weight, reps, rir };
+                  // Sin esfuerzo no se guarda la clave, igual que al apuntar la serie.
+                  if (rir === undefined) delete updated.rir;
+                  return updated;
+                }),
+              },
+        );
+        saveSessions(next);
+        return next;
+      });
+    },
+    [],
+  );
+
   const finishSession = useCallback((sessionId: string) => {
     setSessions(prev => {
       const next = prev.map(s => (s.id === sessionId ? { ...s, completed: true } : s));
@@ -130,6 +164,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     getActiveSession,
     addSet,
     removeSet,
+    updateSet,
     finishSession,
     getEntriesForExercise,
   };

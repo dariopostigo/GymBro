@@ -41,3 +41,17 @@ test('el formato antiguo (solo el id del ejercicio) se migra al leer', async () 
 
   expect(await loadDayOverrides()).toEqual({ [DAY]: { [SLOT]: { exerciseId: 919 } } });
 });
+
+test('un ejercicio añadido solo para hoy se guarda y resuelve su id si se fusionó', async () => {
+  const EXTRA = 'extra-1';
+  await saveDayOverrides({
+    [DAY]: { [EXTRA]: { exerciseId: 275, targetSets: 3, extra: { repsMin: 8, repsMax: 12 } } },
+  });
+
+  // 275 (curl martillo en polea duplicado) se fusionó en 90021.
+  expect((await loadDayOverrides())[DAY][EXTRA]).toEqual({
+    exerciseId: 90021,
+    targetSets: 3,
+    extra: { repsMin: 8, repsMax: 12 },
+  });
+});

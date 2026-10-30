@@ -104,8 +104,12 @@ interface ExerciseCardProps {
   unilateral: boolean;
   /** Con qué se carga (barra, Smith, máquina de discos), para decir qué discos poner. */
   loading?: { type: BarType; bar: number; plates: number[] };
+  /** Añadido solo para hoy: no está en la plantilla y se puede quitar. */
+  extra: boolean;
   onAddSet: (weight: number, reps: number, rir?: number) => void;
+  onUpdateSet: (setEntryId: string, weight: number, reps: number, rir?: number) => void;
   onRemoveSet: (setEntryId: string) => void;
+  onRemoveExtra: () => void;
   onSwapToday: () => void;
   onSwapPermanent: () => void;
   onChangeSets: (delta: number) => void;
@@ -125,8 +129,11 @@ function ExerciseCard({
   weights,
   unilateral,
   loading,
+  extra,
   onAddSet,
+  onUpdateSet,
   onRemoveSet,
+  onRemoveExtra,
   onSwapToday,
   onSwapPermanent,
   onChangeSets,
@@ -142,6 +149,36 @@ function ExerciseCard({
   const [rir, setRir] = useState<number | undefined>(undefined);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+  // Serie que se está corrigiendo; al acabar, los campos vuelven a lo que había.
+  const [editing, setEditing] = useState<{
+    id: string;
+    setNumber: number;
+    restore: { weightText: string; repsText: string; rir?: number };
+  } | null>(null);
+
+  const startEdit = (set: SetEntry) => {
+    setEditing(prev => ({
+      id: set.id,
+      setNumber: set.setNumber,
+      restore: prev?.restore ?? { weightText, repsText, rir },
+    }));
+    setWeightText(formatWeight(set.weight));
+    setRepsText(String(set.reps));
+    setRir(set.rir);
+  };
+
+  const stopEdit = () => {
+    if (!editing) return;
+    setWeightText(editing.restore.weightText);
+    setRepsText(editing.restore.repsText);
+    setRir(editing.restore.rir);
+    setEditing(null);
+  };
+
+  const removeSet = (setEntryId: string) => {
+    if (editing?.id === setEntryId) stopEdit();
+    onRemoveSet(setEntryId);
+  };
 
   const plateHint = useMemo(() => {
     if (!loading) return undefined;
@@ -173,7 +210,13 @@ function ExerciseCard({
       Alert.alert('Datos inválidos', 'Introduce un peso y unas repeticiones válidas.');
       return;
     }
-    onAddSet(weight, reps, effortMode === 'off' ? undefined : rir);
+    const effort = effortMode === 'off' ? undefined : rir;
+    if (editing) {
+      onUpdateSet(editing.id, weight, reps, effort);
+      stopEdit();
+      return;
+    }
+    onAddSet(weight, reps, effort);
     setRir(undefined);
   };
 
@@ -216,6 +259,7 @@ function ExerciseCard({
             {exercise?.name ?? `Ejercicio #${slot.exerciseId}`}
           </Text>
           <Text style={styles.exerciseMeta} numberOfLines={1}>
+            {extra && <Text style={styles.extraTag}>Solo hoy · </Text>}
             {exercise?.category.name}
             {positionInMuscleGroup && positionInMuscleGroup > 1
               ? ` · ${positionInMuscleGroup}º de ${exercise?.category.name}`
@@ -322,11 +366,19 @@ function ExerciseCard({
 
           <View style={styles.swapRow}>
             <GhostButton label="Cambiar hoy" onPress={onSwapToday} style={styles.swapButton} />
-            <GhostButton
-              label="Cambiar en plantilla"
-              onPress={onSwapPermanent}
-              style={styles.swapButton}
-            />
+            {extra ? (
+              <GhostButton
+                label="Quitar de hoy"
+                onPress={onRemoveExtra}
+                style={styles.swapButton}
+              />
+            ) : (
+              <GhostButton
+                label="Cambiar en plantilla"
+                onPress={onSwapPermanent}
+                style={styles.swapButton}
+              />
+            )}
           </View>
 
           <View style={styles.divider} />
@@ -338,9 +390,16 @@ function ExerciseCard({
             <View style={styles.setList}>
               {loggedSets.map(set => {
                 const record = records.get(set.id);
+                const isEditing = editing?.id === set.id;
                 return (
                   <FadeInView key={set.id} offset={10} duration={260}>
-                    <View style={[styles.setRow, record && styles.setRowRecord]}>
+                    <View
+                      style={[
+                        styles.setRow,
+                        record && styles.setRowRecord,
+                        isEditing && styles.setRowEditing,
+                      ]}
+                    >
                       <View style={[styles.setNumber, record && styles.setNumberRecord]}>
                         {record ? (
                           <TrophyIcon size={12} color={colors.onAccent} strokeWidth={2.5} />
@@ -348,7 +407,12 @@ function ExerciseCard({
                           <Text style={styles.setNumberText}>{set.setNumber}</Text>
                         )}
                       </View>
-                      <View style={styles.setRowBody}>
+                      <TouchableOpacity
+                        style={styles.setRowBody}
+                        onPress={() => (isEditing ? stopEdit() : startEdit(set))}
+                        activeOpacity={0.7}
+                        accessibilityLabel={`Corregir la serie ${set.setNumber}`}
+                      >
                         <Text style={styles.setRowText}>
                           <Text style={styles.setRowStrong}>{formatWeight(set.weight)}</Text> kg ×{' '}
                           <Text style={styles.setRowStrong}>{set.reps}</Text> reps
@@ -365,8 +429,8 @@ function ExerciseCard({
                             ¡Récord! {describeRecord(record)}
                           </Text>
                         )}
-                      </View>
-                      <TouchableOpacity onPress={() => onRemoveSet(set.id)} hitSlop={8}>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => removeSet(set.id)} hitSlop={8}>
                         <View style={styles.removeSetIcon}>
                           <CloseIcon size={14} color={colors.danger} strokeWidth={2.5} />
                         </View>
@@ -397,6 +461,17 @@ function ExerciseCard({
               </Text>
             </View>
           )}
+
+          {editing ? (
+            <View style={styles.editingBanner}>
+              <Text style={styles.editingText}>Corrigiendo la serie {editing.setNumber}</Text>
+              <TouchableOpacity onPress={stopEdit} hitSlop={8}>
+                <Text style={styles.editingCancel}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          ) : loggedSets.length > 0 ? (
+            <Text style={styles.editHint}>Toca una serie para corregirla.</Text>
+          ) : null}
 
           {effortMode !== 'off' && (
             <View style={styles.effortBlock}>
@@ -486,8 +561,17 @@ function ExerciseCard({
                 style={styles.setInput}
               />
             </View>
-            <TouchableOpacity style={styles.addSetButton} onPress={handleAdd} activeOpacity={0.85}>
-              <PlusIcon size={20} color={colors.onAccent} />
+            <TouchableOpacity
+              style={styles.addSetButton}
+              onPress={handleAdd}
+              activeOpacity={0.85}
+              accessibilityLabel={editing ? 'Guardar la corrección' : 'Apuntar serie'}
+            >
+              {editing ? (
+                <CheckIcon size={20} color={colors.onAccent} strokeWidth={3} />
+              ) : (
+                <PlusIcon size={20} color={colors.onAccent} />
+              )}
             </TouchableOpacity>
           </View>
           {plateHint && <Text style={styles.plateHint}>{plateHint}</Text>}
@@ -505,6 +589,7 @@ export default function TodayScreen() {
     getActiveSession,
     addSet,
     removeSet,
+    updateSet,
     finishSession,
     sessions,
   } = useSession();
@@ -543,7 +628,7 @@ export default function TodayScreen() {
 
   const exercises = useMemo(() => {
     if (!currentDay) return [];
-    return [...currentDay.exercises]
+    const template = [...currentDay.exercises]
       .sort((a, b) => a.order - b.order)
       .map(slot => {
         const override = overrides[slot.id];
@@ -554,6 +639,22 @@ export default function TodayScreen() {
           targetSets: override.targetSets ?? slot.targetSets,
         };
       });
+    // Los añadidos solo para hoy van al final, en el orden en que se añadieron.
+    const extras = Object.entries(overrides).flatMap(([slotId, override]) =>
+      override.extra && override.exerciseId !== undefined
+        ? [
+            {
+              id: slotId,
+              exerciseId: override.exerciseId,
+              order: Number.MAX_SAFE_INTEGER,
+              targetSets: override.targetSets ?? 3,
+              targetRepsMin: override.extra.repsMin,
+              targetRepsMax: override.extra.repsMax,
+            },
+          ]
+        : [],
+    );
+    return [...template, ...extras];
   }, [currentDay, overrides]);
 
   const muscleGroupPositions = useMemo(() => computeMuscleGroupPositions(exercises), [exercises]);
@@ -626,6 +727,25 @@ export default function TodayScreen() {
       onPress: () =>
         setDayOverride(activeSplit.id, currentDay.id, slot.id, { exerciseId: backupId }),
     };
+  };
+
+  // Las series que ya tenga se quedan en la sesión; solo deja de salir en Hoy.
+  const removeExtra = (slot: DayExerciseSlot) => {
+    const exercise = getExerciseById(slot.exerciseId);
+    const name = exercise?.name ?? 'este ejercicio';
+    Alert.alert('Quitar de hoy', `¿Quitar "${name}" del entreno de hoy?`, [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Quitar',
+        style: 'destructive',
+        onPress: () =>
+          setDayOverride(activeSplit.id, currentDay.id, slot.id, {
+            exerciseId: undefined,
+            targetSets: undefined,
+            extra: undefined,
+          }),
+      },
+    ]);
   };
 
   const handleFinish = () => {
@@ -705,7 +825,12 @@ export default function TodayScreen() {
               perSide: isUnilateral(item.exerciseId),
             });
           }}
+          extra={Boolean(overrides[item.id]?.extra)}
+          onUpdateSet={(setEntryId, weight, reps, rir) =>
+            activeSession && updateSet(activeSession.id, setEntryId, { weight, reps, rir })
+          }
           onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}
+          onRemoveExtra={() => removeExtra(item)}
           onSwapToday={() => swapToday(item)}
           onSwapPermanent={() => swapPermanent(item)}
           onChangeSets={delta => changeSets(item, delta)}
@@ -773,11 +898,20 @@ export default function TodayScreen() {
           }
           ListFooterComponent={
             exercises.length > 0 ? (
-              <PrimaryButton
-                label="Terminar entrenamiento"
-                onPress={handleFinish}
-                style={styles.finishButton}
-              />
+              <View style={styles.footer}>
+                <GhostButton
+                  label="+ Añadir ejercicio solo para hoy"
+                  dashed
+                  onPress={() =>
+                    navigation.navigate('ExercisePicker', {
+                      mode: 'todayAdd',
+                      splitId: activeSplit.id,
+                      dayId: currentDay.id,
+                    })
+                  }
+                />
+                <PrimaryButton label="Terminar entrenamiento" onPress={handleFinish} />
+              </View>
             ) : null
           }
         />
@@ -1007,5 +1141,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  finishButton: { marginTop: spacing.xs },
+  footer: { gap: spacing.md, marginTop: spacing.xs },
+  extraTag: { color: colors.accent, fontWeight: '800' },
+  setRowEditing: { borderWidth: 1, borderColor: colors.accent },
+  editHint: { color: colors.muted, fontSize: 11.5, marginTop: -4 },
+  editingBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.sm,
+    backgroundColor: colors.accentSoft,
+  },
+  editingText: { color: colors.accent, fontSize: 13, fontWeight: '800' },
+  editingCancel: { color: colors.text, fontSize: 13, fontWeight: '700' },
 });

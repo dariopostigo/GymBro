@@ -38,6 +38,11 @@ export interface ActiveSplitState {
 export interface SlotOverride {
   exerciseId?: number;
   targetSets?: number;
+  /**
+   * Ejercicio añadido solo para hoy (no está en la plantilla): va después de
+   * los del día y se borra con el resto de cambios al terminar.
+   */
+  extra?: { repsMin: number; repsMax: number };
 }
 
 /**
