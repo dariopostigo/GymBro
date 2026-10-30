@@ -7,12 +7,14 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import { BodyMap } from '../components/BodyFigure';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
 import { ChevronIcon } from '../components/icons';
 import { EmptyState, GhostButton, ScreenHeader } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { SplitDay } from '../types/routine';
+import { musclesWorked } from '../utils/muscleMap';
 import { colors, overline, radius, spacing } from '../theme';
 
 type Nav = CompositeNavigationProp<
@@ -53,6 +55,7 @@ export default function SplitOverviewScreen() {
 
   const renderDay = ({ item, index }: { item: SplitDay; index: number }) => {
     const isToday = index === todayIndex;
+    const muscles = musclesWorked(item.exercises.map(slot => slot.exerciseId));
     return (
       <FadeInView delay={Math.min(index, 5) * 55}>
         <View style={[styles.dayCard, isToday && styles.dayCardToday]}>
@@ -81,6 +84,7 @@ export default function SplitOverviewScreen() {
                 {item.exercises.length} ejercicio{item.exercises.length === 1 ? '' : 's'}
               </Text>
             </View>
+            {muscles.size > 0 && <BodyMap levels={muscles} height={58} />}
             <ChevronIcon size={18} color={isToday ? colors.accent : colors.muted} />
           </TouchableOpacity>
 

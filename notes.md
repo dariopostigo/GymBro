@@ -32,6 +32,8 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Siluetas de MuscleMap** (MIT, `scripts/generate-body-paths.js` → `src/data/bodyPaths.ts`) en los iconos de categoría y **mapa corporal por sesión** en Inicio y en cada día de la rutina (principal / secundario).
+
 - [x] **Ficha del ejercicio** en la pantalla del ejercicio (biblioteca y reloj de Hoy): cómo se hace, músculos, equipamiento y plan B, que abre su propia ficha.
 
 - [x] Etiquetas de Inicio sin partirse y pesos con coma decimal en toda la app.
@@ -48,8 +50,6 @@
 
 Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gym visual) no se pueden reutilizar. Las siluetas de MuscleMap sí (MIT).
 
-- [ ] **Siluetas de MuscleMap** (https://github.com/melihcolpan/MuscleMap, MIT) en lugar de los iconos de músculo dibujados a mano.
-- [ ] **Mapa corporal por sesión** en Inicio y en cada día de la rutina, con los músculos que se trabajan encendidos (depende de lo anterior).
 - [ ] **Repeticiones por lado** en zancadas, búlgaras y ejercicios a una mano.
 - [ ] **Esfuerzo RIR / RPE** opcional por serie; afinaría la sugerencia de subir peso.
 - [ ] **Pila de pesos real de cada máquina**, para que la progresión sugiera pesos que existen.

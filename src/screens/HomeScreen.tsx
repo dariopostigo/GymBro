@@ -8,12 +8,14 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { TAB_BAR_SPACE } from '../components/MainTabBar';
+import { BodyMap } from '../components/BodyFigure';
 import { DumbbellIcon, FlameIcon } from '../components/icons';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
 import { Card, Overline, PrimaryButton, ProgressBar, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
+import { musclesWorked } from '../utils/muscleMap';
 import { formatVolume, totalStats, volumeByWeek } from '../utils/stats';
 
 type Nav = CompositeNavigationProp<
@@ -39,6 +41,10 @@ export default function HomeScreen() {
   const stats = useMemo(() => totalStats(sessions), [sessions]);
   const week = useMemo(() => volumeByWeek(sessions), [sessions]);
   const maxVolume = Math.max(1, ...week.map(d => d.volume));
+  const muscles = useMemo(
+    () => musclesWorked(currentDay?.exercises.map(slot => slot.exerciseId) ?? []),
+    [currentDay],
+  );
 
   const activeSession =
     activeSplit && currentDay ? getActiveSession(activeSplit.id, currentDay.id) : null;
@@ -79,6 +85,8 @@ export default function HomeScreen() {
                 <Text style={styles.heroBadgeLabel}>series</Text>
               </View>
             </View>
+
+            {muscles.size > 0 && <BodyMap levels={muscles} height={120} legend />}
 
             <View style={styles.heroProgress}>
               <ProgressBar progress={progress} />
