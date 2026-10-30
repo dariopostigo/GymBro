@@ -14,6 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const { CUSTOM_EXERCISES } = require('./customExercises');
+const { splitCategory } = require('./exerciseFixes');
 
 const CATALOG_PATH = path.join(__dirname, '..', 'src', 'data', 'exercises.json');
 
@@ -23,7 +24,8 @@ function main() {
 
   const added = [];
   const updated = [];
-  for (const custom of CUSTOM_EXERCISES) {
+  for (const definition of CUSTOM_EXERCISES) {
+    const custom = { ...definition, category: splitCategory(definition) };
     const current = byId.get(custom.id);
     if (!current) {
       exercises.push({ ...custom });

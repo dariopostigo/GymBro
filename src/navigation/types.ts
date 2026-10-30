@@ -32,5 +32,13 @@ export type RootStackParamList = {
         dayId: string;
         slotId: string;
         currentExerciseId?: number;
+      }
+    | {
+        /** Elegir el plan B de un hueco; `currentExerciseId` es el ejercicio principal. */
+        mode: 'backup';
+        splitId: string;
+        dayId: string;
+        slotId: string;
+        currentExerciseId?: number;
       };
 };

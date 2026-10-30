@@ -20,6 +20,9 @@ function withCanonicalIds(day: SplitDay): SplitDay {
     exercises: day.exercises.map(slot => ({
       ...slot,
       exerciseId: canonicalExerciseId(slot.exerciseId),
+      ...(slot.backupExerciseId !== undefined && {
+        backupExerciseId: canonicalExerciseId(slot.backupExerciseId),
+      }),
     })),
   };
 }

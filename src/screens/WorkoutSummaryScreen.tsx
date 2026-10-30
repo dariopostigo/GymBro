@@ -12,9 +12,9 @@ import { formatWeight } from '../utils/progression';
 import { formatFullDate, formatShortDate, formatVolume } from '../utils/stats';
 import {
   buildWorkoutSummary,
+  describeRecord,
   type DayComparison,
   type ExerciseTrend,
-  type PersonalRecord,
 } from '../utils/workoutSummary';
 import { colors, radius, spacing } from '../theme';
 
@@ -39,12 +39,6 @@ function describeComparison({ date, volumeChange, setsDiff }: DayComparison): st
       ? 'mismas series'
       : `${count} ${count === 1 ? 'serie' : 'series'} ${setsDiff > 0 ? 'más' : 'menos'}`;
   return `${volume} · ${sets} que el ${formatShortDate(date)}`;
-}
-
-function describeRecord({ kind, value, previous }: PersonalRecord): string {
-  return kind === 'weight'
-    ? `${formatWeight(value)} kg (antes ${formatWeight(previous)})`
-    : `1RM est. ${value} kg (antes ${previous})`;
 }
 
 /**

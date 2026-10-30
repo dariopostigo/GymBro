@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
+import { CategoryIcon } from '../components/CategoryIcon';
 import { CATEGORIES, EXERCISES, getExerciseById } from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
@@ -79,12 +80,30 @@ export default function ExercisePickerScreen({ route }: Props) {
         targetRepsMax: 12,
       };
       updateDayExercises(params.splitId, params.dayId, [...day.exercises, newSlot]);
+    } else if (params.mode === 'backup') {
+      updateDayExercises(
+        params.splitId,
+        params.dayId,
+        day.exercises.map(slot =>
+          slot.id === params.slotId && slot.exerciseId !== exercise.id
+            ? { ...slot, backupExerciseId: exercise.id }
+            : slot,
+        ),
+      );
     } else {
       updateDayExercises(
         params.splitId,
         params.dayId,
         day.exercises.map(slot =>
-          slot.id === params.slotId ? { ...slot, exerciseId: exercise.id } : slot,
+          slot.id !== params.slotId
+            ? slot
+            : {
+                ...slot,
+                exerciseId: exercise.id,
+                // Un plan B igual al principal no sirve de nada.
+                backupExerciseId:
+                  slot.backupExerciseId === exercise.id ? undefined : slot.backupExerciseId,
+              },
         ),
       );
       // Cambiar la plantilla manda sobre el cambio de ejercicio de hoy, pero las
@@ -122,6 +141,11 @@ export default function ExercisePickerScreen({ route }: Props) {
             <Chip
               label={item}
               active={item === 'Todos' ? category === null : category === item}
+              icon={
+                item === 'Todos' ? undefined : (
+                  <CategoryIcon category={item} size={24} active={category === item} />
+                )
+              }
               onPress={() => setCategory(item === 'Todos' ? null : item)}
             />
           )}

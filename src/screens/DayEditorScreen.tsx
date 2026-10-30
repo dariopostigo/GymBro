@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { useSettings } from '../context/SettingsContext';
 import { presetDay } from '../storage/routineStorage';
-import { getExerciseById } from '../data/exerciseCatalog';
+import { defaultBackupId, getExerciseById } from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { ChevronIcon } from '../components/icons';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
@@ -22,7 +22,7 @@ import {
   formatRest,
   restForSlot,
 } from '../utils/restTimer';
-import { colors, radius, spacing } from '../theme';
+import { colors, overline, radius, spacing } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DayEditor'>;
 type Nav = NativeStackNavigationProp<RootStackParamList, 'DayEditor'>;
@@ -115,6 +115,10 @@ export default function DayEditorScreen({ route }: Props) {
 
   const renderItem = (item: DayExerciseSlot, index: number) => {
     const exercise = getExerciseById(item.exerciseId);
+    // Sin plan B elegido a mano se enseña el de por defecto del ejercicio.
+    const backupId = item.backupExerciseId ?? defaultBackupId(item.exerciseId);
+    const backup = backupId === undefined ? undefined : getExerciseById(backupId);
+    const backupIsDefault = item.backupExerciseId === undefined && backup !== undefined;
     const isFirst = index === 0;
     const isLast = index === exercises.length - 1;
 
@@ -174,6 +178,41 @@ export default function DayEditorScreen({ route }: Props) {
                   />
                 </TouchableOpacity>
               </View>
+            </View>
+
+            <View style={styles.backupRow}>
+              <View style={styles.backupInfo}>
+                <Text style={styles.backupLabel}>
+                  {backupIsDefault ? 'Plan B · por defecto' : 'Plan B'}
+                </Text>
+                <Text style={[styles.backupName, !backup && styles.backupHint]} numberOfLines={2}>
+                  {backup?.name ?? 'Por si la máquina está ocupada'}
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ExercisePicker', {
+                    mode: 'backup',
+                    splitId,
+                    dayId,
+                    slotId: item.id,
+                    currentExerciseId: item.exerciseId,
+                  })
+                }
+                hitSlop={8}
+              >
+                <Text style={styles.replaceText}>{backup ? 'Cambiar' : 'Elegir'}</Text>
+              </TouchableOpacity>
+              {backup && !backupIsDefault && (
+                <TouchableOpacity
+                  onPress={() => updateSlot(item.id, { backupExerciseId: undefined })}
+                  hitSlop={8}
+                >
+                  <Text style={styles.removeButtonText}>
+                    {defaultBackupId(item.exerciseId) === undefined ? 'Quitar' : 'Por defecto'}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
 
             <View style={styles.targetsRow}>
@@ -300,6 +339,21 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.sm,
   },
+  backupRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+  },
+  backupInfo: { flex: 1, gap: 2 },
+  backupLabel: { ...overline, fontSize: 9.5, color: colors.muted },
+  backupName: { color: colors.text, fontSize: 13, fontWeight: '700' },
+  backupHint: { color: colors.muted, fontWeight: '500' },
   restRow: { gap: spacing.sm },
   customizedHint: { color: colors.muted, fontSize: 13, lineHeight: 18 },
   removeButton: { alignSelf: 'flex-start' },

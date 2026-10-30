@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { CategoryIcon } from '../components/CategoryIcon';
 import { CATEGORIES, EXERCISES } from '../data/exerciseCatalog';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useFavorites } from '../context/FavoritesContext';
@@ -68,6 +69,11 @@ export default function ExerciseLibraryScreen() {
             <Chip
               label={item}
               active={item === 'Todos' ? category === null : category === item}
+              icon={
+                item === 'Todos' ? undefined : (
+                  <CategoryIcon category={item} size={24} active={category === item} />
+                )
+              }
               onPress={() => setCategory(item === 'Todos' ? null : item)}
             />
           )}

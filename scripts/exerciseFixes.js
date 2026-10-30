@@ -10,6 +10,9 @@
  * - Descripciones: se limpian los restos de HTML (&nbsp;...) y los enlaces, y
  *   las de DESCRIPTION_ES (exerciseDescriptionsEs.js) sustituyen a las de wger.
  * - MUSCLE_RENAMES: nombres de músculo que se cambian en todo el catálogo.
+ * - splitCategory: wger mete todo en "Brazos" y "Piernas"; se reparten en
+ *   Bíceps/Tríceps/Antebrazos y Cuádriceps/Femoral/Glúteos según el músculo
+ *   principal (CATEGORY_FIXES manda cuando la regla se equivoca).
  *
  * Igual que NAME_ES, viven aquí para sobrevivir al siguiente
  * `npm run fetch:exercises`. Para aplicarlos al catálogo ya descargado:
@@ -26,6 +29,14 @@ const PECHO = { id: 11, name: 'Pecho' };
 const ESPALDA = { id: 12, name: 'Espalda' };
 const HOMBROS = { id: 13, name: 'Hombros' };
 const GEMELOS = { id: 14, name: 'Gemelos' };
+// Lo que wger agrupa en Brazos y Piernas, por separado. Ids propios a partir
+// del 101 para no chocar con los de wger (que van hasta el 15).
+const BICEPS_CATEGORIA = { id: 101, name: 'Bíceps' };
+const TRICEPS_CATEGORIA = { id: 102, name: 'Tríceps' };
+const ANTEBRAZOS_CATEGORIA = { id: 103, name: 'Antebrazos' };
+const CUADRICEPS_CATEGORIA = { id: 104, name: 'Cuádriceps' };
+const FEMORAL_CATEGORIA = { id: 105, name: 'Femoral' };
+const GLUTEOS_CATEGORIA = { id: 106, name: 'Glúteos' };
 
 // wger llama al 2 "deltoide anterior", pero lo usa para cualquier ejercicio de
 // hombro (laterales, pájaros...). Con el nombre genérico no engaña.
@@ -144,6 +155,39 @@ const EXERCISE_FIXES = {
   999: m([CUADRICEPS, GLUTEOS], [ISQUIOS]), // Zancadas hacia atrás
 };
 
+/** Ejercicios de Brazos o Piernas en los que splitCategory se equivocaría. */
+const CATEGORY_FIXES = {
+  1320: TRICEPS_CATEGORIA, // Fondos de tríceps en el suelo (wger pone bíceps de principal)
+  1886: GLUTEOS_CATEGORIA, // Abducción de cadera en supino
+  1642: GLUTEOS_CATEGORIA, // Empuje de cadera con mancuerna
+  1735: GLUTEOS_CATEGORIA, // Glúteo en prensa de lado con una pierna
+  1616: GLUTEOS_CATEGORIA, // Patada de burro con mancuerna
+  257: CUADRICEPS_CATEGORIA, // Sentadilla frontal (wger solo pone glúteos)
+  1116: ESPALDA, // Paseo del granjero (trapecio y antebrazos, no pierna)
+};
+
+const hasPrimary = (exercise, muscle) => exercise.musclesPrimary.some(mu => mu.id === muscle.id);
+
+/**
+ * Reparte un ejercicio de Brazos o Piernas por su músculo principal. Los de
+ * las demás categorías se quedan como están. Los de aductores van con los de
+ * glúteos (son dos y casi siempre se entrenan juntos).
+ */
+function splitCategory(exercise) {
+  if (CATEGORY_FIXES[exercise.id]) return CATEGORY_FIXES[exercise.id];
+  if (exercise.category.id === BRAZOS.id) {
+    if (hasPrimary(exercise, TRICEPS)) return TRICEPS_CATEGORIA;
+    if (hasPrimary(exercise, BICEPS) || hasPrimary(exercise, BRAQUIAL)) return BICEPS_CATEGORIA;
+    return ANTEBRAZOS_CATEGORIA;
+  }
+  if (exercise.category.id === PIERNAS.id) {
+    if (hasPrimary(exercise, CUADRICEPS)) return CUADRICEPS_CATEGORIA;
+    if (hasPrimary(exercise, ISQUIOS)) return FEMORAL_CATEGORIA;
+    return GLUTEOS_CATEGORIA;
+  }
+  return exercise.category;
+}
+
 const HTML_ENTITIES = { '&nbsp;': ' ', '&amp;': '&', '&quot;': '"', '&#39;': "'", '&lt;': '<', '&gt;': '>' };
 
 /** Quita los restos de HTML y los enlaces que trae wger en las descripciones. */
@@ -172,6 +216,7 @@ function applyExerciseFixes(exercises) {
       description: DESCRIPTION_ES[exercise.id] ?? cleanDescription(exercise.description),
       ...EXERCISE_FIXES[exercise.id],
     };
+    next.category = splitCategory(next);
     if (JSON.stringify(next) === JSON.stringify(exercise)) continue;
     Object.assign(exercise, next);
     fixed.push(exercise);
@@ -180,4 +225,4 @@ function applyExerciseFixes(exercises) {
   return { exercises: kept, removed, fixed };
 }
 
-module.exports = { MERGED_INTO, EXERCISE_FIXES, MUSCLE_RENAMES, applyExerciseFixes };
+module.exports = { MERGED_INTO, EXERCISE_FIXES, MUSCLE_RENAMES, applyExerciseFixes, splitCategory };

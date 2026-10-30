@@ -95,7 +95,7 @@ const CUSTOM_EXERCISES = [
   exercise({
     id: 90004,
     uuid: '40dcb1e3-2e92-4375-9dcf-a552d79c3579',
-    name: 'Press inclinado en máquina',
+    name: 'Press inclinado en máquina de discos',
     description:
       'Siéntate en la máquina de press inclinado con la espalda bien apoyada en el respaldo y ajusta el asiento para que los agarres queden a la altura de la parte alta del pecho. Empuja hacia arriba y hacia delante hasta extender los brazos y vuelve despacio hasta notar el estiramiento del pecho.',
     primary: [M_PECHO],
@@ -104,7 +104,7 @@ const CUSTOM_EXERCISES = [
   exercise({
     id: 90005,
     uuid: 'fb251a63-0d7a-4414-add9-7a23ac7c9de6',
-    name: 'Press declinado en máquina',
+    name: 'Press declinado en máquina de discos',
     description:
       'Siéntate en la máquina de press declinado con la espalda apoyada y ajusta el asiento para que los agarres queden a la altura de la parte baja del pecho. Empuja hacia delante y hacia abajo hasta extender los brazos y vuelve controlando el peso.',
     primary: [M_PECHO],
@@ -230,7 +230,7 @@ const CUSTOM_EXERCISES = [
   exercise({
     id: 90017,
     uuid: '2f8c0744-c552-4910-967c-e44ddc29e193',
-    name: 'Remo alto en máquina',
+    name: 'Remo alto en máquina de discos',
     category: ESPALDA,
     description:
       'Siéntate en la máquina de remo alto (tipo Hammer) con las rodillas sujetas bajo los rodillos y agarra las asas por encima de la cabeza. Tira de ellas hacia abajo y hacia atrás llevando los codos pegados al cuerpo y juntando los omóplatos, y vuelve despacio hasta estirar los brazos.',
@@ -323,6 +323,137 @@ const CUSTOM_EXERCISES = [
       'De pie con las rodillas algo flexionadas, agarra un extremo de la cuerda con cada mano. Mueve los brazos arriba y abajo de forma alterna (o a la vez) para crear ondas en la cuerda, a ritmo rápido, durante el tiempo que marque la serie.',
     primary: [M_HOMBRO],
     secondary: [M_ABDOMINALES],
+  }),
+
+  // --- Variantes de máquina y polea ---
+  exercise({
+    id: 90026,
+    uuid: 'abd6374c-cd5d-4404-a248-9914afc7c401',
+    name: 'Remo sentado en máquina de discos',
+    category: ESPALDA,
+    description:
+      'Siéntate en la máquina de remo de discos con el pecho apoyado en el cojín y ajusta el asiento para que las asas queden a la altura del pecho. Tira de las asas hacia ti llevando los codos atrás y juntando los omóplatos, aguanta un segundo y vuelve despacio hasta estirar los brazos. Al ser de brazos independientes, también se puede hacer a una mano.',
+    primary: [M_DORSALES],
+    secondary: [M_BICEPS, M_TRAPECIO],
+  }),
+  exercise({
+    id: 90027,
+    uuid: '794b47d2-5562-473f-86a2-2333d54cc136',
+    name: 'Remo en T con apoyo en el pecho',
+    category: ESPALDA,
+    description:
+      'Túmbate boca abajo en el banco inclinado de la máquina de remo en T, con el pecho bien apoyado y los pies en la plataforma. Agarra las asas, tira de ellas hacia el pecho llevando los codos atrás y juntando los omóplatos, y baja controlado hasta estirar los brazos. El apoyo evita cargar la zona lumbar.',
+    primary: [M_DORSALES],
+    secondary: [M_BICEPS, M_TRAPECIO],
+  }),
+  exercise({
+    id: 90028,
+    uuid: '232bc3e6-8597-473a-bbb7-3a38b695d514',
+    name: 'Press de pecho en máquina de placas',
+    category: PECHO,
+    description:
+      'Siéntate en la máquina de press de pecho (la de pesas en columna) con la espalda apoyada y ajusta el asiento para que los agarres queden a la altura de la mitad del pecho. Empuja hasta extender los brazos sin bloquear los codos y vuelve despacio hasta notar el estiramiento del pecho.',
+    primary: [M_PECHO],
+    secondary: [M_HOMBRO, M_TRICEPS],
+  }),
+  exercise({
+    id: 90029,
+    uuid: 'e086d808-740b-4e3d-930f-c66feb0bbc19',
+    name: 'Press de hombros en máquina de discos',
+    category: HOMBROS,
+    description:
+      'Siéntate en la máquina de press de hombros de discos con la espalda apoyada y ajusta el asiento para que las asas queden a la altura de los hombros. Empuja hacia arriba hasta extender los brazos sin bloquear los codos y baja controlado hasta la altura de las orejas.',
+    primary: [M_HOMBRO],
+    secondary: [M_TRICEPS],
+  }),
+  exercise({
+    id: 90030,
+    uuid: 'cb46e3f5-1411-42c1-a541-0c65f760ee91',
+    name: 'Press de hombros en polea',
+    category: HOMBROS,
+    description:
+      'Coloca un banco con respaldo vertical entre dos poleas bajas y siéntate con la espalda apoyada. Con un agarre en cada mano a la altura de los hombros, empuja hacia arriba hasta extender los brazos y baja despacio. La polea mantiene la tensión durante todo el recorrido.',
+    primary: [M_HOMBRO],
+    secondary: [M_TRICEPS],
+  }),
+  exercise({
+    id: 90031,
+    uuid: 'c3b3e8c1-7f3e-4eda-88e1-f1f077849cdb',
+    name: 'Remo al mentón en polea',
+    category: HOMBROS,
+    description:
+      'De pie frente a la polea baja, agarra la barra recta con las manos algo más juntas que los hombros. Sube la barra pegada al cuerpo llevando los codos hacia arriba y hacia fuera hasta que queden a la altura de los hombros, y baja controlado.',
+    primary: [M_HOMBRO, M_TRAPECIO],
+    secondary: [M_BICEPS],
+  }),
+  exercise({
+    id: 90032,
+    uuid: '1379d82d-2cee-4a7c-afe9-2f5f981094f1',
+    name: 'Curl en banco Scott en polea',
+    category: BRAZOS,
+    description:
+      'Coloca un banco Scott delante de la polea baja y apoya la parte de atrás de los brazos en el cojín. Agarra la barra con las palmas hacia arriba y sube flexionando los codos hasta contraer el bíceps. Baja despacio sin llegar a estirar del todo para no perder la tensión.',
+    primary: [M_BICEPS],
+    secondary: [M_BRAQUIAL],
+  }),
+  exercise({
+    id: 90033,
+    uuid: '0272c878-adf5-4c87-9f03-ddef90081b92',
+    name: 'Extensión de tríceps en polea con agarre supino',
+    category: BRAZOS,
+    description:
+      'De pie frente a la polea alta, agarra la barra con las palmas hacia arriba y los codos pegados al cuerpo. Empuja la barra hacia abajo hasta estirar los brazos sin mover los codos, y vuelve despacio hasta que los antebrazos queden paralelos al suelo.',
+    primary: [M_TRICEPS],
+  }),
+  exercise({
+    id: 90034,
+    uuid: '199f8d5d-a628-435a-8b0c-fd6afc0ec3a3',
+    name: 'Jalón al pecho en máquina de discos',
+    category: ESPALDA,
+    description:
+      'Siéntate en la máquina de jalón de discos con los muslos sujetos bajo los rodillos y agarra las asas por encima de la cabeza. Tira hacia abajo llevando los codos hacia los costados y juntando los omóplatos hasta que las asas lleguen a la altura de la barbilla, y sube despacio hasta estirar los brazos. Al ser de brazos independientes, también se puede hacer a una mano.',
+    primary: [M_DORSALES],
+    secondary: [M_BICEPS, M_TRAPECIO],
+  }),
+  exercise({
+    id: 90035,
+    uuid: 'a86d0deb-7da8-4901-b871-728fdf43eb58',
+    name: 'Remo alto en máquina de placas',
+    category: ESPALDA,
+    description:
+      'Siéntate en la máquina de remo alto (la de pesas en columna) con el pecho apoyado en el cojín y agarra las asas por delante y por encima de los hombros. Tira hacia abajo y hacia atrás llevando los codos pegados al cuerpo y juntando los omóplatos, y vuelve despacio hasta estirar los brazos.',
+    primary: [M_DORSALES],
+    secondary: [M_BICEPS, M_TRAPECIO],
+  }),
+  exercise({
+    id: 90036,
+    uuid: '440bb3c8-dfcf-4a39-8a43-d82e648e0687',
+    name: 'Press inclinado en máquina de placas',
+    category: PECHO,
+    description:
+      'Siéntate en la máquina de press inclinado (la de pesas en columna) con la espalda apoyada y ajusta el asiento para que los agarres queden a la altura de la parte alta del pecho. Empuja hacia arriba y hacia delante hasta extender los brazos sin bloquear los codos y vuelve despacio hasta notar el estiramiento del pecho.',
+    primary: [M_PECHO],
+    secondary: [M_HOMBRO, M_TRICEPS],
+  }),
+  exercise({
+    id: 90037,
+    uuid: '8d1ef49e-53f5-4bf7-8d53-491f4d47b789',
+    name: 'Prensa de piernas horizontal',
+    category: PIERNAS,
+    description:
+      'Siéntate en la prensa horizontal (la de pesas en columna) con la espalda apoyada y los pies en la plataforma, separados al ancho de las caderas. Empuja hasta extender las piernas sin bloquear las rodillas y vuelve despacio hasta que las rodillas formen unos 90 grados, sin despegar la zona lumbar del respaldo.',
+    primary: [M_CUADRICEPS, M_GLUTEOS],
+    secondary: [M_ISQUIOS],
+  }),
+  exercise({
+    id: 90038,
+    uuid: '78e101a6-1df5-4ce8-804e-028bc59dfd44',
+    name: 'Sentadilla en máquina (V-squat / cinturón)',
+    category: PIERNAS,
+    description:
+      'Colócate en la máquina con los hombros bajo las almohadillas (V-squat) o con el cinturón enganchado a la cadera (belt squat), y los pies en la plataforma al ancho de los hombros. Baja flexionando rodillas y caderas con la espalda recta hasta que los muslos queden paralelos a la plataforma, y sube empujando con todo el pie. Al no cargar la espalda, permite trabajar las piernas con mucho peso.',
+    primary: [M_CUADRICEPS, M_GLUTEOS],
+    secondary: [M_ISQUIOS],
   }),
 ];
 

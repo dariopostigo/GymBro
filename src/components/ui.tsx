@@ -104,18 +104,22 @@ export function GhostButton({
 export function Chip({
   label,
   active,
+  icon,
   onPress,
 }: {
   label: string;
   active?: boolean;
+  /** Va delante del texto; el chip encoge el relleno para no crecer. */
+  icon?: React.ReactNode;
   onPress: () => void;
 }) {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
-      style={[styles.chip, active && styles.chipActive]}
+      style={[styles.chip, icon ? styles.chipWithIcon : null, active && styles.chipActive]}
     >
+      {icon}
       <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
     </TouchableOpacity>
   );
@@ -266,6 +270,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceAlt,
     borderWidth: 1,
     borderColor: colors.border,
+  },
+  chipWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 5,
+    paddingLeft: spacing.md,
   },
   chipActive: { backgroundColor: colors.accent, borderColor: colors.accent },
   chipText: { color: colors.textDim, fontSize: 12.5, fontWeight: '700' },

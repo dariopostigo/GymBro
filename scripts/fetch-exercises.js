@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const { NAME_ES } = require('./exerciseNamesEs');
 const { CUSTOM_EXERCISES } = require('./customExercises');
-const { applyExerciseFixes } = require('./exerciseFixes');
+const { applyExerciseFixes, splitCategory } = require('./exerciseFixes');
 const { FREE_DB_IMAGES } = require('./exerciseImagesFree');
 const { loadFreeExerciseImages } = require('./freeExerciseDb');
 
@@ -172,7 +172,11 @@ async function main() {
 
   // Los que wger no tiene (Smith, prensas de pecho...): ver customExercises.js.
   for (const custom of CUSTOM_EXERCISES) {
-    exercises.push({ ...custom, images: mapImages([], custom.id, freeImages) });
+    exercises.push({
+      ...custom,
+      category: splitCategory(custom),
+      images: mapImages([], custom.id, freeImages),
+    });
   }
 
   exercises.sort((a, b) => {

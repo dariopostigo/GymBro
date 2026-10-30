@@ -26,12 +26,34 @@
 
 - [x] **Los cambios en rutinas predefinidas ya no se pierden al reiniciar**: los días editados quedan como personalizados (con "Restaurar el día original" en el editor) y entran en la copia de seguridad.
 
+- [x] **Aviso de récord** al apuntar una serie que supera la mejor marca del ejercicio: la fila sale con trofeo y lo que ha batido (mismo criterio que el resumen).
+
+- [x] **Plan B por si la máquina está ocupada**: se elige por ejercicio en el editor del día y en Hoy se cambia con un toque (con las mismas series y reps) y se vuelve igual.
+
+- [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
+
+- [x] **Catálogo**: Brazos separado en Bíceps / Tríceps / Antebrazos y Piernas en Cuádriceps / Femoral / Glúteos; iconos de músculo en los chips de categoría; variantes de máquina de placas / de discos / polea; fusionado el curl martillo en polea duplicado.
+
+
 ## Muy útil
 
-- [ ] **Aviso de récord** al apuntar una serie que supera la mejor marca del ejercicio (el cálculo ya existe en el historial).
 - [ ] **Series por grupo muscular a la semana** en Progreso, para ver qué músculos se quedan cortos.
 - [ ] **Ficha del ejercicio** con descripción, músculos principales y secundarios y fotos (las descripciones en español ya están en el catálogo pero no se muestran).
 - [ ] **Añadir un ejercicio solo para hoy** desde la pestaña Hoy (ahora solo se puede cambiar uno por otro).
+
+## Ideas sacadas de openGym
+
+Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gym visual) no se pueden reutilizar. Las siluetas de MuscleMap sí (MIT).
+
+- [ ] **Siluetas de MuscleMap** (https://github.com/melihcolpan/MuscleMap, MIT) en lugar de los iconos de músculo dibujados a mano.
+- [ ] **Mapa corporal por sesión** en Inicio y en cada día de la rutina, con los músculos que se trabajan encendidos (depende de lo anterior).
+- [ ] **Repeticiones por lado** en zancadas, búlgaras y ejercicios a una mano.
+- [ ] **Esfuerzo RIR / RPE** opcional por serie; afinaría la sugerencia de subir peso.
+- [ ] **Pila de pesos real de cada máquina**, para que la progresión sugiera pesos que existen.
+- [ ] **Calculadora de discos** para barra, barra Z y Smith, según los discos que se tengan.
+- [ ] **Series de calentamiento** que no cuentan en volumen ni récords, con sugerencia automática (50 % × 10, 70 % × 5...).
+- [ ] **Drop sets y rest-pause.**
+- [ ] **Superseries** (dos ejercicios alternados con el descanso al final del par).
 
 ## Pendientes (de momento no)
 
@@ -43,8 +65,6 @@
 
 - [ ] Registro de peso corporal con gráfica.
 - [ ] Calendario con los días entrenados.
-- [ ] Calculadora de discos (qué discos poner para un peso dado).
-- [ ] Series de calentamiento sugeridas.
 - [ ] Recordar qué tarjetas de Hoy se han plegado a mano (ahora se olvida al salir de la app o en listas largas).
 
 ## Diseño
@@ -58,3 +78,5 @@
 - [ ] Pesos con coma decimal también en la lista de series de Hoy (ahora `62.5` ahí y `62,5` en la sugerencia).
 - [ ] Actualizar el README: sigue describiendo la app como una plantilla "Hello World".
 - [ ] Aviso de eslint en `src/utils/exerciseSearch.ts` (`no-control-regex` por el `\u0000` de la expresión regular).
+- [ ] Revisar fotos compartidas entre ejercicios distintos (46 fotos se repiten; p. ej. *Curl bayesiano en polea* y *Curl de bíceps en polea*) y buscar más duplicados como el del curl martillo.
+- [ ] Traducir las ~4 descripciones del catálogo que siguen en inglés.

@@ -1,5 +1,6 @@
 import exercisesJson from './exercises.json';
 import exerciseMerges from './exerciseMerges.json';
+import { DEFAULT_BACKUPS } from './exerciseBackups';
 import type { Exercise } from '../types/exercise';
 
 export const EXERCISES = exercisesJson as Exercise[];
@@ -19,6 +20,15 @@ export function canonicalExerciseId(id: number): number {
 
 export function getExerciseById(id: number): Exercise | undefined {
   return exercisesById.get(canonicalExerciseId(id));
+}
+
+/** Plan B por defecto del ejercicio (ver exerciseBackups.ts), si existe y no es él mismo. */
+export function defaultBackupId(id: number): number | undefined {
+  const canonical = canonicalExerciseId(id);
+  const backup = DEFAULT_BACKUPS[canonical] ?? DEFAULT_BACKUPS[id];
+  if (backup === undefined) return undefined;
+  const resolved = canonicalExerciseId(backup);
+  return resolved !== canonical && exercisesById.has(resolved) ? resolved : undefined;
 }
 
 export const CATEGORIES = [...new Set(EXERCISES.map(e => e.category.name))].sort((a, b) =>

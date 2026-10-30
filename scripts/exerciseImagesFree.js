@@ -57,7 +57,6 @@ const FREE_DB_IMAGES = {
 
   // --- Brazos ---
   1493: 'Standing_Biceps_Cable_Curl', // Bayesian Curl
-  275: 'Cable_Hammer_Curls_-_Rope_Attachment', // Bíceps concentrado martillo en polea
   1465: 'Spider_Curl', // Curl Araña
   1224: 'Drag_Curl', // Curl con arrastre con mancuernas
   91: 'Barbell_Curl', // Curl con barra
@@ -251,8 +250,8 @@ const FREE_DB_IMAGES = {
   90001: 'Smith_Machine_Bench_Press', // Press de banca en máquina Smith
   90002: 'Smith_Machine_Incline_Bench_Press', // Press inclinado en máquina Smith
   90003: 'Smith_Machine_Decline_Press', // Press declinado en máquina Smith
-  90004: 'Leverage_Incline_Chest_Press', // Press inclinado en máquina
-  90005: 'Leverage_Decline_Chest_Press', // Press declinado en máquina
+  90004: 'Leverage_Incline_Chest_Press', // Press inclinado en máquina de discos
+  90005: 'Leverage_Decline_Chest_Press', // Press declinado en máquina de discos
   90006: 'Standing_Cable_Chest_Press', // Press de pecho en polea de pie
   90007: 'Bent-Arm_Barbell_Pullover', // Pullover con barra
   90008: 'Svend_Press', // Press Svend con disco
@@ -263,7 +262,7 @@ const FREE_DB_IMAGES = {
   90014: 'Smith_Machine_Calf_Raise', // Elevación de gemelos en máquina Smith
   90015: 'Standing_Dumbbell_Calf_Raise', // Elevación de gemelos de pie con mancuernas
   90016: 'Smith_Machine_Bent_Over_Row', // Remo en máquina Smith
-  90017: 'Leverage_High_Row', // Remo alto en máquina
+  90017: 'Leverage_High_Row', // Remo alto en máquina de discos
   90018: 'Weighted_Pull_Ups', // Dominadas lastradas
   90019: 'Leverage_Shrug', // Encogimientos de hombros en máquina
   90020: 'Machine_Preacher_Curls', // Curl de bíceps en máquina
@@ -272,6 +271,14 @@ const FREE_DB_IMAGES = {
   90023: 'Knee_Hip_Raise_On_Parallel_Bars', // Elevación de rodillas en paralelas (silla del capitán)
   90024: 'Recumbent_Bike', // Bicicleta reclinada
   90025: 'Battling_Ropes', // Cuerdas de batalla
+  90026: 'Leverage_Iso_Row', // Remo sentado en máquina de discos
+  90027: 'Lying_T-Bar_Row', // Remo en T con apoyo en el pecho
+  90028: 'Machine_Bench_Press', // Press de pecho en máquina de placas
+  90029: 'Leverage_Shoulder_Press', // Press de hombros en máquina de discos
+  90030: 'Seated_Cable_Shoulder_Press', // Press de hombros en polea
+  90031: 'Upright_Cable_Row', // Remo al mentón en polea
+  90032: 'Cable_Preacher_Curl', // Curl en banco Scott en polea
+  90033: 'Reverse_Grip_Triceps_Pushdown', // Extensión de tríceps en polea con agarre supino
   801: 'Close-Grip_Push-Up_off_of_a_Dumbbell', // Flexiones con mancuernas
   583: 'Pushups', // Flexiones de lado a lado
   386: 'Push-Ups_-_Close_Triceps_Position', // Flexiones diamante
@@ -384,6 +391,12 @@ const SIN_EQUIVALENTE = [
   1829, // Sentadilla con barra landmine y press
   1527, // Sentadilla péndulo
   90012, // Hip thrust en máquina
+  // Variantes de máquina que nadie ilustra
+  90034, // Jalón al pecho en máquina de discos
+  90035, // Remo alto en máquina de placas
+  90036, // Press inclinado en máquina de placas
+  90037, // Prensa de piernas horizontal
+  90038, // Sentadilla en máquina (V-squat / cinturón)
 ];
 
 module.exports = { FREE_DB_IMAGES, SIN_EQUIVALENTE };

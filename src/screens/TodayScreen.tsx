@@ -19,7 +19,7 @@ import { useRestTimer } from '../context/RestTimerContext';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
-import { getExerciseById } from '../data/exerciseCatalog';
+import { defaultBackupId, getExerciseById } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
@@ -40,6 +40,7 @@ import {
   HistoryIcon,
   PlusIcon,
   TrendingUpIcon,
+  TrophyIcon,
   VideoIcon,
 } from '../components/icons';
 import {
@@ -60,6 +61,7 @@ import {
   suggestNextLoad,
   type LoadSuggestion,
 } from '../utils/progression';
+import { describeRecord, liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { colors, overline, radius, spacing } from '../theme';
 
 type Nav = CompositeNavigationProp<
@@ -68,6 +70,7 @@ type Nav = CompositeNavigationProp<
 >;
 
 const noop = () => {};
+const NO_RECORDS = new Map<string, PersonalRecord>();
 
 // Mismos límites que el editor del día, para que plantilla y "solo hoy" coincidan.
 const MIN_SETS = 1;
@@ -78,7 +81,11 @@ interface ExerciseCardProps {
   positionInSession: number;
   positionInMuscleGroup?: number;
   loggedSets: SetEntry[];
+  /** Series de hoy que batieron la marca al apuntarlas, por id de serie. */
+  records: Map<string, PersonalRecord>;
   suggested?: LoadSuggestion;
+  /** Cambio de un toque al plan B del hueco (o de vuelta al ejercicio principal). */
+  planB?: { label: string; onPress: () => void };
   onAddSet: (weight: number, reps: number) => void;
   onRemoveSet: (setEntryId: string) => void;
   onSwapToday: () => void;
@@ -93,7 +100,9 @@ function ExerciseCard({
   positionInSession,
   positionInMuscleGroup,
   loggedSets,
+  records,
   suggested,
+  planB,
   onAddSet,
   onRemoveSet,
   onSwapToday,
@@ -259,6 +268,10 @@ function ExerciseCard({
             onIncrease={() => onChangeSets(1)}
           />
 
+          {planB && (
+            <GhostButton label={planB.label} onPress={planB.onPress} style={styles.planBButton} />
+          )}
+
           <View style={styles.swapRow}>
             <GhostButton label="Cambiar hoy" onPress={onSwapToday} style={styles.swapButton} />
             <GhostButton
@@ -275,24 +288,38 @@ function ExerciseCard({
             <Text style={styles.noSetsText}>Todavía no has registrado ninguna serie.</Text>
           ) : (
             <View style={styles.setList}>
-              {loggedSets.map(set => (
-                <FadeInView key={set.id} offset={10} duration={260}>
-                  <View style={styles.setRow}>
-                    <View style={styles.setNumber}>
-                      <Text style={styles.setNumberText}>{set.setNumber}</Text>
-                    </View>
-                    <Text style={styles.setRowText}>
-                      <Text style={styles.setRowStrong}>{set.weight}</Text> kg ×{' '}
-                      <Text style={styles.setRowStrong}>{set.reps}</Text> reps
-                    </Text>
-                    <TouchableOpacity onPress={() => onRemoveSet(set.id)} hitSlop={8}>
-                      <View style={styles.removeSetIcon}>
-                        <CloseIcon size={14} color={colors.danger} strokeWidth={2.5} />
+              {loggedSets.map(set => {
+                const record = records.get(set.id);
+                return (
+                  <FadeInView key={set.id} offset={10} duration={260}>
+                    <View style={[styles.setRow, record && styles.setRowRecord]}>
+                      <View style={[styles.setNumber, record && styles.setNumberRecord]}>
+                        {record ? (
+                          <TrophyIcon size={12} color={colors.onAccent} strokeWidth={2.5} />
+                        ) : (
+                          <Text style={styles.setNumberText}>{set.setNumber}</Text>
+                        )}
                       </View>
-                    </TouchableOpacity>
-                  </View>
-                </FadeInView>
-              ))}
+                      <View style={styles.setRowBody}>
+                        <Text style={styles.setRowText}>
+                          <Text style={styles.setRowStrong}>{set.weight}</Text> kg ×{' '}
+                          <Text style={styles.setRowStrong}>{set.reps}</Text> reps
+                        </Text>
+                        {record && (
+                          <Text style={styles.recordText} numberOfLines={1}>
+                            ¡Récord! {describeRecord(record)}
+                          </Text>
+                        )}
+                      </View>
+                      <TouchableOpacity onPress={() => onRemoveSet(set.id)} hitSlop={8}>
+                        <View style={styles.removeSetIcon}>
+                          <CloseIcon size={14} color={colors.danger} strokeWidth={2.5} />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </FadeInView>
+                );
+              })}
             </View>
           )}
 
@@ -456,6 +483,29 @@ export default function TodayScreen() {
     });
   };
 
+  // El plan B es el de la plantilla (o el de por defecto del ejercicio); usarlo hoy es un
+  // cambio "solo hoy" que se deshace igual.
+  const planBFor = (slot: DayExerciseSlot): ExerciseCardProps['planB'] => {
+    const template = currentDay.exercises.find(s => s.id === slot.id);
+    if (!template) return undefined;
+    const backupId = template.backupExerciseId ?? defaultBackupId(template.exerciseId);
+    if (backupId === undefined) return undefined;
+    if (slot.exerciseId === backupId) {
+      const main = getExerciseById(template.exerciseId);
+      return {
+        label: `Volver a ${main?.name ?? 'el ejercicio principal'}`,
+        onPress: () =>
+          setDayOverride(activeSplit.id, currentDay.id, slot.id, { exerciseId: undefined }),
+      };
+    }
+    const backup = getExerciseById(backupId);
+    return {
+      label: `Plan B: ${backup?.name ?? `Ejercicio #${backupId}`}`,
+      onPress: () =>
+        setDayOverride(activeSplit.id, currentDay.id, slot.id, { exerciseId: backupId }),
+    };
+  };
+
   const handleFinish = () => {
     Alert.alert(
       'Terminar entrenamiento',
@@ -480,6 +530,10 @@ export default function TodayScreen() {
     const positionInSession = index + 1;
     const positionInMuscleGroup = muscleGroupPositions.get(item.id);
     const loggedSets = (activeSession?.sets ?? []).filter(s => s.exerciseId === item.exerciseId);
+    const records = activeSession
+      ? liveRecords(item.exerciseId, activeSession, sessions)
+      : NO_RECORDS;
+    const planB = planBFor(item);
     // La sesión de hoy no cuenta: la sugerencia no cambia a mitad del entreno.
     const suggestion = suggestNextLoad(
       lastSessionSets(
@@ -499,7 +553,9 @@ export default function TodayScreen() {
           positionInSession={positionInSession}
           positionInMuscleGroup={positionInMuscleGroup}
           loggedSets={loggedSets}
+          records={records}
           suggested={suggestion}
+          planB={planB}
           onAddSet={(weight, reps) => {
             startRest(settings.autoRest ? restForSlot(item) : undefined);
             addSet({
@@ -714,6 +770,7 @@ const styles = StyleSheet.create({
   donePillComplete: { backgroundColor: colors.accent },
   donePillText: { color: colors.accent, fontWeight: '800', fontSize: 12 },
   donePillTextComplete: { color: colors.onAccent },
+  planBButton: { paddingVertical: 11, borderColor: colors.accentDim },
   swapRow: { flexDirection: 'row', gap: spacing.sm },
   swapButton: { flex: 1, paddingVertical: 11, paddingHorizontal: spacing.sm },
   divider: { height: 1, backgroundColor: colors.border },
@@ -737,7 +794,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   setNumberText: { color: colors.accent, fontWeight: '800', fontSize: 11 },
-  setRowText: { color: colors.textDim, fontSize: 14, flex: 1 },
+  setRowRecord: {
+    borderWidth: 1,
+    borderColor: colors.accentDim,
+    backgroundColor: colors.accentSoft,
+  },
+  setNumberRecord: { backgroundColor: colors.accent },
+  setRowBody: { flex: 1, gap: 2 },
+  setRowText: { color: colors.textDim, fontSize: 14 },
+  recordText: { color: colors.accent, fontSize: 12, fontWeight: '800' },
   setRowStrong: { color: colors.text, fontWeight: '800' },
   removeSetIcon: { paddingHorizontal: 4 },
   suggestion: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },

@@ -1,5 +1,5 @@
 import type { WorkoutSession } from '../src/types/session';
-import { buildWorkoutSummary } from '../src/utils/workoutSummary';
+import { buildWorkoutSummary, liveRecords } from '../src/utils/workoutSummary';
 
 const BENCH = 1;
 const SQUAT = 2;
@@ -86,4 +86,34 @@ test('sin historial no hay comparación ni récords', () => {
 
 test('las sesiones posteriores no cuentan', () => {
   expect(buildWorkoutSummary(lastWeek, [lastWeek, today]).records).toEqual([]);
+});
+
+describe('liveRecords', () => {
+  const active = { ...today, completed: false };
+  const records = liveRecords(BENCH, active, [lastWeek, otherDay, active]);
+
+  it('marca la serie que bate la marca en el momento de apuntarla', () => {
+    expect(records.get('c-0')).toEqual({ exerciseId: BENCH, kind: 'weight', value: 82.5, previous: 80 });
+  });
+
+  it('compara también con las series de hoy que vinieron antes', () => {
+    // Tras el 82,5 de hoy, 80 kg ya no es récord de peso, y su 1RM (107) solo empata
+    // con los 80x10 de la semana pasada.
+    expect(records.has('c-1')).toBe(false);
+    expect(records.has('c-2')).toBe(false);
+  });
+
+  it('no marca nada la primera vez que se hace un ejercicio', () => {
+    expect(liveRecords(ROW, active, [lastWeek, otherDay, active]).size).toBe(0);
+  });
+
+  it('un 1RM mejor sin más kilos también es récord', () => {
+    const now = session('d', '09', [[SQUAT, 100, 9]]);
+    expect(liveRecords(SQUAT, now, [lastWeek, otherDay, now]).get('d-0')).toEqual({
+      exerciseId: SQUAT,
+      kind: 'orm',
+      value: 130,
+      previous: 127,
+    });
+  });
 });

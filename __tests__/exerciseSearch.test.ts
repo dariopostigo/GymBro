@@ -54,4 +54,18 @@ describe('searchExercises', () => {
 
     expect(result.some(e => e.id === fondos.id)).toBe(false);
   });
+
+  it('separa bíceps de tríceps y cuádriceps de femoral', () => {
+    const byCategory = (category: string) =>
+      names(searchExercises(EXERCISES, { search: '', category, favoriteIds: new Set() }));
+
+    expect(byCategory('Bíceps')).toContain('Curl con barra');
+    expect(byCategory('Bíceps')).not.toContain('Press francés con barra Z');
+    expect(byCategory('Tríceps')).toContain('Press francés con barra Z');
+    expect(byCategory('Cuádriceps')).toContain('Sentadilla con barra');
+    expect(byCategory('Femoral')).toContain('Peso muerto rumano con barra');
+    expect(byCategory('Glúteos')).toContain('Hip thrust en máquina');
+    expect(byCategory('Brazos')).toHaveLength(0);
+    expect(byCategory('Piernas')).toHaveLength(0);
+  });
 });

@@ -9,6 +9,8 @@ export interface DayExerciseSlot {
   targetRepsMax: number;
   /** Descanso elegido a mano, en segundos. Sin él se calcula del rango de reps. */
   restSeconds?: number;
+  /** Plan B por si la máquina está ocupada: en Hoy se cambia con un toque, con las mismas series y reps. */
+  backupExerciseId?: number;
 }
 
 export interface SplitDay {

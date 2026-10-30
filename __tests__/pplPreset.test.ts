@@ -12,8 +12,8 @@ import { getExerciseById } from '../src/data/exerciseCatalog';
 const PPL_ROUTINE: Record<string, [string, string][]> = {
   'Push A': [
     ['Press inclinado con mancuernas', '4x6-10'],
-    ['Press de banca sentado en máquina', '4x8-12'],
-    ['Press de hombros en máquina', '3x8-12'],
+    ['Press de pecho en máquina de discos', '4x8-12'],
+    ['Press de hombros en máquina de placas', '3x8-12'],
     ['Elevación lateral con mancuernas', '4x12-15'],
     ['Elevaciones laterales en polea (a un brazo)', '3x12-15'],
     ['Extensión de tríceps en polea con cuerda', '4x10-12'],
@@ -21,7 +21,7 @@ const PPL_ROUTINE: Record<string, [string, string][]> = {
   ],
   'Pull A': [
     ['Jalón al pecho con agarre neutro', '4x6-10'],
-    ['Remo sentado (máquina)', '4x8-12'],
+    ['Remo sentado en máquina de placas', '4x8-12'],
     ['Remo con mancuernas', '3x8-12'],
     ['Jalón a la cara (face pull)', '3x12-15'],
     ['Curl inclinado con mancuernas', '4x10-12'],
@@ -37,7 +37,7 @@ const PPL_ROUTINE: Record<string, [string, string][]> = {
   'Push B': [
     ['Press de banca con mancuernas', '4x6-10'],
     ['Press inclinado con mancuernas', '3x8-12'],
-    ['Press de banca sentado en máquina', '3x8-12'],
+    ['Press de pecho en máquina de discos', '3x8-12'],
     ['Elevación lateral en máquina', '4x12-15'],
     ['Elevaciones laterales en polea (a un brazo)', '3x12-15'],
     ['Extensión de tríceps sobre la cabeza (mancuerna)', '4x10-12'],
@@ -46,7 +46,7 @@ const PPL_ROUTINE: Record<string, [string, string][]> = {
   'Pull B': [
     ['Remo con mancuernas', '4x6-10'],
     ['Jalón al pecho', '4x8-12'],
-    ['Remo sentado (máquina)', '3x8-12'],
+    ['Remo sentado en máquina de placas', '3x8-12'],
     ['Contractora inversa (pec deck)', '3x12-15'],
     ['Curl Martillo', '4x10-12'],
     ['Curl inclinado con mancuernas', '3x10-12'],
