@@ -78,9 +78,9 @@ Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósit
 ## Diseño
 
 - [x] **Revisión del diseño con capturas** (30/10/2026, en el emulador GymBro_API35 con datos de prueba). Arreglado: fila de la barra Smith que se salía, volumen partido en Inicio, barra del descanso tapando el final de las listas, avisos del sistema en blanco (ahora oscuros), subtítulos repetidos ("Pecho · Pecho"), nombres cortados a una línea, "Récords de hoy" en entrenos pasados, flecha ↓ junto a un récord (ahora trofeo), cambiar de día en Rutina sin avisar con un entreno a medias, flechas de orden invisibles en el editor, músculos principal y secundario repetidos y mayúsculas raras en tres nombres.
-- [ ] **Tarjetas de Hoy más compactas**: abiertas, la foto ocupa casi media pantalla y lo de apuntar series queda al final (mucho scroll en pleno entreno). Idea: foto más baja y peso/reps más arriba. Hablarlo antes.
-- [ ] Historial de ejercicio: el texto de "Orden dentro del entrenamiento" es largo y "Como #2" no se entiende a la primera.
-- [ ] Los iconos de los filtros por grupo (Abdominales, Antebrazos...) apenas se ven.
+- [x] **Tarjetas de Hoy más compactas**: miniatura (se amplía al tocarla) con objetivo, hechas y última vez arriba; luego series y peso/reps; Plan B, cambiar ejercicio y series objetivo plegados al final.
+- [x] Historial de ejercicio: texto de "Orden dentro del entrenamiento" en una línea y "2º del entreno" en vez de "Como #2".
+- [x] Filtros por grupo sin los iconos, que apenas se veían: solo el nombre, y caben más a la vista.
 
 ## Mantenimiento
 

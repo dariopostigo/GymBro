@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
-import { CategoryIcon } from '../components/CategoryIcon';
 import {
   CATEGORIES,
   EXERCISES,
@@ -158,11 +157,6 @@ export default function ExercisePickerScreen({ route }: Props) {
             <Chip
               label={item}
               active={item === 'Todos' ? category === null : category === item}
-              icon={
-                item === 'Todos' ? undefined : (
-                  <CategoryIcon category={item} size={24} active={category === item} />
-                )
-              }
               onPress={() => setCategory(item === 'Todos' ? null : item)}
             />
           )}

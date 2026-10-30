@@ -269,11 +269,7 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
             <View style={styles.section}>
               <Overline>Orden dentro del entrenamiento</Overline>
               <Text style={styles.hint}>
-                El peso que puedes levantar depende de si haces el ejercicio de primero, de
-                segundo... por eso el historial se segmenta por posición. Elige si comparar por
-                posición absoluta en la sesión o por posición dentro de{' '}
-                {exercise?.category.name ?? 'su categoría'}, aunque hayas reordenado el resto de
-                ejercicios.
+                Cansado mueves menos: compara solo las veces que lo hiciste en el mismo lugar.
               </Text>
               {muscleGroupPositions.length > 0 && (
                 <View style={styles.modeRow}>
@@ -294,7 +290,7 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                   ? positions.map(pos => (
                       <Chip
                         key={pos}
-                        label={`Como #${pos}`}
+                        label={`${pos}º del entreno`}
                         active={activePosition === pos}
                         onPress={() => setSelectedPosition(pos)}
                       />
@@ -314,7 +310,7 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
               <Overline>
                 {METRIC_TITLES[metric]} ·{' '}
                 {filterMode === 'session'
-                  ? `posición #${activePosition}`
+                  ? `${activePosition}º del entreno`
                   : `${activeMuscleGroupPosition}º de ${exercise?.category.name ?? 'categoría'}`}
               </Overline>
               <View style={styles.metricRow}>

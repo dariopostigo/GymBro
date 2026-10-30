@@ -31,8 +31,7 @@ import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import { restForSlot } from '../utils/restTimer';
-import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
-import { ExerciseImagePlaceholder } from '../components/ExerciseThumbnail';
+import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import ExerciseImageModal from '../components/ExerciseImageModal';
 import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import FadeInView from '../components/FadeInView';
@@ -52,7 +51,6 @@ import {
   Card,
   EmptyState,
   GhostButton,
-  Overline,
   PrimaryButton,
   ScreenHeader,
   Stepper,
@@ -244,6 +242,12 @@ function ExerciseCard({
     if (collapsedOverride !== undefined) onCollapsedChange(undefined);
   }, [isComplete, collapsedOverride, onCollapsedChange]);
 
+  const [optionsOpen, setOptionsOpen] = useState(false);
+  const toggleOptions = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setOptionsOpen(open => !open);
+  };
+
   const toggleCollapsed = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const next = !collapsed;
@@ -310,91 +314,81 @@ function ExerciseCard({
         </View>
       ) : (
         <>
-          <View style={styles.mediaWrapper}>
-            {media.length > 0 ? (
-              <>
-                <ExerciseImageCarousel media={media} style={styles.image} />
+          {/* Lo de un vistazo arriba: foto pequeña (se amplía al tocarla), objetivo y la última
+              vez. La foto grande ocupaba media pantalla y dejaba lo de apuntar al final. */}
+          <View style={styles.summaryRow}>
+            <TouchableOpacity
+              onPress={() => setImageModalVisible(true)}
+              disabled={media.length === 0}
+              activeOpacity={0.8}
+              accessibilityLabel="Ampliar imagen del ejercicio"
+            >
+              <ExerciseThumbnail exercise={exercise} style={styles.thumbnail} />
+              {media.length > 0 && (
+                <View style={styles.thumbnailExpand}>
+                  <ExpandIcon size={11} color={colors.text} />
+                </View>
+              )}
+            </TouchableOpacity>
+            <View style={styles.summaryText}>
+              <View style={styles.targetRow}>
+                <Text style={styles.targetText}>
+                  {slot.targetSets} × {slot.targetRepsMin}-{slot.targetRepsMax}
+                </Text>
+                <View style={[styles.donePill, isComplete && styles.donePillComplete]}>
+                  <Text style={[styles.donePillText, isComplete && styles.donePillTextComplete]}>
+                    {done}/{slot.targetSets}
+                  </Text>
+                </View>
                 {video && (
                   <TouchableOpacity
                     onPress={() => setVideoModalVisible(true)}
                     style={styles.videoButton}
+                    hitSlop={8}
                     activeOpacity={0.8}
                     accessibilityLabel="Ver vídeo del ejercicio"
                   >
-                    <VideoIcon size={16} color={colors.text} />
+                    <VideoIcon size={16} color={colors.accent} />
                   </TouchableOpacity>
                 )}
-                <TouchableOpacity
-                  onPress={() => setImageModalVisible(true)}
-                  style={styles.expandButton}
-                  activeOpacity={0.8}
-                  accessibilityLabel="Ampliar imagen del ejercicio"
-                >
-                  <ExpandIcon size={16} color={colors.text} />
-                </TouchableOpacity>
-                <ExerciseImageModal
-                  visible={imageModalVisible}
-                  media={media}
-                  onClose={() => setImageModalVisible(false)}
-                />
-                <ExerciseVideoModal
-                  visible={videoModalVisible}
-                  uri={video?.type === 'video' ? video.uri : undefined}
-                  onClose={() => setVideoModalVisible(false)}
-                />
-              </>
-            ) : (
-              <ExerciseImagePlaceholder style={styles.image} iconSize={44} />
-            )}
-            <View style={styles.targetPill}>
-              <Text style={styles.targetPillText}>
-                {slot.targetSets} × {slot.targetRepsMin}-{slot.targetRepsMax}
-              </Text>
+              </View>
+              {suggested && (
+                <View style={styles.suggestion}>
+                  {suggested.increase && <TrendingUpIcon size={14} color={colors.accent} />}
+                  <Text style={styles.suggestionText}>
+                    {suggested.increase ? (
+                      <Text style={styles.suggestionStrong}>
+                        Sube a {formatWeight(suggested.weight)} kg ·{' '}
+                      </Text>
+                    ) : null}
+                    Última vez: {formatWeight(suggested.previous.weight)} kg ×{' '}
+                    {suggested.previous.reps.join(' · ')}
+                    {suggested.increase
+                      ? suggested.reason === 'easy'
+                        ? ' · te sobraban reps'
+                        : ''
+                      : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
+                  </Text>
+                </View>
+              )}
             </View>
-            <View style={[styles.donePill, isComplete && styles.donePillComplete]}>
-              <Text style={[styles.donePillText, isComplete && styles.donePillTextComplete]}>
-                {done}/{slot.targetSets}
-              </Text>
-            </View>
-          </View>
-
-          <Stepper
-            label="Series objetivo"
-            layout="inline"
-            value={slot.targetSets}
-            minusDisabled={slot.targetSets <= MIN_SETS}
-            plusDisabled={slot.targetSets >= MAX_SETS}
-            onDecrease={() => onChangeSets(-1)}
-            onIncrease={() => onChangeSets(1)}
-          />
-
-          {planB && (
-            <GhostButton label={planB.label} onPress={planB.onPress} style={styles.planBButton} />
-          )}
-
-          <View style={styles.swapRow}>
-            <GhostButton label="Cambiar hoy" onPress={onSwapToday} style={styles.swapButton} />
-            {extra ? (
-              <GhostButton
-                label="Quitar de hoy"
-                onPress={onRemoveExtra}
-                style={styles.swapButton}
+            {media.length > 0 && (
+              <ExerciseImageModal
+                visible={imageModalVisible}
+                media={media}
+                onClose={() => setImageModalVisible(false)}
               />
-            ) : (
-              <GhostButton
-                label="Cambiar en plantilla"
-                onPress={onSwapPermanent}
-                style={styles.swapButton}
+            )}
+            {video && (
+              <ExerciseVideoModal
+                visible={videoModalVisible}
+                uri={video.type === 'video' ? video.uri : undefined}
+                onClose={() => setVideoModalVisible(false)}
               />
             )}
           </View>
 
-          <View style={styles.divider} />
-
-          <Overline>Series de hoy</Overline>
-          {loggedSets.length === 0 ? (
-            <Text style={styles.noSetsText}>Todavía no has registrado ninguna serie.</Text>
-          ) : (
+          {loggedSets.length > 0 && (
             <View style={styles.setList}>
               {loggedSets.map(set => {
                 const record = records.get(set.id);
@@ -447,26 +441,6 @@ function ExerciseCard({
                   </FadeInView>
                 );
               })}
-            </View>
-          )}
-
-          {suggested && (
-            <View style={styles.suggestion}>
-              {suggested.increase && <TrendingUpIcon size={16} color={colors.accent} />}
-              <Text style={styles.suggestionText}>
-                {suggested.increase ? (
-                  <Text style={styles.suggestionStrong}>
-                    Sube a {formatWeight(suggested.weight)} kg ·{' '}
-                  </Text>
-                ) : null}
-                Última vez: {formatWeight(suggested.previous.weight)} kg ×{' '}
-                {suggested.previous.reps.join(' · ')}
-                {suggested.increase
-                  ? suggested.reason === 'easy'
-                    ? ' · te sobraban reps'
-                    : ''
-                  : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
-              </Text>
             </View>
           )}
 
@@ -583,6 +557,56 @@ function ExerciseCard({
             </TouchableOpacity>
           </View>
           {plateHint && <Text style={styles.plateHint}>{plateHint}</Text>}
+
+          {/* Lo que casi no se toca en pleno entreno, plegado al final. */}
+          <TouchableOpacity
+            style={styles.optionsToggle}
+            onPress={toggleOptions}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityState={{ expanded: optionsOpen }}
+          >
+            <Text style={styles.optionsToggleText} numberOfLines={1}>
+              {planB ? 'Plan B, cambiar ejercicio, series' : 'Cambiar ejercicio, series'}
+            </Text>
+            <ChevronIcon direction={optionsOpen ? 'up' : 'down'} size={16} color={colors.muted} />
+          </TouchableOpacity>
+          {optionsOpen && (
+            <>
+              {planB && (
+                <GhostButton
+                  label={planB.label}
+                  onPress={planB.onPress}
+                  style={styles.planBButton}
+                />
+              )}
+              <View style={styles.swapRow}>
+                <GhostButton label="Cambiar hoy" onPress={onSwapToday} style={styles.swapButton} />
+                {extra ? (
+                  <GhostButton
+                    label="Quitar de hoy"
+                    onPress={onRemoveExtra}
+                    style={styles.swapButton}
+                  />
+                ) : (
+                  <GhostButton
+                    label="Cambiar en plantilla"
+                    onPress={onSwapPermanent}
+                    style={styles.swapButton}
+                  />
+                )}
+              </View>
+              <Stepper
+                label="Series objetivo"
+                layout="inline"
+                value={slot.targetSets}
+                minusDisabled={slot.targetSets <= MIN_SETS}
+                plusDisabled={slot.targetSets >= MAX_SETS}
+                onDecrease={() => onChangeSets(-1)}
+                onIncrease={() => onChangeSets(1)}
+              />
+            </>
+          )}
         </>
       )}
     </Card>
@@ -1005,48 +1029,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  mediaWrapper: { borderRadius: radius.md, overflow: 'hidden' },
-  image: { width: '100%', height: 170, backgroundColor: colors.surfaceAlt },
-  expandButton: {
+  summaryRow: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
+  thumbnail: { width: 76, height: 76, borderRadius: radius.md, backgroundColor: colors.surfaceAlt },
+  thumbnailExpand: {
     position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 28,
-    height: 28,
+    right: 4,
+    bottom: 4,
+    width: 20,
+    height: 20,
     borderRadius: radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(13, 14, 16, 0.82)',
   },
+  summaryText: { flex: 1, gap: 6 },
+  targetRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  targetText: { color: colors.text, fontWeight: '800', fontSize: 15 },
   videoButton: {
-    position: 'absolute',
-    top: 10,
-    right: 46,
-    width: 28,
-    height: 28,
+    marginLeft: 'auto',
+    width: 30,
+    height: 30,
     borderRadius: radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(13, 14, 16, 0.82)',
+    backgroundColor: colors.accentSoft,
   },
-  targetPill: {
-    position: 'absolute',
-    left: 10,
-    bottom: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: radius.pill,
-    backgroundColor: 'rgba(13, 14, 16, 0.82)',
-  },
-  targetPillText: { color: colors.text, fontWeight: '700', fontSize: 12 },
   donePill: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
     borderRadius: radius.pill,
-    backgroundColor: 'rgba(13, 14, 16, 0.82)',
+    backgroundColor: colors.accentSoft,
   },
   donePillComplete: { backgroundColor: colors.accent },
   donePillText: { color: colors.accent, fontWeight: '800', fontSize: 12 },
@@ -1054,8 +1066,16 @@ const styles = StyleSheet.create({
   planBButton: { paddingVertical: 11, borderColor: colors.accentDim },
   swapRow: { flexDirection: 'row', gap: spacing.sm },
   swapButton: { flex: 1, paddingVertical: 11, paddingHorizontal: spacing.sm },
-  divider: { height: 1, backgroundColor: colors.border },
-  noSetsText: { color: colors.muted, fontSize: 13 },
+  optionsToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  optionsToggleText: { flex: 1, color: colors.muted, fontSize: 12.5, fontWeight: '700' },
   setList: { gap: 6 },
   setRow: {
     flexDirection: 'row',
