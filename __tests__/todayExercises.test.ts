@@ -29,3 +29,12 @@ test('aplica los cambios de hoy y pone los añadidos al final', () => {
   expect(exercises[1]).toMatchObject({ targetSets: 2, targetRepsMin: 30, targetRepsMax: 60 });
   expect(exercises.reduce((sum, slot) => sum + slot.targetSets, 0)).toBe(9);
 });
+
+test('con el orden de hoy cambiado, va en ese orden y lo nuevo detrás', () => {
+  const exercises = todayExercises(day, {
+    a: { order: 1 },
+    b: { order: 0 },
+    extra1: { exerciseId: 475, extra: { repsMin: 6, repsMax: 10 } },
+  });
+  expect(exercises.map(slot => slot.id)).toEqual(['b', 'a', 'extra1']);
+});

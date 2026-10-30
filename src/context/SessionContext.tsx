@@ -27,6 +27,8 @@ export interface PastSetParams {
   perSide?: boolean;
 }
 
+export type SetPosition = Pick<SetEntry, 'positionInSession' | 'positionInMuscleGroup'>;
+
 interface SessionContextValue {
   loading: boolean;
   sessions: WorkoutSession[];
@@ -56,6 +58,11 @@ interface SessionContextValue {
   /** Mueve un entreno `days` días (la hora de cada serie se mueve con él). */
   moveSession: (sessionId: string, days: number) => void;
   deleteSession: (sessionId: string) => void;
+  /**
+   * Cambia la posición de las series ya apuntadas de cada ejercicio (por id de
+   * ejercicio), al reordenar el entreno de hoy: se guardan en el orden real.
+   */
+  setSetPositions: (sessionId: string, positions: Map<number, SetPosition>) => void;
   getEntriesForExercise: (exerciseId: number) => ExerciseHistoryEntry[];
 }
 
@@ -197,6 +204,18 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
+  const setSetPositions = useCallback(
+    (sessionId: string, positions: Map<number, SetPosition>) =>
+      editSession(sessionId, s => ({
+        ...s,
+        sets: s.sets.map(set => {
+          const position = positions.get(set.exerciseId);
+          return position ? { ...set, ...position } : set;
+        }),
+      })),
+    [editSession],
+  );
+
   const createPastSession = useCallback(
     (session: Pick<WorkoutSession, 'splitId' | 'splitDayId' | 'dayName' | 'date'>) => {
       const id = generateId();
@@ -292,6 +311,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     updateSessionDay,
     moveSession,
     deleteSession,
+    setSetPositions,
     getEntriesForExercise,
   };
 

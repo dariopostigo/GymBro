@@ -82,6 +82,12 @@ export interface ExerciseCardProps {
   onSwapToday: () => void;
   onSwapPermanent: () => void;
   onChangeSets: (delta: number) => void;
+  /** Subir o bajar el ejercicio en el orden de hoy. */
+  onMove: (delta: 1 | -1) => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
+  /** Ponerlo el siguiente, detrás de los ya empezados; sin él, ya lo es o ya está empezado. */
+  onDoNow?: () => void;
   onViewHistory: () => void;
   onInputFocus: () => void;
 }
@@ -110,6 +116,10 @@ export default function ExerciseCard({
   onSwapToday,
   onSwapPermanent,
   onChangeSets,
+  onMove,
+  canMoveUp,
+  canMoveDown,
+  onDoNow,
   onViewHistory,
   onInputFocus,
 }: ExerciseCardProps) {
@@ -613,7 +623,7 @@ export default function ExerciseCard({
             accessibilityState={{ expanded: optionsOpen }}
           >
             <Text style={styles.optionsToggleText} numberOfLines={1}>
-              {planB ? 'Plan B, cambiar ejercicio, series' : 'Cambiar ejercicio, series'}
+              {planB ? 'Plan B, cambiar, orden, series' : 'Cambiar ejercicio, orden, series'}
             </Text>
             <ChevronIcon direction={optionsOpen ? 'up' : 'down'} size={16} color={colors.muted} />
           </TouchableOpacity>
@@ -641,6 +651,30 @@ export default function ExerciseCard({
                     style={styles.swapButton}
                   />
                 )}
+              </View>
+              <View style={styles.orderRow}>
+                <Text style={styles.orderLabel}>Orden de hoy</Text>
+                {onDoNow && (
+                  <GhostButton label="Hacer ahora" onPress={onDoNow} style={styles.doNowButton} />
+                )}
+                <TouchableOpacity
+                  style={[styles.stackButton, !canMoveUp && styles.orderDisabled]}
+                  onPress={() => onMove(-1)}
+                  disabled={!canMoveUp}
+                  activeOpacity={0.8}
+                  accessibilityLabel="Hacerlo antes"
+                >
+                  <ChevronIcon direction="up" size={18} color={colors.accent} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.stackButton, !canMoveDown && styles.orderDisabled]}
+                  onPress={() => onMove(1)}
+                  disabled={!canMoveDown}
+                  activeOpacity={0.8}
+                  accessibilityLabel="Hacerlo después"
+                >
+                  <ChevronIcon direction="down" size={18} color={colors.accent} />
+                </TouchableOpacity>
               </View>
               <Stepper
                 label="Series objetivo"
@@ -754,6 +788,10 @@ const styles = StyleSheet.create({
   donePillTextComplete: { color: colors.onAccent },
   planBButton: { paddingVertical: 11, borderColor: colors.accentDim },
   swapRow: { flexDirection: 'row', gap: spacing.sm },
+  orderRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  orderLabel: { flex: 1, color: colors.textDim, fontSize: 13, fontWeight: '700' },
+  doNowButton: { paddingVertical: 9, paddingHorizontal: spacing.md },
+  orderDisabled: { opacity: 0.35 },
   swapButton: { flex: 1, paddingVertical: 11, paddingHorizontal: spacing.sm },
   optionsToggle: {
     flexDirection: 'row',

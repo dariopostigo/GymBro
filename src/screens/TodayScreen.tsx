@@ -59,10 +59,24 @@ function describeDeleted({ exerciseId, weight, reps }: SetEntry): string {
 export default function TodayScreen() {
   const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
-  const { activeSplit, currentDay, advanceToNextDay, getDayOverrides, setDayOverride } =
-    useRoutine();
-  const { getActiveSession, addSet, removeSet, restoreSet, updateSet, finishSession, sessions } =
-    useSession();
+  const {
+    activeSplit,
+    currentDay,
+    advanceToNextDay,
+    getDayOverrides,
+    setDayOverride,
+    setDayOrder,
+  } = useRoutine();
+  const {
+    getActiveSession,
+    addSet,
+    removeSet,
+    restoreSet,
+    updateSet,
+    finishSession,
+    setSetPositions,
+    sessions,
+  } = useSession();
   // Los cambios "solo por hoy" viven en el contexto: sobreviven a remontajes y al cierre de la app.
   const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
   const { settings } = useSettings();
@@ -163,6 +177,45 @@ export default function TodayScreen() {
       slotId: slot.id,
       currentExerciseId: slot.exerciseId,
     });
+  };
+
+  const hasSets = (slot: DayExerciseSlot) =>
+    activeSession?.sets.some(set => set.exerciseId === slot.exerciseId) ?? false;
+
+  // Cambiar el orden de hoy: las series ya apuntadas pasan a la posición nueva, para que
+  // se guarden en el orden real (con el que se comparan la sugerencia y el historial).
+  const reorder = (next: DayExerciseSlot[]) => {
+    setDayOrder(
+      activeSplit.id,
+      currentDay.id,
+      next.map(slot => slot.id),
+    );
+    if (!activeSession) return;
+    const groupPositions = computeMuscleGroupPositions(next);
+    setSetPositions(
+      activeSession.id,
+      new Map(
+        next.map((slot, index) => [
+          slot.exerciseId,
+          { positionInSession: index + 1, positionInMuscleGroup: groupPositions.get(slot.id) },
+        ]),
+      ),
+    );
+  };
+
+  const move = (index: number, delta: 1 | -1) => {
+    const next = [...exercises];
+    [next[index], next[index + delta]] = [next[index + delta], next[index]];
+    reorder(next);
+  };
+
+  // "Hacer ahora": justo detrás de los ya empezados, que quedan arriba en su orden.
+  const doNowOrder = (slot: DayExerciseSlot): DayExerciseSlot[] | undefined => {
+    if (hasSets(slot)) return undefined;
+    const others = exercises.filter(s => s.id !== slot.id);
+    const next = [...others.filter(hasSets), slot, ...others.filter(s => !hasSets(s))];
+    // Solo si lo adelanta: si ya va antes que alguno empezado, no es "ahora", es retrasarlo.
+    return next.indexOf(slot) < exercises.indexOf(slot) ? next : undefined;
   };
 
   const changeSets = (slot: DayExerciseSlot, delta: number) => {
@@ -271,6 +324,8 @@ export default function TodayScreen() {
       earlier,
     );
 
+    const doNow = doNowOrder(item);
+
     return (
       <FadeInView delay={Math.min(index, 4) * 60}>
         <ExerciseCard
@@ -315,6 +370,10 @@ export default function TodayScreen() {
           onSwapToday={() => swapToday(item)}
           onSwapPermanent={() => swapPermanent(item)}
           onChangeSets={delta => changeSets(item, delta)}
+          onMove={delta => move(index, delta)}
+          canMoveUp={index > 0}
+          canMoveDown={index < exercises.length - 1}
+          onDoNow={doNow && (() => reorder(doNow))}
           onViewHistory={() =>
             navigation.navigate('ExerciseHistory', {
               exerciseId: item.exerciseId,

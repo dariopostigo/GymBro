@@ -109,3 +109,33 @@ test('cambiar el día de la rutina y borrar el entreno', async () => {
   expect(session.current().sessions).toHaveLength(0);
   expect(await loadSessions()).toHaveLength(0);
 });
+
+test('al reordenar hoy, las series ya apuntadas pasan a la posición nueva', async () => {
+  const session = await renderSession();
+  let id = '';
+  await act(() => {
+    id = session.current().createPastSession({
+      splitId: 'ppl',
+      splitDayId: 'legs',
+      dayName: 'Legs',
+      date: new Date(2026, 9, 30, 18).toISOString(),
+    });
+  });
+  // Se hizo el 3º (sentadilla búlgara) antes que el 2º.
+  await act(() =>
+    session.current().addSetToSession(id, {
+      exerciseId: 989,
+      positionInSession: 3,
+      positionInMuscleGroup: 3,
+      weight: 20,
+      reps: 10,
+    }),
+  );
+  await act(() =>
+    session
+      .current()
+      .setSetPositions(id, new Map([[989, { positionInSession: 2, positionInMuscleGroup: 2 }]])),
+  );
+  const [set] = session.current().sessions.find(s => s.id === id)!.sets;
+  expect(set).toMatchObject({ positionInSession: 2, positionInMuscleGroup: 2, reps: 10 });
+});

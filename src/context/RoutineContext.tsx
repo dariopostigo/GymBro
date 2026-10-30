@@ -42,6 +42,8 @@ interface RoutineContextValue {
   /** Fusiona `patch` con el override del hueco. Un campo a `undefined` lo elimina. */
   setDayOverride: (splitId: string, dayId: string, slotId: string, patch: SlotOverride) => void;
   clearDayOverrides: (splitId: string, dayId: string) => void;
+  /** Orden de hoy: `slotIds` en el orden en que se van a hacer (solo para hoy). */
+  setDayOrder: (splitId: string, dayId: string, slotIds: string[]) => void;
 }
 
 const RoutineContext = createContext<RoutineContextValue | null>(null);
@@ -120,6 +122,19 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     },
     [],
   );
+
+  const setDayOrder = useCallback((splitId: string, dayId: string, slotIds: string[]) => {
+    setDayOverrides(prev => {
+      const key = dayOverridesKey(splitId, dayId);
+      const slots = { ...prev[key] };
+      slotIds.forEach((slotId, order) => {
+        slots[slotId] = { ...slots[slotId], order };
+      });
+      const next = { ...prev, [key]: slots };
+      saveDayOverrides(next);
+      return next;
+    });
+  }, []);
 
   const clearDayOverrides = useCallback((splitId: string, dayId: string) => {
     setDayOverrides(prev => {
@@ -251,6 +266,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     getDayOverrides,
     setDayOverride,
     clearDayOverrides,
+    setDayOrder,
   };
 
   return <RoutineContext.Provider value={value}>{children}</RoutineContext.Provider>;

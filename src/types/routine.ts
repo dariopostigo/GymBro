@@ -48,6 +48,11 @@ export interface SlotOverride {
    * coincide con lo automático (plegada si está completa).
    */
   collapsed?: boolean;
+  /**
+   * Puesto en el orden de hoy, si se ha cambiado ("Hacer ahora", ↑ ↓). Al reordenar
+   * se guarda en todos los huecos del día; los que no lo tienen van detrás.
+   */
+  order?: number;
 }
 
 /**

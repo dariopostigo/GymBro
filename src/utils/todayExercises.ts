@@ -4,7 +4,8 @@ import type { DayExerciseSlot, SlotOverride, SplitDay } from '../types/routine';
 /**
  * Ejercicios del día tal y como se hacen hoy: la plantilla con los cambios
  * "solo hoy" (otro ejercicio, otras series) y, al final, los añadidos solo para
- * hoy en el orden en que se añadieron. Lo usan Hoy e Inicio, para que cuenten lo mismo.
+ * hoy en el orden en que se añadieron; si se ha cambiado el orden de hoy, en ese
+ * orden. Lo usan Hoy e Inicio, para que cuenten lo mismo.
  */
 export function todayExercises(
   day: SplitDay | null | undefined,
@@ -39,5 +40,12 @@ export function todayExercises(
         ]
       : [],
   );
-  return [...template, ...extras];
+  const all = [...template, ...extras];
+  // Sin orden de hoy (o añadido después de reordenar), detrás y en su orden de siempre.
+  const key = (slot: DayExerciseSlot, index: number) =>
+    overrides[slot.id]?.order ?? all.length + index;
+  return all
+    .map((slot, index) => ({ slot, key: key(slot, index) }))
+    .sort((a, b) => a.key - b.key)
+    .map(({ slot }) => slot);
 }
