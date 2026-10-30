@@ -28,7 +28,7 @@ import {
 import { Card, GhostButton, Stepper } from './ui';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
-import { formatWeight, type LoadSuggestion } from '../utils/progression';
+import { formatLoad, formatWeight, type LoadSuggestion } from '../utils/progression';
 import { describeRecord, type PersonalRecord } from '../utils/workoutSummary';
 import { stepWeight } from '../utils/weightStack';
 import { BAR_LABELS, plateLoad, type BarType } from '../utils/plates';
@@ -61,6 +61,8 @@ export interface ExerciseCardProps {
   weights?: number[];
   /** Ejercicio a un lado cada vez: las reps se apuntan por lado. */
   unilateral: boolean;
+  /** Con el peso del cuerpo: el peso es el lastre y 0 vale. */
+  bodyweight: boolean;
   /** Con qué se carga (barra, Smith, máquina de discos), para decir qué discos poner. */
   loading?: { type: BarType; bar: number; plates: number[] };
   /** Añadido solo para hoy: no está en la plantilla y se puede quitar. */
@@ -90,6 +92,7 @@ export default function ExerciseCard({
   effortMode,
   weights,
   unilateral,
+  bodyweight,
   loading,
   extra,
   onAddSet,
@@ -107,7 +110,9 @@ export default function ExerciseCard({
   const exercise = getExerciseById(slot.exerciseId);
   const media = getExerciseMediaSources(exercise);
   const video = media.find(item => item.type === 'video');
-  const [weightText, setWeightText] = useState(suggested ? formatWeight(suggested.weight) : '');
+  const [weightText, setWeightText] = useState(
+    suggested ? formatWeight(suggested.weight) : bodyweight ? '0' : '',
+  );
   const [repsText, setRepsText] = useState(suggested ? String(suggested.reps) : '');
   // Opcional y para una sola serie: tras apuntarla se vuelve a dejar sin marcar.
   const [rir, setRir] = useState<number | undefined>(undefined);
@@ -161,6 +166,12 @@ export default function ExerciseCard({
     return `Por lado: ${load.perSide.map(formatWeight).join(' · ')}${barText}`;
   }, [loading, weightText]);
 
+  // "62,5 kg"; con el peso del cuerpo, "Peso corporal" o "PC + 10 kg" con lastre.
+  const loadText = (weight: number) => {
+    if (!bodyweight) return `${formatWeight(weight)} kg`;
+    return weight > 0 ? `PC + ${formatWeight(weight)} kg` : 'Peso corporal';
+  };
+
   const stepStack = (direction: 1 | -1) => {
     if (!weights) return;
     const current = parseFloat(weightText.replace(',', '.'));
@@ -170,7 +181,9 @@ export default function ExerciseCard({
   const handleAdd = () => {
     const weight = parseFloat(weightText.replace(',', '.'));
     const reps = parseInt(repsText, 10);
-    if (!Number.isFinite(weight) || weight <= 0 || !Number.isFinite(reps) || reps <= 0) {
+    // Con el peso del cuerpo 0 kg es sin lastre; en el resto hace falta un peso.
+    const validWeight = Number.isFinite(weight) && (bodyweight ? weight >= 0 : weight > 0);
+    if (!validWeight || !Number.isFinite(reps) || reps <= 0) {
       Alert.alert('Datos inválidos', 'Introduce un peso y unas repeticiones válidas.');
       return;
     }
@@ -265,7 +278,9 @@ export default function ExerciseCard({
           )}
           <Text style={styles.collapsedSets} numberOfLines={1}>
             {loggedSets.length > 0
-              ? loggedSets.map(set => `${formatWeight(set.weight)}×${set.reps}`).join(' · ')
+              ? loggedSets
+                  .map(set => `${formatLoad(set.weight, bodyweight)}×${set.reps}`)
+                  .join(' · ')
               : `${slot.targetSets} × ${slot.targetRepsMin}-${slot.targetRepsMax}`}
           </Text>
         </View>
@@ -318,12 +333,14 @@ export default function ExerciseCard({
                         Sube a {formatWeight(suggested.weight)} kg ·{' '}
                       </Text>
                     ) : null}
-                    Última vez: {formatWeight(suggested.previous.weight)} kg ×{' '}
+                    Última vez: {loadText(suggested.previous.weight)} ×{' '}
                     {suggested.previous.reps.join(' · ')}
                     {suggested.increase
                       ? suggested.reason === 'easy'
                         ? ' · te sobraban reps'
                         : ''
+                      : suggested.atTop
+                      ? ` · ya llegas a ${slot.targetRepsMax}: añade lastre o una variante más dura`
                       : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
                   </Text>
                 </View>
@@ -373,7 +390,7 @@ export default function ExerciseCard({
                         accessibilityLabel={`Corregir la serie ${set.setNumber}`}
                       >
                         <Text style={styles.setRowText}>
-                          <Text style={styles.setRowStrong}>{formatWeight(set.weight)}</Text> kg ×{' '}
+                          <Text style={styles.setRowStrong}>{loadText(set.weight)}</Text> ×{' '}
                           <Text style={styles.setRowStrong}>{set.reps}</Text> reps
                           {set.perSide ? ' por lado' : ''}
                           {set.rir !== undefined && effortMode !== 'off' && (
@@ -453,7 +470,7 @@ export default function ExerciseCard({
 
           <View style={styles.addSetRow}>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputLabel}>Peso</Text>
+              <Text style={styles.inputLabel}>{bodyweight ? 'Lastre (kg)' : 'Peso'}</Text>
               <View style={styles.weightRow}>
                 {weights && (
                   <TouchableOpacity
@@ -469,7 +486,7 @@ export default function ExerciseCard({
                   value={weightText}
                   onChangeText={setWeightText}
                   onFocus={onInputFocus}
-                  placeholder="kg"
+                  placeholder={bodyweight ? '0' : 'kg'}
                   placeholderTextColor={colors.muted}
                   keyboardType="decimal-pad"
                   returnKeyType="done"

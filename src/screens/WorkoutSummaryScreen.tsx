@@ -3,12 +3,12 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
-import { getExerciseById } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { CheckIcon, DumbbellIcon, TrophyIcon } from '../components/icons';
 import { Card, EmptyState, Overline, PrimaryButton, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
-import { formatWeight } from '../utils/progression';
+import { formatLoad } from '../utils/progression';
 import { dayKey, formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
 import {
   buildWorkoutSummary,
@@ -139,7 +139,12 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
                     </Text>
                     <Text style={styles.exerciseSets}>
                       {exercise.sets
-                        .map(set => `${formatWeight(set.weight)}×${set.reps}`)
+                        .map(
+                          set =>
+                            `${formatLoad(set.weight, isBodyweight(exercise.exerciseId))}×${
+                              set.reps
+                            }`,
+                        )
                         .join(' · ')}
                       {exercise.sets.some(set => set.perSide) ? ' (reps por lado)' : ''}
                     </Text>

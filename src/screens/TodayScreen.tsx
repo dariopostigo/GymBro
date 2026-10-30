@@ -11,7 +11,12 @@ import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
 import { useWeightStacks } from '../context/WeightStacksContext';
-import { defaultBackupId, getExerciseById, isUnilateral } from '../data/exerciseCatalog';
+import {
+  defaultBackupId,
+  getExerciseById,
+  isBodyweight,
+  isUnilateral,
+} from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useTabScreenBottomSpace } from '../components/RestTimerBar';
@@ -230,7 +235,9 @@ export default function TodayScreen() {
       : NO_RECORDS;
     const planB = planBFor(item);
     const weights = getWeights(item.exerciseId);
-    const barType = barTypeFor(getExerciseById(item.exerciseId));
+    const bodyweight = isBodyweight(item.exerciseId);
+    // Con el peso del cuerpo no hay barra ni discos que calcular.
+    const barType = bodyweight ? undefined : barTypeFor(getExerciseById(item.exerciseId));
     const loading = barType && {
       type: barType,
       bar: barWeightFor(barType, settings.barWeights),
@@ -247,6 +254,7 @@ export default function TodayScreen() {
       { sets: item.targetSets, repsMin: item.targetRepsMin, repsMax: item.targetRepsMax },
       settings.weightIncrement,
       weights,
+      bodyweight,
     );
 
     return (
@@ -262,6 +270,7 @@ export default function TodayScreen() {
           effortMode={settings.effortMode}
           weights={weights}
           unilateral={isUnilateral(item.exerciseId)}
+          bodyweight={bodyweight}
           loading={loading}
           onAddSet={(weight, reps, rir) => {
             startRest(settings.autoRest ? restForSlot(item) : undefined);

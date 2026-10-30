@@ -1,6 +1,7 @@
 import exercisesJson from './exercises.json';
 import exerciseMerges from './exerciseMerges.json';
 import { DEFAULT_BACKUPS } from './exerciseBackups';
+import { BODYWEIGHT_EXERCISES } from './bodyweightExercises';
 import { UNILATERAL_EXERCISES } from './unilateralExercises';
 import type { Exercise } from '../types/exercise';
 
@@ -35,6 +36,11 @@ export function defaultBackupId(id: number): number | undefined {
 /** Ejercicio a un lado cada vez: las reps se apuntan por lado (ver unilateralExercises.ts). */
 export function isUnilateral(id: number): boolean {
   return UNILATERAL_EXERCISES.has(canonicalExerciseId(id));
+}
+
+/** Con el peso del cuerpo: lo que se apunta es el lastre (ver bodyweightExercises.ts). */
+export function isBodyweight(id: number): boolean {
+  return BODYWEIGHT_EXERCISES.has(canonicalExerciseId(id));
 }
 
 /**

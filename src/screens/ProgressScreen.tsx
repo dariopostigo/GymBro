@@ -6,7 +6,7 @@ import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
-import { getExerciseById } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
 import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import FadeInView from '../components/FadeInView';
@@ -18,7 +18,7 @@ import { ChevronIcon } from '../components/icons';
 import { Card, EmptyState, Overline, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
-import { formatWeight } from '../utils/progression';
+import { formatLoad } from '../utils/progression';
 import {
   exerciseSummaries,
   formatSessionDate,
@@ -105,8 +105,10 @@ export default function ProgressScreen() {
             </Text>
           </View>
           <View style={styles.bestBadge}>
-            <Text style={styles.bestValue}>{formatWeight(item.bestWeight)}</Text>
-            <Text style={styles.bestUnit}>kg</Text>
+            <Text style={styles.bestValue}>
+              {formatLoad(item.bestWeight, isBodyweight(item.exerciseId))}
+            </Text>
+            {item.bestWeight > 0 && <Text style={styles.bestUnit}>kg</Text>}
           </View>
           <ChevronIcon size={16} color={colors.muted} />
         </TouchableOpacity>

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
-import { getExerciseById } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseInfo from '../components/ExerciseInfo';
@@ -18,7 +18,7 @@ import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
 import { effortLabel } from '../utils/effort';
-import { formatWeight } from '../utils/progression';
+import { formatLoad, formatWeight } from '../utils/progression';
 import { estimatedOneRepMax, formatFullDate, formatShortDate, setVolume } from '../utils/stats';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ExerciseHistory'>;
@@ -169,7 +169,9 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
     return [...bySession.values()].sort((a, b) => a.date.localeCompare(b.date));
   }, [filteredEntries]);
 
-  const [metric, setMetric] = useState<Metric>('weight');
+  const bodyweight = isBodyweight(exerciseId);
+  // Sin lastre el peso máximo es siempre 0: lo que dice algo son las reps.
+  const [metric, setMetric] = useState<Metric>(bodyweight ? 'reps' : 'weight');
 
   const maxValue = Math.max(1, ...sessionBars.map(bar => metricValue(bar, metric)));
 
@@ -185,6 +187,8 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
   );
 
   const record = entries.length ? Math.max(...entries.map(e => e.weight)) : 0;
+  // Con el peso del cuerpo y sin lastre nunca, el récord son las reps de la mejor serie.
+  const repsRecord = entries.length ? Math.max(...entries.map(e => e.reps)) : 0;
   const totalSessions = new Set(entries.map(e => e.sessionId)).size;
 
   const groupedForTable = useMemo(() => {
@@ -262,7 +266,11 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
         ) : (
           <>
             <View style={styles.statsRow}>
-              <StatTile value={formatWeight(record)} unit="kg" label="Récord" accent />
+              {bodyweight && record === 0 ? (
+                <StatTile value={repsRecord} unit="reps" label="Récord" accent />
+              ) : (
+                <StatTile value={formatLoad(record, bodyweight)} unit="kg" label="Récord" accent />
+              )}
               <StatTile value={entries.length} label="Series" />
               <StatTile value={totalSessions} label="Sesiones" />
             </View>
@@ -365,7 +373,10 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                       <Text style={styles.setNumberText}>{set.setNumber}</Text>
                     </View>
                     <Text style={styles.tableRowText}>
-                      <Text style={styles.tableRowStrong}>{formatWeight(set.weight)}</Text> kg
+                      <Text style={styles.tableRowStrong}>
+                        {formatLoad(set.weight, bodyweight)}
+                      </Text>
+                      {set.weight > 0 ? ' kg' : ''}
                     </Text>
                     <Text style={styles.tableRowText}>
                       <Text style={styles.tableRowStrong}>{set.reps}</Text>{' '}
@@ -376,9 +387,11 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                         {effortLabel(set.rir, settings.effortMode)}
                       </Text>
                     )}
-                    <Text style={styles.tableRowVolume}>
-                      {formatWeight(setVolume(set))} kg vol.
-                    </Text>
+                    {set.weight > 0 && (
+                      <Text style={styles.tableRowVolume}>
+                        {formatWeight(setVolume(set))} kg vol.
+                      </Text>
+                    )}
                   </View>
                 ))}
               </Card>

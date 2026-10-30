@@ -14,8 +14,11 @@ export interface ExerciseResult {
 
 export interface PersonalRecord {
   exerciseId: number;
-  /** `weight`: más kilos que nunca; `orm`: mejor 1RM estimado sin superar el peso. */
-  kind: 'weight' | 'orm';
+  /**
+   * `weight`: más kilos que nunca; `orm`: mejor 1RM estimado sin superar el peso;
+   * `reps`: más repeticiones con el peso del cuerpo y sin lastre (ahí no hay 1RM).
+   */
+  kind: 'weight' | 'orm' | 'reps';
   value: number;
   previous: number;
 }
@@ -52,6 +55,13 @@ function beatsRecord(exerciseId: number, sets: Lift[], history: Lift[]): Persona
   if (bestWeight > previousWeight) {
     return { exerciseId, kind: 'weight', value: bestWeight, previous: previousWeight };
   }
+  if (bestWeight === 0 && previousWeight === 0) {
+    const bestReps = Math.max(...sets.map(set => set.reps));
+    const previousReps = Math.max(...history.map(set => set.reps));
+    return bestReps > previousReps
+      ? { exerciseId, kind: 'reps', value: bestReps, previous: previousReps }
+      : null;
+  }
   const bestOrm = Math.max(...sets.map(set => estimatedOneRepMax(set.weight, set.reps)));
   const previousOrm = Math.max(...history.map(set => estimatedOneRepMax(set.weight, set.reps)));
   if (bestOrm > previousOrm) {
@@ -85,8 +95,9 @@ export function liveRecords(
   return records;
 }
 
-/** "85 kg (antes 82,5)" o "1RM est. 98 kg (antes 95)". */
+/** "85 kg (antes 82,5)", "1RM est. 98 kg (antes 95)" o "15 reps (antes 12)". */
 export function describeRecord({ kind, value, previous }: PersonalRecord): string {
+  if (kind === 'reps') return `${value} reps (antes ${previous})`;
   return kind === 'weight'
     ? `${formatWeight(value)} kg (antes ${formatWeight(previous)})`
     : `1RM est. ${value} kg (antes ${previous})`;

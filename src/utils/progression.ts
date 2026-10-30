@@ -13,6 +13,11 @@ export interface LoadSuggestion {
   increase: boolean;
   /** Por qué se sube: se llegó al máximo de reps o el peso se quedó ligero (RIR alto). */
   reason?: 'reps' | 'easy';
+  /**
+   * Con el peso del cuerpo y sin lastre no se sugiere cargar sola: se avisa de que ya
+   * se llega al tope para que cada uno decida (lastre, variante más dura o más reps).
+   */
+  atTop?: boolean;
   /** Peso de trabajo de la última vez y las reps de cada serie con ese peso. */
   previous: { weight: number; reps: number[] };
 }
@@ -66,13 +71,15 @@ function roundWeight(weight: number): number {
 
 /**
  * `weights` son los pesos reales de la máquina, si se han configurado: subir
- * es ir al siguiente de la lista en vez de sumar `increment`.
+ * es ir al siguiente de la lista en vez de sumar `increment`. Con `bodyweight`
+ * (dominadas, fondos...) y sin lastre no se propone añadirlo.
  */
 export function suggestNextLoad(
   sets: Pick<SetEntry, 'weight' | 'reps' | 'rir'>[],
   target: SlotTarget,
   increment: number,
   weights?: number[],
+  bodyweight = false,
 ): LoadSuggestion | undefined {
   if (!sets.length) return undefined;
   const weight = Math.max(...sets.map(set => set.weight));
@@ -86,6 +93,9 @@ export function suggestNextLoad(
   const next = weights?.length
     ? weights.find(w => w > weight + 1e-9)
     : roundWeight(weight + increment);
+  if ((allAtMax || allEasy) && bodyweight && weight === 0) {
+    return { weight, reps: Math.max(...reps), increase: false, atTop: true, previous };
+  }
   // En el tope de la pila no hay a dónde subir: se sigue con el mismo peso.
   if ((allAtMax || allEasy) && next !== undefined) {
     return {
@@ -102,4 +112,13 @@ export function suggestNextLoad(
 /** "62,5": los pesos se muestran con coma decimal. */
 export function formatWeight(weight: number): string {
   return String(weight).replace('.', ',');
+}
+
+/**
+ * Carga de una serie para mostrarla: en los ejercicios con el peso del cuerpo
+ * "PC" sin lastre y "PC+10" con él; en el resto, el peso ("62,5").
+ */
+export function formatLoad(weight: number, bodyweight: boolean): string {
+  if (!bodyweight) return formatWeight(weight);
+  return weight > 0 ? `PC+${formatWeight(weight)}` : 'PC';
 }

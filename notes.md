@@ -64,6 +64,17 @@ Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gy
 
 Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósito: series de calentamiento, drop sets / rest-pause y superseries.
 
+Segunda vuelta (30/10/2026, mirando su código): se hacen poco a poco, de una en una.
+
+- [x] **Ejercicios con el peso del cuerpo** (dominadas, fondos, flexiones...): lista en `src/data/bodyweightExercises.ts`; el peso es el lastre ("Lastre (kg)", 0 vale), se muestra "Peso corporal" / "PC+10", sin lastre no se sugiere cargar (avisa al llegar al tope) y el récord son las reps.
+- [ ] **Detectar estancamiento y sugerir descarga**: tras 3 sesiones al mismo peso sin progresar, bajar ~10 %. En doble progresión, superar las reps de la mejor sesión a ese peso cuenta como progreso.
+- [ ] **Deshacer al borrar una serie** ("Serie borrada · Deshacer" unos segundos).
+- [ ] **Editar entrenos pasados**: corregir series de otro día, apuntar uno hecho sin la app, cambiar la fecha.
+- [ ] **Ejercicios por tiempo** (plancha, colgarse, paseo del granjero): segundos en vez de reps.
+- [ ] **Músculos sin entrenar** en Progreso ("Bíceps: 9 días sin entrenar"), versión simple.
+- [ ] **Crear ejercicios propios desde la app**, con foto.
+- [ ] Inicio no cuenta los ejercicios "solo hoy": dice 6 ejercicios / 23 series cuando Hoy dice 7 / 26.
+
 ## Pendientes (de momento no)
 
 - [ ] **Notas** por ejercicio o por sesión (altura del asiento, molestias...).
