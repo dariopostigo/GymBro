@@ -9,7 +9,7 @@ import { CheckIcon, DumbbellIcon, TrophyIcon } from '../components/icons';
 import { Card, EmptyState, Overline, PrimaryButton, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import { formatWeight } from '../utils/progression';
-import { formatFullDate, formatShortDate, formatVolume } from '../utils/stats';
+import { formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
 import {
   buildWorkoutSummary,
   describeRecord,
@@ -82,7 +82,7 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
               {session.completed ? '¡Entrenamiento completado!' : 'Entrenamiento en curso'}
             </Text>
             <Text style={styles.heroMeta}>
-              {session.dayName} · {formatFullDate(session.date)}
+              {session.dayName} · {formatSessionDate(session)}
             </Text>
           </View>
         </FadeInView>

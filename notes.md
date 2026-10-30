@@ -67,7 +67,7 @@ Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósit
 ## Pendientes (de momento no)
 
 - [ ] **Notas** por ejercicio o por sesión (altura del asiento, molestias...).
-- [ ] **Duración del entreno** en el resumen y el historial (requiere guardar la hora de cada serie).
+- [x] **Duración del entreno** en el resumen y en las sesiones recientes: cada serie guarda su hora (`loggedAt`) y se cuenta de la primera a la última. Las sesiones antiguas no la muestran.
 
 ## Si apetece
 

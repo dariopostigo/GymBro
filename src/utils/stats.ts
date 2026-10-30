@@ -1,4 +1,5 @@
 import type { SetEntry, WorkoutSession } from '../types/session';
+import { STALE_SESSION_MS } from './staleSession';
 
 /** La semana empieza en lunes: el índice 0 es L y el 6 es D. */
 const WEEKDAY_LABELS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
@@ -23,6 +24,25 @@ export function setVolume(set: Pick<SetEntry, 'weight' | 'reps' | 'perSide'>): n
 
 export function sessionVolume(session: WorkoutSession): number {
   return session.sets.reduce((total, set) => total + setVolume(set), 0);
+}
+
+/**
+ * Lo que duró un entreno, de la primera a la última serie apuntada (la sesión
+ * empieza al apuntar la primera). Sin dato si las series son de antes de
+ * guardar la hora, si solo hay una o si duró tanto que se quedó abierto.
+ */
+export function sessionDuration(session: WorkoutSession): number | null {
+  const times = session.sets.flatMap(set => (set.loggedAt ? [Date.parse(set.loggedAt)] : []));
+  if (!times.length) return null;
+  const duration = Math.max(...times) - Date.parse(session.date);
+  return duration >= 60_000 && duration <= STALE_SESSION_MS ? duration : null;
+}
+
+/** "45 min" o "1 h 05 min". */
+export function formatDuration(ms: number): string {
+  const minutes = Math.round(ms / 60_000);
+  if (minutes < 60) return `${minutes} min`;
+  return `${Math.floor(minutes / 60)} h ${String(minutes % 60).padStart(2, '0')} min`;
 }
 
 /**
@@ -176,4 +196,11 @@ export function formatFullDate(iso: string): string {
     month: 'short',
     year: 'numeric',
   });
+}
+
+/** "30 oct 2026 · 52 min": fecha del entreno y, si se sabe, lo que duró. */
+export function formatSessionDate(session: WorkoutSession): string {
+  const duration = sessionDuration(session);
+  const date = formatFullDate(session.date);
+  return duration ? `${date} · ${formatDuration(duration)}` : date;
 }

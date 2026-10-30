@@ -11,6 +11,8 @@ export interface SetEntry {
   rir?: number;
   /** Las reps son de cada lado (ejercicio a una mano o a una pierna): el volumen cuenta los dos. */
   perSide?: boolean;
+  /** Hora a la que se apuntó (ISO). Ausente en series registradas antes de introducir este campo. */
+  loggedAt?: string;
 }
 
 export interface WorkoutSession {

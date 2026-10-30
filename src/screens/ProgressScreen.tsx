@@ -20,7 +20,7 @@ import { colors, overline, radius, spacing } from '../theme';
 import { formatWeight } from '../utils/progression';
 import {
   exerciseSummaries,
-  formatFullDate,
+  formatSessionDate,
   formatVolume,
   sessionVolume,
   totalStats,
@@ -187,7 +187,7 @@ export default function ProgressScreen() {
                       >
                         <View style={styles.sessionInfo}>
                           <Text style={styles.sessionName}>{session.dayName}</Text>
-                          <Text style={styles.sessionMeta}>{formatFullDate(session.date)}</Text>
+                          <Text style={styles.sessionMeta}>{formatSessionDate(session)}</Text>
                         </View>
                         <View style={styles.sessionStats}>
                           <Text style={styles.sessionVolume}>

@@ -59,9 +59,10 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         s => !s.completed && s.splitId === params.splitId && s.splitDayId === params.splitDayId,
       );
 
+      const now = new Date().toISOString();
       const session: WorkoutSession = existing ?? {
         id: generateId(),
-        date: new Date().toISOString(),
+        date: now,
         splitId: params.splitId,
         splitDayId: params.splitDayId,
         dayName: params.dayName,
@@ -84,6 +85,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
             reps: params.reps,
             ...(params.rir !== undefined && { rir: params.rir }),
             ...(params.perSide && { perSide: true }),
+            loggedAt: now,
           },
         ],
       };
