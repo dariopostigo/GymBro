@@ -86,39 +86,6 @@
     "videos": []
   },
   {
-    "id": 167,
-    "uuid": "b186f1f8-4957-44dc-bf30-d0b00064ce6f",
-    "name": "Abdominales",
-    "description": "Acuéstese boca arriba en el suelo con las rodillas dobladas. Flexione los hombros hacia la pelvis. Las manos pueden estar detrás o al costado del cuello o cruzadas sobre el pecho. Repita",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 4,
-        "name": "Esterilla"
-      }
-    ],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Crunches/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Crunches/1.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1415,
     "uuid": "b48e4d9d-f7fc-4619-85fb-6dabe5d7c999",
     "name": "Abdominales con mancuerna",
@@ -499,34 +466,6 @@
     ],
     "images": [
       "https://wger.de/media/exercise-images/1648/63ae02d6-6dd9-4e9e-84da-d4905e78a33c.jpg.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1478,
-    "uuid": "9816dc3a-9739-4c70-bce0-4131f889e4f2",
-    "name": "Crunch de tronco superior",
-    "description": "Para este movimiento de arriba hacia abajo, intentamos mover la parte superior del tronco sin mover la parte inferior. Comienza tumbado en el suelo con los pies apoyados en el suelo y los brazos cruzados por encima de la cabeza con las manos detrás de la cabeza. Eleva la parte superior del cuerpo y despega los omóplatos del suelo, luego mantén y haz una pausa arriba durante una o dos cuentas. Intenta que trabaje la parte alta de los abdominales y mantén esa contracción durante 10 buenas repeticiones de calidad.",
-    "category": {
-      "id": 10,
-      "name": "Abdominales"
-    },
-    "musclesPrimary": [
-      {
-        "id": 6,
-        "name": "Abdominales"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Crunches/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Crunches/1.jpg"
     ],
     "videos": []
   },
@@ -3792,7 +3731,7 @@
     "id": 1373,
     "uuid": "002c6a4f-28ac-4b07-8e94-053e5b05d52b",
     "name": "Saltos al cajón",
-    "description": "Jump from a standing position onto the box, stretch your body, then step down again (do not jump)",
+    "description": "De pie frente a un cajón estable, flexiona un poco las piernas y salta sobre él cayendo con los dos pies a la vez y las rodillas ligeramente flexionadas. Estírate del todo arriba y baja andando, sin saltar hacia atrás, para no castigar las rodillas.",
     "category": {
       "id": 15,
       "name": "Cardio"
@@ -6154,10 +6093,7 @@
     ],
     "musclesSecondary": [],
     "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Shrugs/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Shrugs/1.jpg"
-    ],
+    "images": [],
     "videos": []
   },
   {
@@ -7176,8 +7112,8 @@
       }
     ],
     "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/One-Arm_Dumbbell_Row/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/One-Arm_Dumbbell_Row/1.jpg"
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bent_Over_Two-Dumbbell_Row/0.jpg",
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bent_Over_Two-Dumbbell_Row/1.jpg"
     ],
     "videos": []
   },
@@ -7219,45 +7155,6 @@
     "images": [
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/0.jpg",
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/1.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1283,
-    "uuid": "51a2d520-b510-4b6e-bd65-9fc40365e8de",
-    "name": "Remo con mancuernas en banco inclinado con apoyo en el pecho",
-    "description": "Coloca un banco ajustable en un ángulo de 45 grados. Túmbate boca abajo con la cabeza colgando justo por encima del borde del banco. Agarra una mancuerna en cada mano y colócate con una buena postura: el core y los dorsales activados y los hombros neutros. Rema las mancuernas hacia la parte superior del abdomen y aprieta la espalda en la parte alta de la repetición. Por último, baja las mancuernas de nuevo a la posición inicial y repite hasta completar todas las repeticiones.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 8,
-        "name": "Banco"
-      },
-      {
-        "id": 3,
-        "name": "Mancuerna"
-      }
-    ],
-    "images": [
-      "https://wger.de/media/exercise-images/1283/e7262f70-7512-408a-8d00-4c499ef632fc.jpg.400x400_q85.jpg"
     ],
     "videos": []
   },
@@ -7418,38 +7315,6 @@
     "images": [
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Bent_Over_Row/0.jpg",
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Bent_Over_Row/1.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 395,
-    "uuid": "77c98954-b50d-46f0-9912-3981f856d5a6",
-    "name": "Remo en polea baja, agarre estrecho",
-    "description": "El ejercicio es el mismo que el remo en polea baja normal, pero con un agarre estrecho: Siéntate, apoya los pies en los puntos de apoyo y agarra la barra con un agarre amplio. Tira del peso con un movimiento rápido hacia el ombligo, no más arriba. Mantén los brazos y los codos cerca del cuerpo durante el movimiento. Junta las escápulas. Deja bajar el peso lentamente hasta que tus brazos queden completamente estirados.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/1.jpg"
     ],
     "videos": []
   },
@@ -7933,55 +7798,6 @@
     "videos": []
   },
   {
-    "id": 1928,
-    "uuid": "b2ca4a13-6fe2-4c4f-85b2-dcb5af28d2be",
-    "name": "Remo sentado con agarre en V",
-    "description": "El remo sentado con agarre en V es un ejercicio de tirón compuesto que se realiza en una máquina de poleas con un agarre cerrado en forma de \"V\". Sentado con los pies apoyados, tiras del agarre hacia la mitad del cuerpo, concentrándote en el grosor de la espalda y el desarrollo de la zona media de la espalda.",
-    "category": {
-      "id": 12,
-      "name": "Espalda"
-    },
-    "musclesPrimary": [
-      {
-        "id": 12,
-        "name": "Dorsales"
-      },
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoides)"
-      },
-      {
-        "id": 1,
-        "name": "Bíceps"
-      },
-      {
-        "id": 6,
-        "name": "Abdominales"
-      },
-      {
-        "id": 3,
-        "name": "Serrato anterior"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 11,
-        "name": "Banda elástica"
-      }
-    ],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/1.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 90026,
     "uuid": "abd6374c-cd5d-4404-a248-9914afc7c401",
     "name": "Remo sentado en máquina de discos",
@@ -8041,6 +7857,38 @@
     "equipment": [],
     "images": [
       "https://wger.de/media/exercise-images/1725/f0ebd44e-b8e1-400c-b598-ca371f3a07af.png.400x400_q85.jpg"
+    ],
+    "videos": []
+  },
+  {
+    "id": 395,
+    "uuid": "77c98954-b50d-46f0-9912-3981f856d5a6",
+    "name": "Remo sentado en polea con agarre en V",
+    "description": "Siéntate en la polea baja con los pies en los apoyos y coge el agarre estrecho en V con las palmas enfrentadas. Con la espalda recta, tira del agarre hacia el ombligo llevando los codos pegados al cuerpo y junta los omóplatos al final. Vuelve despacio hasta estirar los brazos sin inclinarte hacia delante.",
+    "category": {
+      "id": 12,
+      "name": "Espalda"
+    },
+    "musclesPrimary": [
+      {
+        "id": 12,
+        "name": "Dorsales"
+      }
+    ],
+    "musclesSecondary": [
+      {
+        "id": 1,
+        "name": "Bíceps"
+      },
+      {
+        "id": 13,
+        "name": "Braquial"
+      }
+    ],
+    "equipment": [],
+    "images": [
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/0.jpg",
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/1.jpg"
     ],
     "videos": []
   },
@@ -8234,39 +8082,6 @@
     "equipment": [],
     "images": [
       "https://wger.de/media/exercise-images/364/b318dde9-f5f2-489f-940a-cd864affb9e3.png.400x400_q85.png"
-    ],
-    "videos": []
-  },
-  {
-    "id": 1294,
-    "uuid": "caccd791-ff30-452a-816e-790edadb78cd",
-    "name": "Curl femoral a una pierna",
-    "description": "Specifically, the muscles involved are: biceps femoris, semimembranosus and semitendinosus.",
-    "category": {
-      "id": 105,
-      "name": "Femoral"
-    },
-    "musclesPrimary": [
-      {
-        "id": 11,
-        "name": "Isquiotibiales"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 8,
-        "name": "Glúteos"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 7,
-        "name": "Ninguno (peso corporal)"
-      }
-    ],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Leg_Curl/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Leg_Curl/1.jpg"
     ],
     "videos": []
   },
@@ -8804,8 +8619,8 @@
     ],
     "equipment": [],
     "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Calf_Raise/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Calf_Raise/1.jpg"
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Calf_Raises/0.jpg",
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Calf_Raises/1.jpg"
     ],
     "videos": []
   },
@@ -9654,34 +9469,6 @@
     "videos": []
   },
   {
-    "id": 1473,
-    "uuid": "39c13706-6a8c-4ab5-b605-b9b716665a20",
-    "name": "Aperturas inversas en polea",
-    "description": "Coloca las dos poleas en posición alta con un agarre de una mano en cada una. Coge el cable izquierdo con la mano derecha y el derecho con la izquierda, de forma que se crucen delante de ti. Con los brazos casi estirados, ábrelos hacia los lados y atrás juntando los omóplatos, y vuelve despacio.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoides)"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Rear_Delt_Fly/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Rear_Delt_Fly/1.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1936,
     "uuid": "0285f198-36d5-4a77-bb76-5f72e1a4d6c9",
     "name": "Aperturas para deltoides posterior en polea (un brazo)",
@@ -9761,34 +9548,6 @@
     "images": [
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Machine_Flyes/0.jpg",
       "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Machine_Flyes/1.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 406,
-    "uuid": "aa3b4ebe-6dee-45ad-a345-cf2acebf4159",
-    "name": "Ejercicio del manguito rotador tumbado",
-    "description": "Este es un ejercicio para problemas del manguito rotador. Trabaja principalmente el infraespinoso y, de forma secundaria, el redondo menor. Túmbate de lado. Mantén el codo pegado a la cintura y en un ángulo de 90°. Rota hacia el estómago. Añade peso según te convenga.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoides)"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [
-      {
-        "id": 3,
-        "name": "Mancuerna"
-      }
-    ],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/External_Rotation/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/External_Rotation/1.jpg"
     ],
     "videos": []
   },
@@ -11152,43 +10911,6 @@
     "videos": []
   },
   {
-    "id": 1715,
-    "uuid": "2eead109-098e-4c59-bdef-f580a6a82748",
-    "name": "Rotación externa de hombro con mancuerna",
-    "description": "Túmbate de lado sujetando una mancuerna con la mano de arriba. Pega el codo al costado y apoya la mano frente a ti. Rota el hombro de modo que la mano se eleve. Baja la mano.",
-    "category": {
-      "id": 13,
-      "name": "Hombros"
-    },
-    "musclesPrimary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoides)"
-      },
-      {
-        "id": 13,
-        "name": "Braquial"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 9,
-        "name": "Trapecio"
-      }
-    ],
-    "equipment": [
-      {
-        "id": 3,
-        "name": "Mancuerna"
-      }
-    ],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/External_Rotation/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/External_Rotation/1.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 578,
     "uuid": "d9f6c15a-b224-4ef6-93e9-fd6509b66add",
     "name": "Rotación externa tumbado de lado",
@@ -11570,34 +11292,6 @@
     "videos": []
   },
   {
-    "id": 1270,
-    "uuid": "d5116fbd-bf14-492a-86b3-140035cb48b2",
-    "name": "Aperturas en polea baja",
-    "description": "Ajusta la máquina de poleas: Coloca la polea en la posición más baja posible. Elige tus agarres: Puedes usar agarres de agarre neutro (palmas enfrentadas) o agarres rectos según tu preferencia. El agarre neutro puede ser más cómodo para tus muñecas. Colócate con buena postura: Ponte de pie con los pies separados al ancho de los hombros, las rodillas ligeramente flexionadas y el core activado. Mantén una ligera curvatura en la zona lumbar durante todo el ejercicio. Agarra los asas: Sujeta los asas con el agarre elegido y da uno o dos pasos pequeños hacia atrás hasta que haya algo de tensión en los cables. Inicia el movimiento: Mantén los codos ligeramente flexionados durante todo el ejercicio. Imagina que le das a alguien un gran abrazo. Aprieta los músculos del pecho mientras juntas las manos frente al pecho. Controla el movimiento: Concéntrate en apretar los músculos del pecho en lugar de usar los brazos para tirar de los asas. Contracción máxima: Mantén brevemente la contracción en la parte alta del movimiento, con las manos juntas a la altura del pecho. Vuelve lentamente: Libera lentamente la tensión y devuelve los asas hacia abajo a la posición inicial, con los brazos ligeramente extendidos pero sin bloquearlos.",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [
-      {
-        "id": 2,
-        "name": "Hombros (deltoides)"
-      }
-    ],
-    "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Low_Cable_Crossover/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Low_Cable_Crossover/1.jpg"
-    ],
-    "videos": []
-  },
-  {
     "id": 1469,
     "uuid": "7ef2e00e-067c-48e0-9b42-3d622e0df8a4",
     "name": "Aperturas en polea inclinado",
@@ -11713,29 +11407,6 @@
     "equipment": [],
     "images": [
       "https://wger.de/media/exercise-images/1296/c42782fe-337a-44f4-9079-7f6dedab4885.png.400x400_q85.jpg"
-    ],
-    "videos": []
-  },
-  {
-    "id": 237,
-    "uuid": "07c5b9f4-2be5-4a3d-b6d2-16235da1ae3a",
-    "name": "Cruce de poleas para pecho",
-    "description": "Este ejercicio de aislamiento es excelente para lograr una fuerte contracción y estiramiento en los músculos pectorales, enfocándose en la parte interna del pecho. Instrucciones Posición: En una estación de poleas, ajusta ambas poleas a una posición alta. Toma un agarre en cada mano, da un paso al frente para generar tensión y mantén el torso ligeramente inclinado hacia adelante. Movimiento: Con una ligera pero constante flexión en los codos, junta las manos al frente y abajo de tu cuerpo en un movimiento de arco amplio, como si estuvieras abrazando un árbol. Contracción: Aprieta el pecho con fuerza en el punto de máxima contracción. Regresa de forma lenta y controlada a la posición inicial, sintiendo cómo se estira el pectoral.",
-    "category": {
-      "id": 11,
-      "name": "Pecho"
-    },
-    "musclesPrimary": [
-      {
-        "id": 4,
-        "name": "Pecho"
-      }
-    ],
-    "musclesSecondary": [],
-    "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Crossover/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Crossover/1.jpg"
     ],
     "videos": []
   },
@@ -12606,7 +12277,7 @@
     "id": 1497,
     "uuid": "7b40813b-80a3-42cc-8938-0c5199ef7620",
     "name": "Press de banca supino con mancuernas",
-    "description": "Underhand grip DB, perform a normal bench press movement, keeping the elbows close to the chest",
+    "description": "Túmbate en un banco plano con una mancuerna en cada mano y las palmas mirando hacia ti (agarre supino). Baja las mancuernas hacia el pecho con los codos pegados al cuerpo y empuja hasta estirar los brazos, como en un press de banca normal. Trabaja más la parte alta del pecho y el tríceps.",
     "category": {
       "id": 11,
       "name": "Pecho"
@@ -13633,7 +13304,7 @@
     "id": 1336,
     "uuid": "19133a0d-e6b2-4d57-8a84-8aac3d962a99",
     "name": "Extensión de tríceps sobre la cabeza (mancuerna)",
-    "description": "Fija los codos Activa la musculatura No uses impulso Movimiento controlado Movimiento lento No sobreextiendas",
+    "description": "De pie o sentado, sujeta una mancuerna con las dos manos por encima de la cabeza con los brazos estirados. Sin mover los codos, que apuntan al techo, baja la mancuerna por detrás de la cabeza hasta notar el estiramiento del tríceps y vuelve a estirar los brazos. Hazlo lento y controlado, sin impulso ni arquear la espalda.",
     "category": {
       "id": 102,
       "name": "Tríceps"
@@ -13679,8 +13350,8 @@
       }
     ],
     "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_One_Arm_Tricep_Extension/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_One_Arm_Tricep_Extension/1.jpg"
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Rope_Overhead_Triceps_Extension/0.jpg",
+      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Rope_Overhead_Triceps_Extension/1.jpg"
     ],
     "videos": []
   },
@@ -14104,10 +13775,7 @@
     ],
     "musclesSecondary": [],
     "equipment": [],
-    "images": [
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Tricep_Dumbbell_Kickback/0.jpg",
-      "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Tricep_Dumbbell_Kickback/1.jpg"
-    ],
+    "images": [],
     "videos": []
   },
   {

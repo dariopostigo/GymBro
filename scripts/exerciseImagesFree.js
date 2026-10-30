@@ -23,14 +23,12 @@ const FREE_DB_IMAGES = {
   // --- Abdominales ---
   607: 'Oblique_Crunches', // Abdominal cruzado con giro
   1476: 'Sit-Up', // Abdominal mariposa
-  167: 'Crunches', // Abdominales
   1415: 'Crunches', // Abdominales con mancuerna
   171: 'Decline_Crunch', // Abdominales en Banco Inclinado
   165: 'Exercise_Ball_Crunch', // Abdominales en Bola de Estabilidad
   1412: 'Air_Bike', // Abdominales en bicicleta
   178: 'Dead_Bug', // Bicho Muerto
   1287: 'Toe_Touchers', // Crunch con alcance
-  1478: 'Crunches', // Crunch de tronco superior
   1772: 'Reverse_Crunch', // Crunch inverso
   283: 'Hanging_Leg_Raise', // Elevaciones de Piernas (Colgado)
   377: 'Flat_Bench_Lying_Leg_Raise', // Elevaciones de piernas tumbado
@@ -82,7 +80,7 @@ const FREE_DB_IMAGES = {
   1481: 'Triceps_Pushdown', // Extensión de tríceps con arrastre
   1485: 'Triceps_Pushdown', // Extensión de tríceps con balanceo
   1662: 'Triceps_Pushdown', // Extensión de tríceps en polea con rotación interna
-  1668: 'Cable_One_Arm_Tricep_Extension', // Extensión de tríceps sobre la cabeza a una mano en polea
+  1668: 'Cable_Rope_Overhead_Triceps_Extension', // Extensión de tríceps sobre la cabeza a una mano en polea
   1513: 'Cable_Rope_Overhead_Triceps_Extension', // Extensión de tríceps sobre la cabeza en polea
   660: 'Triceps_Pushdown_-_V-Bar_Attachment', // Extensiones de tríceps en polea con barra
   1209: 'Single-Arm_Push-Up', // Flexión a tres puntos al ancho de los hombros
@@ -93,7 +91,6 @@ const FREE_DB_IMAGES = {
   197: 'Bench_Dips', // Fondos entre Bancos
   1302: 'JM_Press', // JM Press
   655: 'Tricep_Dumbbell_Kickback', // Patada de tríceps con mancuernas
-  1509: 'Tricep_Dumbbell_Kickback', // Patada de tríceps en polea
   1490: 'Tricep_Dumbbell_Kickback', // Patada de tríceps tumbado
   76: 'Close-Grip_Barbell_Bench_Press', // Press de Banca con Agarre Cerrado
   1228: 'Close-Grip_Dumbbell_Press', // Press de banca con agarre cerrado con mancuernas
@@ -119,8 +116,6 @@ const FREE_DB_IMAGES = {
 
   // --- Espalda ---
   1380: 'Band_Pull_Apart', // Aperturas con banda elástica
-  1473: 'Cable_Rear_Delt_Fly', // Aperturas inversas en polea
-  1294: 'Standing_Leg_Curl', // Curl femoral a una pierna
   365: 'Lying_Leg_Curls', // Curl de piernas (tumbado)
   367: 'Standing_Leg_Curl', // Curl femoral de pie
   366: 'Seated_Leg_Curl', // Curl femoral sentado
@@ -130,7 +125,6 @@ const FREE_DB_IMAGES = {
   1696: 'V-Bar_Pullup', // Dominadas (agarre neutro)
   152: 'Chin-Up', // Dominadas con Agarre Supino
   1737: 'Chin-Up', // Dominadas supinas asistidas
-  922: 'Cable_Shrugs', // Encogimiento en polea para trapecio medio
   301: 'Hyperextensions_Back_Extensions', // Hiperextensiones
   1537: 'Pullups', // Isometría en dominada
   355: 'Wide-Grip_Lat_Pulldown', // Jalón al pecho
@@ -147,11 +141,11 @@ const FREE_DB_IMAGES = {
   1384: 'Straight-Arm_Dumbbell_Pullover', // Pullover en máquina
   1492: 'Leverage_High_Row', // Remo alto
   1718: 'Elevated_Cable_Rows', // Remo alto desde polea
-  81: 'One-Arm_Dumbbell_Row', // Remo con mancuernas
+  81: 'Bent_Over_Two-Dumbbell_Row', // Remo con mancuernas
   310: 'Dumbbell_Incline_Row', // Remo con mancuernas en banco inclinado
   394: 'Seated_Cable_Rows', // Remo con polea
   919: 'T-Bar_Row_with_Handle', // Remo en T
-  395: 'Seated_Cable_Rows', // Remo en polea baja, agarre estrecho
+  395: 'Seated_Cable_Rows', // Remo sentado en polea con agarre en V
   562: 'Shotgun_Row', // Remo escopeta
   1501: 'Alternating_Kettlebell_Row', // Remo gorila alternativo con mancuernas
   1303: 'Dumbbell_Incline_Row', // Remo Helms
@@ -162,18 +156,16 @@ const FREE_DB_IMAGES = {
   1304: 'Bent_Over_One-Arm_Long_Bar_Row', // Remo Meadows
   448: 'Bent_Over_Barbell_Row', // Remo Pendlay
   490: 'Alternating_Renegade_Row', // Remo renegado
-  1928: 'Seated_Cable_Rows', // Remo sentado con agarre en V
   636: 'Superman', // Superman
 
   // --- Gemelos ---
-  148: 'Smith_Machine_Calf_Raise', // Elevación de Pantorrillas en Hack
+  148: 'Standing_Calf_Raises', // Elevación de Pantorrillas en Hack
   590: 'Seated_Calf_Raise', // Elevación de talón sentados
 
   // --- Hombros ---
   1826: 'External_Rotation_with_Band', // Apertura con banda y rotación externa
   822: 'Cable_Rear_Delt_Fly', // Aperturas Posteriores en Polea
   1936: 'Cable_Rear_Delt_Fly', // Aperturas para deltoides posterior en polea (un brazo)
-  406: 'External_Rotation', // Ejercicio del manguito rotador tumbado
   1879: 'Front_Incline_Dumbbell_Raise', // Elevación en Y con mancuernas en banco inclinado
   1731: 'Front_Cable_Raise', // Elevación frontal en polea
   917: 'Front_Cable_Raise', // Elevación frontal en polea con barra Z
@@ -200,7 +192,6 @@ const FREE_DB_IMAGES = {
   567: 'Seated_Dumbbell_Press', // Press Militar mancuerna
   691: 'Smith_Machine_Upright_Row', // Remo al mentón en multipower
   1729: 'External_Rotation_with_Cable', // Rotación externa de hombro (polea)
-  1715: 'External_Rotation', // Rotación externa de hombro con mancuerna
   578: 'External_Rotation', // Rotación externa tumbado de lado
   1728: 'Cable_Internal_Rotation', // Rotación interna de hombro (polea)
   1602: 'Dumbbell_Scaption', // Scaption con mancuernas
@@ -211,12 +202,10 @@ const FREE_DB_IMAGES = {
   239: 'Decline_Dumbbell_Flyes', // Aperturas con Mancuernas Declinadas
   308: 'Incline_Dumbbell_Flyes', // Aperturas con mancuernas en banco inclinado
   323: 'Low_Cable_Crossover', // Aperturas en polea
-  1270: 'Low_Cable_Crossover', // Aperturas en polea baja
   1469: 'Incline_Cable_Flye', // Aperturas en polea inclinado
   1691: 'Cable_Crossover', // Aperturas en polea para el pecho inferior
   1689: 'Cable_Crossover', // Aperturas en polea para el pecho medio
   1690: 'Low_Cable_Crossover', // Aperturas en polea para el pecho superior
-  237: 'Cable_Crossover', // Cruce de Poleas para Pecho
   1554: 'Plyo_Push-up', // Flexión con palmada
   1964: 'Push-Up_Wide', // Flexión con manos abiertas
   1777: 'Pushups', // Flexiones con déficit
@@ -342,6 +331,9 @@ const FREE_DB_IMAGES = {
  * (esos sí hay que mirarlos). Se quedan sin foto a propósito.
  */
 const SIN_EQUIVALENTE = [
+  // Fotos de otro ejercicio que se quitaron al revisar las compartidas
+  1509, // Patada de tríceps en polea (la foto era con mancuerna)
+  922, // Encogimiento en polea para trapecio medio (la foto era de encogimientos de trapecio)
   // Abdominales
   1823, // Almeja
   1909, // Círculos con las piernas

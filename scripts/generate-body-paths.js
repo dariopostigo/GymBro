@@ -63,8 +63,7 @@ function main() {
     back: parsePaths(repo, 'MaleBackPaths.swift'),
   };
 
-  const out = `/* eslint-disable */
-// Generado por scripts/generate-body-paths.js: no editar a mano.
+  const out = `// Generado por scripts/generate-body-paths.js: no editar a mano.
 //
 // Siluetas de MuscleMap (https://github.com/melihcolpan/MuscleMap):
 //

@@ -21,10 +21,11 @@ describe('imágenes del catálogo', () => {
     expect(sinFoto.filter(e => !revisados.has(e.id)).map(e => `${e.id} ${e.name}`)).toEqual([]);
   });
 
-  it('mantiene al menos el 90% del catálogo ilustrado', () => {
+  // Antes era el 90%: bajó al fusionar duplicados con foto y quitar fotos de otro ejercicio.
+  it('mantiene al menos el 88% del catálogo ilustrado', () => {
     const conFoto = EXERCISES.filter(e => getExerciseImageSources(e).length > 0);
 
-    expect(conFoto.length / EXERCISES.length).toBeGreaterThanOrEqual(0.9);
+    expect(conFoto.length / EXERCISES.length).toBeGreaterThanOrEqual(0.88);
   });
 
   it('no deja en el mapa ids que ya no estén en el catálogo', () => {

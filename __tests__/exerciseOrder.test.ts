@@ -28,7 +28,7 @@ test('cuenta la posición dentro de la misma categoría, ignorando otras categor
     slot('a', 'Press de banca con barra', 1), // Pecho #1
     slot('b', 'Remo con mancuernas', 2), // Espalda #1
     slot('c', 'Aperturas con mancuernas', 3), // Pecho #2
-    slot('d', 'Cruce de poleas para pecho', 4), // Pecho #3
+    slot('d', 'Aperturas en polea para el pecho inferior', 4), // Pecho #3
   ];
 
   const positions = computeMuscleGroupPositions(slots);

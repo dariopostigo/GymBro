@@ -66,12 +66,10 @@ const m = (primary, secondary = []) => ({ musclesPrimary: primary, musclesSecond
 
 const EXERCISE_FIXES = {
   // --- Categoría equivocada ---
-  1294: { category: PIERNAS, ...m([ISQUIOS], [GLUTEOS]) }, // Curl femoral a una pierna (estaba en Espalda)
   1219: { category: ESPALDA }, // Dominadas australianas (estaba en Brazos)
   1700: { category: PIERNAS, ...m([ISQUIOS, GLUTEOS], [DORSALES, TRAPECIO]) }, // Peso muerto rumano con barra (estaba en Espalda)
   1218: { category: PECHO, ...m([PECTORAL], [TRICEPS, HOMBRO]) }, // Flexiones de rodillas (estaba en Brazos)
   454: { category: HOMBROS, ...m([HOMBRO], [TRICEPS]) }, // Flexiones de pica (estaba en Brazos)
-  1473: { category: HOMBROS, ...m([HOMBRO], [TRAPECIO]) }, // Aperturas inversas en polea (estaba en Espalda)
   1098: { category: HOMBROS, ...m([HOMBRO], [TRAPECIO]) }, // Elevación de deltoides posterior sentado (estaba en Espalda)
   31: { category: HOMBROS, ...m([HOMBRO], [TRAPECIO]) }, // Sostenimiento lateral isométrico (estaba en Brazos)
   1774: { category: BRAZOS, ...m([TRICEPS], [HOMBRO, PECTORAL]) }, // Fondos en silla (estaba en Hombros)
@@ -127,7 +125,6 @@ const EXERCISE_FIXES = {
   1200: m([TIBIAL]), // Elevación tibial anterior
   // Hombros
   1936: m([HOMBRO], [TRAPECIO]), // Aperturas para deltoides posterior en polea
-  406: m([HOMBRO]), // Ejercicio del manguito rotador tumbado
   1754: m([HOMBRO]), // Elevaciones laterales a 45°
   82: m([HOMBRO], [TRAPECIO]), // Elevaciones posteriores
   1755: m([HOMBRO, TRAPECIO]), // Jalón en Y en polea

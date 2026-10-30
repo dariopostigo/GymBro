@@ -72,6 +72,16 @@ async function main() {
     exercise.images = urls;
   }
 
+  // Los que no tienen equivalente no se quedan con una foto nuestra de antes.
+  for (const wgerId of SIN_EQUIVALENTE) {
+    const exercise = byId.get(wgerId);
+    if (!exercise) continue;
+    const propias = exercise.images.filter(url => !isFreeDbImageUrl(url));
+    if (propias.length === exercise.images.length) continue;
+    applied.push(`${String(wgerId).padStart(4)}  ${exercise.name}  →  sin foto`);
+    exercise.images = propias;
+  }
+
   fs.writeFileSync(CATALOG_PATH, JSON.stringify(exercises, null, 2), 'utf-8');
 
   console.log(applied.length ? applied.join('\n') : 'Sin cambios: las imágenes ya estaban aplicadas.');

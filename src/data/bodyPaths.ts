@@ -1,4 +1,3 @@
-/* eslint-disable */
 // Generado por scripts/generate-body-paths.js: no editar a mano.
 //
 // Siluetas de MuscleMap (https://github.com/melihcolpan/MuscleMap):

@@ -1,11 +1,26 @@
 # GymBro
 
-Template de React Native (CLI, TypeScript) para una app de gimnasio y fitness. Incluye una pantalla de bienvenida ("Hello World") con la identidad visual del proyecto, lista para empezar a construir funcionalidades como rutinas, seguimiento de progreso y estadísticas.
+App de gimnasio para uso personal, en español y sin conexión: rutinas por días, registro de series en el gimnasio y seguimiento del progreso. React Native (CLI, TypeScript), solo Android en la práctica.
+
+## Qué hace
+
+- **Rutinas**: plantillas predefinidas (Push / Pull / Legs, Torso / Pierna, Bro Split) o propias, editables día a día. Cada ejercicio tiene series, rango de repeticiones, descanso y un plan B.
+- **Hoy**: el día que toca, con la sugerencia de peso de la última vez (sube cuando se llega al tope de reps o el RIR dice que sobró). Desde aquí se apuntan series (con RIR/RPE opcional), se corrigen las ya apuntadas, se cambia un ejercicio solo para hoy o al plan B y se añaden ejercicios extra. Además:
+  - Temporizador de descanso automático.
+  - Calculadora de discos por lado.
+  - Pesos reales de cada máquina.
+  - Aviso de récord al momento.
+- **Resumen al terminar**: volumen, comparación con la vez anterior, récords y mapa corporal de lo trabajado.
+- **Progreso**: series semanales por grupo muscular (con la banda de 10-20), historial y gráfica por ejercicio, sesiones pasadas.
+- **Catálogo de ~450 ejercicios** con fotos, descripción, músculos y búsqueda por grupo (bíceps, tríceps, cuádriceps, femoral...).
+- **Copia de seguridad** a JSON (exportar, importar y deshacer la importación).
+
+Todo se guarda en el móvil con AsyncStorage; no hay cuentas ni servidor.
 
 ## Requisitos
 
 - Node.js >= 22.11
-- JDK 17 o superior y [Android Studio](https://developer.android.com/studio) configurado (SDK + emulador o dispositivo físico con depuración USB)
+- JDK 17 y [Android Studio](https://developer.android.com/studio) configurado (SDK + emulador o móvil con depuración USB). `npm run android` usa el JDK 17 de `/usr/lib/jvm` si lo encuentra, porque Gradle falla con JDKs muy nuevos.
 - Solo en macOS, si además quieres compilar para iOS: Xcode y CocoaPods
 
 Gradle usa el SDK de `android/local.properties` (`sdk.dir=...`, no se sube a git) o, si no existe, `ANDROID_HOME`. Comprueba que apunta a un SDK con el NDK `27.1.12297006` (o sus licencias aceptadas, para que Gradle lo descargue).
@@ -14,38 +29,55 @@ Las imágenes de `src/assets/exercises-local/` no están en git (copyright). Si 
 
 ## Empezar
 
-Instala las dependencias:
-
 ```sh
 npm install
+npm start          # Metro, en una terminal
+npm run android    # compila e instala, en otra
 ```
 
-Arranca Metro (bundler):
-
-```sh
-npm start
-```
-
-En otra terminal, compila y ejecuta en Android:
-
-```sh
-npm run android
-```
-
-Si tienes acceso a macOS, para iOS:
-
-```sh
-npm run ios
-```
+`npm test` pasa los tests (Jest) y `npm run lint`, eslint. Para formatear: `npx prettier --print-width 100 --write <ficheros>`.
 
 ## Estructura
 
-- [App.tsx](App.tsx) — pantalla principal con el Hello World temático de fitness
-- [index.js](index.js) — punto de entrada de la app
-- [android/](android) y [ios/](ios) — proyectos nativos generados por React Native CLI
+- [src/screens/](src/screens): una pantalla por fichero (Hoy, Rutina, Progreso, Ajustes, editor del día, buscador de ejercicios...).
+- [src/context/](src/context): el estado de la app (rutinas y cambios "solo hoy", sesiones, ajustes, temporizador, pesos de máquinas, favoritos).
+- [src/storage/](src/storage): lectura y escritura en AsyncStorage, migraciones y copia de seguridad.
+- [src/utils/](src/utils): lógica sin interfaz: progresión, récords, discos, series por músculo, búsqueda...
+- [src/data/](src/data): catálogo de ejercicios y datos editables a mano:
+  - [exercises.json](src/data/exercises.json): el catálogo. Se genera con los scripts y no se edita a mano.
+  - [exerciseMerges.json](src/data/exerciseMerges.json): duplicados fusionados (id que sobra → id que se queda). Lo guardado con el id viejo se redirige solo.
+  - [exerciseBackups.ts](src/data/exerciseBackups.ts): plan B por defecto de cada ejercicio.
+  - [defaultWeightStacks.ts](src/data/defaultWeightStacks.ts): pesos aproximados de cada máquina.
+  - [unilateralExercises.ts](src/data/unilateralExercises.ts): ejercicios a un lado (reps por lado).
+  - [splitPresets.ts](src/data/splitPresets.ts): rutinas predefinidas.
+- [scripts/](scripts): generación del catálogo y utilidades.
+- [\_\_tests\_\_/](__tests__): tests. Varios obligan a que los datos a mano cubran todo el catálogo (por ejemplo, que cada ejercicio tenga plan B).
 
-## Próximos pasos sugeridos
+## Catálogo de ejercicios
 
-- Navegación entre pantallas (React Navigation)
-- Pantallas de rutinas, ejercicios y registro de series/repeticiones
-- Persistencia local (AsyncStorage / SQLite) o backend propio
+El catálogo sale de [wger](https://wger.de) y se corrige con ficheros en `scripts/` que sobreviven a una nueva descarga:
+
+| Fichero | Qué corrige |
+| --- | --- |
+| `exerciseNamesEs.js` | Nombres en español |
+| `exerciseDescriptionsEs.js` | Descripciones reescritas |
+| `exerciseFixes.js` | Categorías y músculos |
+| `customExercises.js` | Ejercicios propios (ids 90001+) |
+| `exerciseImagesFree.js` | Fotos de [free-exercise-db](https://github.com/yuhonas/free-exercise-db) y los ejercicios sin equivalente |
+
+Para aplicar los cambios sin volver a descargar de wger:
+
+```sh
+npm run fix:exercise-catalog   # duplicados, categorías, músculos y descripciones
+npm run fix:custom-exercises   # ejercicios propios
+npm run fix:exercise-names     # nombres
+npm run fix:exercise-images    # fotos
+```
+
+`npm run fetch:exercises` lo descarga todo de nuevo y aplica lo anterior.
+
+Las siluetas del cuerpo ([bodyPaths.ts](src/data/bodyPaths.ts)) vienen de [MuscleMap](https://github.com/melihcolpan/MuscleMap) (MIT) y se regeneran con `scripts/generate-body-paths.js`. El icono se genera con `npm run generate:icon`.
+
+## Pendientes
+
+En [notes.md](notes.md).

@@ -21,7 +21,7 @@ const normalize = (text: string) =>
   text
     .toLowerCase()
     .replace(/[\u0300-\u036f]/g, '') // tildes sueltas (texto ya descompuesto)
-    .replace(/[^\u0000-\u007f]/g, c => ACCENTS[c] ?? c)
+    .replace(/[\u0080-\uffff]/g, c => ACCENTS[c] ?? c)
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 

@@ -82,7 +82,7 @@ Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósit
 ## Mantenimiento
 
 - [ ] **Cierre intermitente al arrancar, solo en la build de depuración (con Metro)**: SIGSEGV nativo en Fabric (`MountingCoordinator::pullTransaction`) ~0,5 s después de montar la pantalla principal, en ~1 de cada 3-5 arranques. La build release no falla (0 cierres en 8 arranques, 8/10). Si aparece en release, descartar keep-awake / fs / picker de uno en uno.
-- [ ] Actualizar el README: sigue describiendo la app como una plantilla "Hello World".
-- [ ] Aviso de eslint en `src/utils/exerciseSearch.ts` (`no-control-regex` por el `\u0000` de la expresión regular).
-- [ ] Revisar fotos compartidas entre ejercicios distintos (46 fotos se repiten; p. ej. *Curl bayesiano en polea* y *Curl de bíceps en polea*) y buscar más duplicados como el del curl martillo.
-- [ ] Traducir las ~4 descripciones del catálogo que siguen en inglés.
+- [x] README actualizado: qué hace la app, cómo arrancarla, estructura y cómo se genera el catálogo.
+- [x] Avisos de eslint (`exerciseSearch.ts` y el `eslint-disable` sobrante de `bodyPaths.ts`): `npm run lint` sale limpio.
+- [x] Fotos compartidas revisadas: 10 duplicados fusionados (crunch, aperturas posteriores e inversas, curl femoral de pie, rotación externa tumbado, remo en V, aperturas en polea baja/alta, remo inclinado con apoyo), 3 fotos cambiadas por otras correctas y 2 quitadas por ser de otro ejercicio. El resto de fotos repetidas son variantes del mismo gesto y se dejan. Dudoso sin fusionar: *Jalón al pecho* y *Jalón con agarre ancho*.
+- [x] Descripciones en inglés traducidas (saltos al cajón, press de banca supino con mancuernas, curl femoral) y arreglada la de la extensión de tríceps sobre la cabeza.

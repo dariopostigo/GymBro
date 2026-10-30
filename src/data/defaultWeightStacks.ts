@@ -47,12 +47,11 @@ export const DEFAULT_WEIGHT_STACKS: Record<number, WeightStack> = {
   1718: POLEA, // Remo alto desde polea
   1486: POLEA, // Remo alto en polea alternado
   394: POLEA, // Remo con polea
-  395: POLEA, // Remo en polea baja, agarre estrecho
+  395: POLEA, // Remo sentado en polea con agarre en V
   1621: POLEA, // Remo unilateral en polea
   1724: POLEA, // Aducción de pie (polea)
   1751: POLEA, // Empuje de cadera en polea
   1131: POLEA, // Extensión de glúteos en polea
-  1473: POLEA, // Aperturas inversas en polea
   1936: POLEA, // Aperturas para deltoides posterior en polea (un brazo)
   822: POLEA, // Aperturas posteriores en polea
   1731: POLEA, // Elevación frontal en polea
@@ -68,13 +67,11 @@ export const DEFAULT_WEIGHT_STACKS: Record<number, WeightStack> = {
   1728: POLEA, // Rotación interna de hombro (polea)
   1922: POLEA, // Aperturas de pecho en polea sentado
   323: POLEA, // Aperturas en polea
-  1270: POLEA, // Aperturas en polea baja
   1469: POLEA, // Aperturas en polea inclinado
   1691: POLEA, // Aperturas en polea para el pecho inferior
   1689: POLEA, // Aperturas en polea para el pecho medio
   1690: POLEA, // Aperturas en polea para el pecho superior
   1296: POLEA, // Cruce de poleas bajas
-  237: POLEA, // Cruce de poleas para pecho
   1656: POLEA, // Press de pecho en polea - declinado
   90006: POLEA, // Press de pecho en polea de pie
   1660: POLEA, // Press de pecho en polea inclinado
@@ -116,7 +113,6 @@ export const DEFAULT_WEIGHT_STACKS: Record<number, WeightStack> = {
   365: MAQUINA_PIERNA, // Curl de piernas (tumbado)
   366: MAQUINA_PIERNA, // Curl femoral sentado
   367: MAQUINA_PIERNA, // Curl femoral de pie
-  1294: MAQUINA_PIERNA, // Curl femoral a una pierna
   622: MAQUINA_PIERNA, // Elevación de gemelos de pie en máquina
   590: MAQUINA_PIERNA, // Elevación de gemelos sentado en máquina
   // --- Prensa horizontal de placas ---

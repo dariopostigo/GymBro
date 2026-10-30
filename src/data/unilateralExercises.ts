@@ -41,7 +41,7 @@ export const UNILATERAL_EXERCISES: ReadonlySet<number> = new Set([
   1701, // Remo pesado a una mano
   1621, // Remo unilateral en polea
   // --- Femoral ---
-  1294, // Curl femoral a una pierna
+  367, // Curl femoral de pie
   1736, // Peso muerto a una pierna con mancuerna
   1388, // Peso muerto rumano a una pierna
   // --- Glúteos ---
@@ -61,8 +61,8 @@ export const UNILATERAL_EXERCISES: ReadonlySet<number> = new Set([
   346, // Landmine press
   1968, // Press de hombro con mancuerna a un brazo
   1729, // Rotación externa de hombro (polea)
+  578, // Rotación externa tumbado de lado
   1728, // Rotación interna de hombro (polea)
-  1715, // Rotación externa de hombro con mancuerna
   // --- Tríceps ---
   803, // Extensión de tríceps a una mano en polea
   1668, // Extensión de tríceps sobre la cabeza a una mano en polea

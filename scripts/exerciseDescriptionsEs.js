@@ -18,6 +18,7 @@ const DESCRIPTION_ES = {
   672: 'Siéntate de lado a una polea colocada a la altura del pecho y sujeta el agarre con las dos manos y los brazos estirados delante del cuerpo. Gira el tronco alejándote de la polea manteniendo la cadera quieta y vuelve despacio al punto de partida. Haz las repeticiones y cambia de lado.',
 
   // --- Brazos ---
+  1336: 'De pie o sentado, sujeta una mancuerna con las dos manos por encima de la cabeza con los brazos estirados. Sin mover los codos, que apuntan al techo, baja la mancuerna por detrás de la cabeza hasta notar el estiramiento del tríceps y vuelve a estirar los brazos. Hazlo lento y controlado, sin impulso ni arquear la espalda.',
   1493: 'De espaldas a una polea baja, coge el agarre con una mano y da un paso adelante para que el brazo quede estirado por detrás del cuerpo. Sin mover el codo, flexiona el brazo hasta llevar el agarre al hombro y baja despacio hasta notar el estiramiento del bíceps.',
   1717: 'De espaldas a una polea alta, sujeta el agarre con una mano por detrás de la cabeza con el codo apuntando al techo. Sin mover el codo, extiende el brazo hacia delante y arriba hasta estirarlo y vuelve despacio. Haz las repeticiones y cambia de brazo.',
   1502: 'De pie con una mancuerna en cada mano y las palmas mirando hacia el cuerpo. Sube una mancuerna cruzándola por delante del cuerpo hacia el hombro contrario, sin girar la muñeca, y bájala controlada. Alterna los brazos. Trabaja sobre todo el braquial y el bíceps.',
@@ -32,6 +33,7 @@ const DESCRIPTION_ES = {
   1285: 'Corre en el sitio o avanzando llevando los talones a tocar los glúteos en cada zancada. Mantén el tronco recto y un ritmo rápido.',
 
   // --- Espalda ---
+  395: 'Siéntate en la polea baja con los pies en los apoyos y coge el agarre estrecho en V con las palmas enfrentadas. Con la espalda recta, tira del agarre hacia el ombligo llevando los codos pegados al cuerpo y junta los omóplatos al final. Vuelve despacio hasta estirar los brazos sin inclinarte hacia delante.',
   1737: 'Sube a la máquina de dominadas asistidas, apoya las rodillas en la plataforma y agarra la barra con las palmas mirando hacia ti, al ancho de los hombros. Sube hasta pasar la barbilla por encima de la barra y baja controlado. Cuanto más contrapeso pongas, más fácil es.',
   1537: 'Cuélgate de la barra de dominadas, sube hasta la posición que quieras trabajar (arriba, a media altura o casi abajo) y mantenla el mayor tiempo posible apretando la espalda.',
   1470: 'Engancha un agarre de una mano a una polea alta y ponte de rodillas delante. Con el brazo estirado, tira del agarre hacia abajo llevando el codo hacia la cadera con el dorsal, y vuelve despacio hasta estirar el brazo. Haz las repeticiones y cambia de lado.',
@@ -46,7 +48,6 @@ const DESCRIPTION_ES = {
   1120: 'Siéntate en la máquina de remo (o en la polea baja) y agarra la barra con agarre estrecho y las palmas hacia arriba. Tira hacia el abdomen con los codos pegados al cuerpo, juntando los omóplatos, y vuelve despacio hasta estirar los brazos.',
   919: 'Colócate sobre la barra en T con las rodillas algo flexionadas y el tronco inclinado hacia delante con la espalda recta. Agarra el maneral en triángulo (agarre neutro) y tira de la barra hacia el pecho juntando los omóplatos. Bájala controlada hasta estirar los brazos.',
   1471: 'Remo con mancuerna a una mano, apoyando la otra mano en un banco, con mucho peso y una técnica algo más suelta que el remo normal: se permite un poco de impulso del tronco para mover más carga. Haz series largas y cambia de lado.',
-  1473: 'Coloca las dos poleas en posición alta con un agarre de una mano en cada una. Coge el cable izquierdo con la mano derecha y el derecho con la izquierda, de forma que se crucen delante de ti. Con los brazos casi estirados, ábrelos hacia los lados y atrás juntando los omóplatos, y vuelve despacio.',
   1098: 'Sentado en el borde de un banco, inclina el tronco unos 45 grados hacia delante con una mancuerna en cada mano. Con los brazos estirados, súbelos hacia los lados hasta la altura de los hombros y bájalos despacio.',
   1458: 'Engancha un agarre de una mano a una polea baja y colócate de lado. Coge el agarre con la mano más alejada y llévalo en diagonal cruzando el cuerpo hasta por encima de la cabeza, como si desenvainaras una espada, formando una Y. Vuelve despacio y cambia de lado.',
   922: 'Siéntate frente a una polea a la altura del pecho con la espalda recta y los brazos estirados. Sin flexionar los codos, junta los omóplatos llevando los hombros hacia atrás, aguanta un segundo arriba y vuelve despacio.',
@@ -64,6 +65,7 @@ const DESCRIPTION_ES = {
   1439: 'Coloca los pines de seguridad del rack a la altura de la barbilla y apoya la barra en ellos. Con la barra en los pines y sin perder la tensión, empújala por encima de la cabeza hasta estirar los brazos y vuelve a dejarla sobre los pines en cada repetición.',
 
   // --- Pecho ---
+  1497: 'Túmbate en un banco plano con una mancuerna en cada mano y las palmas mirando hacia ti (agarre supino). Baja las mancuernas hacia el pecho con los codos pegados al cuerpo y empuja hasta estirar los brazos, como en un press de banca normal. Trabaja más la parte alta del pecho y el tríceps.',
   1469: 'Coloca las poleas en posición baja y siéntate o túmbate en un banco inclinado entre ellas, con el tronco a unos 105 grados. Con los codos ligeramente flexionados, junta los agarres por encima del pecho en un arco amplio y vuelve despacio hasta notar el estiramiento.',
   1777: 'Colócate en posición de flexión con las manos sobre dos discos, agarres o bloques. Al bajar, deja que el pecho descienda por debajo del nivel de las manos para estirar más el pecho, y empuja hasta estirar los brazos.',
   1546: 'Press de banca con barra pero con las piernas estiradas y levantadas (o apoyadas en otro banco), de forma que no puedes impulsarte con ellas. Baja la barra al pecho de forma controlada y empuja manteniendo la espalda apoyada en el banco.',
@@ -72,6 +74,7 @@ const DESCRIPTION_ES = {
   1508: 'Coloca un banco inclinado a 45-60 grados bajo la máquina Smith. Desbloquea la barra, bájala hasta tocar la parte alta del pecho y empuja hasta estirar los brazos.',
 
   // --- Piernas ---
+  1373: 'De pie frente a un cajón estable, flexiona un poco las piernas y salta sobre él cayendo con los dos pies a la vez y las rodillas ligeramente flexionadas. Estírate del todo arriba y baja andando, sin saltar hacia atrás, para no castigar las rodillas.',
   1100: 'De pie frente a una pared con un balón medicinal a la altura del pecho y los pies al ancho de los hombros. Baja en sentadilla y, al subir, lanza el balón lo más alto que puedas contra la pared. Recógelo y encadena la siguiente repetición.',
   1116: 'Coge una mancuerna pesada en cada mano (como referencia, la mitad de tu peso corporal en cada una) y camina con pasos cortos, la espalda recta y los hombros hacia atrás, durante la distancia o el tiempo marcados.',
   1723: 'Colócate en la máquina de patada de glúteo con el pie apoyado en la plataforma. Empuja hacia atrás y arriba con el talón, no con la punta, para cargar el glúteo, y vuelve despacio. No arquees la zona lumbar al final del movimiento.',

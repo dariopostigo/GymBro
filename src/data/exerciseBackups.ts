@@ -15,7 +15,6 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1479: 145, // Abdominal con golpe de codo → Leñadores en Polea
   607: 145, // Abdominal cruzado con giro → Leñadores en Polea
   1476: 145, // Abdominal mariposa → Leñadores en Polea
-  167: 172, // Abdominales → Abdominales en máquina
   1415: 1648, // Abdominales con mancuerna → Crunch con peso
   171: 172, // Abdominales en banco inclinado → Abdominales en máquina
   1412: 172, // Abdominales en bicicleta → Abdominales en máquina
@@ -29,7 +28,6 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1933: 172, // Crunch abdominal → Abdominales en máquina
   1287: 145, // Crunch con alcance → Leñadores en Polea
   1648: 145, // Crunch con peso → Leñadores en Polea
-  1478: 172, // Crunch de tronco superior → Abdominales en máquina
   505: 172, // Crunch en silla romana → Abdominales en máquina
   1772: 172, // Crunch inverso → Abdominales en máquina
   1426: 145, // Crunch lateral de pie → Leñadores en Polea
@@ -241,21 +239,20 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   90035: 90017, // Remo alto en máquina de placas → Remo alto en máquina de discos
   1486: 1492, // Remo alto en polea alternado → Remo alto
   81: 1621, // Remo con mancuernas → Remo unilateral en polea
-  310: 1283, // Remo con mancuernas en banco inclinado → Remo con mancuernas en banco inclinado con apoyo en el pecho
-  1283: 90027, // Remo con mancuernas en banco inclinado con apoyo en el pecho → Remo en T con apoyo en el pecho
+  310: 90027, // Remo con mancuernas en banco inclinado → Remo en T con apoyo en el pecho
   394: 1725, // Remo con polea → Remo sentado en máquina de placas
   508: 90026, // Remo en máquina agarre abierto → Remo sentado en máquina de discos
   1119: 394, // Remo en máquina agarre estrecho → Remo con polea
   1120: 394, // Remo en máquina agarre estrecho supino → Remo con polea
   90016: 83, // Remo en máquina Smith → Remo inclinado con barra (agarre prono)
-  395: 394, // Remo en polea baja, agarre estrecho → Remo con polea
+  395: 394, // Remo sentado en polea con agarre en V → Remo con polea
   919: 90027, // Remo en T → Remo en T con apoyo en el pecho
   90027: 919, // Remo en T con apoyo en el pecho → Remo en T
   562: 1621, // Remo escopeta → Remo unilateral en polea
   512: 394, // Remo Gironda → Remo con polea
   1117: 394, // Remo gironda agarre cerrado → Remo con polea
   1501: 81, // Remo gorila alternativo con mancuernas → Remo con mancuernas
-  1303: 1283, // Remo Helms → Remo con mancuernas en banco inclinado con apoyo en el pecho
+  1303: 310, // Remo Helms → Remo con mancuernas en banco inclinado
   84: 83, // Remo inclinado con agarre invertido → Remo inclinado con barra (agarre prono)
   83: 90016, // Remo inclinado con barra (agarre prono) → Remo en máquina Smith
   1082: 394, // Remo inclinado con rotación externa → Remo con polea
@@ -264,7 +261,6 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   448: 83, // Remo Pendlay → Remo inclinado con barra (agarre prono)
   1701: 81, // Remo pesado a una mano → Remo con mancuernas
   490: 81, // Remo renegado → Remo con mancuernas
-  1928: 394, // Remo sentado con agarre en V → Remo con polea
   90026: 1725, // Remo sentado en máquina de discos → Remo sentado en máquina de placas
   1725: 90026, // Remo sentado en máquina de placas → Remo sentado en máquina de discos
   1621: 81, // Remo unilateral en polea → Remo con mancuernas
@@ -275,7 +271,6 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1392: 1700, // Buenos días con barra → Peso muerto rumano con barra
   365: 366, // Curl de piernas (tumbado) → Curl femoral sentado
   364: 366, // Curl femoral → Curl femoral sentado
-  1294: 365, // Curl femoral a una pierna → Curl de piernas (tumbado)
   367: 365, // Curl femoral de pie → Curl de piernas (tumbado)
   366: 365, // Curl femoral sentado → Curl de piernas (tumbado)
   90011: 365, // Curl nórdico → Curl de piernas (tumbado)
@@ -326,11 +321,9 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1740: 1234, // Puente de glúteos a una pierna → Empuje de cadera a una pierna con mancuerna
   // --- Hombros ---
   1826: 222, // Apertura con banda y rotación externa → Jalón a la cara (face pull)
-  1473: 139, // Aperturas inversas en polea → Contractora inversa (pec deck)
   1936: 82, // Aperturas para deltoides posterior en polea (un brazo) → Elevaciones posteriores con mancuernas
   822: 139, // Aperturas posteriores en polea → Contractora inversa (pec deck)
   139: 822, // Contractora inversa (pec deck) → Aperturas posteriores en polea
-  406: 1729, // Ejercicio del manguito rotador tumbado → Rotación externa de hombro (polea)
   1098: 82, // Elevación de deltoides posterior sentado → Elevaciones posteriores con mancuernas
   1879: 1755, // Elevación en Y con mancuernas en banco inclinado → Jalón en Y en polea
   1731: 256, // Elevación frontal en polea → Elevaciones frontales
@@ -376,8 +369,7 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   694: 693, // Remo al mentón con mancuernas → Remo al mentón con barra
   691: 693, // Remo al mentón en máquina Smith → Remo al mentón con barra
   90031: 693, // Remo al mentón en polea → Remo al mentón con barra
-  1729: 1715, // Rotación externa de hombro (polea) → Rotación externa de hombro con mancuerna
-  1715: 1729, // Rotación externa de hombro con mancuerna → Rotación externa de hombro (polea)
+  1729: 578, // Rotación externa de hombro (polea) → Rotación externa tumbado de lado
   578: 1729, // Rotación externa tumbado de lado → Rotación externa de hombro (polea)
   1728: 1582, // Rotación interna de hombro (polea) → Rotación interna tumbado de lado
   1582: 1728, // Rotación interna tumbado de lado → Rotación interna de hombro (polea)
@@ -393,13 +385,11 @@ export const DEFAULT_BACKUPS: Record<number, number> = {
   1922: 926, // Aperturas de pecho en polea sentado → Aperturas en máquina (contractora)
   926: 323, // Aperturas en máquina (contractora) → Aperturas en polea
   323: 926, // Aperturas en polea → Aperturas en máquina (contractora)
-  1270: 1690, // Aperturas en polea baja → Aperturas en polea para el pecho superior
   1469: 308, // Aperturas en polea inclinado → Aperturas con mancuernas en banco inclinado
   1691: 239, // Aperturas en polea para el pecho inferior → Aperturas con mancuernas en banco declinado
   1689: 926, // Aperturas en polea para el pecho medio → Aperturas en máquina (contractora)
   1690: 308, // Aperturas en polea para el pecho superior → Aperturas con mancuernas en banco inclinado
   1296: 308, // Cruce de poleas bajas → Aperturas con mancuernas en banco inclinado
-  237: 926, // Cruce de poleas para pecho → Aperturas en máquina (contractora)
   1964: 1551, // Flexión con manos abiertas → Flexiones
   1554: 1551, // Flexión con palmada → Flexiones
   1716: 1551, // Flexión escapular en banco inclinado → Flexiones
