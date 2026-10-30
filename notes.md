@@ -32,13 +32,16 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Ficha del ejercicio** en la pantalla del ejercicio (biblioteca y reloj de Hoy): cómo se hace, músculos, equipamiento y plan B, que abre su propia ficha.
+
+- [x] Etiquetas de Inicio sin partirse y pesos con coma decimal en toda la app.
+
 - [x] **Catálogo**: Brazos separado en Bíceps / Tríceps / Antebrazos y Piernas en Cuádriceps / Femoral / Glúteos; iconos de músculo en los chips de categoría; variantes de máquina de placas / de discos / polea; fusionado el curl martillo en polea duplicado.
 
 
 ## Muy útil
 
 - [ ] **Series por grupo muscular a la semana** en Progreso, para ver qué músculos se quedan cortos.
-- [ ] **Ficha del ejercicio** con descripción, músculos principales y secundarios y fotos (las descripciones en español ya están en el catálogo pero no se muestran).
 - [ ] **Añadir un ejercicio solo para hoy** desde la pestaña Hoy (ahora solo se puede cambiar uno por otro).
 
 ## Ideas sacadas de openGym
@@ -69,13 +72,11 @@ Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gy
 
 ## Diseño
 
-- [ ] En Inicio, las etiquetas de las cifras se parten a mitad de palabra ("SESIONE / S", "VOLUME / N").
 - [ ] **Revisión del diseño con capturas** de cada pantalla (por adb con el móvil conectado): espacios, jerarquía, legibilidad durante el entreno y tamaño de los botones.
 
 ## Mantenimiento
 
 - [ ] **Cierre intermitente al arrancar, solo en la build de depuración (con Metro)**: SIGSEGV nativo en Fabric (`MountingCoordinator::pullTransaction`) ~0,5 s después de montar la pantalla principal, en ~1 de cada 3-5 arranques. La build release no falla (0 cierres en 8 arranques, 8/10). Si aparece en release, descartar keep-awake / fs / picker de uno en uno.
-- [ ] Pesos con coma decimal también en la lista de series de Hoy (ahora `62.5` ahí y `62,5` en la sugerencia).
 - [ ] Actualizar el README: sigue describiendo la app como una plantilla "Hello World".
 - [ ] Aviso de eslint en `src/utils/exerciseSearch.ts` (`no-control-regex` por el `\u0000` de la expresión regular).
 - [ ] Revisar fotos compartidas entre ejercicios distintos (46 fotos se repiten; p. ej. *Curl bayesiano en polea* y *Curl de bíceps en polea*) y buscar más duplicados como el del curl martillo.

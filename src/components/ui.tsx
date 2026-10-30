@@ -142,7 +142,15 @@ export function StatTile({
         <Text style={[styles.statValue, accent && styles.statValueAccent]}>{value}</Text>
         {unit ? <Text style={[styles.statUnit, accent && styles.statUnitAccent]}>{unit}</Text> : null}
       </View>
-      <Text style={[styles.statLabel, accent && styles.statLabelAccent]}>{label}</Text>
+      {/* Cuatro casillas en fila son estrechas: la etiqueta encoge antes que partirse. */}
+      <Text
+        style={[styles.statLabel, accent && styles.statLabelAccent]}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.75}
+      >
+        {label}
+      </Text>
     </View>
   );
 }
@@ -297,7 +305,7 @@ const styles = StyleSheet.create({
   statValueAccent: { color: colors.onAccent },
   statUnit: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   statUnitAccent: { color: colors.onAccent, opacity: 0.7 },
-  statLabel: { ...overline, fontSize: 9.5, color: colors.muted },
+  statLabel: { ...overline, fontSize: 9.5, letterSpacing: 0.8, color: colors.muted },
   statLabelAccent: { color: colors.onAccent, opacity: 0.75 },
   progressTrack: {
     height: 6,

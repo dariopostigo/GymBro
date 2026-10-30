@@ -16,6 +16,7 @@ import { ChevronIcon } from '../components/icons';
 import { Card, EmptyState, Overline, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
+import { formatWeight } from '../utils/progression';
 import {
   exerciseSummaries,
   formatFullDate,
@@ -101,7 +102,7 @@ export default function ProgressScreen() {
             </Text>
           </View>
           <View style={styles.bestBadge}>
-            <Text style={styles.bestValue}>{item.bestWeight}</Text>
+            <Text style={styles.bestValue}>{formatWeight(item.bestWeight)}</Text>
             <Text style={styles.bestUnit}>kg</Text>
           </View>
           <ChevronIcon size={16} color={colors.muted} />

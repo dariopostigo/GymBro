@@ -6,6 +6,7 @@ import { useSession } from '../context/SessionContext';
 import { getExerciseById } from '../data/exerciseCatalog';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
+import ExerciseInfo from '../components/ExerciseInfo';
 import ExerciseImageModal from '../components/ExerciseImageModal';
 import ExerciseVideoModal from '../components/ExerciseVideoModal';
 import { ExpandIcon, VideoIcon } from '../components/icons';
@@ -14,6 +15,7 @@ import { Card, Chip, EmptyState, Overline, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
+import { formatWeight } from '../utils/progression';
 import { estimatedOneRepMax, formatFullDate, formatShortDate } from '../utils/stats';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ExerciseHistory'>;
@@ -77,10 +79,10 @@ function metricValue(bar: SessionBar, metric: Metric): number {
 function metricDetail(bar: SessionBar, metric: Metric): string {
   if (metric === 'weight') return `×${bar.repsAtMaxWeight}`;
   if (metric === 'reps') return `${bar.setCount} ser.`;
-  return `${bar.ormWeight}×${bar.ormReps}`;
+  return `${formatWeight(bar.ormWeight)}×${bar.ormReps}`;
 }
 
-export default function ExerciseHistoryScreen({ route }: Props) {
+export default function ExerciseHistoryScreen({ route, navigation }: Props) {
   const { exerciseId } = route.params;
   const { getEntriesForExercise } = useSession();
   const exercise = getExerciseById(exerciseId);
@@ -238,6 +240,13 @@ export default function ExerciseHistoryScreen({ route }: Props) {
           </View>
         )}
 
+        {exercise && (
+          <ExerciseInfo
+            exercise={exercise}
+            onOpenExercise={id => navigation.push('ExerciseHistory', { exerciseId: id })}
+          />
+        )}
+
         {entries.length === 0 ? (
           <EmptyState
             title="Sin datos todavía"
@@ -246,7 +255,7 @@ export default function ExerciseHistoryScreen({ route }: Props) {
         ) : (
           <>
             <View style={styles.statsRow}>
-              <StatTile value={record} unit="kg" label="Récord" accent />
+              <StatTile value={formatWeight(record)} unit="kg" label="Récord" accent />
               <StatTile value={entries.length} label="Series" />
               <StatTile value={totalSessions} label="Sesiones" />
             </View>
@@ -320,7 +329,7 @@ export default function ExerciseHistoryScreen({ route }: Props) {
                       return (
                         <View key={bar.sessionId} style={styles.barColumn}>
                           <Text style={[styles.barValue, isLast && styles.barValueLast]}>
-                            {metricValue(bar, metric)}
+                            {formatWeight(metricValue(bar, metric))}
                           </Text>
                           <Text style={styles.barDetail}>{metricDetail(bar, metric)}</Text>
                           <View style={styles.barTrack}>
@@ -353,12 +362,12 @@ export default function ExerciseHistoryScreen({ route }: Props) {
                       <Text style={styles.setNumberText}>{set.setNumber}</Text>
                     </View>
                     <Text style={styles.tableRowText}>
-                      <Text style={styles.tableRowStrong}>{set.weight}</Text> kg
+                      <Text style={styles.tableRowStrong}>{formatWeight(set.weight)}</Text> kg
                     </Text>
                     <Text style={styles.tableRowText}>
                       <Text style={styles.tableRowStrong}>{set.reps}</Text> reps
                     </Text>
-                    <Text style={styles.tableRowVolume}>{set.weight * set.reps} kg vol.</Text>
+                    <Text style={styles.tableRowVolume}>{formatWeight(set.weight * set.reps)} kg vol.</Text>
                   </View>
                 ))}
               </Card>

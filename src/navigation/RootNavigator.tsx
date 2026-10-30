@@ -92,7 +92,7 @@ export default function RootNavigator() {
         <Stack.Screen
           name="ExerciseHistory"
           component={ExerciseHistoryScreen}
-          options={{ title: 'Historial' }}
+          options={{ title: 'Ejercicio' }}
         />
         <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ajustes' }} />
         <Stack.Screen

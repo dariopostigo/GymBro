@@ -181,7 +181,7 @@ function ExerciseCard({
           onPress={onViewHistory}
           style={styles.iconButton}
           activeOpacity={0.8}
-          accessibilityLabel="Ver historial de este ejercicio"
+          accessibilityLabel="Ver ficha e historial de este ejercicio"
         >
           <HistoryIcon size={18} color={colors.accent} />
         </TouchableOpacity>
@@ -204,7 +204,7 @@ function ExerciseCard({
           )}
           <Text style={styles.collapsedSets} numberOfLines={1}>
             {loggedSets.length > 0
-              ? loggedSets.map(set => `${set.weight}×${set.reps}`).join(' · ')
+              ? loggedSets.map(set => `${formatWeight(set.weight)}×${set.reps}`).join(' · ')
               : `${slot.targetSets} × ${slot.targetRepsMin}-${slot.targetRepsMax}`}
           </Text>
         </View>
@@ -302,7 +302,7 @@ function ExerciseCard({
                       </View>
                       <View style={styles.setRowBody}>
                         <Text style={styles.setRowText}>
-                          <Text style={styles.setRowStrong}>{set.weight}</Text> kg ×{' '}
+                          <Text style={styles.setRowStrong}>{formatWeight(set.weight)}</Text> kg ×{' '}
                           <Text style={styles.setRowStrong}>{set.reps}</Text> reps
                         </Text>
                         {record && (
