@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
-import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight, isTimed } from '../data/exerciseCatalog';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import ExerciseImageCarousel from '../components/ExerciseImageCarousel';
 import ExerciseInfo from '../components/ExerciseInfo';
@@ -18,7 +18,7 @@ import type { RootStackParamList } from '../navigation/types';
 import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
 import { effortLabel } from '../utils/effort';
-import { formatLoad, formatWeight } from '../utils/progression';
+import { formatLoad, formatReps, formatSeconds, formatWeight } from '../utils/progression';
 import { estimatedOneRepMax, formatFullDate, formatShortDate, setVolume } from '../utils/stats';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ExerciseHistory'>;
@@ -46,6 +46,20 @@ const METRIC_TITLES: Record<Metric, string> = {
   weight: 'Peso máximo',
   reps: 'Repeticiones',
   orm: '1RM estimado',
+};
+
+/** Por tiempo, "reps" son segundos y no hay 1RM que estimar. */
+const TIMED_METRIC_CHIPS: { value: Metric; label: string }[] = [
+  { value: 'weight', label: 'Peso máx' },
+  { value: 'reps', label: 'Segundos' },
+];
+
+const TIMED_METRIC_TITLES: Record<Metric, string> = { ...METRIC_TITLES, reps: 'Segundos' };
+
+const TIMED_METRIC_HINTS: Record<Metric, string> = {
+  weight: 'La serie más pesada de cada sesión, con los segundos que aguantaste con ese peso.',
+  reps: 'Segundos totales del ejercicio en cada sesión, y cuántas series fueron.',
+  orm: '',
 };
 
 const METRIC_HINTS: Record<Metric, string> = {
@@ -77,9 +91,17 @@ function metricValue(bar: SessionBar, metric: Metric): number {
   return bar.oneRepMax;
 }
 
+/** La cifra de cada barra: kilos o, por tiempo, los segundos ("3:00"). */
+function formatMetric(bar: SessionBar, metric: Metric, timed: boolean): string {
+  const value = metricValue(bar, metric);
+  return timed && metric === 'reps' ? formatSeconds(value) : formatWeight(value);
+}
+
 /** Contexto bajo cada barra: lo que la cifra principal por sí sola esconde. */
-function metricDetail(bar: SessionBar, metric: Metric): string {
-  if (metric === 'weight') return `×${bar.repsAtMaxWeight}`;
+function metricDetail(bar: SessionBar, metric: Metric, timed: boolean): string {
+  if (metric === 'weight') {
+    return timed ? formatSeconds(bar.repsAtMaxWeight) : `×${bar.repsAtMaxWeight}`;
+  }
   if (metric === 'reps') return `${bar.setCount} ser.`;
   return `${formatWeight(bar.ormWeight)}×${bar.ormReps}`;
 }
@@ -170,6 +192,10 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
   }, [filteredEntries]);
 
   const bodyweight = isBodyweight(exerciseId);
+  const timed = isTimed(exerciseId);
+  const metricChips = timed ? TIMED_METRIC_CHIPS : METRIC_CHIPS;
+  const metricTitles = timed ? TIMED_METRIC_TITLES : METRIC_TITLES;
+  const metricHints = timed ? TIMED_METRIC_HINTS : METRIC_HINTS;
   // Sin lastre el peso máximo es siempre 0: lo que dice algo son las reps.
   const [metric, setMetric] = useState<Metric>(bodyweight ? 'reps' : 'weight');
 
@@ -187,7 +213,7 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
   );
 
   const record = entries.length ? Math.max(...entries.map(e => e.weight)) : 0;
-  // Con el peso del cuerpo y sin lastre nunca, el récord son las reps de la mejor serie.
+  // Con el peso del cuerpo y sin lastre nunca, el récord son las reps (o segundos) de la mejor serie.
   const repsRecord = entries.length ? Math.max(...entries.map(e => e.reps)) : 0;
   const totalSessions = new Set(entries.map(e => e.sessionId)).size;
 
@@ -267,7 +293,12 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
           <>
             <View style={styles.statsRow}>
               {bodyweight && record === 0 ? (
-                <StatTile value={repsRecord} unit="reps" label="Récord" accent />
+                <StatTile
+                  value={formatReps(repsRecord, timed)}
+                  unit={timed ? undefined : 'reps'}
+                  label="Récord"
+                  accent
+                />
               ) : (
                 <StatTile value={formatLoad(record, bodyweight)} unit="kg" label="Récord" accent />
               )}
@@ -317,13 +348,13 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
 
             <Card style={styles.chartCard}>
               <Overline>
-                {METRIC_TITLES[metric]} ·{' '}
+                {metricTitles[metric]} ·{' '}
                 {filterMode === 'session'
                   ? `${activePosition}º del entreno`
                   : `${activeMuscleGroupPosition}º de ${exercise?.category.name ?? 'categoría'}`}
               </Overline>
               <View style={styles.metricRow}>
-                {METRIC_CHIPS.map(chip => (
+                {metricChips.map(chip => (
                   <Chip
                     key={chip.value}
                     label={chip.label}
@@ -340,9 +371,9 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                       return (
                         <View key={bar.sessionId} style={styles.barColumn}>
                           <Text style={[styles.barValue, isLast && styles.barValueLast]}>
-                            {formatWeight(metricValue(bar, metric))}
+                            {formatMetric(bar, metric, timed)}
                           </Text>
-                          <Text style={styles.barDetail}>{metricDetail(bar, metric)}</Text>
+                          <Text style={styles.barDetail}>{metricDetail(bar, metric, timed)}</Text>
                           <View style={styles.barTrack}>
                             <View
                               style={[
@@ -360,7 +391,7 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                   <TrendLine points={trendPoints} style={styles.trendOverlay} />
                 </View>
               </ScrollView>
-              <Text style={styles.chartHint}>{METRIC_HINTS[metric]}</Text>
+              <Text style={styles.chartHint}>{metricHints[metric]}</Text>
             </Card>
 
             <Overline style={styles.sectionTitle}>Historial detallado</Overline>
@@ -379,15 +410,15 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                       {set.weight > 0 ? ' kg' : ''}
                     </Text>
                     <Text style={styles.tableRowText}>
-                      <Text style={styles.tableRowStrong}>{set.reps}</Text>{' '}
-                      {set.perSide ? 'reps/lado' : 'reps'}
+                      <Text style={styles.tableRowStrong}>{formatReps(set.reps, timed)}</Text>
+                      {timed ? (set.perSide ? ' /lado' : '') : set.perSide ? ' reps/lado' : ' reps'}
                     </Text>
                     {set.rir !== undefined && settings.effortMode !== 'off' && (
                       <Text style={styles.tableRowEffort}>
                         {effortLabel(set.rir, settings.effortMode)}
                       </Text>
                     )}
-                    {set.weight > 0 && (
+                    {set.weight > 0 && !timed && (
                       <Text style={styles.tableRowVolume}>
                         {formatWeight(setVolume(set))} kg vol.
                       </Text>

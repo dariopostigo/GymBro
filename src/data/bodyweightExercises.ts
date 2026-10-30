@@ -3,8 +3,9 @@
  * En ellos el peso que se apunta es el lastre (un cinturón, un disco a la
  * espalda...): 0 es lo normal y se muestra como "PC" (peso corporal).
  *
- * Fuera quedan las planchas y demás isometrías, que se miden en tiempo, el
- * cardio, y los asistidos (en esos el peso de la máquina resta).
+ * Las planchas y demás isometrías también están, y además se miden en tiempo
+ * (ver timedExercises.ts). Fuera quedan el cardio y los asistidos (en esos el
+ * peso de la máquina resta).
  */
 export const BODYWEIGHT_EXERCISES: ReadonlySet<number> = new Set([
   // --- Abdominales ---
@@ -30,6 +31,12 @@ export const BODYWEIGHT_EXERCISES: ReadonlySet<number> = new Set([
   1477, // Sacacorchos sentado
   1425, // Toques de pie alternados
   1411, // Toques de talón
+  1001, // Plancha alta
+  458, // Plancha de antebrazo
+  1307, // Plancha frontal
+  1019, // Plancha de lado derecho
+  500, // Plancha inversa
+  297, // Sostenimiento hueco
   // --- Cuádriceps ---
   616, // Burpee
   1948, // Sentadilla a cajón a una pierna
@@ -40,6 +47,8 @@ export const BODYWEIGHT_EXERCISES: ReadonlySet<number> = new Set([
   1963, // Sentadilla lenta
   632, // Sentadillas sumo
   1324, // Zancada con el peso corporal
+  718, // Asiento en pared
+  1733, // Sentadilla isometrica al fallo
   999, // Zancadas hacia atrás
   // --- Espalda ---
   1215, // Ángel de nieve invertido
@@ -49,6 +58,7 @@ export const BODYWEIGHT_EXERCISES: ReadonlySet<number> = new Set([
   1219, // Dominadas australianas (remo invertido)
   152, // Dominadas con agarre supino
   90018, // Dominadas lastradas
+  1537, // Isometría en dominada
   1435, // Jalones escapulares
   301, // Hiperextensiones
   1487, // Combinación hiperextensión Y-W

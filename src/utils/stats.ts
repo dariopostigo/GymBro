@@ -1,3 +1,4 @@
+import { isTimed } from '../data/exerciseCatalog';
 import type { SetEntry, WorkoutSession } from '../types/session';
 import { STALE_SESSION_MS } from './staleSession';
 
@@ -17,8 +18,14 @@ export function dayKey(date: Date | string): string {
   ).padStart(2, '0')}`;
 }
 
-/** Kilos movidos en una serie; las series por lado cuentan los dos lados. */
-export function setVolume(set: Pick<SetEntry, 'weight' | 'reps' | 'perSide'>): number {
+/**
+ * Kilos movidos en una serie; las series por lado cuentan los dos lados. Las de
+ * un ejercicio por tiempo no suman: kilos por segundos no es volumen.
+ */
+export function setVolume(
+  set: Pick<SetEntry, 'weight' | 'reps' | 'perSide'> & { exerciseId?: number },
+): number {
+  if (set.exerciseId !== undefined && isTimed(set.exerciseId)) return 0;
   return set.weight * set.reps * (set.perSide ? 2 : 1);
 }
 

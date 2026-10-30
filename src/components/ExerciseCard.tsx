@@ -21,6 +21,8 @@ import {
   ExpandIcon,
   HistoryIcon,
   PlusIcon,
+  StopIcon,
+  TimerIcon,
   TrendingDownIcon,
   TrendingUpIcon,
   TrophyIcon,
@@ -29,7 +31,7 @@ import {
 import { Card, GhostButton, Stepper } from './ui';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
-import { formatLoad, formatWeight, type LoadSuggestion } from '../utils/progression';
+import { formatReps, formatSet, formatWeight, type LoadSuggestion } from '../utils/progression';
 import { describeRecord, type PersonalRecord } from '../utils/workoutSummary';
 import { stepWeight } from '../utils/weightStack';
 import { BAR_LABELS, plateLoad, type BarType } from '../utils/plates';
@@ -64,6 +66,8 @@ export interface ExerciseCardProps {
   unilateral: boolean;
   /** Con el peso del cuerpo: el peso es el lastre y 0 vale. */
   bodyweight: boolean;
+  /** Se mide en segundos: las reps son segundos y hay cronómetro para medirlos. */
+  timed: boolean;
   /** Con qué se carga (barra, Smith, máquina de discos), para decir qué discos poner. */
   loading?: { type: BarType; bar: number; plates: number[] };
   /** Añadido solo para hoy: no está en la plantilla y se puede quitar. */
@@ -94,6 +98,7 @@ export default function ExerciseCard({
   weights,
   unilateral,
   bodyweight,
+  timed,
   loading,
   extra,
   onAddSet,
@@ -119,6 +124,18 @@ export default function ExerciseCard({
   const [rir, setRir] = useState<number | undefined>(undefined);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+  // Cronómetro de las series por tiempo: mientras corre va rellenando los segundos.
+  const [stopwatchStart, setStopwatchStart] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (stopwatchStart === null) return;
+    const tick = () => setRepsText(String(Math.floor((Date.now() - stopwatchStart) / 1000)));
+    tick();
+    const interval = setInterval(tick, 250);
+    return () => clearInterval(interval);
+  }, [stopwatchStart]);
+
+  const toggleStopwatch = () => setStopwatchStart(start => (start === null ? Date.now() : null));
   // Serie que se está corrigiendo; al acabar, los campos vuelven a lo que había.
   const [editing, setEditing] = useState<{
     id: string;
@@ -127,6 +144,7 @@ export default function ExerciseCard({
   } | null>(null);
 
   const startEdit = (set: SetEntry) => {
+    setStopwatchStart(null);
     setEditing(prev => ({
       id: set.id,
       setNumber: set.setNumber,
@@ -149,6 +167,10 @@ export default function ExerciseCard({
     if (editing?.id === setEntryId) stopEdit();
     onRemoveSet(setEntryId);
   };
+
+  // Aguantar no tiene "reps en reserva": en los de tiempo no se apunta el esfuerzo.
+  const showEffort = effortMode !== 'off' && !timed;
+  const unit = timed ? ' s' : '';
 
   const plateHint = useMemo(() => {
     if (!loading) return undefined;
@@ -180,15 +202,25 @@ export default function ExerciseCard({
   };
 
   const handleAdd = () => {
+    // Apuntar con el cronómetro en marcha lo para y se queda con lo que marcaba.
+    const elapsed =
+      stopwatchStart !== null ? Math.floor((Date.now() - stopwatchStart) / 1000) : undefined;
+    setStopwatchStart(null);
+    if (elapsed !== undefined) setRepsText(String(elapsed));
     const weight = parseFloat(weightText.replace(',', '.'));
-    const reps = parseInt(repsText, 10);
+    const reps = elapsed ?? parseInt(repsText, 10);
     // Con el peso del cuerpo 0 kg es sin lastre; en el resto hace falta un peso.
     const validWeight = Number.isFinite(weight) && (bodyweight ? weight >= 0 : weight > 0);
     if (!validWeight || !Number.isFinite(reps) || reps <= 0) {
-      Alert.alert('Datos inválidos', 'Introduce un peso y unas repeticiones válidas.');
+      Alert.alert(
+        'Datos inválidos',
+        timed
+          ? 'Introduce un peso y unos segundos válidos.'
+          : 'Introduce un peso y unas repeticiones válidas.',
+      );
       return;
     }
-    const effort = effortMode === 'off' ? undefined : rir;
+    const effort = showEffort ? rir : undefined;
     if (editing) {
       onUpdateSet(editing.id, weight, reps, effort);
       stopEdit();
@@ -280,9 +312,9 @@ export default function ExerciseCard({
           <Text style={styles.collapsedSets} numberOfLines={1}>
             {loggedSets.length > 0
               ? loggedSets
-                  .map(set => `${formatLoad(set.weight, bodyweight)}×${set.reps}`)
+                  .map(set => formatSet(set.weight, set.reps, bodyweight, timed))
                   .join(' · ')
-              : `${slot.targetSets} × ${slot.targetRepsMin}-${slot.targetRepsMax}`}
+              : `${slot.targetSets} × ${slot.targetRepsMin}-${slot.targetRepsMax}${unit}`}
           </Text>
         </View>
       ) : (
@@ -307,6 +339,7 @@ export default function ExerciseCard({
               <View style={styles.targetRow}>
                 <Text style={styles.targetText}>
                   {slot.targetSets} × {slot.targetRepsMin}-{slot.targetRepsMax}
+                  {unit}
                 </Text>
                 <View style={[styles.donePill, isComplete && styles.donePillComplete]}>
                   <Text style={[styles.donePillText, isComplete && styles.donePillTextComplete]}>
@@ -340,8 +373,9 @@ export default function ExerciseCard({
                         Descarga: baja a {loadText(suggested.weight)} ·{' '}
                       </Text>
                     ) : null}
-                    Última vez: {loadText(suggested.previous.weight)} ×{' '}
-                    {suggested.previous.reps.join(' · ')}
+                    Última vez: {loadText(suggested.previous.weight)}
+                    {timed ? ' · ' : ' × '}
+                    {suggested.previous.reps.map(reps => formatReps(reps, timed)).join(' · ')}
                     {suggested.increase
                       ? suggested.reason === 'easy'
                         ? ' · te sobraban reps'
@@ -349,8 +383,11 @@ export default function ExerciseCard({
                       : suggested.deload
                       ? ` · ${suggested.deload.stalls} sesiones sin progresar con este peso`
                       : suggested.atTop
-                      ? ` · ya llegas a ${slot.targetRepsMax}: añade lastre o una variante más dura`
-                      : ` · intenta llegar a ${slot.targetRepsMax} en todas`}
+                      ? ` · ya llegas a ${formatReps(
+                          slot.targetRepsMax,
+                          timed,
+                        )}: añade lastre o una variante más dura`
+                      : ` · intenta llegar a ${formatReps(slot.targetRepsMax, timed)} en todas`}
                   </Text>
                 </View>
               )}
@@ -399,10 +436,12 @@ export default function ExerciseCard({
                         accessibilityLabel={`Corregir la serie ${set.setNumber}`}
                       >
                         <Text style={styles.setRowText}>
-                          <Text style={styles.setRowStrong}>{loadText(set.weight)}</Text> ×{' '}
-                          <Text style={styles.setRowStrong}>{set.reps}</Text> reps
+                          <Text style={styles.setRowStrong}>{loadText(set.weight)}</Text>
+                          {timed ? ' · ' : ' × '}
+                          <Text style={styles.setRowStrong}>{formatReps(set.reps, timed)}</Text>
+                          {timed ? '' : ' reps'}
                           {set.perSide ? ' por lado' : ''}
-                          {set.rir !== undefined && effortMode !== 'off' && (
+                          {set.rir !== undefined && showEffort && (
                             <Text style={[styles.setEffort, set.rir <= 0 && styles.setEffortHard]}>
                               {'  ·  '}
                               {effortLabel(set.rir, effortMode)}
@@ -438,7 +477,7 @@ export default function ExerciseCard({
             <Text style={styles.editHint}>Toca una serie para corregirla.</Text>
           ) : null}
 
-          {effortMode !== 'off' && (
+          {showEffort && (
             <View style={styles.effortBlock}>
               <View style={styles.effortHeader}>
                 <Text style={styles.inputLabel}>
@@ -514,17 +553,41 @@ export default function ExerciseCard({
               </View>
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputLabel}>{unilateral ? 'Reps por lado' : 'Reps'}</Text>
-              <TextInput
-                value={repsText}
-                onChangeText={setRepsText}
-                onFocus={onInputFocus}
-                placeholder={unilateral ? 'por lado' : 'reps'}
-                placeholderTextColor={colors.muted}
-                keyboardType="number-pad"
-                returnKeyType="done"
-                style={styles.setInput}
-              />
+              <Text style={styles.inputLabel}>
+                {timed ? 'Segundos' : 'Reps'}
+                {unilateral ? ' por lado' : ''}
+              </Text>
+              <View style={styles.weightRow}>
+                <TextInput
+                  value={repsText}
+                  onChangeText={text => {
+                    setStopwatchStart(null);
+                    setRepsText(text);
+                  }}
+                  onFocus={onInputFocus}
+                  placeholder={timed ? 'seg' : unilateral ? 'por lado' : 'reps'}
+                  placeholderTextColor={colors.muted}
+                  keyboardType="number-pad"
+                  returnKeyType="done"
+                  style={[styles.setInput, styles.repsInput]}
+                />
+                {timed && (
+                  <TouchableOpacity
+                    style={[styles.stackButton, stopwatchStart !== null && styles.stopwatchRunning]}
+                    onPress={toggleStopwatch}
+                    activeOpacity={0.8}
+                    accessibilityLabel={
+                      stopwatchStart === null ? 'Empezar a cronometrar' : 'Parar el cronómetro'
+                    }
+                  >
+                    {stopwatchStart === null ? (
+                      <TimerIcon size={18} color={colors.accent} />
+                    ) : (
+                      <StopIcon size={14} color={colors.onAccent} strokeWidth={3} />
+                    )}
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
             <TouchableOpacity
               style={styles.addSetButton}
@@ -732,6 +795,7 @@ const styles = StyleSheet.create({
   plateHint: { color: colors.accent, fontSize: 12.5, fontWeight: '700', marginTop: -4 },
   weightRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   weightInput: { flex: 1, textAlign: 'center' },
+  repsInput: { flex: 1 },
   stackButton: {
     width: 30,
     height: 44,
@@ -741,6 +805,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stackButtonText: { color: colors.accent, fontSize: 18, fontWeight: '800' },
+  stopwatchRunning: { backgroundColor: colors.accent },
   setEffort: { color: colors.muted, fontWeight: '700', fontSize: 12.5 },
   setEffortHard: { color: colors.danger },
   effortBlock: { gap: 6 },

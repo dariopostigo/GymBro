@@ -1,5 +1,6 @@
+import { isTimed } from '../data/exerciseCatalog';
 import type { SetEntry, WorkoutSession } from '../types/session';
-import { formatWeight } from './progression';
+import { formatSeconds, formatWeight } from './progression';
 import { estimatedOneRepMax, sessionVolume, setVolume } from './stats';
 
 /** Cómo fue un ejercicio respecto a la última vez que se hizo (por volumen). */
@@ -16,9 +17,10 @@ export interface PersonalRecord {
   exerciseId: number;
   /**
    * `weight`: más kilos que nunca; `orm`: mejor 1RM estimado sin superar el peso;
-   * `reps`: más repeticiones con el peso del cuerpo y sin lastre (ahí no hay 1RM).
+   * `reps`: más repeticiones con el peso del cuerpo y sin lastre (ahí no hay 1RM);
+   * `time`: en los ejercicios por tiempo, más segundos con el mismo peso.
    */
-  kind: 'weight' | 'orm' | 'reps';
+  kind: 'weight' | 'orm' | 'reps' | 'time';
   value: number;
   previous: number;
 }
@@ -41,12 +43,16 @@ export interface WorkoutSummary {
 
 type Lift = Pick<SetEntry, 'weight' | 'reps' | 'perSide'>;
 
-const exerciseVolume = (sets: Lift[]) => sets.reduce((total, set) => total + setVolume(set), 0);
+const exerciseVolume = (sets: SetEntry[]) => sets.reduce((total, set) => total + setVolume(set), 0);
+
+/** Con qué se mide si un ejercicio fue a más: el volumen o, si va por tiempo, los segundos. */
+const exerciseWork = (exerciseId: number, sets: SetEntry[]) =>
+  isTimed(exerciseId) ? sets.reduce((total, set) => total + set.reps, 0) : exerciseVolume(sets);
 
 /**
  * Si `sets` superan la mejor marca de `history`: primero por kilos y, sin
  * superarlos, por 1RM estimado. La primera vez que se hace un ejercicio no
- * hay marca que batir.
+ * hay marca que batir. Por tiempo no hay 1RM: con los mismos kilos, más segundos.
  */
 function beatsRecord(exerciseId: number, sets: Lift[], history: Lift[]): PersonalRecord | null {
   if (!history.length) return null;
@@ -55,11 +61,15 @@ function beatsRecord(exerciseId: number, sets: Lift[], history: Lift[]): Persona
   if (bestWeight > previousWeight) {
     return { exerciseId, kind: 'weight', value: bestWeight, previous: previousWeight };
   }
-  if (bestWeight === 0 && previousWeight === 0) {
-    const bestReps = Math.max(...sets.map(set => set.reps));
-    const previousReps = Math.max(...history.map(set => set.reps));
+  const timed = isTimed(exerciseId);
+  if (timed || (bestWeight === 0 && previousWeight === 0)) {
+    if (bestWeight < previousWeight) return null;
+    const repsAt = (lifts: Lift[]) =>
+      Math.max(...lifts.filter(set => set.weight === bestWeight).map(set => set.reps));
+    const bestReps = repsAt(sets);
+    const previousReps = repsAt(history);
     return bestReps > previousReps
-      ? { exerciseId, kind: 'reps', value: bestReps, previous: previousReps }
+      ? { exerciseId, kind: timed ? 'time' : 'reps', value: bestReps, previous: previousReps }
       : null;
   }
   const bestOrm = Math.max(...sets.map(set => estimatedOneRepMax(set.weight, set.reps)));
@@ -95,9 +105,10 @@ export function liveRecords(
   return records;
 }
 
-/** "85 kg (antes 82,5)", "1RM est. 98 kg (antes 95)" o "15 reps (antes 12)". */
+/** "85 kg (antes 82,5)", "1RM est. 98 kg (antes 95)", "15 reps (antes 12)" o "1:10 (antes 55 s)". */
 export function describeRecord({ kind, value, previous }: PersonalRecord): string {
   if (kind === 'reps') return `${value} reps (antes ${previous})`;
+  if (kind === 'time') return `${formatSeconds(value)} (antes ${formatSeconds(previous)})`;
   return kind === 'weight'
     ? `${formatWeight(value)} kg (antes ${formatWeight(previous)})`
     : `1RM est. ${value} kg (antes ${previous})`;
@@ -124,11 +135,15 @@ export function buildWorkoutSummary(
 
   for (const [exerciseId, sets] of byExercise) {
     const volume = exerciseVolume(sets);
+    const work = exerciseWork(exerciseId, sets);
     const lastTime = earlier.find(s => s.sets.some(set => set.exerciseId === exerciseId));
     let trend: ExerciseTrend = 'new';
     if (lastTime) {
-      const before = exerciseVolume(lastTime.sets.filter(set => set.exerciseId === exerciseId));
-      trend = volume > before ? 'up' : volume < before ? 'down' : 'same';
+      const before = exerciseWork(
+        exerciseId,
+        lastTime.sets.filter(set => set.exerciseId === exerciseId),
+      );
+      trend = work > before ? 'up' : work < before ? 'down' : 'same';
     }
     exercises.push({
       exerciseId,

@@ -201,3 +201,24 @@ export function formatLoad(weight: number, bodyweight: boolean): string {
   if (!bodyweight) return formatWeight(weight);
   return weight > 0 ? `PC+${formatWeight(weight)}` : 'PC';
 }
+
+/** Segundos de una serie por tiempo: "45 s" o, desde el minuto, "1:30". */
+export function formatSeconds(seconds: number): string {
+  if (seconds < 60) return `${seconds} s`;
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+}
+
+/** Reps de una serie o, si el ejercicio va por tiempo, sus segundos. */
+export function formatReps(reps: number, timed: boolean): string {
+  return timed ? formatSeconds(reps) : String(reps);
+}
+
+/**
+ * Una serie en corto: "80×10", "PC+10×8"; por tiempo "PC · 45 s" o "32 · 1:00".
+ * La plancha sin lastre queda en "45 s": "PC" no aporta nada.
+ */
+export function formatSet(weight: number, reps: number, bodyweight: boolean, timed: boolean) {
+  if (!timed) return `${formatLoad(weight, bodyweight)}×${reps}`;
+  const time = formatSeconds(reps);
+  return bodyweight && weight === 0 ? time : `${formatLoad(weight, bodyweight)} · ${time}`;
+}

@@ -2,6 +2,7 @@ import exercisesJson from './exercises.json';
 import exerciseMerges from './exerciseMerges.json';
 import { DEFAULT_BACKUPS } from './exerciseBackups';
 import { BODYWEIGHT_EXERCISES } from './bodyweightExercises';
+import { TIMED_EXERCISES } from './timedExercises';
 import { UNILATERAL_EXERCISES } from './unilateralExercises';
 import type { Exercise } from '../types/exercise';
 
@@ -41,6 +42,30 @@ export function isUnilateral(id: number): boolean {
 /** Con el peso del cuerpo: lo que se apunta es el lastre (ver bodyweightExercises.ts). */
 export function isBodyweight(id: number): boolean {
   return BODYWEIGHT_EXERCISES.has(canonicalExerciseId(id));
+}
+
+/** Se mide en segundos: las reps de cada serie son segundos (ver timedExercises.ts). */
+export function isTimed(id: number): boolean {
+  return TIMED_EXERCISES.has(canonicalExerciseId(id));
+}
+
+/** Rango con el que entra un ejercicio nuevo en un día: 8-12 reps o, por tiempo, 30-60 s. */
+export function defaultRepRange(id: number): { targetRepsMin: number; targetRepsMax: number } {
+  return isTimed(id)
+    ? { targetRepsMin: 30, targetRepsMax: 60 }
+    : { targetRepsMin: 8, targetRepsMax: 12 };
+}
+
+/**
+ * Rango de un hueco al poner otro ejercicio en él: se queda el que había, salvo
+ * que uno vaya por tiempo y el otro no (8-12 segundos no tiene sentido).
+ */
+export function repRangeFor(
+  slot: { exerciseId: number; targetRepsMin: number; targetRepsMax: number },
+  exerciseId: number,
+): { targetRepsMin: number; targetRepsMax: number } {
+  if (isTimed(slot.exerciseId) !== isTimed(exerciseId)) return defaultRepRange(exerciseId);
+  return { targetRepsMin: slot.targetRepsMin, targetRepsMax: slot.targetRepsMax };
 }
 
 /**

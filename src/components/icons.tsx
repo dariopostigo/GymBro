@@ -16,7 +16,9 @@ import {
   Plus,
   Settings,
   SquarePlay,
+  Square,
   Star,
+  Timer,
   TrendingDown,
   TrendingUp,
   Trophy,
@@ -68,6 +70,9 @@ export const CloseIcon = wrap(X);
 /** Sugerencia de subir peso. */
 export const TrendingUpIcon = wrap(TrendingUp);
 export const TrendingDownIcon = wrap(TrendingDown);
+/** Cronómetro de las series por tiempo: arrancarlo y pararlo. */
+export const TimerIcon = wrap(Timer);
+export const StopIcon = wrap(Square);
 /** Récords personales. */
 export const TrophyIcon = wrap(Trophy);
 /** Pantalla de ajustes. */

@@ -10,7 +10,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { useSettings } from '../context/SettingsContext';
 import { presetDay } from '../storage/routineStorage';
-import { defaultBackupId, getExerciseById, primaryMusclesSuffix } from '../data/exerciseCatalog';
+import {
+  defaultBackupId,
+  getExerciseById,
+  isTimed,
+  primaryMusclesSuffix,
+} from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { ChevronIcon } from '../components/icons';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
@@ -92,15 +97,20 @@ export default function DayEditorScreen({ route }: Props) {
     updateSlot(slot.id, { targetSets: clamp(slot.targetSets + delta, 1, 10) });
   };
 
+  // Por tiempo el rango es de segundos: va de 5 en 5 y llega a los 10 minutos.
+  const repsStep = (slot: DayExerciseSlot) => (isTimed(slot.exerciseId) ? 5 : 1);
+
   const changeRepsMin = (slot: DayExerciseSlot, delta: number) => {
+    const step = repsStep(slot);
     updateSlot(slot.id, {
-      targetRepsMin: clamp(slot.targetRepsMin + delta, 1, slot.targetRepsMax),
+      targetRepsMin: clamp(slot.targetRepsMin + delta * step, step, slot.targetRepsMax),
     });
   };
 
   const changeRepsMax = (slot: DayExerciseSlot, delta: number) => {
+    const max = isTimed(slot.exerciseId) ? 600 : 50;
     updateSlot(slot.id, {
-      targetRepsMax: clamp(slot.targetRepsMax + delta, slot.targetRepsMin, 50),
+      targetRepsMax: clamp(slot.targetRepsMax + delta * repsStep(slot), slot.targetRepsMin, max),
     });
   };
 
@@ -226,13 +236,13 @@ export default function DayEditorScreen({ route }: Props) {
                 onIncrease={() => changeSets(item, 1)}
               />
               <Stepper
-                label="Reps min"
+                label={isTimed(item.exerciseId) ? 'Seg. min' : 'Reps min'}
                 value={item.targetRepsMin}
                 onDecrease={() => changeRepsMin(item, -1)}
                 onIncrease={() => changeRepsMin(item, 1)}
               />
               <Stepper
-                label="Reps max"
+                label={isTimed(item.exerciseId) ? 'Seg. max' : 'Reps max'}
                 value={item.targetRepsMax}
                 onDecrease={() => changeRepsMax(item, -1)}
                 onIncrease={() => changeRepsMax(item, 1)}

@@ -8,6 +8,7 @@ App de gimnasio para uso personal, en español y sin conexión: rutinas por día
 - **Hoy**: el día que toca, con la sugerencia de peso de la última vez (sube cuando se llega al tope de reps o el RIR dice que sobró). Desde aquí se apuntan series (con RIR/RPE opcional), se corrigen las ya apuntadas, se cambia un ejercicio solo para hoy o al plan B y se añaden ejercicios extra. Además:
   - Temporizador de descanso automático.
   - Calculadora de discos por lado.
+  - Ejercicios con el peso del cuerpo (se apunta el lastre) y por tiempo (segundos, con cronómetro).
   - Pesos reales de cada máquina.
   - Aviso de récord al momento.
 - **Resumen al terminar**: volumen, comparación con la vez anterior, récords y mapa corporal de lo trabajado.

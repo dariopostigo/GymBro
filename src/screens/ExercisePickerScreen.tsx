@@ -10,8 +10,10 @@ import { useRoutine } from '../context/RoutineContext';
 import {
   CATEGORIES,
   EXERCISES,
+  defaultRepRange,
   getExerciseById,
   primaryMusclesSuffix,
+  repRangeFor,
 } from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
@@ -90,10 +92,11 @@ export default function ExercisePickerScreen({ route }: Props) {
     }
 
     if (params.mode === 'todayAdd') {
+      const { targetRepsMin, targetRepsMax } = defaultRepRange(exercise.id);
       setDayOverride(params.splitId, params.dayId, generateId(), {
         exerciseId: exercise.id,
         targetSets: 3,
-        extra: { repsMin: 8, repsMax: 12 },
+        extra: { repsMin: targetRepsMin, repsMax: targetRepsMax },
       });
       navigation.goBack();
       return;
@@ -109,8 +112,7 @@ export default function ExercisePickerScreen({ route }: Props) {
         exerciseId: exercise.id,
         order: day.exercises.length,
         targetSets: 4,
-        targetRepsMin: 8,
-        targetRepsMax: 12,
+        ...defaultRepRange(exercise.id),
       };
       updateDayExercises(params.splitId, params.dayId, [...day.exercises, newSlot]);
     } else if (params.mode === 'backup') {
@@ -133,6 +135,7 @@ export default function ExercisePickerScreen({ route }: Props) {
             : {
                 ...slot,
                 exerciseId: exercise.id,
+                ...repRangeFor(slot, exercise.id),
                 // Un plan B igual al principal no sirve de nada.
                 backupExerciseId:
                   slot.backupExerciseId === exercise.id ? undefined : slot.backupExerciseId,

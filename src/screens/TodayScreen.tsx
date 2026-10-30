@@ -15,6 +15,8 @@ import {
   defaultBackupId,
   getExerciseById,
   isBodyweight,
+  isTimed,
+  repRangeFor,
   isUnilateral,
 } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
@@ -32,7 +34,7 @@ import { EmptyState, GhostButton, PrimaryButton, ScreenHeader } from '../compone
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
-import { formatLoad, recentSessionSets, suggestNextLoad } from '../utils/progression';
+import { formatLoad, formatSet, recentSessionSets, suggestNextLoad } from '../utils/progression';
 import { liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { barTypeFor, barWeightFor } from '../utils/plates';
 import { colors, radius, shadow, spacing } from '../theme';
@@ -46,6 +48,13 @@ const noop = () => {};
 /** Lo que dura el aviso de "Serie borrada · Deshacer". */
 const UNDO_MS = 5000;
 const NO_RECORDS = new Map<string, PersonalRecord>();
+
+/** "80 kg × 10", "PC × 12" o, por tiempo, "PC · 45 s". */
+function describeDeleted({ exerciseId, weight, reps }: SetEntry): string {
+  const bodyweight = isBodyweight(exerciseId);
+  if (isTimed(exerciseId)) return formatSet(weight, reps, bodyweight, true);
+  return `${formatLoad(weight, bodyweight)}${weight > 0 ? ' kg' : ''} × ${reps}`;
+}
 
 export default function TodayScreen() {
   const bottomSpace = useTabScreenBottomSpace();
@@ -122,9 +131,12 @@ export default function TodayScreen() {
       .map(slot => {
         const override = overrides[slot.id];
         if (!override) return slot;
+        const exerciseId = override.exerciseId ?? slot.exerciseId;
         return {
           ...slot,
-          exerciseId: override.exerciseId ?? slot.exerciseId,
+          exerciseId,
+          // Cambiado hoy por uno que va por tiempo (o al revés): el rango de la plantilla no vale.
+          ...repRangeFor(slot, exerciseId),
           targetSets: override.targetSets ?? slot.targetSets,
         };
       });
@@ -305,6 +317,7 @@ export default function TodayScreen() {
           weights={weights}
           unilateral={isUnilateral(item.exerciseId)}
           bodyweight={bodyweight}
+          timed={isTimed(item.exerciseId)}
           loading={loading}
           onAddSet={(weight, reps, rir) => {
             startRest(settings.autoRest ? restForSlot(item) : undefined);
@@ -418,11 +431,7 @@ export default function TodayScreen() {
         <View style={[styles.undoWrapper, { bottom: floatingBottom }]} pointerEvents="box-none">
           <FadeInView offset={12} duration={200}>
             <View style={[styles.undoBar, shadow.card]}>
-              <Text style={styles.undoText}>
-                Serie borrada ·{' '}
-                {formatLoad(deleted.set.weight, isBodyweight(deleted.set.exerciseId))}
-                {deleted.set.weight > 0 ? ' kg' : ''} × {deleted.set.reps}
-              </Text>
+              <Text style={styles.undoText}>Serie borrada · {describeDeleted(deleted.set)}</Text>
               <TouchableOpacity onPress={undoDelete} hitSlop={10} activeOpacity={0.7}>
                 <Text style={styles.undoAction}>Deshacer</Text>
               </TouchableOpacity>

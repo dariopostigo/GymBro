@@ -3,12 +3,12 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSession } from '../context/SessionContext';
-import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight, isTimed } from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { CheckIcon, DumbbellIcon, TrophyIcon } from '../components/icons';
 import { Card, EmptyState, GhostButton, Overline, PrimaryButton, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
-import { formatLoad } from '../utils/progression';
+import { formatSet } from '../utils/progression';
 import { dayKey, formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
 import {
   buildWorkoutSummary,
@@ -139,14 +139,20 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
                     </Text>
                     <Text style={styles.exerciseSets}>
                       {exercise.sets
-                        .map(
-                          set =>
-                            `${formatLoad(set.weight, isBodyweight(exercise.exerciseId))}×${
-                              set.reps
-                            }`,
+                        .map(set =>
+                          formatSet(
+                            set.weight,
+                            set.reps,
+                            isBodyweight(exercise.exerciseId),
+                            isTimed(exercise.exerciseId),
+                          ),
                         )
                         .join(' · ')}
-                      {exercise.sets.some(set => set.perSide) ? ' (reps por lado)' : ''}
+                      {exercise.sets.some(set => set.perSide)
+                        ? isTimed(exercise.exerciseId)
+                          ? ' (por lado)'
+                          : ' (reps por lado)'
+                        : ''}
                     </Text>
                   </View>
                   {/* Un récord manda sobre la flecha, que solo mira el volumen: más kilos

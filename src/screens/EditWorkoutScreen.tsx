@@ -12,13 +12,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
-import { getExerciseById, isBodyweight, isUnilateral } from '../data/exerciseCatalog';
+import { getExerciseById, isBodyweight, isTimed, isUnilateral } from '../data/exerciseCatalog';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { CheckIcon, ChevronIcon, CloseIcon } from '../components/icons';
 import { Card, Chip, EmptyState, GhostButton, Overline } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import type { SetEntry, WorkoutSession } from '../types/session';
-import { formatLoad, formatWeight } from '../utils/progression';
+import { formatLoad, formatReps, formatWeight } from '../utils/progression';
 import { dayKey, formatFullDate } from '../utils/stats';
 import { colors, overline, radius, spacing } from '../theme';
 
@@ -50,14 +50,16 @@ function groupByExercise(session: WorkoutSession): ExerciseGroup[] {
 
 const parseWeight = (text: string) => parseFloat(text.replace(',', '.'));
 
-/** Peso y reps de una serie: para corregir una o para añadir otra. */
+/** Peso y reps (o segundos) de una serie: para corregir una o para añadir otra. */
 function SetForm({
   bodyweight,
+  timed,
   initial,
   onSave,
   onCancel,
 }: {
   bodyweight: boolean;
+  timed: boolean;
   initial?: { weight: number; reps: number };
   onSave: (weight: number, reps: number) => void;
   onCancel: () => void;
@@ -72,7 +74,12 @@ function SetForm({
     const reps = parseInt(repsText, 10);
     const validWeight = Number.isFinite(weight) && (bodyweight ? weight >= 0 : weight > 0);
     if (!validWeight || !Number.isFinite(reps) || reps <= 0) {
-      Alert.alert('Datos inválidos', 'Introduce un peso y unas repeticiones válidas.');
+      Alert.alert(
+        'Datos inválidos',
+        timed
+          ? 'Introduce un peso y unos segundos válidos.'
+          : 'Introduce un peso y unas repeticiones válidas.',
+      );
       return;
     }
     onSave(weight, reps);
@@ -89,16 +96,16 @@ function SetForm({
         style={styles.input}
         accessibilityLabel={bodyweight ? 'Lastre en kilos' : 'Peso en kilos'}
       />
-      <Text style={styles.formTimes}>×</Text>
+      <Text style={styles.formTimes}>{timed ? '·' : '×'}</Text>
       <TextInput
         value={repsText}
         onChangeText={setRepsText}
-        placeholder="reps"
+        placeholder={timed ? 'seg' : 'reps'}
         placeholderTextColor={colors.muted}
         keyboardType="number-pad"
         style={styles.input}
         autoFocus={!initial}
-        accessibilityLabel="Repeticiones"
+        accessibilityLabel={timed ? 'Segundos' : 'Repeticiones'}
       />
       <TouchableOpacity
         style={styles.saveButton}
@@ -265,6 +272,7 @@ export default function EditWorkoutScreen({ route, navigation }: Props) {
   const renderExercise = (exerciseId: number, sets: SetEntry[], group?: ExerciseGroup) => {
     const exercise = getExerciseById(exerciseId);
     const bodyweight = isBodyweight(exerciseId);
+    const timed = isTimed(exerciseId);
     const adding = editing && 'addTo' in editing && editing.addTo === exerciseId;
     const last = sets[sets.length - 1];
     return (
@@ -289,6 +297,7 @@ export default function EditWorkoutScreen({ route, navigation }: Props) {
             <SetForm
               key={set.id}
               bodyweight={bodyweight}
+              timed={timed}
               initial={set}
               onSave={(weight, reps) => {
                 updateSet(session.id, set.id, { weight, reps, rir: set.rir });
@@ -309,8 +318,11 @@ export default function EditWorkoutScreen({ route, navigation }: Props) {
               >
                 <Text style={styles.setText}>
                   <Text style={styles.setStrong}>{formatLoad(set.weight, bodyweight)}</Text>
-                  {set.weight > 0 ? ' kg' : ''} × <Text style={styles.setStrong}>{set.reps}</Text>{' '}
-                  reps{set.perSide ? ' por lado' : ''}
+                  {set.weight > 0 ? ' kg' : ''}
+                  {timed ? ' · ' : ' × '}
+                  <Text style={styles.setStrong}>{formatReps(set.reps, timed)}</Text>
+                  {timed ? '' : ' reps'}
+                  {set.perSide ? ' por lado' : ''}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -327,6 +339,7 @@ export default function EditWorkoutScreen({ route, navigation }: Props) {
         {adding ? (
           <SetForm
             bodyweight={bodyweight}
+            timed={timed}
             initial={last && { weight: last.weight, reps: last.reps }}
             onSave={(weight, reps) => addSet(exerciseId, weight, reps)}
             onCancel={() => setEditing(null)}
