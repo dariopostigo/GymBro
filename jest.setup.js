@@ -43,6 +43,11 @@ jest.mock('react-native/Libraries/Animated/Animated', () => {
   return { __esModule: true, default: { ...actual, ...mocked } };
 });
 
+jest.mock('react-native-bootsplash', () => ({
+  hide: jest.fn(() => Promise.resolve()),
+  isVisible: jest.fn(() => false),
+}));
+
 // Módulos nativos de la copia de seguridad: en Jest solo hace falta que importen.
 jest.mock('@dr.pogodin/react-native-fs', () => ({
   CachesDirectoryPath: '/cache',

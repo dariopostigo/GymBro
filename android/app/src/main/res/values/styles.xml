@@ -17,4 +17,12 @@
         <item name="android:backgroundDimAmount">0.7</item>
     </style>
 
+    <!-- Splash de arranque (react-native-bootsplash, `npm run generate:splash`): fondo oscuro
+         con la mancuerna hasta que la app ha cargado; luego pasa a AppTheme. -->
+    <style name="BootTheme" parent="Theme.BootSplash">
+        <item name="bootSplashBackground">@color/bootsplash_background</item>
+        <item name="bootSplashLogo">@drawable/bootsplash_logo</item>
+        <item name="postBootSplashTheme">@style/AppTheme</item>
+    </style>
+
 </resources>

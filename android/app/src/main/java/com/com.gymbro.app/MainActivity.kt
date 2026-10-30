@@ -5,6 +5,7 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+import com.zoontek.rnbootsplash.RNBootSplash
 
 class MainActivity : ReactActivity() {
 
@@ -23,6 +24,8 @@ class MainActivity : ReactActivity() {
    * https://github.com/software-mansion/react-native-screens/issues/17#issuecomment-424704067
    */
   override fun onCreate(savedInstanceState: Bundle?) {
+    // El splash (BootTheme) se queda hasta que la app lo quita desde JS al tener los datos.
+    RNBootSplash.init(this, R.style.BootTheme)
     super.onCreate(null)
   }
 

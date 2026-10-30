@@ -77,7 +77,7 @@ npm run fix:exercise-images    # fotos
 
 `npm run fetch:exercises` lo descarga todo de nuevo y aplica lo anterior.
 
-Las siluetas del cuerpo ([bodyPaths.ts](src/data/bodyPaths.ts)) vienen de [MuscleMap](https://github.com/melihcolpan/MuscleMap) (MIT) y se regeneran con `scripts/generate-body-paths.js`. El icono se genera con `npm run generate:icon`.
+Las siluetas del cuerpo ([bodyPaths.ts](src/data/bodyPaths.ts)) vienen de [MuscleMap](https://github.com/melihcolpan/MuscleMap) (MIT) y se regeneran con `scripts/generate-body-paths.js`. El icono se genera con `npm run generate:icon`, que deja también la mancuerna sola en `src/assets/splash-logo.png`; con ella, `npm run generate:splash` genera el splash de arranque ([react-native-bootsplash](https://github.com/zoontek/react-native-bootsplash): fondo oscuro con la mancuerna hasta que la app ha cargado los datos).
 
 ## Pendientes
 

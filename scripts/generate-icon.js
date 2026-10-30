@@ -7,6 +7,9 @@
  * simples (rectángulos redondeados con un degradado vertical) a mano con
  * supersampling para el antialiasing, y codifica el PNG con pngjs (puro JS).
  *
+ * También deja en src/assets/splash-logo.png la mancuerna sola (sin fondo), de
+ * la que sale el splash de arranque con `npm run generate:splash`.
+ *
  * Uso: node scripts/generate-icon.js
  */
 
@@ -15,6 +18,7 @@ const path = require('path');
 const { PNG } = require('pngjs');
 
 const RES_DIR = path.join(__dirname, '..', 'android', 'app', 'src', 'main', 'res');
+const SPLASH_LOGO = path.join(__dirname, '..', 'src', 'assets', 'splash-logo.png');
 const SUPERSAMPLE = 4;
 
 // Paleta (coherente con src/theme/colors.ts)
@@ -209,12 +213,16 @@ function main() {
     writePng(foreground, path.join(dir, 'ic_launcher_foreground.png'));
   }
 
+  // Logo del splash: la mancuerna ocupando todo el ancho, sin fondo (lo pone el splash).
+  writePng(renderIcon(512, { background: 'none', dumbbellScale: 1 }), SPLASH_LOGO);
+
   // Icono adaptativo (Android 8.0+): fondo de color + capa de primer plano
   const colorsPath = path.join(RES_DIR, 'values', 'colors.xml');
   fs.writeFileSync(
     colorsPath,
     `<resources>
     <color name="ic_launcher_background">${BACKGROUND_HEX}</color>
+    <color name="bootsplash_background">${BACKGROUND_HEX}</color>
 </resources>
 `,
   );

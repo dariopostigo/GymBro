@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import BootSplash from 'react-native-bootsplash';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
+import { useSession } from '../context/SessionContext';
 import MainWithDrawer from './MainWithDrawer';
 import SplitSelectionScreen from '../screens/SplitSelectionScreen';
 import CreateCustomSplitScreen from '../screens/CreateCustomSplitScreen';
@@ -33,6 +35,14 @@ const navigationTheme = {
 
 export default function RootNavigator() {
   const { loading, activeSplit } = useRoutine();
+  const { loading: sessionsLoading } = useSession();
+  const [navigationReady, setNavigationReady] = useState(false);
+
+  // El splash de arranque se queda hasta que la primera pantalla está montada y con los
+  // entrenos cargados: así no se ven ni el fondo del sistema ni una pantalla a medio llenar.
+  useEffect(() => {
+    if (navigationReady && !sessionsLoading) BootSplash.hide({ fade: true });
+  }, [navigationReady, sessionsLoading]);
 
   if (loading) {
     return (
@@ -43,7 +53,7 @@ export default function RootNavigator() {
   }
 
   return (
-    <NavigationContainer theme={navigationTheme}>
+    <NavigationContainer theme={navigationTheme} onReady={() => setNavigationReady(true)}>
       <Stack.Navigator
         initialRouteName={activeSplit ? 'Main' : 'SplitSelection'}
         screenOptions={{
