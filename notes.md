@@ -32,6 +32,8 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Series por grupo muscular a la semana** en Progreso: mapa de calor sobre la silueta y barras con la franja 10-20 y el cambio respecto a la semana pasada (1 serie por principal, 0,5 por secundario).
+
 - [x] **Siluetas de MuscleMap** (MIT, `scripts/generate-body-paths.js` → `src/data/bodyPaths.ts`) en los iconos de categoría y **mapa corporal por sesión** en Inicio y en cada día de la rutina (principal / secundario).
 
 - [x] **Ficha del ejercicio** en la pantalla del ejercicio (biblioteca y reloj de Hoy): cómo se hace, músculos, equipamiento y plan B, que abre su propia ficha.
@@ -43,7 +45,6 @@
 
 ## Muy útil
 
-- [ ] **Series por grupo muscular a la semana** en Progreso, para ver qué músculos se quedan cortos.
 - [ ] **Añadir un ejercicio solo para hoy** desde la pestaña Hoy (ahora solo se puede cambiar uno por otro).
 
 ## Ideas sacadas de openGym

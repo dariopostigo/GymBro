@@ -14,21 +14,29 @@ export interface BodyPalette {
   secondary: string;
 }
 
+const NO_LEVELS: ReadonlyMap<string, MuscleLevel> = new Map();
+
 const DEFAULT_PALETTE: BodyPalette = {
   base: colors.surfaceHigh,
   primary: colors.accent,
   secondary: colors.accentDim,
 };
 
-/** Una cara del cuerpo (de frente o de espaldas) con las partes indicadas encendidas. */
+/**
+ * Una cara del cuerpo (de frente o de espaldas) con las partes indicadas
+ * encendidas. `fills` da un color propio a cada parte (mapa de calor) y manda
+ * sobre `levels`.
+ */
 export const BodyFigure = memo(function BodyFigureView({
   side,
-  levels,
+  levels = NO_LEVELS,
+  fills,
   height,
   palette = DEFAULT_PALETTE,
 }: {
   side: BodySide;
-  levels: ReadonlyMap<string, MuscleLevel>;
+  levels?: ReadonlyMap<string, MuscleLevel>;
+  fills?: ReadonlyMap<string, string>;
   height: number;
   palette?: BodyPalette;
 }) {
@@ -36,7 +44,7 @@ export const BodyFigure = memo(function BodyFigureView({
     <Svg width={height * ASPECT} height={height} viewBox={BODY_VIEW_BOXES[side]}>
       {BODY_PARTS[side].flatMap(part => {
         const level = levels.get(part.slug);
-        const fill = level ? palette[level] : palette.base;
+        const fill = fills?.get(part.slug) ?? (level ? palette[level] : palette.base);
         return part.paths.map((d, index) => (
           <Path key={`${part.slug}-${index}`} d={d} fill={fill} />
         ));
@@ -76,6 +84,34 @@ export function BodyMap({
           </View>
         </View>
       )}
+    </View>
+  );
+}
+
+const hexToRgb = (hex: string) => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+
+/** Color entre la silueta apagada (0) y el amarillo de la app (1). */
+export function heatColor(intensity: number): string {
+  const from = hexToRgb(DEFAULT_PALETTE.base);
+  const to = hexToRgb(DEFAULT_PALETTE.primary);
+  const t = Math.min(Math.max(intensity, 0), 1);
+  const [r, g, b] = from.map((value, i) => Math.round(value + (to[i] - value) * t));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+/** Las dos caras del cuerpo pintadas por intensidad (0-1) de cada parte. */
+export function BodyHeatMap({
+  heat,
+  height,
+}: {
+  heat: ReadonlyMap<string, number>;
+  height: number;
+}) {
+  const fills = new Map([...heat].map(([part, intensity]) => [part, heatColor(intensity)]));
+  return (
+    <View style={styles.figures}>
+      <BodyFigure side="front" fills={fills} height={height} />
+      <BodyFigure side="back" fills={fills} height={height} />
     </View>
   );
 }

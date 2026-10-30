@@ -12,6 +12,7 @@ import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
 import TrendLine, { type TrendPoint } from '../components/TrendLine';
+import WeeklyMusclesCard from '../components/WeeklyMusclesCard';
 import { ChevronIcon } from '../components/icons';
 import { Card, EmptyState, Overline, ScreenHeader, StatTile } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
@@ -166,6 +167,8 @@ export default function ProgressScreen() {
                 <TrendLine points={trendPoints} style={styles.trendOverlay} />
               </View>
             </Card>
+
+            <WeeklyMusclesCard sessions={sessions} />
 
             {recent.length > 0 ? (
               <>
