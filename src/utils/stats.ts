@@ -1,4 +1,4 @@
-import type { WorkoutSession } from '../types/session';
+import type { SetEntry, WorkoutSession } from '../types/session';
 
 /** La semana empieza en lunes: el índice 0 es L y el 6 es D. */
 const WEEKDAY_LABELS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
@@ -16,8 +16,13 @@ export function dayKey(date: Date | string): string {
   ).padStart(2, '0')}`;
 }
 
+/** Kilos movidos en una serie; las series por lado cuentan los dos lados. */
+export function setVolume(set: Pick<SetEntry, 'weight' | 'reps' | 'perSide'>): number {
+  return set.weight * set.reps * (set.perSide ? 2 : 1);
+}
+
 export function sessionVolume(session: WorkoutSession): number {
-  return session.sets.reduce((total, set) => total + set.weight * set.reps, 0);
+  return session.sets.reduce((total, set) => total + setVolume(set), 0);
 }
 
 /**

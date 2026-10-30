@@ -19,7 +19,7 @@ import type { ExerciseHistoryEntry } from '../types/session';
 import { colors, radius, spacing } from '../theme';
 import { effortLabel } from '../utils/effort';
 import { formatWeight } from '../utils/progression';
-import { estimatedOneRepMax, formatFullDate, formatShortDate } from '../utils/stats';
+import { estimatedOneRepMax, formatFullDate, formatShortDate, setVolume } from '../utils/stats';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ExerciseHistory'>;
 
@@ -371,14 +371,15 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                       <Text style={styles.tableRowStrong}>{formatWeight(set.weight)}</Text> kg
                     </Text>
                     <Text style={styles.tableRowText}>
-                      <Text style={styles.tableRowStrong}>{set.reps}</Text> reps
+                      <Text style={styles.tableRowStrong}>{set.reps}</Text>{' '}
+                      {set.perSide ? 'reps/lado' : 'reps'}
                     </Text>
                     {set.rir !== undefined && settings.effortMode !== 'off' && (
                       <Text style={styles.tableRowEffort}>
                         {effortLabel(set.rir, settings.effortMode)}
                       </Text>
                     )}
-                    <Text style={styles.tableRowVolume}>{formatWeight(set.weight * set.reps)} kg vol.</Text>
+                    <Text style={styles.tableRowVolume}>{formatWeight(setVolume(set))} kg vol.</Text>
                   </View>
                 ))}
               </Card>

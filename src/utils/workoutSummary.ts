@@ -1,13 +1,13 @@
 import type { SetEntry, WorkoutSession } from '../types/session';
 import { formatWeight } from './progression';
-import { estimatedOneRepMax, sessionVolume } from './stats';
+import { estimatedOneRepMax, sessionVolume, setVolume } from './stats';
 
 /** Cómo fue un ejercicio respecto a la última vez que se hizo (por volumen). */
 export type ExerciseTrend = 'up' | 'down' | 'same' | 'new';
 
 export interface ExerciseResult {
   exerciseId: number;
-  sets: Pick<SetEntry, 'weight' | 'reps'>[];
+  sets: Pick<SetEntry, 'weight' | 'reps' | 'perSide'>[];
   volume: number;
   trend: ExerciseTrend;
 }
@@ -36,10 +36,9 @@ export interface WorkoutSummary {
   comparison?: DayComparison;
 }
 
-type Lift = Pick<SetEntry, 'weight' | 'reps'>;
+type Lift = Pick<SetEntry, 'weight' | 'reps' | 'perSide'>;
 
-const exerciseVolume = (sets: Lift[]) =>
-  sets.reduce((total, set) => total + set.weight * set.reps, 0);
+const exerciseVolume = (sets: Lift[]) => sets.reduce((total, set) => total + setVolume(set), 0);
 
 /**
  * Si `sets` superan la mejor marca de `history`: primero por kilos y, sin
@@ -122,7 +121,7 @@ export function buildWorkoutSummary(
     }
     exercises.push({
       exerciseId,
-      sets: sets.map(({ weight, reps }) => ({ weight, reps })),
+      sets: sets.map(({ weight, reps, perSide }) => ({ weight, reps, perSide })),
       volume,
       trend,
     });

@@ -20,7 +20,7 @@ import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { useSettings } from '../context/SettingsContext';
 import { useWeightStacks } from '../context/WeightStacksContext';
-import { defaultBackupId, getExerciseById } from '../data/exerciseCatalog';
+import { defaultBackupId, getExerciseById, isUnilateral } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { getExerciseMediaSources } from '../utils/exerciseImages';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
@@ -100,6 +100,8 @@ interface ExerciseCardProps {
   effortMode: EffortMode;
   /** Pesos reales de la máquina, si se han configurado: el peso sube y baja por ellos. */
   weights?: number[];
+  /** Ejercicio a un lado cada vez: las reps se apuntan por lado. */
+  unilateral: boolean;
   /** Con qué se carga (barra, Smith, máquina de discos), para decir qué discos poner. */
   loading?: { type: BarType; bar: number; plates: number[] };
   onAddSet: (weight: number, reps: number, rir?: number) => void;
@@ -121,6 +123,7 @@ function ExerciseCard({
   planB,
   effortMode,
   weights,
+  unilateral,
   loading,
   onAddSet,
   onRemoveSet,
@@ -349,6 +352,7 @@ function ExerciseCard({
                         <Text style={styles.setRowText}>
                           <Text style={styles.setRowStrong}>{formatWeight(set.weight)}</Text> kg ×{' '}
                           <Text style={styles.setRowStrong}>{set.reps}</Text> reps
+                          {set.perSide ? ' por lado' : ''}
                           {set.rir !== undefined && effortMode !== 'off' && (
                             <Text style={[styles.setEffort, set.rir <= 0 && styles.setEffortHard]}>
                               {'  ·  '}
@@ -470,12 +474,12 @@ function ExerciseCard({
               </View>
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputLabel}>Reps</Text>
+              <Text style={styles.inputLabel}>{unilateral ? 'Reps por lado' : 'Reps'}</Text>
               <TextInput
                 value={repsText}
                 onChangeText={setRepsText}
                 onFocus={onInputFocus}
-                placeholder="reps"
+                placeholder={unilateral ? 'por lado' : 'reps'}
                 placeholderTextColor={colors.muted}
                 keyboardType="number-pad"
                 returnKeyType="done"
@@ -684,6 +688,7 @@ export default function TodayScreen() {
           planB={planB}
           effortMode={settings.effortMode}
           weights={weights}
+          unilateral={isUnilateral(item.exerciseId)}
           loading={loading}
           onAddSet={(weight, reps, rir) => {
             startRest(settings.autoRest ? restForSlot(item) : undefined);
@@ -697,6 +702,7 @@ export default function TodayScreen() {
               weight,
               reps,
               rir,
+              perSide: isUnilateral(item.exerciseId),
             });
           }}
           onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}

@@ -13,6 +13,7 @@ interface AddSetParams {
   weight: number;
   reps: number;
   rir?: number;
+  perSide?: boolean;
 }
 
 interface SessionContextValue {
@@ -76,6 +77,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
             weight: params.weight,
             reps: params.reps,
             ...(params.rir !== undefined && { rir: params.rir }),
+            ...(params.perSide && { perSide: true }),
           },
         ],
       };

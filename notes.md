@@ -32,6 +32,8 @@
 
 - [x] **Plan B por defecto en todos los ejercicios** (`src/data/exerciseBackups.ts`): se usa cuando el hueco no tiene uno elegido a mano. Un test obliga a que cada ejercicio nuevo del catálogo tenga el suyo.
 
+- [x] **Repeticiones por lado** en 57 ejercicios a un lado (`src/data/unilateralExercises.ts`): se apuntan "por lado", el volumen cuenta los dos lados y una serie sigue siendo una serie para el músculo. Solo afecta a las series nuevas.
+
 - [x] **Calculadora de discos** en Hoy para barra, barra Z, Smith y máquinas de discos ("Por lado: 25 · 5 · 1,25"); discos y peso de cada barra en Ajustes → Discos y barras.
 
 - [x] **Pesos reales de cada máquina** (ficha del ejercicio → "Pesos de la máquina", por saltos fijos o lista a mano): la sugerencia sube al siguiente peso que existe y en Hoy el peso sube y baja por la pila con − / +. Entra en la copia de seguridad. Las máquinas de placas y las poleas traen pesos por defecto aproximados (`src/data/defaultWeightStacks.ts`) que se corrigen en la ficha.
@@ -57,7 +59,6 @@
 
 Solo ideas, reimplementadas: el código de openGym es AGPL y sus animaciones (Gym visual) no se pueden reutilizar. Las siluetas de MuscleMap sí (MIT).
 
-- [ ] **Repeticiones por lado** en zancadas, búlgaras y ejercicios a una mano.
 - [ ] **Drop sets y rest-pause.**
 - [ ] **Superseries** (dos ejercicios alternados con el descanso al final del par).
 

@@ -1,6 +1,7 @@
 import exercisesJson from './exercises.json';
 import exerciseMerges from './exerciseMerges.json';
 import { DEFAULT_BACKUPS } from './exerciseBackups';
+import { UNILATERAL_EXERCISES } from './unilateralExercises';
 import type { Exercise } from '../types/exercise';
 
 export const EXERCISES = exercisesJson as Exercise[];
@@ -29,6 +30,11 @@ export function defaultBackupId(id: number): number | undefined {
   if (backup === undefined) return undefined;
   const resolved = canonicalExerciseId(backup);
   return resolved !== canonical && exercisesById.has(resolved) ? resolved : undefined;
+}
+
+/** Ejercicio a un lado cada vez: las reps se apuntan por lado (ver unilateralExercises.ts). */
+export function isUnilateral(id: number): boolean {
+  return UNILATERAL_EXERCISES.has(canonicalExerciseId(id));
 }
 
 export const CATEGORIES = [...new Set(EXERCISES.map(e => e.category.name))].sort((a, b) =>

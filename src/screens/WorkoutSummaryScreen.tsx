@@ -139,6 +139,7 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
                       {exercise.sets
                         .map(set => `${formatWeight(set.weight)}×${set.reps}`)
                         .join(' · ')}
+                      {exercise.sets.some(set => set.perSide) ? ' (reps por lado)' : ''}
                     </Text>
                   </View>
                   <Text

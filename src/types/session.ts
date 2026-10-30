@@ -9,6 +9,8 @@ export interface SetEntry {
   reps: number;
   /** Repeticiones que quedaban en reserva (RIR). Opcional: solo si se apuntó el esfuerzo. */
   rir?: number;
+  /** Las reps son de cada lado (ejercicio a una mano o a una pierna): el volumen cuenta los dos. */
+  perSide?: boolean;
 }
 
 export interface WorkoutSession {
