@@ -16,6 +16,17 @@ interface AddSetParams {
   perSide?: boolean;
 }
 
+/** Serie añadida a mano a un entreno ya guardado (no lleva hora: no se hizo ahora). */
+export interface PastSetParams {
+  exerciseId: number;
+  positionInSession: number;
+  positionInMuscleGroup?: number;
+  weight: number;
+  reps: number;
+  rir?: number;
+  perSide?: boolean;
+}
+
 interface SessionContextValue {
   loading: boolean;
   sessions: WorkoutSession[];
@@ -31,6 +42,20 @@ interface SessionContextValue {
     values: { weight: number; reps: number; rir?: number },
   ) => void;
   finishSession: (sessionId: string) => void;
+  /** Crea un entreno terminado y vacío en `date`, para apuntar uno hecho sin la app. */
+  createPastSession: (
+    session: Pick<WorkoutSession, 'splitId' | 'splitDayId' | 'dayName' | 'date'>,
+  ) => string;
+  /** Añade una serie a un entreno concreto (uno pasado que se está corrigiendo). */
+  addSetToSession: (sessionId: string, set: PastSetParams) => void;
+  /** Cambia qué día de la rutina fue un entreno. */
+  updateSessionDay: (
+    sessionId: string,
+    day: Pick<WorkoutSession, 'splitId' | 'splitDayId' | 'dayName'>,
+  ) => void;
+  /** Mueve un entreno `days` días (la hora de cada serie se mueve con él). */
+  moveSession: (sessionId: string, days: number) => void;
+  deleteSession: (sessionId: string) => void;
   getEntriesForExercise: (exerciseId: number) => ExerciseHistoryEntry[];
 }
 
@@ -160,6 +185,84 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  // Cambia una sesión y guarda; el resto se queda igual.
+  const editSession = useCallback(
+    (sessionId: string, edit: (session: WorkoutSession) => WorkoutSession) => {
+      setSessions(prev => {
+        const next = prev.map(s => (s.id === sessionId ? edit(s) : s));
+        saveSessions(next);
+        return next;
+      });
+    },
+    [],
+  );
+
+  const createPastSession = useCallback(
+    (session: Pick<WorkoutSession, 'splitId' | 'splitDayId' | 'dayName' | 'date'>) => {
+      const id = generateId();
+      setSessions(prev => {
+        const next = [...prev, { ...session, id, completed: true, sets: [] }];
+        saveSessions(next);
+        return next;
+      });
+      return id;
+    },
+    [],
+  );
+
+  const addSetToSession = useCallback(
+    (sessionId: string, set: PastSetParams) =>
+      editSession(sessionId, s => ({
+        ...s,
+        sets: [
+          ...s.sets,
+          {
+            id: generateId(),
+            exerciseId: set.exerciseId,
+            positionInSession: set.positionInSession,
+            positionInMuscleGroup: set.positionInMuscleGroup,
+            setNumber: s.sets.filter(e => e.exerciseId === set.exerciseId).length + 1,
+            weight: set.weight,
+            reps: set.reps,
+            ...(set.rir !== undefined && { rir: set.rir }),
+            ...(set.perSide && { perSide: true }),
+          },
+        ],
+      })),
+    [editSession],
+  );
+
+  const updateSessionDay = useCallback(
+    (sessionId: string, day: Pick<WorkoutSession, 'splitId' | 'splitDayId' | 'dayName'>) =>
+      editSession(sessionId, s => ({ ...s, ...day })),
+    [editSession],
+  );
+
+  const moveSession = useCallback(
+    (sessionId: string, days: number) => {
+      // Por días de calendario, no por 24 h: así el cambio de hora no descuadra nada.
+      const shift = (iso: string) => {
+        const date = new Date(iso);
+        date.setDate(date.getDate() + days);
+        return date.toISOString();
+      };
+      editSession(sessionId, s => ({
+        ...s,
+        date: shift(s.date),
+        sets: s.sets.map(set => (set.loggedAt ? { ...set, loggedAt: shift(set.loggedAt) } : set)),
+      }));
+    },
+    [editSession],
+  );
+
+  const deleteSession = useCallback((sessionId: string) => {
+    setSessions(prev => {
+      const next = prev.filter(s => s.id !== sessionId);
+      saveSessions(next);
+      return next;
+    });
+  }, []);
+
   const getEntriesForExercise = useCallback(
     (exerciseId: number): ExerciseHistoryEntry[] => {
       const entries: ExerciseHistoryEntry[] = [];
@@ -184,6 +287,11 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     restoreSet,
     updateSet,
     finishSession,
+    createPastSession,
+    addSetToSession,
+    updateSessionDay,
+    moveSession,
+    deleteSession,
     getEntriesForExercise,
   };
 

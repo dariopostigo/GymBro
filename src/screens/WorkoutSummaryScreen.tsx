@@ -6,7 +6,7 @@ import { useSession } from '../context/SessionContext';
 import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
 import FadeInView from '../components/FadeInView';
 import { CheckIcon, DumbbellIcon, TrophyIcon } from '../components/icons';
-import { Card, EmptyState, Overline, PrimaryButton, StatTile } from '../components/ui';
+import { Card, EmptyState, GhostButton, Overline, PrimaryButton, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import { formatLoad } from '../utils/progression';
 import { dayKey, formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
@@ -168,6 +168,13 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
             })}
           </Card>
         </FadeInView>
+
+        {session.completed && (
+          <GhostButton
+            label="Editar entreno"
+            onPress={() => navigation.navigate('EditWorkout', { sessionId: session.id })}
+          />
+        )}
       </ScrollView>
 
       <PrimaryButton label="Hecho" onPress={done} style={styles.doneButton} />

@@ -12,6 +12,7 @@ import ExerciseLibraryScreen from '../screens/ExerciseLibraryScreen';
 import ExerciseHistoryScreen from '../screens/ExerciseHistoryScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import WorkoutSummaryScreen from '../screens/WorkoutSummaryScreen';
+import EditWorkoutScreen from '../screens/EditWorkoutScreen';
 import type { RootStackParamList } from './types';
 import { colors } from '../theme';
 
@@ -99,6 +100,11 @@ export default function RootNavigator() {
           name="WorkoutSummary"
           component={WorkoutSummaryScreen}
           options={{ headerShown: false, presentation: 'modal', animation: 'slide_from_bottom' }}
+        />
+        <Stack.Screen
+          name="EditWorkout"
+          component={EditWorkoutScreen}
+          options={{ title: 'Editar entreno' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -22,9 +22,12 @@ const sessionDayKey = (s: WorkoutSession) => `${s.splitId}:${s.splitDayId}`;
 export default function TrainingCalendarCard({
   sessions,
   onOpenSession,
+  onLogDay,
 }: {
   sessions: WorkoutSession[];
   onOpenSession: (sessionId: string) => void;
+  /** Apuntar un entreno hecho sin la app en un día pasado sin entrenos. */
+  onLogDay?: (date: Date) => void;
 }) {
   const { splits } = useRoutine();
   const now = new Date();
@@ -72,6 +75,15 @@ export default function TrainingCalendarCard({
     legend.find(item => item.key === sessionDayKey(session))?.color ?? colors.accent;
 
   const openDay = (day: CalendarDay) => {
+    if (day.sessions.length === 0) {
+      const date = new Date(shown.year, shown.month, day.day);
+      const label = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+      Alert.alert(`¿Apuntar un entreno el ${label}?`, 'Para uno que hiciste sin la app.', [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Apuntar', onPress: () => onLogDay?.(date) },
+      ]);
+      return;
+    }
     if (day.sessions.length === 1) {
       onOpenSession(day.sessions[0].id);
       return;
@@ -137,7 +149,7 @@ export default function TrainingCalendarCard({
               <TouchableOpacity
                 key={day.key}
                 style={styles.cell}
-                disabled={!trained}
+                disabled={!trained && (day.isFuture || !onLogDay)}
                 onPress={() => openDay(day)}
                 accessibilityLabel={
                   trained

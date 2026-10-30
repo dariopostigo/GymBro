@@ -16,6 +16,8 @@ export type RootStackParamList = {
   ExerciseHistory: { exerciseId: number };
   Settings: undefined;
   WorkoutSummary: { sessionId: string };
+  /** `addExerciseId` lo devuelve el buscador al añadir un ejercicio al entreno. */
+  EditWorkout: { sessionId: string; addExerciseId?: number };
   /** `currentExerciseId` preselecciona el filtro por la categoría del ejercicio que se cambia. */
   ExercisePicker:
     | { mode: 'add'; splitId: string; dayId: string }
@@ -35,6 +37,8 @@ export type RootStackParamList = {
         slotId: string;
         currentExerciseId?: number;
       }
+    /** Añadir un ejercicio a un entreno guardado que se está corrigiendo. */
+    | { mode: 'sessionAdd'; sessionId: string }
     | {
         /** Elegir el plan B de un hueco; `currentExerciseId` es el ejercicio principal. */
         mode: 'backup';

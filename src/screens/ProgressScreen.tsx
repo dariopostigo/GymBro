@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
 import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
 import { useTabScreenBottomSpace } from '../components/RestTimerBar';
@@ -47,7 +48,21 @@ const ExerciseSeparator = () => <View style={styles.separator} />;
 export default function ProgressScreen() {
   const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
-  const { sessions } = useSession();
+  const { sessions, createPastSession } = useSession();
+  const { activeSplit, currentDay } = useRoutine();
+
+  // Entreno hecho sin la app: se crea vacío con el día que toca y se rellena al editarlo.
+  const logPastDay = (date: Date) => {
+    if (!activeSplit || !currentDay) return;
+    date.setHours(18, 0, 0, 0);
+    const sessionId = createPastSession({
+      splitId: activeSplit.id,
+      splitDayId: currentDay.id,
+      dayName: currentDay.name,
+      date: date.toISOString(),
+    });
+    navigation.navigate('EditWorkout', { sessionId });
+  };
 
   const stats = useMemo(() => totalStats(sessions), [sessions]);
   const week = useMemo(() => volumeByWeek(sessions), [sessions]);
@@ -177,6 +192,7 @@ export default function ProgressScreen() {
             <TrainingCalendarCard
               sessions={sessions}
               onOpenSession={sessionId => navigation.navigate('WorkoutSummary', { sessionId })}
+              onLogDay={activeSplit ? logPastDay : undefined}
             />
 
             {recent.length > 0 ? (
@@ -202,7 +218,9 @@ export default function ProgressScreen() {
                           <Text style={styles.sessionVolume}>
                             {formatVolume(sessionVolume(session))} kg
                           </Text>
-                          <Text style={styles.sessionMeta}>{session.sets.length} series</Text>
+                          <Text style={styles.sessionMeta}>
+                            {session.sets.length} {session.sets.length === 1 ? 'serie' : 'series'}
+                          </Text>
                         </View>
                         <ChevronIcon size={16} color={colors.muted} />
                       </TouchableOpacity>

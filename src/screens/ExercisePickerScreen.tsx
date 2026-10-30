@@ -42,7 +42,12 @@ export default function ExercisePickerScreen({ route }: Props) {
 
   // Al cambiar un ejercicio se entra ya filtrado por su categoría (pecho, espalda...).
   const currentCategory = useMemo(() => {
-    if (params.mode === 'add' || params.mode === 'todayAdd' || params.currentExerciseId == null) {
+    if (
+      params.mode === 'add' ||
+      params.mode === 'todayAdd' ||
+      params.mode === 'sessionAdd' ||
+      params.currentExerciseId == null
+    ) {
       return null;
     }
     return getExerciseById(params.currentExerciseId)?.category.name ?? null;
@@ -69,6 +74,15 @@ export default function ExercisePickerScreen({ route }: Props) {
   );
 
   const handleSelect = (exercise: Exercise) => {
+    if (params.mode === 'sessionAdd') {
+      navigation.popTo(
+        'EditWorkout',
+        { sessionId: params.sessionId, addExerciseId: exercise.id },
+        { merge: true },
+      );
+      return;
+    }
+
     if (params.mode === 'today') {
       setDayOverride(params.splitId, params.dayId, params.slotId, { exerciseId: exercise.id });
       navigation.goBack();
