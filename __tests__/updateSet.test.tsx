@@ -50,3 +50,41 @@ test('corregir una serie cambia peso, reps y esfuerzo y lo guarda', async () => 
   expect('rir' in updated).toBe(false);
   expect((await loadSessions())[0].sets[0]).toMatchObject({ weight: 82.5, reps: 7 });
 });
+
+test('deshacer un borrado devuelve la serie a su sitio, con su id y su hora', async () => {
+  const session = await renderSession();
+  for (const reps of [10, 9, 8]) {
+    await ReactTestRenderer.act(async () => {
+      session.current().addSet({
+        splitId: 'ppl',
+        splitDayId: 'push',
+        dayName: 'Empuje',
+        exerciseId: 73,
+        positionInSession: 1,
+        weight: 80,
+        reps,
+      });
+    });
+  }
+  const active = session.current().getActiveSession('ppl', 'push')!;
+  const middle = active.sets[1];
+
+  await ReactTestRenderer.act(async () => {
+    session.current().removeSet(active.id, middle.id);
+  });
+  expect(session.current().getActiveSession('ppl', 'push')!.sets).toHaveLength(2);
+
+  await ReactTestRenderer.act(async () => {
+    session.current().restoreSet(active.id, middle, 1);
+  });
+  const sets = session.current().getActiveSession('ppl', 'push')!.sets;
+  expect(sets.map(s => s.reps)).toEqual([10, 9, 8]);
+  expect(sets[1]).toEqual(middle);
+  expect((await loadSessions())[0].sets.map(s => s.reps)).toEqual([10, 9, 8]);
+
+  // Restaurar dos veces no la duplica.
+  await ReactTestRenderer.act(async () => {
+    session.current().restoreSet(active.id, middle, 1);
+  });
+  expect(session.current().getActiveSession('ppl', 'push')!.sets).toHaveLength(3);
+});

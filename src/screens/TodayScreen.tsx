@@ -19,7 +19,7 @@ import {
 } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
-import { useTabScreenBottomSpace } from '../components/RestTimerBar';
+import { useFloatingBottom, useTabScreenBottomSpace } from '../components/RestTimerBar';
 import { restForSlot } from '../utils/restTimer';
 import ExerciseCard, {
   MAX_SETS,
@@ -31,10 +31,11 @@ import MenuButton from '../components/MenuButton';
 import { EmptyState, GhostButton, PrimaryButton, ScreenHeader } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
-import { recentSessionSets, suggestNextLoad } from '../utils/progression';
+import type { SetEntry } from '../types/session';
+import { formatLoad, recentSessionSets, suggestNextLoad } from '../utils/progression';
 import { liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { barTypeFor, barWeightFor } from '../utils/plates';
-import { colors, radius, spacing } from '../theme';
+import { colors, radius, shadow, spacing } from '../theme';
 
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList, 'Today'>,
@@ -42,6 +43,8 @@ type Nav = CompositeNavigationProp<
 >;
 
 const noop = () => {};
+/** Lo que dura el aviso de "Serie borrada · Deshacer". */
+const UNDO_MS = 5000;
 const NO_RECORDS = new Map<string, PersonalRecord>();
 
 export default function TodayScreen() {
@@ -49,7 +52,8 @@ export default function TodayScreen() {
   const navigation = useNavigation<Nav>();
   const { activeSplit, currentDay, advanceToNextDay, getDayOverrides, setDayOverride } =
     useRoutine();
-  const { getActiveSession, addSet, removeSet, updateSet, finishSession, sessions } = useSession();
+  const { getActiveSession, addSet, removeSet, restoreSet, updateSet, finishSession, sessions } =
+    useSession();
   // Los cambios "solo por hoy" viven en el contexto: sobreviven a remontajes y al cierre de la app.
   const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
   const { settings } = useSettings();
@@ -67,6 +71,34 @@ export default function TodayScreen() {
   useEffect(() => {
     if (!keyboardVisible) setFocusRequest(null);
   }, [keyboardVisible]);
+
+  // Serie recién borrada: se puede recuperar durante unos segundos con "Deshacer".
+  const floatingBottom = useFloatingBottom();
+  const [deleted, setDeleted] = useState<{
+    sessionId: string;
+    set: SetEntry;
+    index: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!deleted) return;
+    const timeout = setTimeout(() => setDeleted(null), UNDO_MS);
+    return () => clearTimeout(timeout);
+  }, [deleted]);
+
+  const deleteSet = (sessionId: string, setEntryId: string) => {
+    const session = sessions.find(s => s.id === sessionId);
+    const index = session?.sets.findIndex(s => s.id === setEntryId) ?? -1;
+    if (!session || index === -1) return;
+    setDeleted({ sessionId, set: session.sets[index], index });
+    removeSet(sessionId, setEntryId);
+  };
+
+  const undoDelete = () => {
+    if (!deleted) return;
+    restoreSet(deleted.sessionId, deleted.set, deleted.index);
+    setDeleted(null);
+  };
 
   // Deja el ejercicio que se está editando justo por encima del teclado.
   useEffect(() => {
@@ -293,7 +325,7 @@ export default function TodayScreen() {
           onUpdateSet={(setEntryId, weight, reps, rir) =>
             activeSession && updateSet(activeSession.id, setEntryId, { weight, reps, rir })
           }
-          onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}
+          onRemoveSet={setEntryId => activeSession && deleteSet(activeSession.id, setEntryId)}
           onRemoveExtra={() => removeExtra(item)}
           collapsedOverride={overrides[item.id]?.collapsed}
           onCollapsedChange={collapsed =>
@@ -381,6 +413,23 @@ export default function TodayScreen() {
           }
         />
       </View>
+
+      {deleted && !keyboardVisible && (
+        <View style={[styles.undoWrapper, { bottom: floatingBottom }]} pointerEvents="box-none">
+          <FadeInView offset={12} duration={200}>
+            <View style={[styles.undoBar, shadow.card]}>
+              <Text style={styles.undoText}>
+                Serie borrada ·{' '}
+                {formatLoad(deleted.set.weight, isBodyweight(deleted.set.exerciseId))}
+                {deleted.set.weight > 0 ? ' kg' : ''} × {deleted.set.reps}
+              </Text>
+              <TouchableOpacity onPress={undoDelete} hitSlop={10} activeOpacity={0.7}>
+                <Text style={styles.undoAction}>Deshacer</Text>
+              </TouchableOpacity>
+            </View>
+          </FadeInView>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -402,4 +451,19 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   footer: { gap: spacing.md, marginTop: spacing.xs },
+  undoWrapper: { position: 'absolute', left: 18, right: 18 },
+  undoBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: 14,
+    borderRadius: radius.lg,
+    backgroundColor: colors.surfaceHigh,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  undoText: { flex: 1, color: colors.text, fontSize: 14, fontWeight: '600' },
+  undoAction: { color: colors.accent, fontSize: 14, fontWeight: '800' },
 });

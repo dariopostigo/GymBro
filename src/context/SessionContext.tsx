@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { generateId } from '../utils/id';
 import { loadSessions, saveSessions } from '../storage/sessionStorage';
-import type { ExerciseHistoryEntry, WorkoutSession } from '../types/session';
+import type { ExerciseHistoryEntry, SetEntry, WorkoutSession } from '../types/session';
 
 interface AddSetParams {
   splitId: string;
@@ -22,6 +22,8 @@ interface SessionContextValue {
   getActiveSession: (splitId: string, splitDayId: string) => WorkoutSession | null;
   addSet: (params: AddSetParams) => void;
   removeSet: (sessionId: string, setEntryId: string) => void;
+  /** Vuelve a poner una serie borrada (con su id y su hora) en la posición `index`. */
+  restoreSet: (sessionId: string, set: SetEntry, index: number) => void;
   /** Corrige peso, reps y esfuerzo de una serie ya apuntada. */
   updateSet: (
     sessionId: string,
@@ -109,6 +111,19 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const restoreSet = useCallback((sessionId: string, set: SetEntry, index: number) => {
+    setSessions(prev => {
+      const next = prev.map(s => {
+        if (s.id !== sessionId || s.sets.some(e => e.id === set.id)) return s;
+        const sets = [...s.sets];
+        sets.splice(Math.min(index, sets.length), 0, set);
+        return { ...s, sets };
+      });
+      saveSessions(next);
+      return next;
+    });
+  }, []);
+
   const updateSet = useCallback(
     (
       sessionId: string,
@@ -166,6 +181,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     getActiveSession,
     addSet,
     removeSet,
+    restoreSet,
     updateSet,
     finishSession,
     getEntriesForExercise,

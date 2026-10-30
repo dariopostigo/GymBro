@@ -68,7 +68,7 @@ Segunda vuelta (30/10/2026, mirando su código): se hacen poco a poco, de una en
 
 - [x] **Ejercicios con el peso del cuerpo** (dominadas, fondos, flexiones...): lista en `src/data/bodyweightExercises.ts`; el peso es el lastre ("Lastre (kg)", 0 vale), se muestra "Peso corporal" / "PC+10", sin lastre no se sugiere cargar (avisa al llegar al tope) y el récord son las reps.
 - [x] **Detectar estancamiento y sugerir descarga**: tras 3 sesiones seguidas con el mismo peso sin llegar al tope ni hacer más reps en total que alguna anterior con ese peso, Hoy propone "Descarga: baja a X" (~90 %, al salto o peso de la pila más cercano, nunca más de un 20 %) y apunta al tope de reps. Sin lastre no hay descarga.
-- [ ] **Deshacer al borrar una serie** ("Serie borrada · Deshacer" unos segundos).
+- [x] **Deshacer al borrar una serie**: al borrar sale "Serie borrada · 17,5 kg × 12 · Deshacer" durante 5 s, encima del descanso si está en marcha; deshacer la devuelve a su sitio con su id, número y hora.
 - [ ] **Editar entrenos pasados**: corregir series de otro día, apuntar uno hecho sin la app, cambiar la fecha.
 - [ ] **Ejercicios por tiempo** (plancha, colgarse, paseo del granjero): segundos en vez de reps.
 - [ ] **Músculos sin entrenar** en Progreso ("Bíceps: 9 días sin entrenar"), versión simple.

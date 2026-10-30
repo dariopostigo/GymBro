@@ -20,6 +20,13 @@ export function useTabScreenBottomSpace(): number {
   return TAB_BAR_SPACE + (timer || finished ? REST_BAR_SPACE : 0);
 }
 
+/** `bottom` para algo que flota sobre las pestañas y, si se ve, sobre la barra del descanso. */
+export function useFloatingBottom(): number {
+  const insets = useSafeAreaInsets();
+  const { timer, finished } = useRestTimer();
+  return insets.bottom + TAB_BAR_HEIGHT + spacing.sm + (timer || finished ? REST_BAR_SPACE : 0);
+}
+
 const SHOW_EVENT = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
 const HIDE_EVENT = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
 const TICK_MS = 250;
