@@ -17,6 +17,7 @@ import {
   Settings,
   SquarePlay,
   Star,
+  TrendingDown,
   TrendingUp,
   Trophy,
   X,
@@ -66,6 +67,7 @@ export const CheckIcon = wrap(Check);
 export const CloseIcon = wrap(X);
 /** Sugerencia de subir peso. */
 export const TrendingUpIcon = wrap(TrendingUp);
+export const TrendingDownIcon = wrap(TrendingDown);
 /** Récords personales. */
 export const TrophyIcon = wrap(Trophy);
 /** Pantalla de ajustes. */

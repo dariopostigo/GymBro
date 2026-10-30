@@ -18,6 +18,8 @@ export interface LoadSuggestion {
    * se llega al tope para que cada uno decida (lastre, variante más dura o más reps).
    */
   atTop?: boolean;
+  /** Se propone bajar el peso: lleva `stalls` sesiones seguidas sin progresar con él. */
+  deload?: { stalls: number };
   /** Peso de trabajo de la última vez y las reps de cada serie con ese peso. */
   previous: { weight: number; reps: number[] };
 }
@@ -34,27 +36,24 @@ export interface SlotPosition {
 }
 
 /**
- * Series del ejercicio en la sesión más reciente que lo tenga en la misma posición,
- * sin contar la sesión en curso. Primero por posición dentro del grupo muscular y,
- * si no hay, por posición en la sesión (como la sugerencia de siempre).
+ * Series del ejercicio en las sesiones anteriores que lo tengan en la misma posición,
+ * de la más reciente a la más antigua y sin contar la sesión en curso. Primero por
+ * posición dentro del grupo muscular y, si no hay, por posición en la sesión.
  */
-export function lastSessionSets(
+export function recentSessionSets(
   sessions: WorkoutSession[],
   exerciseId: number,
   position: SlotPosition,
   excludeSessionId?: string,
-): SetEntry[] {
+): SetEntry[][] {
   const previous = sessions
     .filter(s => s.id !== excludeSessionId)
     .sort((a, b) => b.date.localeCompare(a.date));
 
-  const find = (matches: (set: SetEntry) => boolean) => {
-    for (const session of previous) {
-      const sets = session.sets.filter(set => set.exerciseId === exerciseId && matches(set));
-      if (sets.length) return sets;
-    }
-    return [];
-  };
+  const find = (matches: (set: SetEntry) => boolean) =>
+    previous
+      .map(session => session.sets.filter(set => set.exerciseId === exerciseId && matches(set)))
+      .filter(sets => sets.length > 0);
 
   const { positionInMuscleGroup, positionInSession } = position;
   const byGroup =
@@ -64,32 +63,105 @@ export function lastSessionSets(
   return byGroup.length ? byGroup : find(set => set.positionInSession === positionInSession);
 }
 
+/** Series de la sesión más reciente con el ejercicio en la misma posición (ver arriba). */
+export function lastSessionSets(
+  sessions: WorkoutSession[],
+  exerciseId: number,
+  position: SlotPosition,
+  excludeSessionId?: string,
+): SetEntry[] {
+  return recentSessionSets(sessions, exerciseId, position, excludeSessionId)[0] ?? [];
+}
+
 /** Evita arrastrar decimales de coma flotante (60 + 1.25 + 1.25...). */
 function roundWeight(weight: number): number {
   return Math.round(weight * 100) / 100;
 }
 
+type Lift = Pick<SetEntry, 'weight' | 'reps' | 'rir'>;
+
+/** Sesiones seguidas sin progresar con el mismo peso antes de proponer una descarga. */
+export const STALL_SESSIONS = 3;
+/** La descarga baja a este porcentaje del peso con el que se estancó. */
+export const DELOAD_FACTOR = 0.9;
+/**
+ * Ni la descarga baja de aquí: con pesos pequeños el salto más cercano puede ser enorme
+ * (de 7,5 a 5 kg es un 33 %) y entonces mejor seguir con el peso y buscar más reps.
+ */
+const DELOAD_MIN_FACTOR = 0.8;
+
+/** Peso de trabajo de una sesión, sus reps y si tocaba subir (tope de reps o todo fácil). */
+function workingSets(sets: Lift[], target: SlotTarget) {
+  const weight = Math.max(...sets.map(set => set.weight));
+  const working = sets.filter(set => set.weight === weight);
+  const reps = working.map(set => set.reps);
+  const allAtMax = reps.length >= target.sets && reps.every(r => r >= target.repsMax);
+  // Solo cuenta si se apuntó el esfuerzo de todas las series de trabajo.
+  const allEasy = working.every(set => set.rir !== undefined && set.rir >= EASY_RIR);
+  const total = reps.reduce((sum, r) => sum + r, 0);
+  return { weight, reps, allAtMax, allEasy, total };
+}
+
+/**
+ * Cuántas de las últimas sesiones (`history`, la más reciente primero) llevan el mismo
+ * peso sin progresar: ni llegaron al tope ni hicieron más reps en total que alguna
+ * anterior con ese peso. Superar a la mejor anterior ya es progreso aunque no se llegue
+ * al tope; si no, con un rango ancho saltaría la descarga mientras se va mejorando.
+ */
+export function stallCount(history: Lift[][], target: SlotTarget): number {
+  const sessions = history.filter(sets => sets.length).map(sets => workingSets(sets, target));
+  if (!sessions.length) return 0;
+  const { weight } = sessions[0];
+  let stalls = 0;
+  for (let i = 0; i < sessions.length; i++) {
+    const session = sessions[i];
+    if (session.weight !== weight || session.allAtMax || session.allEasy) break;
+    const older: number[] = [];
+    for (let j = i + 1; j < sessions.length && sessions[j].weight === weight; j++) {
+      older.push(sessions[j].total);
+    }
+    if (older.length && session.total > Math.max(...older)) break;
+    stalls++;
+  }
+  return stalls;
+}
+
+/**
+ * Peso de la descarga: lo más cerca posible del ~90 % del actual entre lo que se puede
+ * cargar (la pila de la máquina o los saltos de `increment`), siempre por debajo del
+ * actual y sin bajar más de un 20 %. Si no hay ninguno así, no hay descarga.
+ */
+function deloadWeight(weight: number, increment: number, weights?: number[]) {
+  const goal = weight * DELOAD_FACTOR;
+  const options = weights?.length
+    ? weights
+    : [
+        roundWeight(Math.floor(goal / increment) * increment),
+        roundWeight(Math.ceil(goal / increment) * increment),
+      ];
+  const lower = options.filter(w => w >= weight * DELOAD_MIN_FACTOR - 1e-9 && w < weight - 1e-9);
+  if (!lower.length) return undefined;
+  return lower.reduce((best, w) => (Math.abs(w - goal) < Math.abs(best - goal) ? w : best));
+}
+
 /**
  * `weights` son los pesos reales de la máquina, si se han configurado: subir
  * es ir al siguiente de la lista en vez de sumar `increment`. Con `bodyweight`
- * (dominadas, fondos...) y sin lastre no se propone añadirlo.
+ * (dominadas, fondos...) y sin lastre no se propone añadirlo. `earlier` son las
+ * sesiones anteriores a `sets` (la más reciente primero), para ver si está estancado.
  */
 export function suggestNextLoad(
-  sets: Pick<SetEntry, 'weight' | 'reps' | 'rir'>[],
+  sets: Lift[],
   target: SlotTarget,
   increment: number,
   weights?: number[],
   bodyweight = false,
+  earlier: Lift[][] = [],
 ): LoadSuggestion | undefined {
   if (!sets.length) return undefined;
-  const weight = Math.max(...sets.map(set => set.weight));
-  const working = sets.filter(set => set.weight === weight);
-  const reps = working.map(set => set.reps);
+  const { weight, reps, allAtMax, allEasy } = workingSets(sets, target);
   const previous = { weight, reps };
 
-  const allAtMax = reps.length >= target.sets && reps.every(r => r >= target.repsMax);
-  // Solo cuenta si se apuntó el esfuerzo de todas las series de trabajo.
-  const allEasy = working.every(set => set.rir !== undefined && set.rir >= EASY_RIR);
   const next = weights?.length
     ? weights.find(w => w > weight + 1e-9)
     : roundWeight(weight + increment);
@@ -105,6 +177,13 @@ export function suggestNextLoad(
       reason: allAtMax ? 'reps' : 'easy',
       previous,
     };
+  }
+  const stalls = stallCount([sets, ...earlier], target);
+  const lighter =
+    weight > 0 && stalls >= STALL_SESSIONS && deloadWeight(weight, increment, weights);
+  if (lighter) {
+    // Con menos peso se apunta al tope del rango para volver a subir desde ahí.
+    return { weight: lighter, reps: target.repsMax, increase: false, deload: { stalls }, previous };
   }
   return { weight, reps: Math.max(...reps), increase: false, previous };
 }

@@ -21,6 +21,7 @@ import {
   ExpandIcon,
   HistoryIcon,
   PlusIcon,
+  TrendingDownIcon,
   TrendingUpIcon,
   TrophyIcon,
   VideoIcon,
@@ -327,10 +328,16 @@ export default function ExerciseCard({
               {suggested && (
                 <View style={styles.suggestion}>
                   {suggested.increase && <TrendingUpIcon size={14} color={colors.accent} />}
+                  {suggested.deload && <TrendingDownIcon size={14} color={colors.accent} />}
                   <Text style={styles.suggestionText}>
                     {suggested.increase ? (
                       <Text style={styles.suggestionStrong}>
                         Sube a {formatWeight(suggested.weight)} kg ·{' '}
+                      </Text>
+                    ) : null}
+                    {suggested.deload ? (
+                      <Text style={styles.suggestionStrong}>
+                        Descarga: baja a {loadText(suggested.weight)} ·{' '}
                       </Text>
                     ) : null}
                     Última vez: {loadText(suggested.previous.weight)} ×{' '}
@@ -339,6 +346,8 @@ export default function ExerciseCard({
                       ? suggested.reason === 'easy'
                         ? ' · te sobraban reps'
                         : ''
+                      : suggested.deload
+                      ? ` · ${suggested.deload.stalls} sesiones sin progresar con este peso`
                       : suggested.atTop
                       ? ` · ya llegas a ${slot.targetRepsMax}: añade lastre o una variante más dura`
                       : ` · intenta llegar a ${slot.targetRepsMax} en todas`}

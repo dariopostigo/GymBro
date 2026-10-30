@@ -31,7 +31,7 @@ import MenuButton from '../components/MenuButton';
 import { EmptyState, GhostButton, PrimaryButton, ScreenHeader } from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
-import { lastSessionSets, suggestNextLoad } from '../utils/progression';
+import { recentSessionSets, suggestNextLoad } from '../utils/progression';
 import { liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { barTypeFor, barWeightFor } from '../utils/plates';
 import { colors, radius, spacing } from '../theme';
@@ -244,17 +244,19 @@ export default function TodayScreen() {
       plates: settings.plates,
     };
     // La sesión de hoy no cuenta: la sugerencia no cambia a mitad del entreno.
+    const [lastTime = [], ...earlier] = recentSessionSets(
+      sessions,
+      item.exerciseId,
+      { positionInSession, positionInMuscleGroup },
+      activeSession?.id,
+    );
     const suggestion = suggestNextLoad(
-      lastSessionSets(
-        sessions,
-        item.exerciseId,
-        { positionInSession, positionInMuscleGroup },
-        activeSession?.id,
-      ),
+      lastTime,
       { sets: item.targetSets, repsMin: item.targetRepsMin, repsMax: item.targetRepsMax },
       settings.weightIncrement,
       weights,
       bodyweight,
+      earlier,
     );
 
     return (
