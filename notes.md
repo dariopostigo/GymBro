@@ -73,7 +73,7 @@ Cerrada: las que interesaban están hechas (ver arriba). Descartadas a propósit
 
 - [ ] Registro de peso corporal con gráfica.
 - [ ] Calendario con los días entrenados.
-- [ ] Recordar qué tarjetas de Hoy se han plegado a mano (ahora se olvida al salir de la app o en listas largas).
+- [x] Recordar qué tarjetas de Hoy se han plegado a mano (se guarda con los cambios "solo hoy": sobrevive al cierre de la app y a las listas largas; se olvida al terminar el día, al cambiar el ejercicio o al completarse/descompletarse).
 
 ## Diseño
 

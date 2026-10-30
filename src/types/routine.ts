@@ -43,6 +43,11 @@ export interface SlotOverride {
    * los del día y se borra con el resto de cambios al terminar.
    */
   extra?: { repsMin: number; repsMax: number };
+  /**
+   * Tarjeta plegada o desplegada a mano en Hoy. Solo se guarda cuando no
+   * coincide con lo automático (plegada si está completa).
+   */
+  collapsed?: boolean;
 }
 
 /**

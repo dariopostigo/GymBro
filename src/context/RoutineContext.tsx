@@ -107,7 +107,14 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     (splitId: string, dayId: string, slotId: string, patch: SlotOverride) => {
       setDayOverrides(prev => {
         const key = dayOverridesKey(splitId, dayId);
-        const merged = prune({ ...prev[key]?.[slotId], ...patch });
+        const previous = prev[key]?.[slotId];
+        // Con otro ejercicio la tarjeta vuelve a plegarse sola según esté completa.
+        const swapped = 'exerciseId' in patch && patch.exerciseId !== previous?.exerciseId;
+        const merged = prune({
+          ...previous,
+          ...patch,
+          ...(swapped && !('collapsed' in patch) ? { collapsed: undefined } : {}),
+        });
         const slots = Object.fromEntries(
           Object.entries(prev[key] ?? {}).filter(([id]) => id !== slotId),
         );

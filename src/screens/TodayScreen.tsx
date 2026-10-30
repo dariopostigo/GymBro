@@ -110,6 +110,9 @@ interface ExerciseCardProps {
   onUpdateSet: (setEntryId: string, weight: number, reps: number, rir?: number) => void;
   onRemoveSet: (setEntryId: string) => void;
   onRemoveExtra: () => void;
+  /** Plegado a mano, si difiere de lo automático; se guarda con los cambios de hoy. */
+  collapsedOverride?: boolean;
+  onCollapsedChange: (collapsed: boolean | undefined) => void;
   onSwapToday: () => void;
   onSwapPermanent: () => void;
   onChangeSets: (delta: number) => void;
@@ -134,6 +137,8 @@ function ExerciseCard({
   onUpdateSet,
   onRemoveSet,
   onRemoveExtra,
+  collapsedOverride,
+  onCollapsedChange,
   onSwapToday,
   onSwapPermanent,
   onChangeSets,
@@ -222,21 +227,23 @@ function ExerciseCard({
 
   const done = loggedSets.length;
   const isComplete = done >= slot.targetSets;
-  // Los completados arrancan plegados; al completarse se pliegan solos y al dejar de estarlo
-  // (se borra una serie o se suben las objetivo) se despliegan. El usuario puede alternar.
-  const [collapsed, setCollapsed] = useState(isComplete);
+  // Los completados van plegados; al completarse se pliegan solos y al dejar de estarlo
+  // (se borra una serie o se suben las objetivo) se despliegan. Lo que el usuario pliegue o
+  // despliegue a mano se recuerda hasta que cambie el estado de completado.
+  const collapsed = collapsedOverride ?? isComplete;
   const wasComplete = useRef(isComplete);
 
   useEffect(() => {
     if (wasComplete.current === isComplete) return;
     wasComplete.current = isComplete;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setCollapsed(isComplete);
-  }, [isComplete]);
+    if (collapsedOverride !== undefined) onCollapsedChange(undefined);
+  }, [isComplete, collapsedOverride, onCollapsedChange]);
 
   const toggleCollapsed = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setCollapsed(c => !c);
+    const next = !collapsed;
+    onCollapsedChange(next === isComplete ? undefined : next);
   };
 
   return (
@@ -743,6 +750,7 @@ export default function TodayScreen() {
             exerciseId: undefined,
             targetSets: undefined,
             extra: undefined,
+            collapsed: undefined,
           }),
       },
     ]);
@@ -831,6 +839,10 @@ export default function TodayScreen() {
           }
           onRemoveSet={setEntryId => activeSession && removeSet(activeSession.id, setEntryId)}
           onRemoveExtra={() => removeExtra(item)}
+          collapsedOverride={overrides[item.id]?.collapsed}
+          onCollapsedChange={collapsed =>
+            setDayOverride(activeSplit.id, currentDay.id, item.id, { collapsed })
+          }
           onSwapToday={() => swapToday(item)}
           onSwapPermanent={() => swapPermanent(item)}
           onChangeSets={delta => changeSets(item, delta)}
