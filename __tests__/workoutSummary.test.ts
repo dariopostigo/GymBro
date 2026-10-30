@@ -93,7 +93,12 @@ describe('liveRecords', () => {
   const records = liveRecords(BENCH, active, [lastWeek, otherDay, active]);
 
   it('marca la serie que bate la marca en el momento de apuntarla', () => {
-    expect(records.get('c-0')).toEqual({ exerciseId: BENCH, kind: 'weight', value: 82.5, previous: 80 });
+    expect(records.get('c-0')).toEqual({
+      exerciseId: BENCH,
+      kind: 'weight',
+      value: 82.5,
+      previous: 80,
+    });
   });
 
   it('compara también con las series de hoy que vinieron antes', () => {

@@ -186,7 +186,14 @@ function splitCategory(exercise) {
   return exercise.category;
 }
 
-const HTML_ENTITIES = { '&nbsp;': ' ', '&amp;': '&', '&quot;': '"', '&#39;': "'", '&lt;': '<', '&gt;': '>' };
+const HTML_ENTITIES = {
+  '&nbsp;': ' ',
+  '&amp;': '&',
+  '&quot;': '"',
+  '&#39;': "'",
+  '&lt;': '<',
+  '&gt;': '>',
+};
 
 /** Quita los restos de HTML y los enlaces que trae wger en las descripciones. */
 function cleanDescription(text) {

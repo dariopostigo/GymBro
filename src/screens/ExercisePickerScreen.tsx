@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import type {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import {
@@ -173,24 +176,24 @@ export default function ExercisePickerScreen({ route }: Props) {
           keyboardDismissMode="on-drag"
           renderItem={({ item }) => {
             return (
-            <TouchableOpacity
-              activeOpacity={0.85}
-              style={styles.row}
-              onPress={() => handleSelect(item)}
-            >
-              <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
-              <View style={styles.rowInfo}>
-                <Text style={styles.rowName} numberOfLines={2}>
-                  {item.name}
-                </Text>
-                <Text style={styles.rowMeta} numberOfLines={1}>
-                  {item.category.name}
-                  {primaryMusclesSuffix(item)}
-                </Text>
-              </View>
-              <FavoriteButton exerciseId={item.id} />
-              <ChevronIcon size={16} color={colors.muted} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.85}
+                style={styles.row}
+                onPress={() => handleSelect(item)}
+              >
+                <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
+                <View style={styles.rowInfo}>
+                  <Text style={styles.rowName} numberOfLines={2}>
+                    {item.name}
+                  </Text>
+                  <Text style={styles.rowMeta} numberOfLines={1}>
+                    {item.category.name}
+                    {primaryMusclesSuffix(item)}
+                  </Text>
+                </View>
+                <FavoriteButton exerciseId={item.id} />
+                <ChevronIcon size={16} color={colors.muted} />
+              </TouchableOpacity>
             );
           }}
           ListEmptyComponent={

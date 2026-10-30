@@ -11,7 +11,13 @@ import {
 import { colors, overline, radius, shadow, spacing } from '../theme';
 
 /** Etiqueta pequeña en mayúsculas que abre cada sección. */
-export function Overline({ children, style }: { children: React.ReactNode; style?: StyleProp<TextStyle> }) {
+export function Overline({
+  children,
+  style,
+}: {
+  children: React.ReactNode;
+  style?: StyleProp<TextStyle>;
+}) {
   return <Text style={[styles.overline, style]}>{children}</Text>;
 }
 

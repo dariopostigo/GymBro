@@ -30,7 +30,9 @@ const sameImages = (a, b) => a.length === b.length && a.every((url, i) => url ==
  */
 function readLocalImageUuids() {
   const source = fs.readFileSync(LOCAL_MAP_PATH, 'utf-8');
-  return new Set([...source.matchAll(/'([0-9a-f-]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})':/g)].map(m => m[1]));
+  return new Set(
+    [...source.matchAll(/'([0-9a-f-]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})':/g)].map(m => m[1]),
+  );
 }
 
 async function main() {
@@ -84,7 +86,9 @@ async function main() {
 
   fs.writeFileSync(CATALOG_PATH, JSON.stringify(exercises, null, 2), 'utf-8');
 
-  console.log(applied.length ? applied.join('\n') : 'Sin cambios: las imágenes ya estaban aplicadas.');
+  console.log(
+    applied.length ? applied.join('\n') : 'Sin cambios: las imágenes ya estaban aplicadas.',
+  );
   console.log(`\n${applied.length} ejercicio(s) actualizado(s).`);
 
   const revisados = new Set([...Object.keys(FREE_DB_IMAGES).map(Number), ...SIN_EQUIVALENTE]);

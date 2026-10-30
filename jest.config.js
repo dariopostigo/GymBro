@@ -4,7 +4,8 @@ module.exports = {
   moduleNameMapper: {
     '/exercises-local/.+\\.(png|jpe?g|webp)$': '<rootDir>/__mocks__/localExerciseImageStub.js',
     // Jest no transforma .mjs: usamos el build CommonJS de Lucide.
-    '^lucide-react-native$': '<rootDir>/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js',
+    '^lucide-react-native$':
+      '<rootDir>/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js',
   },
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native' +

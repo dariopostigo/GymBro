@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generateId } from '../utils/id';
 import {
   loadActiveSplit,
@@ -36,19 +29,18 @@ interface RoutineContextValue {
   clearActiveSplit: () => Promise<void>;
   advanceToNextDay: () => Promise<void>;
   selectDay: (dayId: string) => Promise<void>;
-  updateDayExercises: (splitId: string, dayId: string, exercises: DayExerciseSlot[]) => Promise<void>;
+  updateDayExercises: (
+    splitId: string,
+    dayId: string,
+    exercises: DayExerciseSlot[],
+  ) => Promise<void>;
   /** Devuelve un día editado de una rutina predefinida a como viene en la app. */
   restoreDay: (splitId: string, dayId: string) => void;
   createCustomSplit: (name: string, dayNames: string[]) => Promise<Split>;
   /** Cambios "solo por hoy" (ejercicio, series...): slotId → ajustes de ese día del split. */
   getDayOverrides: (splitId?: string, dayId?: string) => Record<string, SlotOverride>;
   /** Fusiona `patch` con el override del hueco. Un campo a `undefined` lo elimina. */
-  setDayOverride: (
-    splitId: string,
-    dayId: string,
-    slotId: string,
-    patch: SlotOverride,
-  ) => void;
+  setDayOverride: (splitId: string, dayId: string, slotId: string, patch: SlotOverride) => void;
   clearDayOverrides: (splitId: string, dayId: string) => void;
 }
 
@@ -99,7 +91,9 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
 
   const getDayOverrides = useCallback(
     (splitId?: string, dayId?: string) =>
-      splitId && dayId ? dayOverrides[dayOverridesKey(splitId, dayId)] ?? NO_OVERRIDES : NO_OVERRIDES,
+      splitId && dayId
+        ? dayOverrides[dayOverridesKey(splitId, dayId)] ?? NO_OVERRIDES
+        : NO_OVERRIDES,
     [dayOverrides],
   );
 

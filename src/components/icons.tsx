@@ -96,11 +96,6 @@ export function StarIcon({
   strokeWidth = DEFAULT_STROKE,
 }: IconProps & { filled?: boolean }) {
   return (
-    <Star
-      size={size}
-      color={color}
-      strokeWidth={strokeWidth}
-      fill={filled ? color : 'none'}
-    />
+    <Star size={size} color={color} strokeWidth={strokeWidth} fill={filled ? color : 'none'} />
   );
 }

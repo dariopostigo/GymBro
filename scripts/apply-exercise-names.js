@@ -14,12 +14,7 @@ const { NAME_ES } = require('./exerciseNamesEs');
 
 const CATALOG_PATH = path.join(__dirname, '..', 'src', 'data', 'exercises.json');
 
-const normalize = name =>
-  name
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .trim();
+const normalize = name => name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
 
 function main() {
   const exercises = JSON.parse(fs.readFileSync(CATALOG_PATH, 'utf-8'));
@@ -29,7 +24,9 @@ function main() {
     .map(Number)
     .filter(id => !byId.has(id));
   if (missing.length) {
-    console.warn(`Aviso: ${missing.length} id(s) de NAME_ES no están en el catálogo: ${missing.join(', ')}`);
+    console.warn(
+      `Aviso: ${missing.length} id(s) de NAME_ES no están en el catálogo: ${missing.join(', ')}`,
+    );
   }
 
   const applied = [];
@@ -49,7 +46,9 @@ function main() {
 
   fs.writeFileSync(CATALOG_PATH, JSON.stringify(exercises, null, 2), 'utf-8');
 
-  console.log(applied.length ? applied.join('\n') : 'Sin cambios: los nombres ya estaban aplicados.');
+  console.log(
+    applied.length ? applied.join('\n') : 'Sin cambios: los nombres ya estaban aplicados.',
+  );
   console.log(`\n${applied.length} nombre(s) corregido(s) de ${exercises.length}.`);
 
   // Dos ejercicios con el mismo nombre dentro de una categoría son
@@ -58,7 +57,9 @@ function main() {
   for (const e of exercises) {
     const key = `${e.category.name}|${normalize(e.name)}`;
     if (seen.has(key)) {
-      console.warn(`Nombre duplicado en ${e.category.name}: "${e.name}" (ids ${seen.get(key)} y ${e.id})`);
+      console.warn(
+        `Nombre duplicado en ${e.category.name}: "${e.name}" (ids ${seen.get(key)} y ${e.id})`,
+      );
     } else {
       seen.set(key, e.id);
     }

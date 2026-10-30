@@ -29,8 +29,9 @@ jest.mock('@sayem314/react-native-keep-awake', () => ({
 }));
 
 // Sin este mock el SafeAreaProvider nunca recibe un layout en tests y no pinta hijos.
-jest.mock('react-native-safe-area-context', () =>
-  require('react-native-safe-area-context/jest/mock').default,
+jest.mock(
+  'react-native-safe-area-context',
+  () => require('react-native-safe-area-context/jest/mock').default,
 );
 
 // react-test-renderer no es Fabric y el driver nativo de Animated revienta al

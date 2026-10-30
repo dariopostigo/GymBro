@@ -13,7 +13,10 @@ export function DrawerProvider({ children }: { children: React.ReactNode }) {
   const openDrawer = useCallback(() => setIsOpen(true), []);
   const closeDrawer = useCallback(() => setIsOpen(false), []);
 
-  const value = useMemo(() => ({ isOpen, openDrawer, closeDrawer }), [isOpen, openDrawer, closeDrawer]);
+  const value = useMemo(
+    () => ({ isOpen, openDrawer, closeDrawer }),
+    [isOpen, openDrawer, closeDrawer],
+  );
 
   return <DrawerContext.Provider value={value}>{children}</DrawerContext.Provider>;
 }

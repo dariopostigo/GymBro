@@ -230,7 +230,11 @@ function main() {
   fs.mkdirSync(anydpiDir, { recursive: true });
   fs.writeFileSync(path.join(anydpiDir, 'ic_launcher.xml'), adaptiveXml);
   fs.writeFileSync(path.join(anydpiDir, 'ic_launcher_round.xml'), adaptiveXml);
-  console.log('Escrito', path.relative(process.cwd(), anydpiDir), '(ic_launcher.xml, ic_launcher_round.xml)');
+  console.log(
+    'Escrito',
+    path.relative(process.cwd(), anydpiDir),
+    '(ic_launcher.xml, ic_launcher_round.xml)',
+  );
 }
 
 if (require.main === module) {

@@ -14,7 +14,9 @@ const isAvailable = (source: ImageSourcePropType) =>
   typeof source !== 'object' || source === null || Object.keys(source).length > 0;
 
 /** Imágenes locales primero (si las hay), luego las remotas del catálogo. */
-export function getExerciseImageSources(exercise: Exercise | undefined | null): ImageSourcePropType[] {
+export function getExerciseImageSources(
+  exercise: Exercise | undefined | null,
+): ImageSourcePropType[] {
   if (!exercise) return [];
   const local = (EXERCISE_IMAGE_MAP[exercise.uuid] ?? []).filter(isAvailable);
   const remote = exercise.images.map(uri => ({ uri }));
@@ -22,7 +24,9 @@ export function getExerciseImageSources(exercise: Exercise | undefined | null): 
 }
 
 /** Vídeo primero (si el ejercicio tiene alguno), luego las imágenes en el mismo orden que arriba. */
-export function getExerciseMediaSources(exercise: Exercise | undefined | null): ExerciseMediaItem[] {
+export function getExerciseMediaSources(
+  exercise: Exercise | undefined | null,
+): ExerciseMediaItem[] {
   if (!exercise) return [];
   const images: ExerciseMediaItem[] = getExerciseImageSources(exercise).map(source => ({
     type: 'image',

@@ -49,7 +49,8 @@ function main() {
 
   if (added.length) console.log(`Añadidos (${added.length}):\n  ${added.join('\n  ')}`);
   if (updated.length) console.log(`Actualizados (${updated.length}):\n  ${updated.join('\n  ')}`);
-  if (!added.length && !updated.length) console.log('Sin cambios: los ejercicios propios ya estaban.');
+  if (!added.length && !updated.length)
+    console.log('Sin cambios: los ejercicios propios ya estaban.');
 }
 
 main();

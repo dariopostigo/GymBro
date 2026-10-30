@@ -97,4 +97,3 @@ describe('weeklyMuscleSets', () => {
     expect(week.Pecho.previous).toBe(5);
   });
 });
-

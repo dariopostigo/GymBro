@@ -2,7 +2,10 @@ import React, { useMemo } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import type {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useRoutine } from '../context/RoutineContext';
 import { useSettings } from '../context/SettingsContext';
@@ -90,7 +93,9 @@ export default function DayEditorScreen({ route }: Props) {
   };
 
   const changeRepsMin = (slot: DayExerciseSlot, delta: number) => {
-    updateSlot(slot.id, { targetRepsMin: clamp(slot.targetRepsMin + delta, 1, slot.targetRepsMax) });
+    updateSlot(slot.id, {
+      targetRepsMin: clamp(slot.targetRepsMin + delta, 1, slot.targetRepsMax),
+    });
   };
 
   const changeRepsMax = (slot: DayExerciseSlot, delta: number) => {

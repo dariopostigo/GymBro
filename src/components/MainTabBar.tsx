@@ -96,9 +96,7 @@ function TabItem({ focused, label, Icon, onPress, onLongPress }: TabItemProps) {
             <Icon size={20} color={colors.onAccent} />
           </Animated.View>
         </Animated.View>
-        <Animated.View
-          style={[styles.labelWrap, { maxWidth: labelWidth, marginLeft: labelSpace }]}
-        >
+        <Animated.View style={[styles.labelWrap, { maxWidth: labelWidth, marginLeft: labelSpace }]}>
           <Text style={styles.itemLabel} numberOfLines={1}>
             {label}
           </Text>

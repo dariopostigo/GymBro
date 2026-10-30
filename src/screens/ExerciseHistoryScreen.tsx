@@ -31,8 +31,7 @@ const BAR_DETAIL_HEIGHT = 12;
 const BAR_COLUMN_GAP = 6;
 
 /** Distancia desde el techo de la columna hasta el techo del area de barras. */
-const CHART_TOP_OFFSET =
-  BAR_VALUE_HEIGHT + BAR_COLUMN_GAP + BAR_DETAIL_HEIGHT + BAR_COLUMN_GAP;
+const CHART_TOP_OFFSET = BAR_VALUE_HEIGHT + BAR_COLUMN_GAP + BAR_DETAIL_HEIGHT + BAR_COLUMN_GAP;
 
 /** Métrica que dibujan las barras. Una cada vez: kg y reps no comparten escala. */
 type Metric = 'weight' | 'reps' | 'orm';
@@ -103,9 +102,11 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
 
   const muscleGroupPositions = useMemo(
     () =>
-      [...new Set(entries.map(e => e.positionInMuscleGroup).filter((p): p is number => p !== undefined))].sort(
-        (a, b) => a - b,
-      ),
+      [
+        ...new Set(
+          entries.map(e => e.positionInMuscleGroup).filter((p): p is number => p !== undefined),
+        ),
+      ].sort((a, b) => a - b),
     [entries],
   );
 
@@ -375,7 +376,9 @@ export default function ExerciseHistoryScreen({ route, navigation }: Props) {
                         {effortLabel(set.rir, settings.effortMode)}
                       </Text>
                     )}
-                    <Text style={styles.tableRowVolume}>{formatWeight(setVolume(set))} kg vol.</Text>
+                    <Text style={styles.tableRowVolume}>
+                      {formatWeight(setVolume(set))} kg vol.
+                    </Text>
                   </View>
                 ))}
               </Card>

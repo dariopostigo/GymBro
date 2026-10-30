@@ -46,7 +46,16 @@ const BARRA_DOMINADAS = { id: 6, name: 'Barra de dominadas' };
 const PESO_CORPORAL = { id: 7, name: 'Ninguno (peso corporal)' };
 const KETTLEBELL = { id: 10, name: 'Kettlebell' };
 
-function exercise({ id, uuid, name, description, category = PECHO, primary, secondary = [], equipment = [] }) {
+function exercise({
+  id,
+  uuid,
+  name,
+  description,
+  category = PECHO,
+  primary,
+  secondary = [],
+  equipment = [],
+}) {
   return {
     id,
     uuid,

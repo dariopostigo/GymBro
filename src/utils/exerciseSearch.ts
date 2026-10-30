@@ -5,12 +5,30 @@ import type { Exercise } from '../types/exercise';
  * Hermes puede no estar disponible y dejaría el texto sin cambiar.
  */
 const ACCENTS: Record<string, string> = {
-  á: 'a', à: 'a', ä: 'a', â: 'a', ã: 'a',
-  é: 'e', è: 'e', ë: 'e', ê: 'e',
-  í: 'i', ì: 'i', ï: 'i', î: 'i',
-  ó: 'o', ò: 'o', ö: 'o', ô: 'o', õ: 'o',
-  ú: 'u', ù: 'u', ü: 'u', û: 'u',
-  ñ: 'n', ç: 'c',
+  á: 'a',
+  à: 'a',
+  ä: 'a',
+  â: 'a',
+  ã: 'a',
+  é: 'e',
+  è: 'e',
+  ë: 'e',
+  ê: 'e',
+  í: 'i',
+  ì: 'i',
+  ï: 'i',
+  î: 'i',
+  ó: 'o',
+  ò: 'o',
+  ö: 'o',
+  ô: 'o',
+  õ: 'o',
+  ú: 'u',
+  ù: 'u',
+  ü: 'u',
+  û: 'u',
+  ñ: 'n',
+  ç: 'c',
 };
 
 /**
@@ -35,7 +53,11 @@ const SYNONYMS: Record<string, string> = { multipower: 'smith' };
  */
 export function searchExercises(
   exercises: Exercise[],
-  { search, category, favoriteIds }: { search: string; category: string | null; favoriteIds: ReadonlySet<number> },
+  {
+    search,
+    category,
+    favoriteIds,
+  }: { search: string; category: string | null; favoriteIds: ReadonlySet<number> },
 ): Exercise[] {
   const queryWords = normalize(search.trim())
     .split(/\s+/)

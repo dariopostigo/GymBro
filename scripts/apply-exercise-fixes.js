@@ -21,7 +21,11 @@ function main() {
   const ids = new Set(exercises.map(e => e.id));
   const sinDestino = Object.entries(MERGED_INTO).filter(([, target]) => !ids.has(target));
   if (sinDestino.length) {
-    console.warn(`Aviso: fusiones hacia ids que no están en el catálogo: ${sinDestino.map(([from, to]) => `${from}->${to}`).join(', ')}`);
+    console.warn(
+      `Aviso: fusiones hacia ids que no están en el catálogo: ${sinDestino
+        .map(([from, to]) => `${from}->${to}`)
+        .join(', ')}`,
+    );
   }
 
   exercises.sort((a, b) => {
@@ -41,7 +45,8 @@ function main() {
     console.log(`Corregidos (${fixed.length}):`);
     console.log(fixed.map(e => `  ${e.id} ${e.name} (${e.category.name})`).join('\n'));
   }
-  if (!removed.length && !fixed.length) console.log('Sin cambios: los arreglos ya estaban aplicados.');
+  if (!removed.length && !fixed.length)
+    console.log('Sin cambios: los arreglos ya estaban aplicados.');
 }
 
 main();

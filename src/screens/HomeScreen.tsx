@@ -12,7 +12,14 @@ import { BodyMap } from '../components/BodyFigure';
 import { DumbbellIcon, FlameIcon } from '../components/icons';
 import FadeInView from '../components/FadeInView';
 import MenuButton from '../components/MenuButton';
-import { Card, Overline, PrimaryButton, ProgressBar, ScreenHeader, StatTile } from '../components/ui';
+import {
+  Card,
+  Overline,
+  PrimaryButton,
+  ProgressBar,
+  ScreenHeader,
+  StatTile,
+} from '../components/ui';
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
 import { musclesWorked } from '../utils/muscleMap';

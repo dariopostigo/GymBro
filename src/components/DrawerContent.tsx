@@ -122,18 +122,18 @@ export default function DrawerContent() {
 
         <Text style={styles.sectionTitle}>Biblioteca</Text>
         <View style={styles.navGroup}>
-          <NavRow
-            Icon={GridIcon}
-            label="Ejercicios"
-            active={false}
-            onPress={goToExerciseLibrary}
-          />
+          <NavRow Icon={GridIcon} label="Ejercicios" active={false} onPress={goToExerciseLibrary} />
         </View>
 
         <Text style={styles.sectionTitle}>Rutina</Text>
         <View style={styles.navGroup}>
           {activeSplit && currentDay ? (
-            <NavRow Icon={PlusIcon} label="Editar el día de hoy" active={false} onPress={goToEditToday} />
+            <NavRow
+              Icon={PlusIcon}
+              label="Editar el día de hoy"
+              active={false}
+              onPress={goToEditToday}
+            />
           ) : null}
           <NavRow
             Icon={CalendarIcon}

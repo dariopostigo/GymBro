@@ -28,7 +28,10 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     saveFavoriteExerciseIds([...favoriteIds]);
   }, [favoriteIds, loaded]);
 
-  const isFavorite = useCallback((exerciseId: number) => favoriteIds.has(exerciseId), [favoriteIds]);
+  const isFavorite = useCallback(
+    (exerciseId: number) => favoriteIds.has(exerciseId),
+    [favoriteIds],
+  );
 
   const toggleFavorite = useCallback((exerciseId: number) => {
     setFavoriteIds(prev => {

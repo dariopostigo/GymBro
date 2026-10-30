@@ -35,7 +35,7 @@ npm start          # Metro, en una terminal
 npm run android    # compila e instala, en otra
 ```
 
-`npm test` pasa los tests (Jest) y `npm run lint`, eslint. Para formatear: `npx prettier --print-width 100 --write <ficheros>`.
+`npm test` pasa los tests (Jest) y `npm run lint`, eslint. Para formatear: `npx prettier --write <ficheros>` (el ancho de 100 columnas lo fija `.prettierrc.js`).
 
 ## Estructura
 

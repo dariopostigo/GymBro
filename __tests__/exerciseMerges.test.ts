@@ -36,13 +36,30 @@ describe('ejercicios duplicados fusionados', () => {
   it('pasa al id nuevo lo guardado con el antiguo', async () => {
     await AsyncStorage.setItem(
       'gymbro:sessions',
-      JSON.stringify([{ id: 's', date: '', splitId: 'a', splitDayId: 'b', dayName: '', completed: true, sets: [{ id: 'x', exerciseId: 1292, positionInSession: 1, setNumber: 1, weight: 0, reps: 8 }] }]),
+      JSON.stringify([
+        {
+          id: 's',
+          date: '',
+          splitId: 'a',
+          splitDayId: 'b',
+          dayName: '',
+          completed: true,
+          sets: [
+            { id: 'x', exerciseId: 1292, positionInSession: 1, setNumber: 1, weight: 0, reps: 8 },
+          ],
+        },
+      ]),
     );
-    await AsyncStorage.setItem('gymbro:dayOverrides', JSON.stringify({ 'a:b': { slot: 135, other: { targetSets: 3 } } }));
+    await AsyncStorage.setItem(
+      'gymbro:dayOverrides',
+      JSON.stringify({ 'a:b': { slot: 135, other: { targetSets: 3 } } }),
+    );
     await AsyncStorage.setItem('gymbro:favoriteExercises', JSON.stringify([1094, 73]));
 
     expect((await loadSessions())[0].sets[0].exerciseId).toBe(152);
-    expect(await loadDayOverrides()).toEqual({ 'a:b': { slot: { exerciseId: 926 }, other: { targetSets: 3 } } });
+    expect(await loadDayOverrides()).toEqual({
+      'a:b': { slot: { exerciseId: 926 }, other: { targetSets: 3 } },
+    });
     expect(await loadFavoriteExerciseIds()).toEqual([129, 73]);
   });
 
@@ -58,7 +75,15 @@ describe('ejercicios duplicados fusionados', () => {
             name: 'Día',
             order: 0,
             exercises: [
-              { id: 's', exerciseId: 73, order: 0, targetSets: 3, targetRepsMin: 8, targetRepsMax: 12, backupExerciseId: 1094 },
+              {
+                id: 's',
+                exerciseId: 73,
+                order: 0,
+                targetSets: 3,
+                targetRepsMin: 8,
+                targetRepsMax: 12,
+                backupExerciseId: 1094,
+              },
             ],
           },
         ],
