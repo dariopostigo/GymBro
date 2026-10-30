@@ -16,7 +16,6 @@ import {
   getExerciseById,
   isBodyweight,
   isTimed,
-  repRangeFor,
   isUnilateral,
 } from '../data/exerciseCatalog';
 import { computeMuscleGroupPositions } from '../utils/exerciseOrder';
@@ -34,6 +33,7 @@ import { EmptyState, GhostButton, PrimaryButton, ScreenHeader } from '../compone
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
+import { todayExercises } from '../utils/todayExercises';
 import { formatLoad, formatSet, recentSessionSets, suggestNextLoad } from '../utils/progression';
 import { liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { barTypeFor, barWeightFor } from '../utils/plates';
@@ -124,39 +124,7 @@ export default function TodayScreen() {
     return () => cancelAnimationFrame(task);
   }, [focusRequest, keyboardVisible, inset]);
 
-  const exercises = useMemo(() => {
-    if (!currentDay) return [];
-    const template = [...currentDay.exercises]
-      .sort((a, b) => a.order - b.order)
-      .map(slot => {
-        const override = overrides[slot.id];
-        if (!override) return slot;
-        const exerciseId = override.exerciseId ?? slot.exerciseId;
-        return {
-          ...slot,
-          exerciseId,
-          // Cambiado hoy por uno que va por tiempo (o al revés): el rango de la plantilla no vale.
-          ...repRangeFor(slot, exerciseId),
-          targetSets: override.targetSets ?? slot.targetSets,
-        };
-      });
-    // Los añadidos solo para hoy van al final, en el orden en que se añadieron.
-    const extras = Object.entries(overrides).flatMap(([slotId, override]) =>
-      override.extra && override.exerciseId !== undefined
-        ? [
-            {
-              id: slotId,
-              exerciseId: override.exerciseId,
-              order: Number.MAX_SAFE_INTEGER,
-              targetSets: override.targetSets ?? 3,
-              targetRepsMin: override.extra.repsMin,
-              targetRepsMax: override.extra.repsMax,
-            },
-          ]
-        : [],
-    );
-    return [...template, ...extras];
-  }, [currentDay, overrides]);
+  const exercises = useMemo(() => todayExercises(currentDay, overrides), [currentDay, overrides]);
 
   const muscleGroupPositions = useMemo(() => computeMuscleGroupPositions(exercises), [exercises]);
 

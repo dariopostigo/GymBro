@@ -74,7 +74,7 @@ Segunda vuelta (30/10/2026, mirando su código): se hacen poco a poco, de una en
 - [x] **Músculos sin entrenar**: al final de "Series por músculo" en Progreso, los grupos que llevan 7 días o más sin hacer una serie como músculo principal (de secundario no cuenta), con los días o "nunca".
 - [x] **Crear ejercicios propios desde la app**: "+ Crear ejercicio" en la biblioteca (abre su ficha) y en los buscadores (queda elegido). Nombre, categoría, músculos (principal / secundario, el de la categoría se marca solo), foto de la galería o archivos (se copia a la app), peso del cuerpo / por tiempo / a un lado y descripción. Se editan con "Editar ejercicio" en su ficha; solo se pueden borrar si no están en ningún entreno ni rutina. Ids desde 100001, guardados en AsyncStorage y en la copia de seguridad (sin las fotos: en otro móvil quedan sin foto).
 - [ ] **Cambiar el orden del entreno de hoy**: si se hace el 3º ejercicio antes que el 2º, poder reordenar Hoy (solo para hoy) para que las series se guarden con la posición real en la que se hicieron (`positionInSession` / `positionInMuscleGroup`), que es con lo que se comparan la sugerencia de peso y el historial por posición. Ahora se guarda la posición de la plantilla aunque se haya hecho en otro orden.
-- [ ] Inicio no cuenta los ejercicios "solo hoy": dice 6 ejercicios / 23 series cuando Hoy dice 7 / 26.
+- [x] Inicio no contaba los cambios de "solo hoy" (6 ejercicios / 23 series cuando Hoy decía 7 / 26): los dos usan ahora `todayExercises` (src/utils/todayExercises.ts), que también tiene en cuenta los ejercicios cambiados hoy para el mapa de músculos.
 
 ## Pendientes (de momento no)
 

@@ -23,6 +23,7 @@ import {
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
 import { musclesWorked } from '../utils/muscleMap';
+import { todayExercises } from '../utils/todayExercises';
 import { formatVolume, totalStats, volumeByWeek } from '../utils/stats';
 
 type Nav = CompositeNavigationProp<
@@ -43,21 +44,21 @@ function greeting(): string {
 export default function HomeScreen() {
   const bottomSpace = useTabScreenBottomSpace();
   const navigation = useNavigation<Nav>();
-  const { activeSplit, currentDay } = useRoutine();
+  const { activeSplit, currentDay, getDayOverrides } = useRoutine();
+  // Con los cambios de "solo hoy", como en Hoy: si no, los añadidos no cuentan.
+  const overrides = getDayOverrides(activeSplit?.id, currentDay?.id);
+  const exercises = useMemo(() => todayExercises(currentDay, overrides), [currentDay, overrides]);
   const { sessions, getActiveSession } = useSession();
 
   const stats = useMemo(() => totalStats(sessions), [sessions]);
   const week = useMemo(() => volumeByWeek(sessions), [sessions]);
   const maxVolume = Math.max(1, ...week.map(d => d.volume));
-  const muscles = useMemo(
-    () => musclesWorked(currentDay?.exercises.map(slot => slot.exerciseId) ?? []),
-    [currentDay],
-  );
+  const muscles = useMemo(() => musclesWorked(exercises.map(slot => slot.exerciseId)), [exercises]);
 
   const activeSession =
     activeSplit && currentDay ? getActiveSession(activeSplit.id, currentDay.id) : null;
 
-  const targetSets = currentDay?.exercises.reduce((sum, slot) => sum + slot.targetSets, 0) ?? 0;
+  const targetSets = exercises.reduce((sum, slot) => sum + slot.targetSets, 0);
   const doneSets = activeSession?.sets.length ?? 0;
   const progress = targetSets > 0 ? doneSets / targetSets : 0;
 
@@ -88,7 +89,7 @@ export default function HomeScreen() {
                 <Text style={styles.heroTitle}>{currentDay?.name ?? 'Sin día activo'}</Text>
                 <Text style={styles.heroMeta}>
                   {activeSplit?.name ?? 'Elige un split para empezar'}
-                  {currentDay ? ` · ${currentDay.exercises.length} ejercicios` : ''}
+                  {currentDay ? ` · ${exercises.length} ejercicios` : ''}
                 </Text>
               </View>
               <View style={styles.heroBadge}>
