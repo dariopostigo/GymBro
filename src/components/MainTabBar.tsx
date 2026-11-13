@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { colors, radius, shadow } from '../theme';
 import { CalendarIcon, ChartIcon, DumbbellIcon, HomeIcon, type IconProps } from './icons';
+import { afterSplash } from './motion';
 
 /** Espacio que hay que dejar libre al final de cada pantalla con tabs. */
 export const TAB_BAR_SPACE = 104;
@@ -119,8 +120,12 @@ export default function MainTabBar({ state, navigation }: BottomTabBarProps) {
       tension: 70,
       useNativeDriver: true,
     });
-    animation.start();
-    return () => animation.stop();
+    // Al abrir la app, la barra sube cuando el splash ya se está yendo.
+    const cancel = afterSplash(() => animation.start());
+    return () => {
+      cancel();
+      animation.stop();
+    };
   }, [hidden, keyboardVisible]);
 
   useEffect(() => {

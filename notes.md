@@ -93,6 +93,7 @@ Segunda vuelta (30/10/2026, mirando su código): se hacen poco a poco, de una en
 - [x] **Tarjetas de Hoy más compactas**: miniatura (se amplía al tocarla) con objetivo, hechas y última vez arriba; luego series y peso/reps; Plan B, cambiar ejercicio y series objetivo plegados al final.
 - [x] Historial de ejercicio: texto de "Orden dentro del entrenamiento" en una línea y "2º del entreno" en vez de "Como #2".
 - [x] Filtros por grupo sin los iconos, que apenas se veían: solo el nombre, y caben más a la vista.
+- [x] **Animaciones comunes con CestaBro (1.1.0)**: `src/components/motion.tsx` y `src/components/AnimatedSplash.tsx` son el mismo archivo en las dos apps (si se cambian, copiarlos). Splash que sale animado (la mancuerna coge impulso, asoma "GymBro", salta con una onda amarilla y deja ver la app), entradas que esperan al splash, botones y chips que se hunden y rebotan, números de las tarjetas que cuentan hasta su valor y barra de progreso que se llena con muelle. Respeta "Quitar animaciones".
 
 ## Mantenimiento
 

@@ -46,6 +46,11 @@ jest.mock('react-native/Libraries/Animated/Animated', () => {
 jest.mock('react-native-bootsplash', () => ({
   hide: jest.fn(() => Promise.resolve()),
   isVisible: jest.fn(() => false),
+  useHideAnimation: jest.fn(() => ({
+    container: { style: {}, onLayout: () => {} },
+    logo: { source: 1 },
+    brand: { source: -1 },
+  })),
 }));
 
 // Módulos nativos de la copia de seguridad: en Jest solo hace falta que importen.

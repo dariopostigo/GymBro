@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
+  Animated,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   type StyleProp,
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
 import { colors, overline, radius, shadow, spacing } from '../theme';
+import { CountUp, ScalePressable } from './motion';
 
 /** Etiqueta pequeña en mayúsculas que abre cada sección. */
 export function Overline({
@@ -73,15 +74,15 @@ export function PrimaryButton({
   style?: StyleProp<ViewStyle>;
 }) {
   return (
-    <TouchableOpacity
-      activeOpacity={0.85}
+    <ScalePressable
+      accessibilityRole="button"
       onPress={onPress}
       disabled={disabled}
       style={[styles.primaryButton, shadow.accent, disabled && styles.disabled, style]}
     >
       {icon}
       <Text style={styles.primaryButtonText}>{label}</Text>
-    </TouchableOpacity>
+    </ScalePressable>
   );
 }
 
@@ -97,13 +98,13 @@ export function GhostButton({
   dashed?: boolean;
 }) {
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
+    <ScalePressable
+      accessibilityRole="button"
       onPress={onPress}
       style={[styles.ghostButton, dashed && styles.ghostDashed, style]}
     >
       <Text style={styles.ghostButtonText}>{label}</Text>
-    </TouchableOpacity>
+    </ScalePressable>
   );
 }
 
@@ -117,13 +118,15 @@ export function Chip({
   onPress: () => void;
 }) {
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
+    <ScalePressable
+      accessibilityRole="button"
+      accessibilityState={{ selected: !!active }}
       onPress={onPress}
+      scaleTo={0.92}
       style={[styles.chip, active && styles.chipActive]}
     >
       <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
-    </TouchableOpacity>
+    </ScalePressable>
   );
 }
 
@@ -142,14 +145,23 @@ export function StatTile({
     <View style={[styles.statTile, accent && styles.statTileAccent]}>
       <View style={styles.statValueRow}>
         {/* "254,9k" no cabe entero en cuatro casillas: encoge en vez de partirse. */}
-        <Text
-          style={[styles.statValue, accent && styles.statValueAccent]}
-          numberOfLines={1}
-          adjustsFontSizeToFit
-          minimumFontScale={0.6}
-        >
-          {value}
-        </Text>
+        {typeof value === 'number' && Number.isInteger(value) ? (
+          // Los números enteros (sesiones, series, racha) cuentan hasta su valor al aparecer.
+          <CountUp
+            value={value}
+            format={n => String(Math.round(n))}
+            style={[styles.statValue, accent && styles.statValueAccent]}
+          />
+        ) : (
+          <Text
+            style={[styles.statValue, accent && styles.statValueAccent]}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.6}
+          >
+            {value}
+          </Text>
+        )}
         {unit ? (
           <Text style={[styles.statUnit, accent && styles.statUnitAccent]}>{unit}</Text>
         ) : null}
@@ -167,11 +179,29 @@ export function StatTile({
   );
 }
 
+/** Barra de progreso que se llena con un muelle cada vez que avanza. */
 export function ProgressBar({ progress }: { progress: number }) {
   const clamped = Math.max(0, Math.min(1, progress));
+  const fill = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const animation = Animated.spring(fill, {
+      toValue: clamped,
+      speed: 8,
+      bounciness: 4,
+      // width es una prop de layout: sin driver nativo.
+      useNativeDriver: false,
+    });
+    animation.start();
+    return () => animation.stop();
+  }, [clamped, fill]);
+  const width = fill.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '100%'],
+    extrapolate: 'clamp',
+  });
   return (
     <View style={styles.progressTrack}>
-      <View style={[styles.progressFill, { width: `${clamped * 100}%` }]} />
+      <Animated.View style={[styles.progressFill, { width }]} />
     </View>
   );
 }
@@ -198,18 +228,19 @@ export function Stepper({
   onIncrease: () => void;
 }) {
   const button = (text: string, disabled: boolean | undefined, onPress: () => void) => (
-    <TouchableOpacity
+    <ScalePressable
+      accessibilityRole="button"
       onPress={onPress}
       disabled={disabled}
       style={[styles.stepperButton, disabled && styles.stepperButtonDisabled]}
-      activeOpacity={0.7}
+      scaleTo={0.8}
       hitSlop={6}
       accessibilityLabel={`${text === '−' ? 'Quitar' : 'Añadir'} ${label.toLowerCase()}`}
     >
       <Text style={[styles.stepperButtonText, disabled && styles.stepperButtonTextDisabled]}>
         {text}
       </Text>
-    </TouchableOpacity>
+    </ScalePressable>
   );
 
   return (
