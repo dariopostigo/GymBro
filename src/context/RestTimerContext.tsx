@@ -3,6 +3,8 @@ import { Vibration } from 'react-native';
 import { useSettings } from './SettingsContext';
 import { loadRestTimer, saveRestTimer } from '../storage/settingsStorage';
 import { adjustRest, startRest, type RestTimer } from '../utils/restTimer';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 
 /** Dos pulsos cortos: se nota en el bolsillo sin ser una alarma. */
 const FINISH_VIBRATION = [0, 350, 180, 350];
@@ -24,6 +26,7 @@ interface RestTimerContextValue {
 const RestTimerContext = createContext<RestTimerContextValue | null>(null);
 
 export function RestTimerProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const { settings } = useSettings();
   const [timer, setTimer] = useState<RestTimer | null>(null);
   const [finished, setFinished] = useState(false);
@@ -35,12 +38,12 @@ export function RestTimerProvider({ children }: { children: React.ReactNode }) {
       // Un descanso que terminó con la app cerrada ya no se muestra.
       setTimer(prev => prev ?? (stored && stored.endsAt > Date.now() ? stored : null));
       setLoaded(true);
-    })();
-  }, []);
+    })().catch(fail);
+  }, [fail]);
 
   useEffect(() => {
     if (!loaded) return;
-    saveRestTimer(timer);
+    saveInBackground(saveRestTimer(timer));
   }, [timer, loaded]);
 
   // Al desactivarlo en Ajustes se corta el descanso en curso.

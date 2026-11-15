@@ -1,4 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 import {
   loadWeightStacks,
   resolveStack,
@@ -21,6 +23,7 @@ const WeightStacksContext = createContext<WeightStacksContextValue | null>(null)
 
 /** Pesos reales de cada máquina, para sugerir y elegir solo pesos que existen. */
 export function WeightStacksProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const [stacks, setStacks] = useState<WeightStacks>({});
 
   useEffect(() => {
@@ -28,8 +31,8 @@ export function WeightStacksProvider({ children }: { children: React.ReactNode }
       const loaded = await loadWeightStacks();
       // Lo configurado antes de terminar la carga no se pisa con lo guardado.
       setStacks(prev => ({ ...loaded, ...prev }));
-    })();
-  }, []);
+    })().catch(fail);
+  }, [fail]);
 
   const getStack = useCallback((exerciseId: number) => resolveStack(stacks, exerciseId), [stacks]);
 
@@ -47,7 +50,7 @@ export function WeightStacksProvider({ children }: { children: React.ReactNode }
       const next = { ...prev };
       if (stack === undefined) delete next[exerciseId];
       else next[exerciseId] = stack;
-      saveWeightStacks(next);
+      saveInBackground(saveWeightStacks(next));
       return next;
     });
   }, []);

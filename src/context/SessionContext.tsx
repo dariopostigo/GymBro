@@ -2,6 +2,8 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { generateId } from '../utils/id';
 import { loadSessions, saveSessions } from '../storage/sessionStorage';
 import type { ExerciseHistoryEntry, SetEntry, WorkoutSession } from '../types/session';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 
 interface AddSetParams {
   splitId: string;
@@ -69,6 +71,7 @@ interface SessionContextValue {
 const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const [loading, setLoading] = useState(true);
   const [sessions, setSessions] = useState<WorkoutSession[]>([]);
 
@@ -77,8 +80,8 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       const loaded = await loadSessions();
       setSessions(loaded);
       setLoading(false);
-    })();
-  }, []);
+    })().catch(fail);
+  }, [fail]);
 
   const getActiveSession = useCallback(
     (splitId: string, splitDayId: string) =>
@@ -128,7 +131,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         ? prev.map(s => (s.id === updatedSession.id ? updatedSession : s))
         : [...prev, updatedSession];
 
-      saveSessions(next);
+      saveInBackground(saveSessions(next));
       return next;
     });
   }, []);
@@ -138,7 +141,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       const next = prev.map(s =>
         s.id !== sessionId ? s : { ...s, sets: s.sets.filter(e => e.id !== setEntryId) },
       );
-      saveSessions(next);
+      saveInBackground(saveSessions(next));
       return next;
     });
   }, []);
@@ -151,7 +154,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         sets.splice(Math.min(index, sets.length), 0, set);
         return { ...s, sets };
       });
-      saveSessions(next);
+      saveInBackground(saveSessions(next));
       return next;
     });
   }, []);
@@ -177,7 +180,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
                 }),
               },
         );
-        saveSessions(next);
+        saveInBackground(saveSessions(next));
         return next;
       });
     },
@@ -187,7 +190,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const finishSession = useCallback((sessionId: string) => {
     setSessions(prev => {
       const next = prev.map(s => (s.id === sessionId ? { ...s, completed: true } : s));
-      saveSessions(next);
+      saveInBackground(saveSessions(next));
       return next;
     });
   }, []);
@@ -197,7 +200,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     (sessionId: string, edit: (session: WorkoutSession) => WorkoutSession) => {
       setSessions(prev => {
         const next = prev.map(s => (s.id === sessionId ? edit(s) : s));
-        saveSessions(next);
+        saveInBackground(saveSessions(next));
         return next;
       });
     },
@@ -221,7 +224,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       const id = generateId();
       setSessions(prev => {
         const next = [...prev, { ...session, id, completed: true, sets: [] }];
-        saveSessions(next);
+        saveInBackground(saveSessions(next));
         return next;
       });
       return id;
@@ -277,7 +280,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const deleteSession = useCallback((sessionId: string) => {
     setSessions(prev => {
       const next = prev.filter(s => s.id !== sessionId);
-      saveSessions(next);
+      saveInBackground(saveSessions(next));
       return next;
     });
   }, []);

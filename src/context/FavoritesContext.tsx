@@ -1,5 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { loadFavoriteExerciseIds, saveFavoriteExerciseIds } from '../storage/favoritesStorage';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 
 interface FavoritesContextValue {
   favoriteIds: ReadonlySet<number>;
@@ -11,6 +13,7 @@ const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
 /** Ejercicios marcados con estrella: salen los primeros en los buscadores. */
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const [favoriteIds, setFavoriteIds] = useState<ReadonlySet<number>>(new Set());
   const [loaded, setLoaded] = useState(false);
 
@@ -20,12 +23,12 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       // Lo marcado antes de terminar la carga no se pisa con lo guardado.
       setFavoriteIds(prev => new Set([...ids, ...prev]));
       setLoaded(true);
-    })();
-  }, []);
+    })().catch(fail);
+  }, [fail]);
 
   useEffect(() => {
     if (!loaded) return;
-    saveFavoriteExerciseIds([...favoriteIds]);
+    saveInBackground(saveFavoriteExerciseIds([...favoriteIds]));
   }, [favoriteIds, loaded]);
 
   const isFavorite = useCallback(

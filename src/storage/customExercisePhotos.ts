@@ -14,6 +14,7 @@ import {
   pick,
   types,
 } from '@react-native-documents/picker';
+import { withDb } from './db';
 
 /** Fotos de los ejercicios propios, dentro de la app (no se borran con la caché). */
 const PHOTOS_DIR = `${DocumentDirectoryPath}/custom-exercises`;
@@ -70,12 +71,32 @@ export async function pickExercisePhoto(): Promise<string | null> {
   }
 }
 
-/** Quita las fotos que ya no usa ningún ejercicio (cambiadas, de uno borrado o sin guardar). */
+/** Nombres de las fotos que salen en las copias internas (la de deshacer la importación...). */
+async function photosInSnapshots(): Promise<Set<string>> {
+  const { rows } = await withDb(db => db.execute('SELECT data FROM snapshots'));
+  const names = new Set<string>();
+  for (const row of rows) {
+    for (const [, name] of String(row.data).matchAll(/\/custom-exercises\/([^/"\\]+)/g)) {
+      names.add(name);
+    }
+  }
+  return names;
+}
+
+/**
+ * Quita las fotos que ya no usa ningún ejercicio (cambiadas, de uno borrado o sin
+ * guardar). Las de la copia para deshacer la importación se quedan: si no, al
+ * deshacer volverían los ejercicios sin sus fotos.
+ */
 export async function removeUnusedPhotos(used: string[]): Promise<void> {
   if (!(await exists(PHOTOS_DIR))) return;
-  const keep = new Set(used.map(toPath));
+  const keep = await photosInSnapshots();
+  for (const uri of used) {
+    const name = customExercisePhotoName(uri);
+    if (name) keep.add(name);
+  }
   for (const file of await readDir(PHOTOS_DIR)) {
-    if (file.isFile() && !keep.has(file.path)) await unlink(file.path).catch(() => {});
+    if (file.isFile() && !keep.has(file.name)) await unlink(file.path).catch(() => {});
   }
 }
 

@@ -181,3 +181,8 @@ export function resetDbForTests(): void {
   ready = null;
   queue = Promise.resolve();
 }
+
+/** Abre la base (esquema y paso desde AsyncStorage incluidos) sin hacer nada más. */
+export function openDb(): Promise<void> {
+  return withDb(async () => {});
+}

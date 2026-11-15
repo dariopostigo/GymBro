@@ -1,5 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generateId } from '../utils/id';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 import {
   loadActiveSplit,
   loadDayOverrides,
@@ -59,6 +61,7 @@ function prune(override: SlotOverride): SlotOverride {
 }
 
 export function RoutineProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const [loading, setLoading] = useState(true);
   const [splits, setSplits] = useState<Split[]>([]);
   const [activeSplitState, setActiveSplitState] = useState<ActiveSplitState | null>(null);
@@ -76,8 +79,8 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
       setActiveSplitState(loadedActive);
       setDayOverrides(loadedOverrides);
       setLoading(false);
-    })();
-  }, []);
+    })().catch(fail);
+  }, [fail]);
 
   const activeSplit = useMemo(
     () => splits.find(s => s.id === activeSplitState?.splitId) ?? null,
@@ -116,7 +119,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
         );
         if (Object.keys(merged).length > 0) slots[slotId] = merged;
         const next = { ...prev, [key]: slots };
-        saveDayOverrides(next);
+        saveInBackground(saveDayOverrides(next));
         return next;
       });
     },
@@ -131,7 +134,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
         slots[slotId] = { ...slots[slotId], order };
       });
       const next = { ...prev, [key]: slots };
-      saveDayOverrides(next);
+      saveInBackground(saveDayOverrides(next));
       return next;
     });
   }, []);
@@ -141,7 +144,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
       const key = dayOverridesKey(splitId, dayId);
       if (!prev[key]) return prev;
       const next = Object.fromEntries(Object.entries(prev).filter(([id]) => id !== key));
-      saveDayOverrides(next);
+      saveInBackground(saveDayOverrides(next));
       return next;
     });
   }, []);
@@ -163,7 +166,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     setActiveSplitState(prev => {
       if (!prev) return prev;
       const next = { ...prev, currentDayIndex: prev.currentDayIndex + 1 };
-      saveActiveSplit(next);
+      saveInBackground(saveActiveSplit(next));
       return next;
     });
   }, [activeSplit, currentDay, clearDayOverrides]);
@@ -176,7 +179,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
       setActiveSplitState(prev => {
         if (!prev) return prev;
         const next = { ...prev, currentDayIndex: dayIndex };
-        saveActiveSplit(next);
+        saveInBackground(saveActiveSplit(next));
         return next;
       });
     },
@@ -194,7 +197,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
                 days: split.days.map(d => (d.id !== dayId ? d : { ...d, exercises, customized })),
               },
         );
-        saveSplits(next);
+        saveInBackground(saveSplits(next));
         return next;
       });
       // Un slot que ya no existe en la plantilla no puede seguir teniendo cambio de hoy.
@@ -208,7 +211,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
         );
         if (Object.keys(kept).length === Object.keys(current).length) return prev;
         const next = { ...prev, [key]: kept };
-        saveDayOverrides(next);
+        saveInBackground(saveDayOverrides(next));
         return next;
       });
     },
@@ -244,7 +247,7 @@ export function RoutineProvider({ children }: { children: React.ReactNode }) {
     };
     setSplits(prev => {
       const next = [...prev, newSplit];
-      saveSplits(next);
+      saveInBackground(saveSplits(next));
       return next;
     });
     return newSplit;

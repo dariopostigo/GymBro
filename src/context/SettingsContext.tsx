@@ -1,4 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 import {
   DEFAULT_SETTINGS,
   loadSettings,
@@ -15,6 +17,7 @@ const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 /** Preferencias de la app que se cambian desde la pantalla de Ajustes. */
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
 
@@ -23,12 +26,12 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       const stored = await loadSettings();
       setSettings(stored);
       setLoaded(true);
-    })();
-  }, []);
+    })().catch(fail);
+  }, [fail]);
 
   useEffect(() => {
     if (!loaded) return;
-    saveSettings(settings);
+    saveInBackground(saveSettings(settings));
   }, [settings, loaded]);
 
   const updateSettings = useCallback((patch: Partial<Settings>) => {

@@ -10,6 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomExercisesProvider } from './src/context/CustomExercisesContext';
 import { DataReloadProvider } from './src/context/DataReloadContext';
 import { FavoritesProvider } from './src/context/FavoritesContext';
+import { StartupGate } from './src/components/StartupGate';
 import { RestTimerProvider } from './src/context/RestTimerContext';
 import { RoutineProvider } from './src/context/RoutineContext';
 import { SessionProvider } from './src/context/SessionContext';
@@ -23,23 +24,25 @@ function App() {
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <StatusBar barStyle="light-content" backgroundColor={colors.background} />
-        <DataReloadProvider>
-          <CustomExercisesProvider>
-            <SettingsProvider>
-              <RestTimerProvider>
-                <RoutineProvider>
-                  <SessionProvider>
-                    <FavoritesProvider>
-                      <WeightStacksProvider>
-                        <RootNavigator />
-                      </WeightStacksProvider>
-                    </FavoritesProvider>
-                  </SessionProvider>
-                </RoutineProvider>
-              </RestTimerProvider>
-            </SettingsProvider>
-          </CustomExercisesProvider>
-        </DataReloadProvider>
+        <StartupGate>
+          <DataReloadProvider>
+            <CustomExercisesProvider>
+              <SettingsProvider>
+                <RestTimerProvider>
+                  <RoutineProvider>
+                    <SessionProvider>
+                      <FavoritesProvider>
+                        <WeightStacksProvider>
+                          <RootNavigator />
+                        </WeightStacksProvider>
+                      </FavoritesProvider>
+                    </SessionProvider>
+                  </RoutineProvider>
+                </RestTimerProvider>
+              </SettingsProvider>
+            </CustomExercisesProvider>
+          </DataReloadProvider>
+        </StartupGate>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

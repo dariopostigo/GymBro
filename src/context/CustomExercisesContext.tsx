@@ -3,6 +3,8 @@ import { FIRST_CUSTOM_EXERCISE_ID, setCustomExercises } from '../data/exerciseCa
 import { loadCustomExercises, saveCustomExercises } from '../storage/customExerciseStorage';
 import { existingPhotos, removeUnusedPhotos } from '../storage/customExercisePhotos';
 import type { CustomExercise } from '../types/exercise';
+import { useStartupFailure } from '../components/StartupGate';
+import { saveInBackground } from '../storage/saveErrors';
 
 export type CustomExerciseInput = Omit<CustomExercise, 'id' | 'uuid'>;
 
@@ -22,28 +24,25 @@ const photosOf = (list: CustomExercise[]) => list.flatMap(e => e.images);
  * para que `getExerciseById` los encuentre desde el primer render como a los demás.
  */
 export function CustomExercisesProvider({ children }: { children: React.ReactNode }) {
+  const fail = useStartupFailure();
   const [list, setList] = useState<CustomExercise[] | null>(null);
 
   useEffect(() => {
     (async () => {
-      let loaded: CustomExercise[] = [];
-      try {
-        loaded = await loadCustomExercises();
-        // Una copia importada de otro móvil trae ejercicios sin sus fotos.
-        const photos = await existingPhotos(photosOf(loaded));
-        loaded = loaded.map(e => ({ ...e, images: e.images.filter(uri => photos.has(uri)) }));
-        removeUnusedPhotos(photosOf(loaded)).catch(() => {});
-      } finally {
-        setCustomExercises(loaded);
-        setList(loaded);
-      }
-    })();
-  }, []);
+      let loaded = await loadCustomExercises();
+      // Una copia importada de otro móvil trae ejercicios sin sus fotos.
+      const photos = await existingPhotos(photosOf(loaded));
+      loaded = loaded.map(e => ({ ...e, images: e.images.filter(uri => photos.has(uri)) }));
+      removeUnusedPhotos(photosOf(loaded)).catch(() => {});
+      setCustomExercises(loaded);
+      setList(loaded);
+    })().catch(fail);
+  }, [fail]);
 
   const update = useCallback((next: CustomExercise[]) => {
     setCustomExercises(next);
     setList(next);
-    saveCustomExercises(next);
+    saveInBackground(saveCustomExercises(next));
     removeUnusedPhotos(photosOf(next)).catch(() => {});
   }, []);
 
