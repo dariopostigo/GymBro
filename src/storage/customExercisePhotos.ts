@@ -1,3 +1,4 @@
+import { NativeModules } from 'react-native';
 import {
   DocumentDirectoryPath,
   copyFile,
@@ -16,6 +17,9 @@ import {
 
 /** Fotos de los ejercicios propios, dentro de la app (no se borran con la caché). */
 const PHOTOS_DIR = `${DocumentDirectoryPath}/custom-exercises`;
+/** Tamaño al que se reducen las fotos: lado largo en px y calidad JPEG. */
+const MAX_SIDE = 1200;
+const QUALITY = 80;
 
 const toPath = (uri: string) => decodeURIComponent(uri.replace(/^file:\/\//, ''));
 
@@ -49,12 +53,21 @@ export async function pickExercisePhoto(): Promise<string | null> {
   if (copy.status === 'error') throw new Error('No se pudo leer la foto elegida.');
 
   await mkdir(PHOTOS_DIR);
-  const extension = /\.\w+$/.exec(name ?? '')?.[0].toLowerCase() ?? '.jpg';
-  const path = `${PHOTOS_DIR}/${Date.now()}${extension}`;
   const cached = toPath(copy.localUri);
-  await copyFile(cached, path);
-  unlink(cached).catch(() => {});
-  return `file://${path}`;
+  try {
+    if (NativeModules.PhotoResize?.saveResized) {
+      // Reducida a JPEG: una foto de la cámara pasa de 3-5 MB a ~150 KB.
+      const path = `${PHOTOS_DIR}/${Date.now()}.jpg`;
+      await NativeModules.PhotoResize.saveResized(copy.localUri, path, MAX_SIDE, QUALITY);
+      return `file://${path}`;
+    }
+    const extension = /\.\w+$/.exec(name ?? '')?.[0].toLowerCase() ?? '.jpg';
+    const path = `${PHOTOS_DIR}/${Date.now()}${extension}`;
+    await copyFile(cached, path);
+    return `file://${path}`;
+  } finally {
+    unlink(cached).catch(() => {});
+  }
 }
 
 /** Quita las fotos que ya no usa ningún ejercicio (cambiadas, de uno borrado o sin guardar). */

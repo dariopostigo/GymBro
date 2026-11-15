@@ -90,8 +90,8 @@ android {
         applicationId "com.gymbro.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "1.3.2"
+        versionCode 8
+        versionName "1.3.3"
     }
     signingConfigs {
         debug {
@@ -116,6 +116,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.exifinterface:exifinterface:1.3.3")
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
