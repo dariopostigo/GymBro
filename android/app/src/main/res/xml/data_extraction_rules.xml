@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copia automática de Android (12 o posterior). Solo entra lo que se incluye
+  aquí; caché y temporales quedan fuera.
+
+  cloud-backup: copia diaria en el Google Drive de cada usuario (máx. 25 MB por app).
+  Sin fotos: las fotos de los ejercicios propios (custom-exercises/) pueden pasar de los 25 MB que admite
+  la copia en la nube, y entonces no se copiaría nada de la app. Las fotos
+  van en el paso de móvil a móvil y en la copia zip de Ajustes.
+  device-transfer: al pasar los datos a un móvil nuevo por cable o wifi.
+
+  La base es SQLite sin WAL: si algún día se activa WAL, incluir -wal y -shm.
+-->
+<data-extraction-rules>
+  <cloud-backup>
+    <include domain="database" path="gymbro.sqlite" />
+    <include domain="database" path="gymbro.sqlite-journal" />
+  </cloud-backup>
+  <device-transfer>
+    <include domain="database" path="gymbro.sqlite" />
+    <include domain="database" path="gymbro.sqlite-journal" />
+    <include domain="file" path="custom-exercises/" />
+  </device-transfer>
+</data-extraction-rules>

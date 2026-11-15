@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copia automática en Android 11 o anterior: lo mismo que cloud-backup en data_extraction_rules.xml. -->
+<full-backup-content>
+    <include domain="database" path="gymbro.sqlite" />
+    <include domain="database" path="gymbro.sqlite-journal" />
+</full-backup-content>
