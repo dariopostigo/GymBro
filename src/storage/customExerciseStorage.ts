@@ -1,13 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { CustomExercise } from '../types/exercise';
+import { inTransaction, withDb } from './db';
+import { readCustomExercises, writeCustomExercises } from './rows';
 
-const CUSTOM_EXERCISES_KEY = 'gymbro:customExercises';
-
-export async function loadCustomExercises(): Promise<CustomExercise[]> {
-  const raw = await AsyncStorage.getItem(CUSTOM_EXERCISES_KEY);
-  return raw ? (JSON.parse(raw) as CustomExercise[]) : [];
+export function loadCustomExercises(): Promise<CustomExercise[]> {
+  return withDb(readCustomExercises);
 }
 
-export async function saveCustomExercises(exercises: CustomExercise[]): Promise<void> {
-  await AsyncStorage.setItem(CUSTOM_EXERCISES_KEY, JSON.stringify(exercises));
+export function saveCustomExercises(exercises: CustomExercise[]): Promise<void> {
+  return inTransaction(tx => writeCustomExercises(tx, exercises));
 }

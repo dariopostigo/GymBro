@@ -1,9 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { canonicalExerciseId } from '../data/exerciseCatalog';
 import { DEFAULT_WEIGHT_STACKS } from '../data/defaultWeightStacks';
 import type { WeightStack } from '../utils/weightStack';
-
-const WEIGHT_STACKS_KEY = 'gymbro:weightStacks';
+import { inTransaction, withDb } from './db';
+import { readWeightStacks, writeWeightStacks } from './rows';
 
 /**
  * Pilas de pesos guardadas a mano, por id de ejercicio. `null` es "esta
@@ -29,14 +28,12 @@ export function resolveStack(
 }
 
 export async function loadWeightStacks(): Promise<WeightStacks> {
-  const raw = await AsyncStorage.getItem(WEIGHT_STACKS_KEY);
-  if (!raw) return {};
-  const stored = JSON.parse(raw) as Record<string, WeightStack | null>;
+  const stored = await withDb(readWeightStacks);
   return Object.fromEntries(
     Object.entries(stored).map(([id, stack]) => [canonicalExerciseId(Number(id)), stack]),
   );
 }
 
-export async function saveWeightStacks(stacks: WeightStacks): Promise<void> {
-  await AsyncStorage.setItem(WEIGHT_STACKS_KEY, JSON.stringify(stacks));
+export function saveWeightStacks(stacks: WeightStacks): Promise<void> {
+  return inTransaction(tx => writeWeightStacks(tx, stacks));
 }

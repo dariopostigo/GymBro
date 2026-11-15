@@ -1,18 +1,30 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SPLIT_PRESETS } from '../data/splitPresets';
-import { loadCustomExercises, saveCustomExercises } from './customExerciseStorage';
-import { loadFavoriteExerciseIds, saveFavoriteExerciseIds } from './favoritesStorage';
+import { loadCustomExercises } from './customExerciseStorage';
+import { loadFavoriteExerciseIds } from './favoritesStorage';
+import { withDb } from './db';
+import { KV, SNAPSHOT_PRE_IMPORT } from './legacyImport';
 import {
   loadActiveSplit,
   loadDayOverrides,
   loadSplits,
-  saveActiveSplit,
-  saveDayOverrides,
-  saveSplits,
+  writeActiveSplit,
+  writeDayOverrides,
 } from './routineStorage';
-import { loadSessions, saveSessions } from './sessionStorage';
-import { loadSettings, saveSettings, type Settings } from './settingsStorage';
-import { loadWeightStacks, saveWeightStacks, type WeightStacks } from './weightStackStorage';
+import {
+  readKv,
+  readSnapshot,
+  writeAllSessions,
+  writeCustomExercises,
+  writeFavorites,
+  writeKv,
+  writeSnapshot,
+  writeSplits,
+  writeWeightStacks,
+  type Executor,
+} from './rows';
+import { forgetStoredSessions, loadSessions } from './sessionStorage';
+import { DEFAULT_SETTINGS, loadSettings, type Settings } from './settingsStorage';
+import { loadWeightStacks, type WeightStacks } from './weightStackStorage';
 import type { CustomExercise } from '../types/exercise';
 import type { ActiveSplitState, DayOverrides, Split } from '../types/routine';
 import type { WorkoutSession } from '../types/session';
@@ -22,7 +34,6 @@ import type { WorkoutSession } from '../types/session';
  * Importar reemplaza lo que hay; antes se guarda lo actual para poder deshacerlo.
  */
 export const BACKUP_VERSION = 1;
-const PRE_IMPORT_KEY = 'gymbro:preImportBackup';
 
 export interface BackupData {
   /**
@@ -132,41 +143,63 @@ export function parseBackup(text: string): BackupFile {
   return parsed as unknown as BackupFile;
 }
 
-/** Guarda la copia en AsyncStorage. Los ids se normalizan al cargar, como siempre. */
-export async function restoreBackup({ data }: BackupFile): Promise<void> {
+/** Escribe los datos de la copia dentro de una transacción. Los ids se normalizan al cargar. */
+async function writeBackupData(tx: Executor, data: BackupData): Promise<void> {
   const knownSplitIds = new Set([...SPLIT_PRESETS, ...data.splits].map(s => s.id));
   const activeSplit =
     data.activeSplit && knownSplitIds.has(data.activeSplit.splitId) ? data.activeSplit : null;
-  await Promise.all([
-    saveSplits(data.splits),
-    saveActiveSplit(activeSplit),
-    saveDayOverrides(data.dayOverrides),
-    saveSessions(data.sessions),
-    saveFavoriteExerciseIds(data.favorites),
-    saveSettings({ ...(await loadSettings()), ...data.settings }),
-    // Una copia antigua sin pesos de máquinas no borra los que ya hay.
-    data.weightStacks ? saveWeightStacks(data.weightStacks) : Promise.resolve(),
-    // Igual con los ejercicios propios: una copia de antes de tenerlos no los borra.
-    data.customExercises ? saveCustomExercises(data.customExercises) : Promise.resolve(),
-  ]);
+  const currentSettings = await readKv(tx, KV.settings);
+  const settings: Settings = {
+    ...DEFAULT_SETTINGS,
+    ...(currentSettings ? (JSON.parse(currentSettings) as Partial<Settings>) : {}),
+    ...data.settings,
+  };
+  await writeSplits(tx, data.splits);
+  await writeActiveSplit(tx, activeSplit);
+  await writeDayOverrides(tx, data.dayOverrides);
+  await writeAllSessions(tx, data.sessions);
+  await writeFavorites(tx, data.favorites);
+  await writeKv(tx, KV.settings, JSON.stringify(settings));
+  // Una copia antigua sin pesos de máquinas no borra los que ya hay.
+  if (data.weightStacks) await writeWeightStacks(tx, data.weightStacks);
+  // Igual con los ejercicios propios: una copia de antes de tenerlos no los borra.
+  if (data.customExercises) await writeCustomExercises(tx, data.customExercises);
+}
+
+/**
+ * Escribe todo en una sola transacción: o se aplica entera o no se toca nada.
+ * `before` corre dentro de la misma transacción (p. ej. guardar lo de antes).
+ */
+function writeAll(data: BackupData, before?: (tx: Executor) => Promise<void>): Promise<void> {
+  return withDb(async db => {
+    forgetStoredSessions();
+    await db.transaction(async tx => {
+      await before?.(tx);
+      await writeBackupData(tx, data);
+    });
+  });
+}
+
+/** Reemplaza los datos por los de la copia. */
+export function restoreBackup({ data }: BackupFile): Promise<void> {
+  return writeAll(data);
 }
 
 /** Reemplaza los datos por los de la copia, guardando antes los actuales. */
 export async function importBackup(backup: BackupFile): Promise<void> {
-  await AsyncStorage.setItem(PRE_IMPORT_KEY, JSON.stringify(await createBackup()));
-  await restoreBackup(backup);
+  const current = JSON.stringify(await createBackup());
+  await writeAll(backup.data, tx => writeSnapshot(tx, SNAPSHOT_PRE_IMPORT, current));
 }
 
 export async function hasPreImportBackup(): Promise<boolean> {
-  return (await AsyncStorage.getItem(PRE_IMPORT_KEY)) !== null;
+  return (await withDb(db => readSnapshot(db, SNAPSHOT_PRE_IMPORT))) !== null;
 }
 
 /** Vuelve a los datos que había antes de la última importación. */
 export async function undoImport(): Promise<void> {
-  const raw = await AsyncStorage.getItem(PRE_IMPORT_KEY);
+  const raw = await withDb(db => readSnapshot(db, SNAPSHOT_PRE_IMPORT));
   if (!raw) throw new BackupError('No hay ninguna importación que deshacer.');
-  await restoreBackup(parseBackup(raw));
-  await AsyncStorage.removeItem(PRE_IMPORT_KEY);
+  await writeAll(parseBackup(raw).data, tx => writeSnapshot(tx, SNAPSHOT_PRE_IMPORT, null));
 }
 
 /** "12 entrenamientos · 2 splits propios · 5 favoritos" para confirmar antes de importar. */

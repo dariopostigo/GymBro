@@ -12,6 +12,7 @@ import {
   type BackupFile,
 } from '../src/storage/backup';
 import { SPLIT_PRESETS } from '../src/data/splitPresets';
+import { loadActiveSplit } from '../src/storage/routineStorage';
 import { loadSessions } from '../src/storage/sessionStorage';
 import { loadSettings } from '../src/storage/settingsStorage';
 import type { Split } from '../src/types/routine';
@@ -79,7 +80,7 @@ test('importar reemplaza los datos y deshacer recupera los anteriores', async ()
 
 test('un split activo que no existe en la copia se descarta', async () => {
   await importBackup(backupWith({ activeSplit: { splitId: 'borrado', currentDayIndex: 0 } }));
-  expect(await AsyncStorage.getItem('gymbro:activeSplit')).toBeNull();
+  expect(await loadActiveSplit()).toBeNull();
 });
 
 describe('parseBackup rechaza', () => {

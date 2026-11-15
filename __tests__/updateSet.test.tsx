@@ -19,6 +19,10 @@ async function renderSession(): Promise<{ current: () => Session }> {
       </SessionProvider>,
     );
   });
+  // La carga de la base es asíncrona: hasta que no termina, lo apuntado se pisaría.
+  while (value!.loading) {
+    await ReactTestRenderer.act(() => new Promise<void>(resolve => setTimeout(resolve, 5)));
+  }
   return { current: () => value! };
 }
 

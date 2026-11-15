@@ -73,3 +73,43 @@ jest.mock('@react-native-documents/picker', () => ({
   saveDocuments: jest.fn(),
   types: { allFiles: '*/*', images: 'image/*' },
 }));
+
+// op-sqlite es nativo: en Jest lo sustituimos por SQLite compilado a WebAssembly
+// (sql.js), así los tests ejecutan el SQL de verdad. Cada open() es una base
+// nueva en memoria (como en CestaBro).
+jest.mock('@op-engineering/op-sqlite', () => {
+  const sqlReady = require('sql.js')();
+  const run = (db, sql, params = []) => {
+    const stmt = db.prepare(sql);
+    try {
+      stmt.bind(params);
+      const rows = [];
+      while (stmt.step()) {
+        rows.push(stmt.getAsObject());
+      }
+      return { rows, rowsAffected: db.getRowsModified() };
+    } finally {
+      stmt.free();
+    }
+  };
+  return {
+    open: () => {
+      const dbReady = sqlReady.then(SQL => new SQL.Database());
+      const execute = async (sql, params) => run(await dbReady, sql, params);
+      return {
+        execute,
+        transaction: async fn => {
+          await execute('BEGIN');
+          try {
+            await fn({ execute });
+            await execute('COMMIT');
+          } catch (error) {
+            await execute('ROLLBACK');
+            throw error;
+          }
+        },
+        close: () => {},
+      };
+    },
+  };
+});

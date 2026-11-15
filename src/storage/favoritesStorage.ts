@@ -1,13 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { canonicalExerciseId } from '../data/exerciseCatalog';
-
-const FAVORITES_KEY = 'gymbro:favoriteExercises';
+import { inTransaction, withDb } from './db';
+import { readFavorites, writeFavorites } from './rows';
 
 export async function loadFavoriteExerciseIds(): Promise<number[]> {
-  const raw = await AsyncStorage.getItem(FAVORITES_KEY);
-  return raw ? (JSON.parse(raw) as number[]).map(canonicalExerciseId) : [];
+  return (await withDb(readFavorites)).map(canonicalExerciseId);
 }
 
-export async function saveFavoriteExerciseIds(ids: number[]): Promise<void> {
-  await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+export function saveFavoriteExerciseIds(ids: number[]): Promise<void> {
+  return inTransaction(tx => writeFavorites(tx, ids));
 }

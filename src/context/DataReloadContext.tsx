@@ -4,7 +4,7 @@ const DataReloadContext = createContext<(() => void) | null>(null);
 
 /**
  * Vuelve a montar todo lo que cuelga de aquí para que los contextos relean
- * AsyncStorage, por ejemplo tras importar una copia de seguridad.
+ * la base de datos, por ejemplo tras importar una copia de seguridad.
  */
 export function DataReloadProvider({ children }: { children: React.ReactNode }) {
   const [version, setVersion] = useState(0);

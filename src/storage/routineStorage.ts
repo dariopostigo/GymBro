@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { canonicalExerciseId } from '../data/exerciseCatalog';
 import { SPLIT_PRESETS } from '../data/splitPresets';
 import type {
@@ -8,11 +7,16 @@ import type {
   Split,
   SplitDay,
 } from '../types/routine';
-
-const SPLITS_KEY = 'gymbro:splits';
-const ACTIVE_SPLIT_KEY = 'gymbro:activeSplit';
-const DAY_OVERRIDES_KEY = 'gymbro:dayOverrides';
-const RECOMMENDED_SPLIT_MIGRATION_KEY = 'gymbro:migration:pplHypertrophyActive';
+import { inTransaction, withDb } from './db';
+import { KV } from './legacyImport';
+import {
+  readKv,
+  readSplits,
+  stableStringify,
+  writeKv,
+  writeSplits,
+  type Executor,
+} from './rows';
 
 function withCanonicalIds(day: SplitDay): SplitDay {
   return {
@@ -55,42 +59,50 @@ export function mergeSplits(stored: Split[]): Split[] {
   return [...presets, ...customSplits];
 }
 
-export async function loadSplits(): Promise<Split[]> {
-  const raw = await AsyncStorage.getItem(SPLITS_KEY);
-  const merged = mergeSplits(raw ? (JSON.parse(raw) as Split[]) : []);
-  await AsyncStorage.setItem(SPLITS_KEY, JSON.stringify(merged));
-  return merged;
+export function loadSplits(): Promise<Split[]> {
+  return withDb(async db => {
+    const stored = await readSplits(db);
+    const merged = mergeSplits(stored);
+    // Se guarda lo combinado (como antes), pero solo si ha cambiado algo.
+    if (stableStringify(merged) !== stableStringify(stored)) {
+      await db.transaction(tx => writeSplits(tx, merged));
+    }
+    return merged;
+  });
 }
 
-export async function saveSplits(splits: Split[]): Promise<void> {
-  await AsyncStorage.setItem(SPLITS_KEY, JSON.stringify(splits));
+export function saveSplits(splits: Split[]): Promise<void> {
+  return inTransaction(tx => writeSplits(tx, splits));
 }
 
 /**
  * Migración única (8/10/2026): el PPL de hipertrofia pasa a ser el split activo,
  * empezando por Push A. Después se puede cambiar con normalidad desde el menú.
  */
-export async function migrateToRecommendedSplit(): Promise<void> {
-  if (await AsyncStorage.getItem(RECOMMENDED_SPLIT_MIGRATION_KEY)) return;
-  await saveActiveSplit({ splitId: 'ppl', currentDayIndex: 0 });
-  await AsyncStorage.setItem(RECOMMENDED_SPLIT_MIGRATION_KEY, '1');
+export function migrateToRecommendedSplit(): Promise<void> {
+  return withDb(async db => {
+    if (await readKv(db, KV.pplMigration)) return;
+    await db.transaction(async tx => {
+      await writeActiveSplit(tx, { splitId: 'ppl', currentDayIndex: 0 });
+      await writeKv(tx, KV.pplMigration, '1');
+    });
+  });
 }
 
 export async function loadActiveSplit(): Promise<ActiveSplitState | null> {
-  const raw = await AsyncStorage.getItem(ACTIVE_SPLIT_KEY);
+  const raw = await withDb(db => readKv(db, KV.activeSplit));
   return raw ? (JSON.parse(raw) as ActiveSplitState) : null;
 }
 
-export async function saveActiveSplit(state: ActiveSplitState | null): Promise<void> {
-  if (state === null) {
-    await AsyncStorage.removeItem(ACTIVE_SPLIT_KEY);
-    return;
-  }
-  await AsyncStorage.setItem(ACTIVE_SPLIT_KEY, JSON.stringify(state));
+export const writeActiveSplit = (tx: Executor, state: ActiveSplitState | null) =>
+  writeKv(tx, KV.activeSplit, state && JSON.stringify(state));
+
+export function saveActiveSplit(state: ActiveSplitState | null): Promise<void> {
+  return inTransaction(tx => writeActiveSplit(tx, state));
 }
 
 export async function loadDayOverrides(): Promise<DayOverrides> {
-  const raw = await AsyncStorage.getItem(DAY_OVERRIDES_KEY);
+  const raw = await withDb(db => readKv(db, KV.dayOverrides));
   if (!raw) return {};
   const stored = JSON.parse(raw) as Record<string, Record<string, SlotOverride | number>>;
   // La primera versión guardaba solo el exerciseId como número suelto.
@@ -110,6 +122,9 @@ export async function loadDayOverrides(): Promise<DayOverrides> {
   );
 }
 
-export async function saveDayOverrides(overrides: DayOverrides): Promise<void> {
-  await AsyncStorage.setItem(DAY_OVERRIDES_KEY, JSON.stringify(overrides));
+export const writeDayOverrides = (tx: Executor, overrides: DayOverrides) =>
+  writeKv(tx, KV.dayOverrides, JSON.stringify(overrides));
+
+export function saveDayOverrides(overrides: DayOverrides): Promise<void> {
+  return inTransaction(tx => writeDayOverrides(tx, overrides));
 }

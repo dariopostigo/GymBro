@@ -1,10 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { EffortMode } from '../utils/effort';
 import { DEFAULT_BAR_WEIGHTS, DEFAULT_PLATES, type BarWeights } from '../utils/plates';
 import type { RestTimer } from '../utils/restTimer';
-
-const SETTINGS_KEY = 'gymbro:settings';
-const REST_TIMER_KEY = 'gymbro:restTimer';
+import { inTransaction, withDb } from './db';
+import { KV } from './legacyImport';
+import { readKv, writeKv } from './rows';
 
 export interface Settings {
   restTimerEnabled: boolean;
@@ -37,26 +36,22 @@ export const DEFAULT_SETTINGS: Settings = {
 export const WEIGHT_INCREMENTS = [1, 1.25, 2.5, 5];
 
 export async function loadSettings(): Promise<Settings> {
-  const raw = await AsyncStorage.getItem(SETTINGS_KEY);
+  const raw = await withDb(db => readKv(db, KV.settings));
   // Los ajustes nuevos que no estaban guardados toman su valor por defecto.
   return raw
     ? { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<Settings>) }
     : DEFAULT_SETTINGS;
 }
 
-export async function saveSettings(settings: Settings): Promise<void> {
-  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+export function saveSettings(settings: Settings): Promise<void> {
+  return inTransaction(tx => writeKv(tx, KV.settings, JSON.stringify(settings)));
 }
 
 export async function loadRestTimer(): Promise<RestTimer | null> {
-  const raw = await AsyncStorage.getItem(REST_TIMER_KEY);
+  const raw = await withDb(db => readKv(db, KV.restTimer));
   return raw ? (JSON.parse(raw) as RestTimer) : null;
 }
 
-export async function saveRestTimer(timer: RestTimer | null): Promise<void> {
-  if (timer === null) {
-    await AsyncStorage.removeItem(REST_TIMER_KEY);
-    return;
-  }
-  await AsyncStorage.setItem(REST_TIMER_KEY, JSON.stringify(timer));
+export function saveRestTimer(timer: RestTimer | null): Promise<void> {
+  return inTransaction(tx => writeKv(tx, KV.restTimer, timer && JSON.stringify(timer)));
 }

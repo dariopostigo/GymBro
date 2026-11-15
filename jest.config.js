@@ -1,6 +1,7 @@
 module.exports = {
   preset: '@react-native/jest-preset',
   setupFiles: ['./jest.setup.js'],
+  setupFilesAfterEnv: ['./jest.afterEnv.js'],
   moduleNameMapper: {
     '/exercises-local/.+\\.(png|jpe?g|webp)$': '<rootDir>/__mocks__/localExerciseImageStub.js',
     // Jest no transforma .mjs: usamos el build CommonJS de Lucide.
