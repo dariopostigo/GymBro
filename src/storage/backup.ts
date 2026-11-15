@@ -49,8 +49,9 @@ export interface BackupData {
   /** Pesos de cada máquina. Las copias antiguas no lo traen. */
   weightStacks?: WeightStacks;
   /**
-   * Ejercicios creados en la app, sin las fotos (son archivos aparte): en el
-   * mismo móvil siguen ahí; en otro, quedan sin foto. Las copias antiguas no lo traen.
+   * Ejercicios creados en la app. Sus fotos van en el zip junto al JSON (desde
+   * la 1.3.0); con una copia .json antigua, en otro móvil quedan sin foto.
+   * Las copias antiguas no lo traen.
    */
   customExercises?: CustomExercise[];
 }
@@ -216,5 +217,5 @@ export function describeBackup({ data }: BackupFile): string {
 
 export function backupFileName(now = new Date()): string {
   const pad = (n: number) => String(n).padStart(2, '0');
-  return `gymbro-copia-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.json`;
+  return `gymbro-copia-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.zip`;
 }

@@ -3,14 +3,8 @@ import { Alert, ScrollView, StyleSheet, Switch, Text, View } from 'react-native'
 import { useReloadData } from '../context/DataReloadContext';
 import { useSettings } from '../context/SettingsContext';
 import { WEIGHT_INCREMENTS } from '../storage/settingsStorage';
-import {
-  describeBackup,
-  hasPreImportBackup,
-  importBackup,
-  undoImport,
-  type BackupFile,
-} from '../storage/backup';
-import { exportBackupFile, pickBackupFile } from '../storage/backupFiles';
+import { describeBackup, hasPreImportBackup, importBackup, undoImport } from '../storage/backup';
+import { exportBackupFile, pickBackupFile, type PickedBackup } from '../storage/backupFiles';
 import { Card, Chip, GhostButton, Overline, PrimaryButton, Stepper } from '../components/ui';
 import {
   MAX_REST,
@@ -103,31 +97,40 @@ function BackupSection() {
       }
     });
 
-  const confirmImport = (backup: BackupFile) =>
+  const confirmImport = ({ backup, photoCount, restorePhotos, dispose }: PickedBackup) => {
+    const photos = photoCount ? ` · ${photoCount} ${photoCount === 1 ? 'foto' : 'fotos'}` : '';
     Alert.alert(
       'Importar copia',
-      `Copia del ${formatDate(backup.exportedAt)}: ${describeBackup(backup)}.\n\n` +
+      `Copia del ${formatDate(backup.exportedAt)}: ${describeBackup(backup)}${photos}.\n\n` +
         'Se reemplazarán tus rutinas, historial, favoritos y ajustes actuales. ' +
         'Podrás deshacerlo desde esta pantalla.',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Cancelar', style: 'cancel', onPress: dispose },
         {
           text: 'Importar',
           style: 'destructive',
           onPress: () =>
             run(async () => {
-              await importBackup(backup);
+              try {
+                // Las fotos primero: al recargar se borran las que no usa ningún ejercicio.
+                await restorePhotos();
+                await importBackup(backup);
+              } finally {
+                await dispose();
+              }
               reloadData();
               Alert.alert('Datos importados', 'La copia se ha restaurado correctamente.');
             }),
         },
       ],
+      { cancelable: true, onDismiss: dispose },
     );
+  };
 
   const handleImport = () =>
     run(async () => {
-      const backup = await pickBackupFile();
-      if (backup) confirmImport(backup);
+      const picked = await pickBackupFile();
+      if (picked) confirmImport(picked);
     });
 
   const handleUndo = () =>
@@ -153,7 +156,7 @@ function BackupSection() {
       <View style={styles.switchText}>
         <Text style={styles.switchLabel}>Copia de seguridad</Text>
         <Text style={styles.switchHint}>
-          Rutinas, historial, favoritos y ajustes en un archivo. Guárdalo fuera del móvil para no
+          Rutinas, historial, favoritos, ajustes y fotos de tus ejercicios en un archivo. Guárdalo fuera del móvil para no
           perder nada si reinstalas la app o cambias de teléfono.
         </Text>
       </View>

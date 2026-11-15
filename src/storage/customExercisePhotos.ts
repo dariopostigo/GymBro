@@ -19,6 +19,16 @@ const PHOTOS_DIR = `${DocumentDirectoryPath}/custom-exercises`;
 
 const toPath = (uri: string) => decodeURIComponent(uri.replace(/^file:\/\//, ''));
 
+/** Ruta en el móvil de una foto por su nombre de archivo (para la copia de seguridad). */
+export const customExercisePhotoPath = (fileName: string) => `${PHOTOS_DIR}/${fileName}`;
+export const ensureCustomExercisePhotosDir = () => mkdir(PHOTOS_DIR);
+
+/** "file://…/custom-exercises/123.jpg" → "123.jpg"; null si no es una foto de esa carpeta. */
+export function customExercisePhotoName(uri: string): string | null {
+  const match = /\/custom-exercises\/([^/]+)$/.exec(toPath(uri));
+  return match ? match[1] : null;
+}
+
 /**
  * Abre el selector del sistema (galería, archivos, Drive...) y copia la foto
  * elegida a la carpeta de la app. Devuelve su `file://` o `null` si se cancela.

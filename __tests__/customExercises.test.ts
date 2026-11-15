@@ -79,3 +79,10 @@ test('una copia antigua sin ejercicios propios no borra los que hay', async () =
   await importBackup({ ...old, data: { ...old.data, customExercises: undefined } } as BackupFile);
   expect(await loadCustomExercises()).toEqual([custom()]);
 });
+
+test('el nombre de la foto sale de su ruta, sea del móvil que sea', () => {
+  const { customExercisePhotoName } = require('../src/storage/customExercisePhotos');
+  expect(customExercisePhotoName('file:///data/user/0/com.gymbro.app/files/custom-exercises/1731.jpg')).toBe('1731.jpg');
+  expect(customExercisePhotoName('file:///data/user/0/app.tubro.gym/files/custom-exercises/a%20b.png')).toBe('a b.png');
+  expect(customExercisePhotoName('https://ejemplo.com/foto.jpg')).toBeNull();
+});
