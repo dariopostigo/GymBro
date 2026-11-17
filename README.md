@@ -2,21 +2,24 @@
 
 App de gimnasio para uso personal, en español y sin conexión: rutinas por días, registro de series en el gimnasio y seguimiento del progreso. React Native (CLI, TypeScript), solo Android en la práctica.
 
-## Qué hace
+## Qué hace (1.3.5)
+
+Pestañas Inicio · Rutina · **[Entrenar]** · Progreso · Ejercicios, con el botón grande del centro para el entreno de hoy (como en NutriBro y CestaBro).
 
 - **Rutinas**: plantillas predefinidas (Push / Pull / Legs, Torso / Pierna, Bro Split) o propias, editables día a día. Cada ejercicio tiene series, rango de repeticiones, descanso y un plan B.
-- **Hoy**: el día que toca, con la sugerencia de peso de la última vez (sube cuando se llega al tope de reps o el RIR dice que sobró). Desde aquí se apuntan series (con RIR/RPE opcional), se corrigen las ya apuntadas, se cambia un ejercicio solo para hoy o al plan B y se añaden ejercicios extra. Además:
+- **Hoy** (Entrenar): el día que toca, con la sugerencia de peso de la última vez (sube cuando se llega al tope de reps o el RIR dice que sobró). Desde aquí se apuntan series (con RIR/RPE opcional), se corrigen las ya apuntadas, se cambia un ejercicio solo para hoy o al plan B y se añaden ejercicios extra. Además:
   - Temporizador de descanso automático.
   - Calculadora de discos por lado.
   - Ejercicios con el peso del cuerpo (se apunta el lastre) y por tiempo (segundos, con cronómetro).
   - Pesos reales de cada máquina.
+  - Reps con − / + sin sacar el teclado.
   - Aviso de récord al momento.
-- **Resumen al terminar**: volumen, comparación con la vez anterior, récords y mapa corporal de lo trabajado.
+- **Resumen al terminar**: volumen (en kg, o en toneladas desde 1000 kg), comparación con la vez anterior, récords y mapa corporal de lo trabajado.
 - **Progreso**: series semanales por grupo muscular (con la banda de 10-20), calendario de los días entrenados, historial y gráfica por ejercicio, sesiones pasadas con su duración.
 - **Catálogo de ~450 ejercicios** con fotos, descripción, músculos y búsqueda por grupo (bíceps, tríceps, cuádriceps, femoral...), y ejercicios propios creados en la app con su foto.
-- **Copia de seguridad** a JSON (exportar, importar y deshacer la importación).
+- **Copia de seguridad** en un zip con el JSON y las fotos de los ejercicios propios (exportar, importar y deshacer la importación; también acepta los `.json` antiguos).
 
-Todo se guarda en el móvil con AsyncStorage; no hay cuentas ni servidor.
+Todo se guarda en el móvil en SQLite (op-sqlite) desde la 1.2.0; los datos de antes (AsyncStorage) se pasaron solos al abrir. No hay cuentas ni servidor.
 
 ## Requisitos
 
@@ -42,7 +45,7 @@ npm run android    # compila e instala, en otra
 
 - [src/screens/](src/screens): una pantalla por fichero (Hoy, Rutina, Progreso, Ajustes, editor del día, buscador de ejercicios...).
 - [src/context/](src/context): el estado de la app (rutinas y cambios "solo hoy", sesiones, ajustes, temporizador, pesos de máquinas, favoritos).
-- [src/storage/](src/storage): lectura y escritura en AsyncStorage, migraciones y copia de seguridad.
+- [src/storage/](src/storage): base SQLite ([db.ts](src/storage/db.ts), migraciones con `PRAGMA user_version`), paso de los datos de AsyncStorage y copia de seguridad (zip con fotos).
 - [src/utils/](src/utils): lógica sin interfaz: progresión, récords, discos, series por músculo, búsqueda...
 - [src/data/](src/data): catálogo de ejercicios y datos editables a mano:
   - [exercises.json](src/data/exercises.json): el catálogo. Se genera con los scripts y no se edita a mano.

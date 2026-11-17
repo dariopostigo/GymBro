@@ -4,6 +4,14 @@
 
 Fallos y cosas que cambiar vistas al usar la app.
 
+Del repaso del 2026-11-15 (venían de PLAN.md):
+
+- [ ] 🟠 Datos mal guardados o mostrados: mismo ejercicio dos veces en un día, id reutilizado de un ejercicio propio borrado, récord con lastre "10 kg (antes 0)".
+- [ ] 🟡 Para publicar: versión visible, destello blanco al arrancar, botones de la copia sin estado deshabilitado, librerías al día.
+- [ ] Por decidir: racha por semanas, "rutina" en vez de "split".
+
+Hechas:
+
 - [x] **Inicio · casilla de Volumen**: salía descuadrada respecto a las demás y ponía "136,6k kg". Ahora el volumen se muestra en kg hasta 1000 y en toneladas a partir de ahí ("136,6 t"), y las casillas tienen la fila del número a altura fija.
 
 Esto, las reps con − / + y la barra de abajo nueva van en la 1.3.5 (instalada en el móvil el 17/11/2026).
