@@ -2,7 +2,7 @@
  * @format
  */
 
-import { estimatedOneRepMax, volumeByWeek } from '../src/utils/stats';
+import { estimatedOneRepMax, formatVolume, volumeByWeek } from '../src/utils/stats';
 import type { WorkoutSession } from '../src/types/session';
 
 function sessionOn(date: Date, weight: number, reps: number): WorkoutSession {
@@ -59,4 +59,12 @@ test('más peso a menos reps puede empatar con menos peso a más reps', () => {
 test('sin peso o sin reps no hay estimación', () => {
   expect(estimatedOneRepMax(0, 10)).toBe(0);
   expect(estimatedOneRepMax(80, 0)).toBe(0);
+});
+
+describe('formatVolume', () => {
+  it('muestra kilos por debajo de una tonelada y toneladas desde ahí', () => {
+    expect(formatVolume(840)).toBe('840 kg');
+    expect(formatVolume(999.6)).toBe('1,0 t');
+    expect(formatVolume(136_600)).toBe('136,6 t');
+  });
 });

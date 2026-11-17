@@ -211,6 +211,15 @@ export default function ExerciseCard({
     setWeightText(formatWeight(stepWeight(weights, current, direction)));
   };
 
+  // Reps de 1 en 1 sin sacar el teclado; nunca baja de 1.
+  const stepReps = (direction: 1 | -1) => {
+    const current = parseInt(repsText, 10);
+    const next = Number.isFinite(current) ? current + direction : direction > 0 ? 1 : 0;
+    if (next < 1) return;
+    setStopwatchStart(null);
+    setRepsText(String(next));
+  };
+
   const handleAdd = () => {
     // Apuntar con el cronómetro en marcha lo para y se queda con lo que marcaba.
     const elapsed =
@@ -568,6 +577,16 @@ export default function ExerciseCard({
                 {unilateral ? ' por lado' : ''}
               </Text>
               <View style={styles.weightRow}>
+                {!timed && (
+                  <TouchableOpacity
+                    style={styles.stackButton}
+                    onPress={() => stepReps(-1)}
+                    activeOpacity={0.8}
+                    accessibilityLabel="Una repetición menos"
+                  >
+                    <Text style={styles.stackButtonText}>−</Text>
+                  </TouchableOpacity>
+                )}
                 <TextInput
                   value={repsText}
                   onChangeText={text => {
@@ -581,6 +600,16 @@ export default function ExerciseCard({
                   returnKeyType="done"
                   style={[styles.setInput, styles.repsInput]}
                 />
+                {!timed && (
+                  <TouchableOpacity
+                    style={styles.stackButton}
+                    onPress={() => stepReps(1)}
+                    activeOpacity={0.8}
+                    accessibilityLabel="Una repetición más"
+                  >
+                    <Text style={styles.stackButtonText}>+</Text>
+                  </TouchableOpacity>
+                )}
                 {timed && (
                   <TouchableOpacity
                     style={[styles.stackButton, stopwatchStart !== null && styles.stopwatchRunning]}
@@ -832,8 +861,8 @@ const styles = StyleSheet.create({
   setRowText: { color: colors.textDim, fontSize: 14 },
   plateHint: { color: colors.accent, fontSize: 12.5, fontWeight: '700', marginTop: -4 },
   weightRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  weightInput: { flex: 1, textAlign: 'center' },
-  repsInput: { flex: 1 },
+  weightInput: { flex: 1, textAlign: 'center', paddingHorizontal: 4 },
+  repsInput: { flex: 1, textAlign: 'center', paddingHorizontal: 4 },
   stackButton: {
     width: 30,
     height: 44,

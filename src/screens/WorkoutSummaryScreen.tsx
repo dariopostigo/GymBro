@@ -9,7 +9,7 @@ import { CheckIcon, DumbbellIcon, TrophyIcon } from '../components/icons';
 import { Card, EmptyState, GhostButton, Overline, PrimaryButton, StatTile } from '../components/ui';
 import type { RootStackParamList } from '../navigation/types';
 import { formatSet } from '../utils/progression';
-import { dayKey, formatSessionDate, formatShortDate, formatVolume } from '../utils/stats';
+import { dayKey, formatSessionDate, formatShortDate, volumeParts } from '../utils/stats';
 import {
   buildWorkoutSummary,
   describeRecord,
@@ -92,7 +92,7 @@ export default function WorkoutSummaryScreen({ route, navigation }: Props) {
         <FadeInView delay={60}>
           <View style={styles.stats}>
             <StatTile value={summary.sets} label="Series" accent />
-            <StatTile value={formatVolume(summary.volume)} unit="kg" label="Volumen" />
+            <StatTile {...volumeParts(summary.volume)} label="Volumen" />
             <StatTile value={summary.exercises.length} label="Ejercicios" />
           </View>
           {summary.comparison && (

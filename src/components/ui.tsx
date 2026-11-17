@@ -144,7 +144,7 @@ export function StatTile({
   return (
     <View style={[styles.statTile, accent && styles.statTileAccent]}>
       <View style={styles.statValueRow}>
-        {/* "254,9k" no cabe entero en cuatro casillas: encoge en vez de partirse. */}
+        {/* "254,9" no cabe entero en cuatro casillas: encoge en vez de partirse. */}
         {typeof value === 'number' && Number.isInteger(value) ? (
           // Los números enteros (sesiones, series, racha) cuentan hasta su valor al aparecer.
           <CountUp
@@ -338,8 +338,16 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   statTileAccent: { backgroundColor: colors.accent, borderColor: colors.accent },
-  statValueRow: { flexDirection: 'row', alignItems: 'baseline', gap: 3 },
-  statValue: { color: colors.text, fontSize: 20, fontWeight: '800', flexShrink: 1 },
+  // Altura fija: un valor que encoge para caber ("136,6") no puede descuadrar su
+  // casilla respecto a las vecinas.
+  statValueRow: { flexDirection: 'row', alignItems: 'baseline', gap: 3, height: 26 },
+  statValue: {
+    color: colors.text,
+    fontSize: 20,
+    lineHeight: 26,
+    fontWeight: '800',
+    flexShrink: 1,
+  },
   statValueAccent: { color: colors.onAccent },
   statUnit: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   statUnitAccent: { color: colors.onAccent, opacity: 0.7 },

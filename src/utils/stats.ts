@@ -184,12 +184,21 @@ export function exerciseSummaries(sessions: WorkoutSession[]): ExerciseSummary[]
     .sort((a, b) => b.lastDate.localeCompare(a.lastDate));
 }
 
-/** "12,4k" para números grandes, "840" para el resto. */
-export function formatVolume(volume: number): string {
-  if (volume >= 1000) {
-    return `${(volume / 1000).toFixed(1).replace('.', ',')}k`;
+/**
+ * Volumen listo para mostrar con su unidad: "840 kg" o, desde una tonelada,
+ * "136,6 t" (antes salía "136,6k kg", que no se entendía).
+ */
+export function volumeParts(volume: number): { value: string; unit: 'kg' | 't' } {
+  if (Math.round(volume) >= 1000) {
+    return { value: (volume / 1000).toFixed(1).replace('.', ','), unit: 't' };
   }
-  return String(Math.round(volume));
+  return { value: String(Math.round(volume)), unit: 'kg' };
+}
+
+/** "840 kg", "136,6 t". */
+export function formatVolume(volume: number): string {
+  const { value, unit } = volumeParts(volume);
+  return `${value} ${unit}`;
 }
 
 export function formatShortDate(iso: string): string {

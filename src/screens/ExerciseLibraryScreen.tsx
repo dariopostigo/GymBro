@@ -2,6 +2,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { CATEGORIES, allExercises, primaryMusclesSuffix } from '../data/exerciseCatalog';
 import { useCustomExercises } from '../context/CustomExercisesContext';
@@ -11,12 +13,17 @@ import { searchExercises } from '../utils/exerciseSearch';
 import { ChevronIcon } from '../components/icons';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
 import FavoriteButton from '../components/FavoriteButton';
-import { Chip, EmptyState } from '../components/ui';
-import type { RootStackParamList } from '../navigation/types';
+import { Chip, EmptyState, ScreenHeader } from '../components/ui';
+import MenuButton from '../components/MenuButton';
+import { useTabScreenBottomSpace } from '../components/RestTimerBar';
+import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { Exercise } from '../types/exercise';
 import { colors, radius, spacing } from '../theme';
 
-type Nav = NativeStackNavigationProp<RootStackParamList, 'ExerciseLibrary'>;
+type Nav = CompositeNavigationProp<
+  BottomTabNavigationProp<MainTabParamList, 'Exercises'>,
+  NativeStackNavigationProp<RootStackParamList>
+>;
 
 const CHIP_OPTIONS = ['Todos', ...CATEGORIES];
 
@@ -26,6 +33,7 @@ const noop = () => {};
 export default function ExerciseLibraryScreen() {
   const navigation = useNavigation<Nav>();
   const { ref: listContainerRef, inset } = useKeyboardInset();
+  const bottomSpace = useTabScreenBottomSpace();
   const chipsRef = useRef<FlatList<string>>(null);
 
   const { favoriteIds } = useFavorites();
@@ -45,7 +53,8 @@ export default function ExerciseLibraryScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <ScreenHeader overline="Biblioteca" title="Ejercicios" left={<MenuButton />} />
       <View style={styles.header}>
         <TextInput
           value={search}
@@ -90,7 +99,7 @@ export default function ExerciseLibraryScreen() {
         <FlatList
           data={filtered}
           keyExtractor={item => String(item.id)}
-          contentContainerStyle={[styles.list, { paddingBottom: spacing.xxl + inset }]}
+          contentContainerStyle={[styles.list, { paddingBottom: Math.max(bottomSpace, inset + spacing.xxl) }]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
@@ -130,7 +139,7 @@ export default function ExerciseLibraryScreen() {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.background },
-  header: { paddingHorizontal: spacing.xxl, paddingTop: spacing.md, gap: 6 },
+  header: { paddingHorizontal: spacing.xxl, gap: 6 },
   searchInput: {
     backgroundColor: colors.surface,
     borderRadius: radius.md,

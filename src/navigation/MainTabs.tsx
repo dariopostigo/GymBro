@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import TodayScreen from '../screens/TodayScreen';
 import SplitOverviewScreen from '../screens/SplitOverviewScreen';
 import ProgressScreen from '../screens/ProgressScreen';
+import ExerciseLibraryScreen from '../screens/ExerciseLibraryScreen';
 import type { MainTabParamList } from './types';
 import { colors } from '../theme';
 
@@ -29,9 +30,15 @@ export default function MainTabs() {
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Inicio' }} />
-      <Tab.Screen name="Today" component={TodayScreen} options={{ title: 'Hoy' }} />
       <Tab.Screen name="Routine" component={SplitOverviewScreen} options={{ title: 'Rutina' }} />
+      {/* En medio: la barra la pinta como el botón grande de Entrenar. */}
+      <Tab.Screen name="Today" component={TodayScreen} options={{ title: 'Hoy' }} />
       <Tab.Screen name="Progress" component={ProgressScreen} options={{ title: 'Progreso' }} />
+      <Tab.Screen
+        name="Exercises"
+        component={ExerciseLibraryScreen}
+        options={{ title: 'Ejercicios' }}
+      />
     </Tab.Navigator>
   );
 }

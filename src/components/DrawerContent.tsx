@@ -29,6 +29,7 @@ const NAV_ITEMS: {
   { route: 'Today', label: 'Hoy', Icon: DumbbellIcon },
   { route: 'Routine', label: 'Rutina', Icon: CalendarIcon },
   { route: 'Progress', label: 'Progreso', Icon: ChartIcon },
+  { route: 'Exercises', label: 'Ejercicios', Icon: GridIcon },
 ];
 
 function NavRow({
@@ -82,11 +83,6 @@ export default function DrawerContent() {
     navigation.navigate('DayEditor', { splitId: activeSplit.id, dayId: currentDay.id });
   };
 
-  const goToExerciseLibrary = () => {
-    closeDrawer();
-    navigation.navigate('ExerciseLibrary');
-  };
-
   const goToSettings = () => {
     closeDrawer();
     navigation.navigate('Settings');
@@ -118,11 +114,6 @@ export default function DrawerContent() {
               onPress={() => goToTab(item.route)}
             />
           ))}
-        </View>
-
-        <Text style={styles.sectionTitle}>Biblioteca</Text>
-        <View style={styles.navGroup}>
-          <NavRow Icon={GridIcon} label="Ejercicios" active={false} onPress={goToExerciseLibrary} />
         </View>
 
         <Text style={styles.sectionTitle}>Rutina</Text>

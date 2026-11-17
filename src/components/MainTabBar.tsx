@@ -1,114 +1,75 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Animated,
-  Keyboard,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Animated, Keyboard, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { colors, radius, shadow } from '../theme';
-import { CalendarIcon, ChartIcon, DumbbellIcon, HomeIcon, type IconProps } from './icons';
-import { afterSplash } from './motion';
+import type { MainTabParamList } from '../navigation/types';
+import { colors } from '../theme';
+import {
+  CalendarIcon,
+  ChartIcon,
+  DumbbellIcon,
+  GridIcon,
+  HomeIcon,
+  type IconProps,
+} from './icons';
+import { afterSplash, ScalePressable, usePulse } from './motion';
 
-/** Espacio que hay que dejar libre al final de cada pantalla con tabs. */
-export const TAB_BAR_SPACE = 104;
+/** Alto de la barra sin la zona segura de abajo (relleno + pestaña de 48). */
+export const TAB_BAR_HEIGHT = 64;
+/** Lo que sobresale el botón de Entrenar por encima de la barra. */
+export const CENTER_BUTTON_RISE = 26;
+/** Espacio que hay que dejar libre al final de cada pantalla con tabs (más la zona segura). */
+export const TAB_BAR_SPACE = TAB_BAR_HEIGHT + 24;
+
+/** La pestaña que va en el botón grande del centro, no en la fila. */
+const CENTER_TAB: keyof MainTabParamList = 'Today';
+
+const ICONS: Record<Exclude<keyof MainTabParamList, 'Today'>, (props: IconProps) => React.JSX.Element> = {
+  Home: HomeIcon,
+  Routine: CalendarIcon,
+  Progress: ChartIcon,
+  Exercises: GridIcon,
+};
 
 const SHOW_EVENT = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
 const HIDE_EVENT = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
 
-const TAB_META: Record<string, { label: string; Icon: (props: IconProps) => React.JSX.Element }> = {
-  Home: { label: 'Inicio', Icon: HomeIcon },
-  Today: { label: 'Hoy', Icon: DumbbellIcon },
-  Routine: { label: 'Rutina', Icon: CalendarIcon },
-  Progress: { label: 'Progreso', Icon: ChartIcon },
-};
-
-interface TabItemProps {
-  focused: boolean;
-  label: string;
+/** Icono de pestaña que da un saltito al seleccionarla. */
+function TabIcon({
+  Icon,
+  color,
+  focused,
+}: {
   Icon: (props: IconProps) => React.JSX.Element;
-  onPress: () => void;
-  onLongPress: () => void;
-}
-
-function TabItem({ focused, label, Icon, onPress, onLongPress }: TabItemProps) {
-  // 0 = pastilla pequeña e inactiva, 1 = pastilla amarilla con etiqueta.
-  const progress = useRef(new Animated.Value(focused ? 1 : 0)).current;
-
+  color: string;
+  focused: boolean;
+}) {
+  const scale = useRef(new Animated.Value(1)).current;
+  const first = useRef(true);
   useEffect(() => {
-    const animation = Animated.spring(progress, {
-      toValue: focused ? 1 : 0,
-      friction: 8,
-      tension: 90,
-      // flexGrow y backgroundColor son props de layout/color: sin driver nativo.
-      useNativeDriver: false,
-    });
-    animation.start();
-    return () => animation.stop();
-  }, [focused, progress]);
-
-  // El muelle rebasa el 1, así que todas las interpolaciones van recortadas.
-  const backgroundColor = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [colors.surfaceAlt, colors.accent],
-    extrapolate: 'clamp',
-  });
-  const iconScale = progress.interpolate({
-    inputRange: [0, 0.6, 1],
-    outputRange: [1, 1.18, 1],
-    extrapolate: 'clamp',
-  });
-  const inactiveOpacity = progress.interpolate({
-    inputRange: [0, 0.6],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
-  const labelWidth = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 90],
-    extrapolate: 'clamp',
-  });
-  const labelSpace = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 8],
-    extrapolate: 'clamp',
-  });
-
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (focused) {
+      scale.setValue(0.7);
+      Animated.spring(scale, { toValue: 1, useNativeDriver: true, speed: 16, bounciness: 16 }).start();
+    }
+  }, [focused, scale]);
   return (
-    <Animated.View style={[styles.item, { flexGrow: progress, backgroundColor }]}>
-      <TouchableOpacity
-        accessibilityRole="button"
-        accessibilityState={focused ? { selected: true } : {}}
-        accessibilityLabel={label}
-        activeOpacity={0.85}
-        onPress={onPress}
-        onLongPress={onLongPress}
-        style={styles.itemTouchable}
-      >
-        <Animated.View style={[styles.iconWrap, { transform: [{ scale: iconScale }] }]}>
-          <Animated.View style={{ opacity: inactiveOpacity }}>
-            <Icon size={20} color={colors.muted} />
-          </Animated.View>
-          <Animated.View style={[StyleSheet.absoluteFill, styles.iconTop, { opacity: progress }]}>
-            <Icon size={20} color={colors.onAccent} />
-          </Animated.View>
-        </Animated.View>
-        <Animated.View style={[styles.labelWrap, { maxWidth: labelWidth, marginLeft: labelSpace }]}>
-          <Text style={styles.itemLabel} numberOfLines={1}>
-            {label}
-          </Text>
-        </Animated.View>
-      </TouchableOpacity>
+    <Animated.View style={{ transform: [{ scale }] }}>
+      <Icon size={22} color={color} strokeWidth={focused ? 2.2 : 1.9} />
     </Animated.View>
   );
 }
 
-export default function MainTabBar({ state, navigation }: BottomTabBarProps) {
+/**
+ * Barra inferior con 4 pestañas y el botón de Entrenar en el centro,
+ * con la misma línea que NutriBro y CestaBro. Se esconde con el teclado abierto.
+ */
+export default function MainTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const pulse = usePulse();
   // 1 = fuera de pantalla (al montar y mientras el teclado está abierto).
   const hidden = useRef(new Animated.Value(1)).current;
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -137,83 +98,120 @@ export default function MainTabBar({ state, navigation }: BottomTabBarProps) {
     };
   }, []);
 
+  const goTo = (route: (typeof state.routes)[number], focused: boolean) => {
+    const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+    if (!focused && !event.defaultPrevented) {
+      navigation.navigate(route.name, route.params);
+    }
+  };
+
+  const centerIndex = state.routes.findIndex(route => route.name === CENTER_TAB);
+  const centerRoute = state.routes[centerIndex];
+  const centerFocused = state.index === centerIndex;
+
+  const tabs = state.routes.flatMap((route, index) => {
+    if (route.name === CENTER_TAB) return [];
+    const Icon = ICONS[route.name as keyof typeof ICONS];
+    if (!Icon) return [];
+    const focused = state.index === index;
+    const color = focused ? colors.accent : colors.label;
+    return [
+      <Pressable
+        key={route.key}
+        accessibilityRole="tab"
+        accessibilityState={{ selected: focused }}
+        onPress={() => goTo(route, focused)}
+        style={styles.tab}
+      >
+        <TabIcon Icon={Icon} color={color} focused={focused} />
+        <Text style={[styles.label, { color }, focused && styles.labelFocused]}>
+          {descriptors[route.key].options.title}
+        </Text>
+      </Pressable>,
+    ];
+  });
+
+  const middle = Math.ceil(tabs.length / 2);
   const translateY = hidden.interpolate({ inputRange: [0, 1], outputRange: [0, 160] });
-  const opacity = hidden.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
 
   return (
-    <View style={[styles.wrapper, { paddingBottom: insets.bottom + 10 }]} pointerEvents="box-none">
-      <Animated.View
-        style={[styles.bar, shadow.card, { opacity, transform: [{ translateY }] }]}
-        pointerEvents={keyboardVisible ? 'none' : 'auto'}
-      >
-        {state.routes.map((route, index) => {
-          const meta = TAB_META[route.name];
-          if (!meta) return null;
-          const isFocused = state.index === index;
-
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
-
-          return (
-            <TabItem
-              key={route.key}
-              focused={isFocused}
-              label={meta.label}
-              Icon={meta.Icon}
-              onPress={onPress}
-              onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
+    <Animated.View
+      style={[styles.bar, { paddingBottom: insets.bottom + 8, transform: [{ translateY }] }]}
+      pointerEvents={keyboardVisible ? 'none' : 'auto'}
+    >
+      {tabs.slice(0, middle)}
+      {centerRoute && (
+        <View style={styles.centerSlot}>
+          {/* Onda que sale del botón de vez en cuando para invitar a entrenar */}
+          {!centerFocused && (
+            <Animated.View
+              pointerEvents="none"
+              style={[
+                styles.centerRing,
+                {
+                  opacity: pulse.interpolate({ inputRange: [0, 0.1, 1], outputRange: [0, 0.45, 0] }),
+                  transform: [
+                    { scale: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.85, 1.45] }) },
+                  ],
+                },
+              ]}
             />
-          );
-        })}
-      </Animated.View>
-    </View>
+          )}
+          <ScalePressable
+            accessibilityRole="tab"
+            accessibilityLabel="Entrenar"
+            accessibilityState={{ selected: centerFocused }}
+            onPress={() => goTo(centerRoute, centerFocused)}
+            scaleTo={0.88}
+            style={styles.center}
+          >
+            <DumbbellIcon size={28} color={colors.onAccent} strokeWidth={2.4} />
+          </ScalePressable>
+        </View>
+      )}
+      {tabs.slice(middle)}
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  bar: {
+    // Flota sobre las pantallas: así se puede esconder con el teclado sin mover el contenido.
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
-    paddingHorizontal: 18,
-  },
-  bar: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.pill,
-    padding: 8,
-    gap: 4,
+    justifyContent: 'space-around',
+    backgroundColor: colors.tabBar,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingTop: 8,
+    paddingHorizontal: 8,
   },
-  item: {
-    flexGrow: 0,
-    flexShrink: 1,
-    height: 46,
-    borderRadius: radius.pill,
-    // La etiqueta se recorta mientras la pastilla crece.
-    overflow: 'hidden',
-  },
-  itemTouchable: {
-    flex: 1,
-    flexDirection: 'row',
+  tab: { flex: 1, alignItems: 'center', gap: 3, minHeight: 48, justifyContent: 'center' },
+  label: { fontSize: 11, fontWeight: '500' },
+  labelFocused: { fontWeight: '700' },
+  centerSlot: { flex: 1, alignItems: 'center' },
+  center: {
+    width: 62,
+    height: 62,
+    borderRadius: 20,
+    backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    marginTop: -34,
+    borderWidth: 4,
+    borderColor: colors.background,
   },
-  iconWrap: { width: 20, height: 20, alignItems: 'center', justifyContent: 'center' },
-  iconTop: { alignItems: 'center', justifyContent: 'center' },
-  labelWrap: { overflow: 'hidden' },
-  itemLabel: { color: colors.onAccent, fontWeight: '800', fontSize: 13, letterSpacing: 0.2 },
+  centerRing: {
+    position: 'absolute',
+    top: -30,
+    width: 54,
+    height: 54,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: colors.accent,
+  },
 });

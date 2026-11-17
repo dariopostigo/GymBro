@@ -1,5 +1,13 @@
 # GymBro — tareas pendientes
 
+## Correcciones
+
+Fallos y cosas que cambiar vistas al usar la app.
+
+- [x] **Inicio · casilla de Volumen**: salía descuadrada respecto a las demás y ponía "136,6k kg". Ahora el volumen se muestra en kg hasta 1000 y en toneladas a partir de ahí ("136,6 t"), y las casillas tienen la fila del número a altura fija.
+
+Esto, las reps con − / + y la barra de abajo nueva van en la 1.3.5 (instalada en el móvil el 17/11/2026).
+
 ## Prioridad alta
 
 - [x] **Temporizador de descanso** (desactivable en Ajustes)
@@ -41,6 +49,10 @@
 - [x] **Calculadora de discos** en Hoy para barra, barra Z, Smith y máquinas de discos ("Por lado: 25 · 5 · 1,25"); discos y peso de cada barra en Ajustes → Discos y barras.
 
 - [x] **Pesos reales de cada máquina** (ficha del ejercicio → "Pesos de la máquina", por saltos fijos o lista a mano): la sugerencia sube al siguiente peso que existe y en Hoy el peso sube y baja por la pila con − / +. Entra en la copia de seguridad. Las máquinas de placas y las poleas traen pesos por defecto aproximados (`src/data/defaultWeightStacks.ts`) que se corrigen en la ficha.
+
+- [x] **Reps con − / +** en Hoy: suben y bajan de 1 en 1 sin sacar el teclado (nunca bajan de 1). En los ejercicios de tiempo sigue saliendo el cronómetro.
+
+- [x] **Barra de abajo como la de NutriBro y CestaBro**: Inicio · Rutina · **[Entrenar]** · Progreso · Ejercicios. Entrenar (botón grande del centro) abre Hoy; la Biblioteca de ejercicios pasa a ser pestaña. Sigue escondiéndose con el teclado.
 
 - [x] **Esfuerzo RIR / RPE** opcional por serie (Ajustes → Progresión): botones al apuntar, etiqueta en Hoy y en el historial, y si en todas las series sobraban 3 o más reps se sugiere subir peso. Se guarda siempre como RIR.
 

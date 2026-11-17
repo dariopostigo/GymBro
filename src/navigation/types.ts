@@ -5,6 +5,7 @@ export type MainTabParamList = {
   Today: undefined;
   Routine: undefined;
   Progress: undefined;
+  Exercises: undefined;
 };
 
 export type RootStackParamList = {
@@ -12,7 +13,6 @@ export type RootStackParamList = {
   SplitSelection: undefined;
   CreateCustomSplit: undefined;
   DayEditor: { splitId: string; dayId: string };
-  ExerciseLibrary: undefined;
   ExerciseHistory: { exerciseId: number };
   Settings: undefined;
   WorkoutSummary: { sessionId: string };

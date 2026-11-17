@@ -24,6 +24,7 @@ import {
   exerciseSummaries,
   formatSessionDate,
   formatVolume,
+  volumeParts,
   sessionVolume,
   totalStats,
   volumeByWeek,
@@ -146,7 +147,7 @@ export default function ProgressScreen() {
             <View style={styles.statsRow}>
               <StatTile value={stats.sessions} label="Sesiones" />
               <StatTile value={stats.sets} label="Series" />
-              <StatTile value={formatVolume(stats.volume)} unit="kg" label="Volumen" accent />
+              <StatTile {...volumeParts(stats.volume)} label="Volumen" accent />
             </View>
 
             <Card style={styles.chartCard}>
@@ -216,7 +217,7 @@ export default function ProgressScreen() {
                         </View>
                         <View style={styles.sessionStats}>
                           <Text style={styles.sessionVolume}>
-                            {formatVolume(sessionVolume(session))} kg
+                            {formatVolume(sessionVolume(session))}
                           </Text>
                           <Text style={styles.sessionMeta}>
                             {session.sets.length} {session.sets.length === 1 ? 'serie' : 'series'}

@@ -24,7 +24,7 @@ import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { colors, overline, radius, spacing } from '../theme';
 import { musclesWorked } from '../utils/muscleMap';
 import { todayExercises } from '../utils/todayExercises';
-import { formatVolume, totalStats, volumeByWeek } from '../utils/stats';
+import { totalStats, volumeByWeek, volumeParts } from '../utils/stats';
 
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList, 'Home'>,
@@ -120,7 +120,7 @@ export default function HomeScreen() {
         <FadeInView delay={140} style={styles.statsRow}>
           <StatTile value={stats.sessions} label="Sesiones" />
           <StatTile value={stats.sets} label="Series" />
-          <StatTile value={formatVolume(stats.volume)} unit="kg" label="Volumen" />
+          <StatTile {...volumeParts(stats.volume)} label="Volumen" />
           <StatTile value={stats.streak} label="Racha" accent />
         </FadeInView>
 

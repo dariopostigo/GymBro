@@ -9,7 +9,6 @@ import SplitSelectionScreen from '../screens/SplitSelectionScreen';
 import CreateCustomSplitScreen from '../screens/CreateCustomSplitScreen';
 import DayEditorScreen from '../screens/DayEditorScreen';
 import ExercisePickerScreen from '../screens/ExercisePickerScreen';
-import ExerciseLibraryScreen from '../screens/ExerciseLibraryScreen';
 import ExerciseHistoryScreen from '../screens/ExerciseHistoryScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import WorkoutSummaryScreen from '../screens/WorkoutSummaryScreen';
@@ -113,11 +112,6 @@ export default function RootNavigator() {
               presentation: 'modal',
               animation: 'slide_from_bottom',
             }}
-          />
-          <Stack.Screen
-            name="ExerciseLibrary"
-            component={ExerciseLibraryScreen}
-            options={{ title: 'Ejercicios' }}
           />
           <Stack.Screen
             name="ExerciseHistory"
