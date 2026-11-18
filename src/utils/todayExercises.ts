@@ -49,3 +49,19 @@ export function todayExercises(
     .sort((a, b) => a.key - b.key)
     .map(({ slot }) => slot);
 }
+
+/**
+ * Ejercicios que ya ocupan el día, en la plantilla o hoy (cambiados o añadidos solo para hoy),
+ * sin contar el hueco `exceptSlotId` (el que se está cambiando). Las series se guardan por
+ * ejercicio, no por hueco: si uno sale dos veces, las dos tarjetas comparten series y los
+ * totales se cuentan dos veces. Por eso no se deja elegir uno de estos.
+ */
+export function exercisesInDay(
+  day: SplitDay | null | undefined,
+  overrides: Record<string, SlotOverride>,
+  exceptSlotId?: string,
+): Set<number> {
+  if (!day) return new Set();
+  const slots = [...day.exercises, ...todayExercises(day, overrides)];
+  return new Set(slots.filter(slot => slot.id !== exceptSlotId).map(slot => slot.exerciseId));
+}

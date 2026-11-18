@@ -59,3 +59,37 @@ test('sin lastre, más repeticiones que nunca es récord', () => {
   expect(record).toMatchObject({ kind: 'reps', value: 9, previous: 8 });
   expect(describeRecord(record)).toBe('9 reps (antes 8)');
 });
+
+test('con lastre: el récord se escribe "PC+10 (antes PC)" y con el mismo lastre cuentan las reps', () => {
+  const session = (id: string, day: number, sets: [number, number][]): WorkoutSession => ({
+    id,
+    date: new Date(2026, 9, day, 18).toISOString(),
+    splitId: 'ppl',
+    splitDayId: 'pull',
+    dayName: 'Pull',
+    completed: true,
+    sets: sets.map(([weight, reps], i) => ({
+      id: `${id}-${i}`,
+      exerciseId: DOMINADAS,
+      positionInSession: 1,
+      setNumber: i + 1,
+      weight,
+      reps,
+    })),
+  });
+  const before = session('a', 20, [
+    [0, 8],
+    [0, 7],
+  ]);
+  const first = session('b', 24, [
+    [10, 5],
+    [0, 7],
+  ]);
+  const [weighted] = buildWorkoutSummary(first, [before, first]).records;
+  expect(weighted).toMatchObject({ kind: 'weight', value: 10, previous: 0 });
+  expect(describeRecord(weighted)).toBe('PC+10 (antes PC)');
+  // Mismo lastre y más reps: récord de reps, no un "1RM est." del lastre.
+  const second = session('c', 27, [[10, 7]]);
+  const [reps] = buildWorkoutSummary(second, [before, first, second]).records;
+  expect(reps).toMatchObject({ kind: 'reps', value: 7, previous: 5 });
+});

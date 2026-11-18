@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+        <!-- Fondo oscuro de la ventana: sin destellos blancos entre el splash y la app (como CestaBro y NutriBro). -->
+        <item name="android:windowBackground">@color/bootsplash_background</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
     </style>

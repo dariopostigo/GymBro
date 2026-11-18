@@ -14,10 +14,15 @@ import {
   isCustomExercise,
   isTimed,
   isUnilateral,
+  nextCustomExerciseId,
   setCustomExercises,
 } from '../src/data/exerciseCatalog';
 import { createBackup, importBackup, parseBackup } from '../src/storage/backup';
-import { loadCustomExercises } from '../src/storage/customExerciseStorage';
+import {
+  loadCustomExercises,
+  loadLastCustomExerciseId,
+  saveCustomExercises,
+} from '../src/storage/customExerciseStorage';
 import type { BackupFile } from '../src/storage/backup';
 import type { CustomExercise } from '../src/types/exercise';
 
@@ -82,7 +87,25 @@ test('una copia antigua sin ejercicios propios no borra los que hay', async () =
 
 test('el nombre de la foto sale de su ruta, sea del móvil que sea', () => {
   const { customExercisePhotoName } = require('../src/storage/customExercisePhotos');
-  expect(customExercisePhotoName('file:///data/user/0/com.gymbro.app/files/custom-exercises/1731.jpg')).toBe('1731.jpg');
-  expect(customExercisePhotoName('file:///data/user/0/app.tubro.gym/files/custom-exercises/a%20b.png')).toBe('a b.png');
+  expect(
+    customExercisePhotoName('file:///data/user/0/com.gymbro.app/files/custom-exercises/1731.jpg'),
+  ).toBe('1731.jpg');
+  expect(
+    customExercisePhotoName('file:///data/user/0/app.tubro.gym/files/custom-exercises/a%20b.png'),
+  ).toBe('a b.png');
   expect(customExercisePhotoName('https://ejemplo.com/foto.jpg')).toBeNull();
+});
+
+test('el id de un ejercicio propio borrado no se vuelve a dar', async () => {
+  expect(nextCustomExerciseId(0, [])).toBe(ID);
+  expect(nextCustomExerciseId(0, [{ id: ID }, { id: ID + 1 }])).toBe(ID + 2);
+  // Se borró el ID + 2: el siguiente es el ID + 3, no otra vez el ID + 2
+  expect(nextCustomExerciseId(ID + 2, [{ id: ID }, { id: ID + 1 }])).toBe(ID + 3);
+  // Una copia importada con ids más altos manda
+  expect(nextCustomExerciseId(ID + 2, [{ id: ID + 9 }])).toBe(ID + 10);
+
+  expect(await loadLastCustomExerciseId()).toBe(0);
+  await saveCustomExercises([custom()], ID + 2);
+  await saveCustomExercises([]);
+  expect(await loadLastCustomExerciseId()).toBe(ID + 2);
 });

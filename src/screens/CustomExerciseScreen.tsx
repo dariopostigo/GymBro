@@ -13,8 +13,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCustomExercises } from '../context/CustomExercisesContext';
+import { useFavorites } from '../context/FavoritesContext';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
+import { useWeightStacks } from '../context/WeightStacksContext';
 import { CATEGORIES, CATEGORY_REFS, MUSCLES, getCustomExercise } from '../data/exerciseCatalog';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { pickExercisePhoto } from '../storage/customExercisePhotos';
@@ -83,6 +85,8 @@ export default function CustomExerciseScreen({ route, navigation }: Props) {
   const editingId = route.params?.exerciseId;
   const original = editingId !== undefined ? getCustomExercise(editingId) : undefined;
   const { saveCustomExercise, removeCustomExercise } = useCustomExercises();
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const { setStack } = useWeightStacks();
   const { sessions } = useSession();
   const { splits, activeSplit, getDayOverrides } = useRoutine();
   const { ref: containerRef, inset } = useKeyboardInset();
@@ -196,6 +200,9 @@ export default function CustomExerciseScreen({ route, navigation }: Props) {
         text: 'Borrar',
         style: 'destructive',
         onPress: () => {
+          // Lo que cuelga de su id se va con él (favorito y pesos de la máquina).
+          if (isFavorite(editingId)) toggleFavorite(editingId);
+          setStack(editingId, undefined);
           removeCustomExercise(editingId);
           navigation.pop(2);
         },

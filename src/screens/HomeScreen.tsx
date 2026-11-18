@@ -25,6 +25,7 @@ import { colors, overline, radius, spacing } from '../theme';
 import { musclesWorked } from '../utils/muscleMap';
 import { todayExercises } from '../utils/todayExercises';
 import { totalStats, volumeByWeek, volumeParts } from '../utils/stats';
+import { plural } from '../utils/plural';
 
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList, 'Home'>,
@@ -89,7 +90,7 @@ export default function HomeScreen() {
                 <Text style={styles.heroTitle}>{currentDay?.name ?? 'Sin día activo'}</Text>
                 <Text style={styles.heroMeta}>
                   {activeSplit?.name ?? 'Elige un split para empezar'}
-                  {currentDay ? ` · ${exercises.length} ejercicios` : ''}
+                  {currentDay ? ` · ${plural(exercises.length, 'ejercicio', 'ejercicios')}` : ''}
                 </Text>
               </View>
               <View style={styles.heroBadge}>
@@ -104,7 +105,7 @@ export default function HomeScreen() {
               <ProgressBar progress={progress} />
               <Text style={styles.heroProgressText}>
                 {targetSets > 0
-                  ? `${doneSets} de ${targetSets} series planificadas`
+                  ? `${doneSets} de ${plural(targetSets, 'serie planificada', 'series planificadas')}`
                   : 'Este día todavía no tiene ejercicios'}
               </Text>
             </View>

@@ -53,6 +53,8 @@ export const KV = {
   restTimer: 'restTimer',
   pplMigration: 'migration:pplHypertrophyActive',
   asyncStorageImported: 'migration:asyncStorageImported',
+  /** Último id dado a un ejercicio propio: no se reutiliza aunque se borre. */
+  lastCustomExerciseId: 'lastCustomExerciseId',
 } as const;
 
 export const SNAPSHOT_PRE_IMPORT = 'preImport';

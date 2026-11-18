@@ -1,6 +1,18 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { FIRST_CUSTOM_EXERCISE_ID, setCustomExercises } from '../data/exerciseCatalog';
-import { loadCustomExercises, saveCustomExercises } from '../storage/customExerciseStorage';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { nextCustomExerciseId, setCustomExercises } from '../data/exerciseCatalog';
+import {
+  loadCustomExercises,
+  loadLastCustomExerciseId,
+  saveCustomExercises,
+} from '../storage/customExerciseStorage';
 import { existingPhotos, removeUnusedPhotos } from '../storage/customExercisePhotos';
 import type { CustomExercise } from '../types/exercise';
 import { useStartupFailure } from '../components/StartupGate';
@@ -26,10 +38,13 @@ const photosOf = (list: CustomExercise[]) => list.flatMap(e => e.images);
 export function CustomExercisesProvider({ children }: { children: React.ReactNode }) {
   const fail = useStartupFailure();
   const [list, setList] = useState<CustomExercise[] | null>(null);
+  /** Último id dado; se guarda para no repetirlo aunque se borre ese ejercicio. */
+  const lastId = useRef(0);
 
   useEffect(() => {
     (async () => {
       let loaded = await loadCustomExercises();
+      lastId.current = await loadLastCustomExerciseId();
       // Una copia importada de otro móvil trae ejercicios sin sus fotos.
       const photos = await existingPhotos(photosOf(loaded));
       loaded = loaded.map(e => ({ ...e, images: e.images.filter(uri => photos.has(uri)) }));
@@ -39,22 +54,24 @@ export function CustomExercisesProvider({ children }: { children: React.ReactNod
     })().catch(fail);
   }, [fail]);
 
-  const update = useCallback((next: CustomExercise[]) => {
+  const update = useCallback((next: CustomExercise[], newLastId?: number) => {
     setCustomExercises(next);
     setList(next);
-    saveInBackground(saveCustomExercises(next));
+    saveInBackground(saveCustomExercises(next, newLastId));
     removeUnusedPhotos(photosOf(next)).catch(() => {});
   }, []);
 
   const saveCustomExercise = useCallback(
     (exercise: CustomExerciseInput, id?: number) => {
       const current = list ?? [];
-      const newId = id ?? Math.max(FIRST_CUSTOM_EXERCISE_ID - 1, ...current.map(e => e.id)) + 1;
+      const newId = id ?? nextCustomExerciseId(lastId.current, current);
       const saved: CustomExercise = { ...exercise, id: newId, uuid: `custom-${newId}` };
+      if (id === undefined) lastId.current = newId;
       update(
         current.some(e => e.id === newId)
           ? current.map(e => (e.id === newId ? saved : e))
           : [...current, saved],
+        id === undefined ? newId : undefined,
       );
       return newId;
     },

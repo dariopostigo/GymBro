@@ -78,7 +78,7 @@ function SetForm({
         'Datos inválidos',
         timed
           ? 'Introduce un peso y unos segundos válidos.'
-          : 'Introduce un peso y unas repeticiones válidas.',
+          : 'Introduce un peso válido y unas repeticiones válidas.',
       );
       return;
     }

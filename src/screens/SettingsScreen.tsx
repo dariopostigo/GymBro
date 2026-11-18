@@ -16,6 +16,7 @@ import {
 } from '../utils/restTimer';
 import { formatWeight } from '../utils/progression';
 import { colors, spacing } from '../theme';
+import { version } from '../../package.json';
 import type { EffortMode } from '../utils/effort';
 import { PLATE_OPTIONS, type BarWeights } from '../utils/plates';
 
@@ -97,13 +98,18 @@ function BackupSection() {
       }
     });
 
+  // Solo se guarda un paso para deshacer: el nuevo sustituye al anterior.
+  const undoLostWarning = canUndo
+    ? '\n\nYa no podrás deshacer la importación anterior: lo que tenías antes de ese paso se perderá.'
+    : '';
+
   const confirmImport = ({ backup, photoCount, restorePhotos, dispose }: PickedBackup) => {
     const photos = photoCount ? ` · ${photoCount} ${photoCount === 1 ? 'foto' : 'fotos'}` : '';
     Alert.alert(
       'Importar copia',
       `Copia del ${formatDate(backup.exportedAt)}: ${describeBackup(backup)}${photos}.\n\n` +
         'Se reemplazarán tus rutinas, historial, favoritos y ajustes actuales. ' +
-        'Podrás deshacerlo desde esta pantalla.',
+        `Podrás deshacerlo desde esta pantalla.${undoLostWarning}`,
       [
         { text: 'Cancelar', style: 'cancel', onPress: dispose },
         {
@@ -135,8 +141,8 @@ function BackupSection() {
 
   const handleUndo = () =>
     Alert.alert(
-      'Deshacer importación',
-      '¿Volver a los datos que tenías antes de importar la copia?',
+      'Deshacer la importación',
+      '¿Volver a los datos que tenías antes de la última importación?',
       [
         { text: 'Cancelar', style: 'cancel' },
         {
@@ -161,17 +167,21 @@ function BackupSection() {
         </Text>
       </View>
       <PrimaryButton label="Exportar datos" onPress={handleExport} disabled={busy} />
-      <GhostButton label="Importar datos" onPress={busy ? () => {} : handleImport} />
+      <GhostButton label="Importar datos" onPress={handleImport} disabled={busy} />
       {canUndo && (
-        <GhostButton
-          label="Deshacer la última importación"
-          onPress={busy ? () => {} : handleUndo}
-          dashed
-        />
+        <GhostButton label="Deshacer la última importación" onPress={handleUndo} disabled={busy} dashed />
       )}
     </Card>
   );
 }
+
+/** De dónde salen los datos e imágenes de otros, con su licencia. */
+const CREDITS = [
+  'Catálogo de ejercicios e imágenes: wger (wger.de), licencia CC BY-SA 4.0.',
+  'Más imágenes de ejercicios: free-exercise-db (dominio público).',
+  'Siluetas del cuerpo: MuscleMap (licencia MIT).',
+  'Iconos: Lucide (licencia ISC).',
+];
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useSettings();
@@ -320,6 +330,29 @@ export default function SettingsScreen() {
 
       <Overline style={styles.sectionGap}>Datos</Overline>
       <BackupSection />
+
+      <Overline style={styles.sectionGap}>Acerca de</Overline>
+      <Card style={styles.card}>
+        <View style={styles.switchText}>
+          <Text style={styles.switchLabel}>GymBro {version}</Text>
+        </View>
+        <View style={styles.switchText}>
+          <Text style={styles.aboutLabel}>Privacidad</Text>
+          <Text style={styles.switchHint}>
+            Sin cuentas ni publicidad. Tus rutinas y entrenos se guardan solo en este móvil. Algunas fotos de los
+            ejercicios se descargan al verlas (de wger y de free-exercise-db). La copia de seguridad es un archivo que
+            guardas tú.
+          </Text>
+        </View>
+        <View style={styles.switchText}>
+          <Text style={styles.aboutLabel}>Créditos</Text>
+          {CREDITS.map(credit => (
+            <Text key={credit} style={styles.switchHint}>
+              · {credit}
+            </Text>
+          ))}
+        </View>
+      </Card>
     </ScrollView>
   );
 }
@@ -335,6 +368,7 @@ const styles = StyleSheet.create({
   switchText: { flex: 1, gap: 2 },
   switchLabel: { color: colors.text, fontSize: 15, fontWeight: '700' },
   switchHint: { color: colors.muted, fontSize: 12.5, lineHeight: 17 },
+  aboutLabel: { color: colors.muted, fontSize: 11.5, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.8 },
   restOptions: { gap: spacing.md },
   presets: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   divider: { height: 1, backgroundColor: colors.border },

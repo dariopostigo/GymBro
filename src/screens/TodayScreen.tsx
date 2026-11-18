@@ -33,11 +33,12 @@ import { EmptyState, GhostButton, PrimaryButton, ScreenHeader } from '../compone
 import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { DayExerciseSlot } from '../types/routine';
 import type { SetEntry } from '../types/session';
-import { todayExercises } from '../utils/todayExercises';
+import { exercisesInDay, todayExercises } from '../utils/todayExercises';
 import { formatLoad, formatSet, recentSessionSets, suggestNextLoad } from '../utils/progression';
 import { liveRecords, type PersonalRecord } from '../utils/workoutSummary';
 import { barTypeFor, barWeightFor } from '../utils/plates';
 import { colors, radius, shadow, spacing } from '../theme';
+import { plural } from '../utils/plural';
 
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList, 'Today'>,
@@ -244,10 +245,17 @@ export default function TodayScreen() {
       };
     }
     const backup = getExerciseById(backupId);
+    const name = backup?.name ?? `Ejercicio #${backupId}`;
     return {
-      label: `Plan B: ${backup?.name ?? `Ejercicio #${backupId}`}`,
+      label: `Plan B: ${name}`,
       onPress: () =>
-        setDayOverride(activeSplit.id, currentDay.id, slot.id, { exerciseId: backupId }),
+        // Si el plan B ya está en el día, saldría dos veces compartiendo series.
+        exercisesInDay(currentDay, overrides, slot.id).has(backupId)
+          ? Alert.alert(
+              'Ya está en este día',
+              `"${name}" ya está en el entreno de hoy. Cámbialo por otro ejercicio.`,
+            )
+          : setDayOverride(activeSplit.id, currentDay.id, slot.id, { exerciseId: backupId }),
     };
   };
 
@@ -391,7 +399,7 @@ export default function TodayScreen() {
       <ScreenHeader
         overline={activeSplit.name}
         title={currentDay.name}
-        subtitle={`${exercises.length} ejercicios · ${doneSets}/${targetSets} series registradas`}
+        subtitle={`${plural(exercises.length, 'ejercicio', 'ejercicios')} · ${doneSets}/${targetSets} series registradas`}
         left={<MenuButton />}
         right={
           <TouchableOpacity

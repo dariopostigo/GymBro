@@ -17,6 +17,7 @@ import type { MainTabParamList, RootStackParamList } from '../navigation/types';
 import type { SplitDay } from '../types/routine';
 import { musclesWorked } from '../utils/muscleMap';
 import { colors, overline, radius, spacing } from '../theme';
+import { plural } from '../utils/plural';
 
 type Nav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList, 'Routine'>,
@@ -68,7 +69,7 @@ export default function SplitOverviewScreen() {
     }
     Alert.alert(
       `¿Cambiar a ${item.name}?`,
-      `Llevas ${inProgress.sets.length} series de ${currentDay.name} sin terminar. Seguirán guardadas y podrás volver a ese día desde aquí.`,
+      `Llevas ${plural(inProgress.sets.length, 'serie', 'series')} de ${currentDay.name} sin terminar. Seguirán guardadas y podrás volver a ese día desde aquí.`,
       [
         { text: 'Cancelar', style: 'cancel' },
         { text: 'Cambiar', onPress: () => pickDay(item) },
@@ -130,7 +131,7 @@ export default function SplitOverviewScreen() {
       <ScreenHeader
         overline="Tu rutina"
         title={activeSplit.name}
-        subtitle={`${activeSplit.days.length} días · día ${todayIndex + 1} en curso`}
+        subtitle={`${plural(activeSplit.days.length, 'día', 'días')} · día ${todayIndex + 1} en curso`}
         left={<MenuButton />}
         right={
           <TouchableOpacity

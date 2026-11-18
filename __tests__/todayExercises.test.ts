@@ -2,7 +2,7 @@
  * @format
  */
 
-import { todayExercises } from '../src/utils/todayExercises';
+import { exercisesInDay, todayExercises } from '../src/utils/todayExercises';
 import type { SplitDay } from '../src/types/routine';
 
 const day: SplitDay = {
@@ -37,4 +37,17 @@ test('con el orden de hoy cambiado, va en ese orden y lo nuevo detrás', () => {
     extra1: { exerciseId: 475, extra: { repsMin: 6, repsMax: 10 } },
   });
   expect(exercises.map(slot => slot.id)).toEqual(['b', 'a', 'extra1']);
+});
+
+test('ejercicios que ya ocupan el día: plantilla, cambios y añadidos de hoy, menos el hueco que se cambia', () => {
+  const overrides = {
+    b: { exerciseId: 1307 },
+    x: { exerciseId: 475, targetSets: 3, extra: { repsMin: 8, repsMax: 12 } },
+  };
+  const all = exercisesInDay(day, overrides);
+  // 1312 sigue en la plantilla aunque hoy se haya cambiado por 1307
+  expect([...all].sort()).toEqual([1307, 1312, 475, 989].sort());
+  // Al cambiar el hueco "b", su ejercicio (el de la plantilla y el de hoy) se puede volver a elegir
+  expect([...exercisesInDay(day, overrides, 'b')].sort()).toEqual([475, 989].sort());
+  expect(exercisesInDay(null, {}).size).toBe(0);
 });

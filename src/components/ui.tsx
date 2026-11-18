@@ -76,6 +76,7 @@ export function PrimaryButton({
   return (
     <ScalePressable
       accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
       onPress={onPress}
       disabled={disabled}
       style={[styles.primaryButton, shadow.accent, disabled && styles.disabled, style]}
@@ -91,17 +92,21 @@ export function GhostButton({
   onPress,
   style,
   dashed,
+  disabled,
 }: {
   label: string;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
   dashed?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <ScalePressable
       accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
       onPress={onPress}
-      style={[styles.ghostButton, dashed && styles.ghostDashed, style]}
+      disabled={disabled}
+      style={[styles.ghostButton, dashed && styles.ghostDashed, disabled && styles.disabled, style]}
     >
       <Text style={styles.ghostButtonText}>{label}</Text>
     </ScalePressable>

@@ -13,6 +13,14 @@ const exercisesById = new Map(EXERCISES.map(e => [e.id, e]));
 /** Los ejercicios propios empiezan aquí, lejos de los del catálogo (90001+ son los de scripts/). */
 export const FIRST_CUSTOM_EXERCISE_ID = 100001;
 
+/**
+ * Id para un ejercicio propio nuevo: el siguiente al mayor que se ha dado nunca (`lastId`) o
+ * que existe. No se reutiliza el de uno borrado: podría heredar lo que quedara con su id.
+ */
+export function nextCustomExerciseId(lastId: number, existing: readonly { id: number }[]): number {
+  return Math.max(FIRST_CUSTOM_EXERCISE_ID - 1, lastId, ...existing.map(e => e.id)) + 1;
+}
+
 // Los ejercicios creados en la app: los registra CustomExercisesContext al cargarlos.
 let customExercises: CustomExercise[] = [];
 let customById = new Map<number, CustomExercise>();

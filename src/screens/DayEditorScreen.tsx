@@ -31,6 +31,7 @@ import {
   restForSlot,
 } from '../utils/restTimer';
 import { colors, overline, radius, spacing } from '../theme';
+import { plural } from '../utils/plural';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DayEditor'>;
 type Nav = NativeStackNavigationProp<RootStackParamList, 'DayEditor'>;
@@ -286,7 +287,7 @@ export default function DayEditorScreen({ route }: Props) {
           <ScreenHeader
             overline={split.name}
             title={day.name}
-            subtitle={`${exercises.length} ejercicios · mantén el orden en el que los harás`}
+            subtitle={`${plural(exercises.length, 'ejercicio', 'ejercicios')} · mantén el orden en el que los harás`}
           />
         </View>
 

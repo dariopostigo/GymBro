@@ -6,11 +6,22 @@ Fallos y cosas que cambiar vistas al usar la app.
 
 Del repaso del 2026-11-15 (venían de PLAN.md):
 
-- [ ] 🟠 Datos mal guardados o mostrados: mismo ejercicio dos veces en un día, id reutilizado de un ejercicio propio borrado, récord con lastre "10 kg (antes 0)".
-- [ ] 🟡 Para publicar: versión visible, destello blanco al arrancar, botones de la copia sin estado deshabilitado, librerías al día.
 - [ ] Por decidir: racha por semanas, "rutina" en vez de "split".
 
 Hechas:
+
+- [x] 🟡 **Para publicar** (18/11/2026, sin versión todavía):
+  - Versión visible y "Acerca de" al final de Ajustes: privacidad (algunas fotos de ejercicios se descargan de wger y free-exercise-db) y créditos (wger CC BY-SA 4.0, free-exercise-db, MuscleMap MIT, Lucide).
+  - Destello blanco al arrancar: `android:windowBackground` oscuro en `AppTheme`, como CestaBro y NutriBro.
+  - Botones de la copia: Importar y Deshacer se desactivan (con su estilo y `accessibilityState`) mientras trabaja; `GhostButton` acepta `disabled`. Al importar avisa de que se pierde el deshacer anterior.
+  - Librerías al día dentro de sus rangos (`npm update`): React Navigation, Screens, Safe Area, SVG, Gesture Handler, Lucide, picker, fs 2.40.4, Babel. **Sin tocar**: Reanimated 4.7 pide Worklets 0.13 (fuera de rango) y las versiones mayores (RN 0.88, ESLint 10, Jest 30, TypeScript 7) son una migración aparte. La release compila; **falta probarla en el móvil**.
+  - Plurales con `plural()` (`src/utils/plural.ts`): "1 ejercicio", "1 serie", "1 día", "1 rep"; erratas: "un peso válido y unas repeticiones válidas", "las mismas series".
+
+- [x] 🟠 **Datos mal guardados o mostrados** (18/11/2026, sin versión todavía):
+  - Mismo ejercicio dos veces en un día: las series van por ejercicio, no por hueco, así que las dos tarjetas compartían series y los totales contaban doble. Ahora los buscadores (añadir, cambiar, solo hoy, plan B) marcan "Ya está en este día" y no dejan elegirlo, y el botón de Plan B de Hoy avisa si ese ejercicio ya está (`exercisesInDay` en `src/utils/todayExercises.ts`). Al corregir un entreno guardado sí se deja: allí las series se juntan.
+  - Id reutilizado de un ejercicio propio borrado: el último id dado se guarda en `kv` (`lastCustomExerciseId`) y no se repite (`nextCustomExerciseId`). Además, al borrar uno se quitan su favorito y sus pesos de la máquina, que antes heredaba el siguiente.
+  - Récord con lastre: sale "PC+10 (antes PC)" en vez de "10 kg (antes 0)", y con el mismo lastre el récord son las reps (antes daba un "1RM est." del lastre).
+  - Tests nuevos en `bodyweight`, `todayExercises` y `customExercises`. **Falta probarlo en el móvil.**
 
 - [x] **Inicio · casilla de Volumen**: salía descuadrada respecto a las demás y ponía "136,6k kg". Ahora el volumen se muestra en kg hasta 1000 y en toneladas a partir de ahí ("136,6 t"), y las casillas tienen la fila del número a altura fija.
 

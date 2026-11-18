@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type {
   NativeStackNavigationProp,
@@ -16,6 +16,7 @@ import {
   repRangeFor,
 } from '../data/exerciseCatalog';
 import { generateId } from '../utils/id';
+import { exercisesInDay } from '../utils/todayExercises';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
 import { useCustomExercises } from '../context/CustomExercisesContext';
 import { useFavorites } from '../context/FavoritesContext';
@@ -39,7 +40,7 @@ const noop = () => {};
 export default function ExercisePickerScreen({ route }: Props) {
   const params = route.params;
   const navigation = useNavigation<Nav>();
-  const { splits, updateDayExercises, setDayOverride } = useRoutine();
+  const { splits, updateDayExercises, setDayOverride, getDayOverrides } = useRoutine();
   const { ref: listContainerRef, inset } = useKeyboardInset();
   const chipsRef = useRef<FlatList<string>>(null);
 
@@ -79,7 +80,23 @@ export default function ExercisePickerScreen({ route }: Props) {
     [search, category, favoriteIds, customExercises],
   );
 
+  // Los que ya están en el día no se pueden elegir otra vez (ver `exercisesInDay`). Al corregir
+  // un entreno guardado sí: allí las series de un ejercicio repetido se juntan.
+  const taken = useMemo(() => {
+    if (params.mode === 'sessionAdd') return new Set<number>();
+    const day = splits.find(s => s.id === params.splitId)?.days.find(d => d.id === params.dayId);
+    const slotId = 'slotId' in params ? params.slotId : undefined;
+    return exercisesInDay(day, getDayOverrides(params.splitId, params.dayId), slotId);
+  }, [params, splits, getDayOverrides]);
+
   const handleSelect = (exercise: Exercise) => {
+    if (taken.has(exercise.id)) {
+      Alert.alert(
+        'Ya está en este día',
+        `"${exercise.name}" ya está en el entreno de este día. Elige otro ejercicio.`,
+      );
+      return;
+    }
     if (params.mode === 'sessionAdd') {
       navigation.popTo(
         'EditWorkout',
@@ -213,10 +230,11 @@ export default function ExercisePickerScreen({ route }: Props) {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           renderItem={({ item }) => {
+            const inDay = taken.has(item.id);
             return (
               <TouchableOpacity
                 activeOpacity={0.85}
-                style={styles.row}
+                style={[styles.row, inDay && styles.rowTaken]}
                 onPress={() => handleSelect(item)}
               >
                 <ExerciseThumbnail exercise={item} style={styles.thumbnail} />
@@ -228,6 +246,7 @@ export default function ExercisePickerScreen({ route }: Props) {
                     {item.category.name}
                     {primaryMusclesSuffix(item)}
                   </Text>
+                  {inDay ? <Text style={styles.rowTakenText}>Ya está en este día</Text> : null}
                 </View>
                 <FavoriteButton exerciseId={item.id} />
                 <ChevronIcon size={16} color={colors.muted} />
@@ -281,4 +300,6 @@ const styles = StyleSheet.create({
   rowInfo: { flex: 1, gap: 2 },
   rowName: { color: colors.text, fontWeight: '700', fontSize: 15 },
   rowMeta: { color: colors.muted, fontSize: 12 },
+  rowTaken: { opacity: 0.5 },
+  rowTakenText: { color: colors.muted, fontSize: 12, fontWeight: '700' },
 });

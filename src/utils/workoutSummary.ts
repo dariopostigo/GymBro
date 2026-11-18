@@ -1,6 +1,6 @@
-import { isTimed } from '../data/exerciseCatalog';
+import { isBodyweight, isTimed } from '../data/exerciseCatalog';
 import type { SetEntry, WorkoutSession } from '../types/session';
-import { formatSeconds, formatWeight } from './progression';
+import { formatLoad, formatSeconds, formatWeight } from './progression';
 import { estimatedOneRepMax, sessionVolume, setVolume } from './stats';
 
 /** Cómo fue un ejercicio respecto a la última vez que se hizo (por volumen). */
@@ -62,7 +62,9 @@ function beatsRecord(exerciseId: number, sets: Lift[], history: Lift[]): Persona
     return { exerciseId, kind: 'weight', value: bestWeight, previous: previousWeight };
   }
   const timed = isTimed(exerciseId);
-  if (timed || (bestWeight === 0 && previousWeight === 0)) {
+  // Con el peso del cuerpo el peso es el lastre: el 1RM del lastre no dice nada, así que con el
+  // mismo lastre (o sin él) el récord son las reps.
+  if (timed || isBodyweight(exerciseId) || (bestWeight === 0 && previousWeight === 0)) {
     if (bestWeight < previousWeight) return null;
     const repsAt = (lifts: Lift[]) =>
       Math.max(...lifts.filter(set => set.weight === bestWeight).map(set => set.reps));
@@ -105,10 +107,16 @@ export function liveRecords(
   return records;
 }
 
-/** "85 kg (antes 82,5)", "1RM est. 98 kg (antes 95)", "15 reps (antes 12)" o "1:10 (antes 55 s)". */
-export function describeRecord({ kind, value, previous }: PersonalRecord): string {
-  if (kind === 'reps') return `${value} reps (antes ${previous})`;
+/**
+ * "85 kg (antes 82,5)", "1RM est. 98 kg (antes 95)", "15 reps (antes 12)" o "1:10 (antes 55 s)".
+ * Con el peso del cuerpo el peso es el lastre: "PC+10 (antes PC)", no "10 kg (antes 0)".
+ */
+export function describeRecord({ exerciseId, kind, value, previous }: PersonalRecord): string {
+  if (kind === 'reps') return `${value} ${value === 1 ? 'rep' : 'reps'} (antes ${previous})`;
   if (kind === 'time') return `${formatSeconds(value)} (antes ${formatSeconds(previous)})`;
+  if (kind === 'weight' && isBodyweight(exerciseId)) {
+    return `${formatLoad(value, true)} (antes ${formatLoad(previous, true)})`;
+  }
   return kind === 'weight'
     ? `${formatWeight(value)} kg (antes ${formatWeight(previous)})`
     : `1RM est. ${value} kg (antes ${previous})`;

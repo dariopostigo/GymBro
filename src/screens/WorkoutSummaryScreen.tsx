@@ -36,7 +36,7 @@ function describeComparison({ date, volumeChange, setsDiff }: DayComparison): st
   const count = Math.abs(setsDiff);
   const sets =
     setsDiff === 0
-      ? 'mismas series'
+      ? 'las mismas series'
       : `${count} ${count === 1 ? 'serie' : 'series'} ${setsDiff > 0 ? 'más' : 'menos'}`;
   return `${volume} · ${sets} que el ${formatShortDate(date)}`;
 }
