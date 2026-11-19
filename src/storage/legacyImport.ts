@@ -5,6 +5,7 @@ import {
   readFavorites,
   readKv,
   readSessions,
+  readSnapshot,
   readSplits,
   readWeightStacks,
   stableStringify,
@@ -28,8 +29,9 @@ import {
  *   en el siguiente arranque).
  * - Se guarda una copia literal de todas las claves de AsyncStorage en
  *   `snapshots` ('asyncStorage') por si hiciera falta recuperar algo a mano.
- * - AsyncStorage NO se borra. Una versión futura podrá limpiarlo cuando esté
- *   claro que la migración ha ido bien en el móvil.
+ * - Después (`cleanupLegacyStorage`) se borran de AsyncStorage las claves
+ *   `gymbro:*` que ya están en esa copia literal: no se pierde nada y no quedan
+ *   datos duplicados en el móvil. Hasta la 1.3.5 no se borraban.
  */
 export const LEGACY_KEYS = {
   sessions: 'gymbro:sessions',
@@ -125,6 +127,23 @@ export async function importLegacyData(db: DB): Promise<void> {
 
     await writeKv(tx, KV.asyncStorageImported, new Date().toISOString());
   });
+}
+
+/**
+ * Borra de AsyncStorage las claves `gymbro:*` de antes de SQLite, solo si la
+ * migración consta como hecha y cada clave está en la copia literal con el mismo
+ * valor (así siempre se puede recuperar). Devuelve cuántas ha borrado.
+ */
+export async function cleanupLegacyStorage(db: DB): Promise<number> {
+  if ((await readKv(db, KV.asyncStorageImported)) === null) return 0;
+  const keys = (await AsyncStorage.getAllKeys()).filter(key => key.startsWith('gymbro:'));
+  if (!keys.length) return 0;
+  const copy = parse(await readSnapshot(db, SNAPSHOT_ASYNC_STORAGE));
+  if (!isObject(copy)) return 0;
+  const current = await AsyncStorage.getMany(keys);
+  const saved = keys.filter(key => copy[key] === current[key]);
+  if (saved.length) await AsyncStorage.removeMany(saved);
+  return saved.length;
 }
 
 /** Relee lo escrito y lo compara con lo original; si algo no cuadra, se deshace todo. */

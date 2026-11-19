@@ -1,5 +1,5 @@
 import { open, type DB, type Transaction } from '@op-engineering/op-sqlite';
-import { importLegacyData } from './legacyImport';
+import { cleanupLegacyStorage, importLegacyData } from './legacyImport';
 
 /**
  * Base de datos SQLite de GymBro (op-sqlite, en el propio móvil), como las de
@@ -142,6 +142,8 @@ async function init(): Promise<DB> {
   await db.execute('PRAGMA foreign_keys = ON');
   await migrate(db);
   await importLegacyData(db);
+  // Limpieza de lo antiguo: si falla, se reintenta en el siguiente arranque sin bloquear la app.
+  await cleanupLegacyStorage(db).catch(() => 0);
   return db;
 }
 

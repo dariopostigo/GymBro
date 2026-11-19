@@ -3,7 +3,7 @@ import { withDb } from '../src/storage/db';
 import { hasPreImportBackup, undoImport, BACKUP_VERSION } from '../src/storage/backup';
 import { loadCustomExercises } from '../src/storage/customExerciseStorage';
 import { loadFavoriteExerciseIds } from '../src/storage/favoritesStorage';
-import { LEGACY_KEYS, SNAPSHOT_ASYNC_STORAGE } from '../src/storage/legacyImport';
+import { cleanupLegacyStorage, LEGACY_KEYS, SNAPSHOT_ASYNC_STORAGE } from '../src/storage/legacyImport';
 import {
   loadActiveSplit,
   loadDayOverrides,
@@ -120,17 +120,26 @@ test('pasa a SQLite todo lo que había en AsyncStorage, sin perder nada', async 
   expect(await loadRestTimer()).toEqual({ endsAt: 123, duration: 90 });
 });
 
-test('no borra AsyncStorage y guarda una copia literal de todas sus claves', async () => {
+test('tras pasarlo, borra las claves antiguas de AsyncStorage pero guarda una copia literal', async () => {
   await seed(legacy);
+  await AsyncStorage.setItem('otra-app:clave', 'x');
   await loadSessions();
 
-  expect(await AsyncStorage.getItem(LEGACY_KEYS.sessions)).toBe(
-    JSON.stringify(legacy[LEGACY_KEYS.sessions]),
-  );
+  // Las de GymBro ya no están en AsyncStorage; lo que no es de GymBro no se toca.
+  expect((await AsyncStorage.getAllKeys()).sort()).toEqual(['otra-app:clave']);
   const copy = JSON.parse((await withDb(db => readSnapshot(db, SNAPSHOT_ASYNC_STORAGE)))!);
   for (const [key, value] of Object.entries(legacy)) {
     expect(copy[key]).toBe(JSON.stringify(value));
   }
+});
+
+test('no borra una clave antigua que no coincide con la copia literal', async () => {
+  await seed(legacy);
+  await loadSessions();
+  // Una clave que aparece después con otro valor no está en la copia: se deja.
+  await AsyncStorage.setItem(LEGACY_KEYS.sessions, '[]');
+  expect(await withDb(cleanupLegacyStorage)).toBe(0);
+  expect(await AsyncStorage.getItem(LEGACY_KEYS.sessions)).toBe('[]');
 });
 
 test('la migración del PPL ya hecha en AsyncStorage no vuelve a cambiar el split activo', async () => {
@@ -200,6 +209,8 @@ test('si lo releído no coincide, deshace todo y lo reintenta en el siguiente ar
 
   await expect(loadSessions()).rejects.toThrow(/siguen a salvo/);
   spy.mockRestore();
+  // Si la migración falla, AsyncStorage no se borra: hace falta para reintentarla.
+  expect(await AsyncStorage.getItem(LEGACY_KEYS.sessions)).not.toBeNull();
   // La marca de migración no quedó puesta: en el siguiente arranque se reintenta y entra todo.
   expect(await loadFavoriteExerciseIds()).toEqual([73, 129]);
   expect(await loadSessions()).toEqual(legacy[LEGACY_KEYS.sessions]);
