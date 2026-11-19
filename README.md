@@ -2,7 +2,7 @@
 
 App de gimnasio para uso personal, en español y sin conexión: rutinas por días, registro de series en el gimnasio y seguimiento del progreso. React Native (CLI, TypeScript), solo Android en la práctica.
 
-## Qué hace (1.3.5)
+## Qué hace (1.4.0)
 
 Pestañas Inicio · Rutina · **[Entrenar]** · Progreso · Ejercicios, con el botón grande del centro para el entreno de hoy (como en NutriBro y CestaBro).
 
@@ -15,6 +15,7 @@ Pestañas Inicio · Rutina · **[Entrenar]** · Progreso · Ejercicios, con el b
   - Reps con − / + sin sacar el teclado.
   - Aviso de récord al momento.
 - **Resumen al terminar**: volumen (en kg, o en toneladas desde 1000 kg), comparación con la vez anterior, récords y mapa corporal de lo trabajado.
+- **Racha por semanas**: semanas seguidas cumpliendo el objetivo de días por semana (3 por defecto, se cambia en Ajustes); en Inicio, la racha y los días de esta semana frente al objetivo.
 - **Progreso**: series semanales por grupo muscular (con la banda de 10-20), calendario de los días entrenados, historial y gráfica por ejercicio, sesiones pasadas con su duración.
 - **Catálogo de ~450 ejercicios** con fotos, descripción, músculos y búsqueda por grupo (bíceps, tríceps, cuádriceps, femoral...), y ejercicios propios creados en la app con su foto.
 - **Copia de seguridad** en un zip con el JSON y las fotos de los ejercicios propios (exportar, importar y deshacer la importación; también acepta los `.json` antiguos).
