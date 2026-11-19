@@ -6,9 +6,14 @@ Fallos y cosas que cambiar vistas al usar la app.
 
 Del repaso del 2026-11-15 (venían de PLAN.md):
 
-- [ ] Por decidir: racha por semanas, "rutina" en vez de "split".
-
 Hechas:
+
+- [x] **Racha por semanas y "rutina" en todos los textos** (19/11/2026, sin versión todavía; decidido en la revisión):
+  - Racha: semanas seguidas (de lunes a domingo) entrenando al menos el **objetivo semanal** de días distintos (`weeklyStreak` en `src/utils/stats.ts`). La semana en curso suma si ya se ha cumplido y no corta la racha hasta que termina. Antes eran días seguidos y cada día de descanso la cortaba.
+  - Objetivo semanal: 3 días por defecto, de 1 a 7 en Ajustes ("Objetivo semanal", `settings.weeklyGoal`; va en la copia con el resto de ajustes, sin migración).
+  - Inicio: la píldora de la cabecera muestra la racha ("5 sem") y la casilla "Racha" pasa a "Esta semana" con los días hechos frente al objetivo ("2/3", en color al cumplirlo).
+  - Textos: "split" → "rutina" en todo lo que se ve ("Cambiar de rutina", "Elige tu rutina", "Nueva rutina", "No hay rutina activa", "+ Crear rutina personalizada", "rutinas propias" en la copia…). En el código sigue siendo `split`; "Bro Split" se queda como nombre de esa rutina.
+  - Tests en `__tests__/weeklyStreak.test.ts`. Probado en el emulador con 7 semanas de entrenos importados: racha 5 semanas y 2/3 con objetivo 3; 2 semanas y 2/4 con objetivo 4. Capturas en `screenshots/racha-y-rutina/` (no se suben).
 
 - [x] 🟡 **Para publicar** (18/11/2026, sin versión todavía):
   - Versión visible y "Acerca de" al final de Ajustes: privacidad (algunas fotos de ejercicios se descargan de wger y free-exercise-db) y créditos (wger CC BY-SA 4.0, free-exercise-db, MuscleMap MIT, Lucide).

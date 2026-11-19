@@ -35,11 +35,11 @@ export default function SplitOverviewScreen() {
       <SafeAreaView style={styles.safeArea} edges={['top']}>
         <ScreenHeader overline="Tu rutina" title="Rutina" left={<MenuButton />} />
         <EmptyState
-          title="No hay split activo"
+          title="No hay rutina activa"
           hint="Elige una rutina para ver aquí todos tus días de entrenamiento."
         />
         <View style={styles.emptyAction}>
-          <GhostButton label="Elegir split" onPress={() => navigation.navigate('SplitSelection')} />
+          <GhostButton label="Elegir rutina" onPress={() => navigation.navigate('SplitSelection')} />
         </View>
       </SafeAreaView>
     );
@@ -152,7 +152,7 @@ export default function SplitOverviewScreen() {
         renderItem={renderDay}
         ListFooterComponent={
           <GhostButton
-            label="+ Crear split personalizado"
+            label="+ Crear rutina personalizada"
             dashed
             onPress={() => navigation.navigate('CreateCustomSplit')}
             style={styles.footerButton}

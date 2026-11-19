@@ -42,8 +42,8 @@ export default function SplitSelectionScreen() {
 
       <ScreenHeader
         overline="Paso 1"
-        title="Elige tu split"
-        subtitle="Se guardará como tu rutina activa. Podrás cambiarlo cuando quieras desde el menú principal."
+        title="Elige tu rutina"
+        subtitle="Se guardará como tu rutina activa. Podrás cambiarla cuando quieras desde el menú principal."
       />
 
       <FlatList
@@ -77,7 +77,7 @@ export default function SplitSelectionScreen() {
         )}
         ListFooterComponent={
           <GhostButton
-            label="+ Crear split personalizado"
+            label="+ Crear rutina personalizada"
             dashed
             onPress={() => navigation.navigate('CreateCustomSplit')}
             style={styles.footerButton}

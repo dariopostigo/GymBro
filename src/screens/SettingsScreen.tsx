@@ -19,6 +19,7 @@ import { colors, spacing } from '../theme';
 import { version } from '../../package.json';
 import type { EffortMode } from '../utils/effort';
 import { PLATE_OPTIONS, type BarWeights } from '../utils/plates';
+import { plural } from '../utils/plural';
 
 const BAR_STEP = 2.5;
 const BAR_SETTINGS: { key: keyof BarWeights; label: string; min: number; max: number }[] = [
@@ -251,6 +252,25 @@ export default function SettingsScreen() {
           hint="Mientras estás en la pestaña Hoy, para no tener que desbloquear el móvil."
           value={settings.keepScreenOn}
           onChange={keepScreenOn => updateSettings({ keepScreenOn })}
+        />
+      </Card>
+
+      <Card style={styles.card}>
+        <View style={styles.switchText}>
+          <Text style={styles.switchLabel}>Objetivo semanal</Text>
+          <Text style={styles.switchHint}>
+            Días de entreno por semana (de lunes a domingo). La racha cuenta las semanas seguidas que
+            lo cumples; la semana en curso no la corta hasta que termina.
+          </Text>
+        </View>
+        <Stepper
+          label="Días por semana"
+          layout="inline"
+          value={plural(settings.weeklyGoal, 'día', 'días')}
+          minusDisabled={settings.weeklyGoal <= 1}
+          plusDisabled={settings.weeklyGoal >= 7}
+          onDecrease={() => updateSettings({ weeklyGoal: Math.max(1, settings.weeklyGoal - 1) })}
+          onIncrease={() => updateSettings({ weeklyGoal: Math.min(7, settings.weeklyGoal + 1) })}
         />
       </Card>
 

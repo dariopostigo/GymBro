@@ -69,40 +69,65 @@ export interface TotalStats {
   sessions: number;
   sets: number;
   volume: number;
+  /** Semanas seguidas cumpliendo el objetivo de días (ver `weeklyStreak`). */
   streak: number;
+  /** Días entrenados esta semana (de lunes a hoy). */
+  daysThisWeek: number;
 }
 
-/** Días consecutivos entrenando, contando desde hoy (o desde ayer si hoy aún no toca). */
-export function trainingStreak(sessions: WorkoutSession[]): number {
-  const days = new Set(sessions.filter(s => s.sets.length > 0).map(s => dayKey(s.date)));
-  if (days.size === 0) return 0;
-
-  const cursor = new Date();
-  if (!days.has(dayKey(cursor))) {
-    cursor.setDate(cursor.getDate() - 1);
-    if (!days.has(dayKey(cursor))) return 0;
-  }
-
-  let streak = 0;
-  while (days.has(dayKey(cursor))) {
-    streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
+/** Clave del lunes de la semana de `date`. */
+function weekKey(date: Date): string {
+  const monday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  monday.setDate(monday.getDate() - daysSinceMonday(monday));
+  return dayKey(monday);
 }
 
-export function totalStats(sessions: WorkoutSession[]): TotalStats {
+/**
+ * Racha en semanas (de lunes a domingo): cuántas semanas seguidas has entrenado
+ * al menos `goal` días distintos. La semana en curso suma si ya lo has cumplido,
+ * pero no corta la racha mientras no haya terminado.
+ */
+export function weeklyStreak(
+  sessions: WorkoutSession[],
+  goal: number,
+  now = new Date(),
+): { weeks: number; daysThisWeek: number } {
+  const daysByWeek = new Map<string, Set<string>>();
+  for (const session of sessions) {
+    if (session.sets.length === 0) continue;
+    const date = new Date(session.date);
+    const key = weekKey(date);
+    daysByWeek.set(key, (daysByWeek.get(key) ?? new Set()).add(dayKey(date)));
+  }
+  const done = (key: string) => (daysByWeek.get(key)?.size ?? 0) >= Math.max(1, goal);
+
+  const cursor = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  cursor.setDate(cursor.getDate() - daysSinceMonday(cursor));
+  const daysThisWeek = daysByWeek.get(dayKey(cursor))?.size ?? 0;
+  let weeks = 0;
+  if (done(dayKey(cursor))) weeks += 1;
+  for (;;) {
+    cursor.setDate(cursor.getDate() - 7);
+    if (!done(dayKey(cursor))) break;
+    weeks += 1;
+  }
+  return { weeks, daysThisWeek };
+}
+
+export function totalStats(sessions: WorkoutSession[], weeklyGoal: number): TotalStats {
   let sets = 0;
   let volume = 0;
   for (const session of sessions) {
     sets += session.sets.length;
     volume += sessionVolume(session);
   }
+  const { weeks, daysThisWeek } = weeklyStreak(sessions, weeklyGoal);
   return {
     sessions: sessions.filter(s => s.sets.length > 0).length,
     sets,
     volume,
-    streak: trainingStreak(sessions),
+    streak: weeks,
+    daysThisWeek,
   };
 }
 

@@ -20,6 +20,8 @@ export interface Settings {
   /** Discos que hay en el gimnasio, para la calculadora de discos. */
   plates: number[];
   barWeights: BarWeights;
+  /** Días por semana que cuentan para la racha (semanas seguidas cumpliéndolo). */
+  weeklyGoal: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -31,6 +33,7 @@ export const DEFAULT_SETTINGS: Settings = {
   effortMode: 'rir',
   plates: DEFAULT_PLATES,
   barWeights: DEFAULT_BAR_WEIGHTS,
+  weeklyGoal: 3,
 };
 
 export const WEIGHT_INCREMENTS = [1, 1.25, 2.5, 5];

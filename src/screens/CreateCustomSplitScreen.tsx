@@ -49,7 +49,7 @@ export default function CreateCustomSplitScreen() {
           keyboardDismissMode="on-drag"
         >
           <FadeInView style={styles.intro}>
-            <Overline>Split personalizado</Overline>
+            <Overline>Rutina personalizada</Overline>
             <Text style={styles.title}>Diseña tu rutina</Text>
             <Text style={styles.subtitle}>
               Ponle nombre y define los días del ciclo. Después podrás añadir los ejercicios de cada
@@ -58,7 +58,7 @@ export default function CreateCustomSplitScreen() {
           </FadeInView>
 
           <FadeInView delay={60} style={styles.field}>
-            <Overline>Nombre del split</Overline>
+            <Overline>Nombre de la rutina</Overline>
             <TextInput
               value={name}
               onChangeText={setName}
@@ -93,7 +93,7 @@ export default function CreateCustomSplitScreen() {
           </FadeInView>
 
           <PrimaryButton
-            label="Crear split"
+            label="Crear rutina"
             onPress={handleCreate}
             disabled={!canCreate}
             style={styles.createButton}

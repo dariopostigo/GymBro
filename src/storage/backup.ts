@@ -203,14 +203,14 @@ export async function undoImport(): Promise<void> {
   await writeAll(parseBackup(raw).data, tx => writeSnapshot(tx, SNAPSHOT_PRE_IMPORT, null));
 }
 
-/** "12 entrenamientos · 2 splits propios · 5 favoritos" para confirmar antes de importar. */
+/** "12 entrenamientos · 2 rutinas propias · 5 favoritos" para confirmar antes de importar. */
 export function describeBackup({ data }: BackupFile): string {
   const presetIds = new Set(SPLIT_PRESETS.map(s => s.id));
   const ownSplits = data.splits.filter(s => !presetIds.has(s.id)).length;
   const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
   return [
     plural(data.sessions.length, 'entrenamiento', 'entrenamientos'),
-    plural(ownSplits, 'split propio', 'splits propios'),
+    plural(ownSplits, 'rutina propia', 'rutinas propias'),
     plural(data.favorites.length, 'favorito', 'favoritos'),
   ].join(' · ');
 }

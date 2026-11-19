@@ -60,7 +60,7 @@ test('la copia de seguridad incluye las rutinas predefinidas personalizadas', as
   const backup = await createBackup();
   expect(backup.data.splits.map(s => s.id)).toEqual(['ppl', 'mine']);
   // En el resumen solo cuentan los splits propios.
-  expect(describeBackup(backup)).toContain('1 split propio');
+  expect(describeBackup(backup)).toContain('1 rutina propia');
 });
 
 test('la migración deja el PPL como split activo una sola vez', async () => {

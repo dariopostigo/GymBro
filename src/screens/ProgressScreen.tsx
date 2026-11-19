@@ -7,6 +7,7 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
+import { useSettings } from '../context/SettingsContext';
 import { getExerciseById, isBodyweight } from '../data/exerciseCatalog';
 import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import ExerciseThumbnail from '../components/ExerciseThumbnail';
@@ -65,7 +66,8 @@ export default function ProgressScreen() {
     navigation.navigate('EditWorkout', { sessionId });
   };
 
-  const stats = useMemo(() => totalStats(sessions), [sessions]);
+  const { settings } = useSettings();
+  const stats = useMemo(() => totalStats(sessions, settings.weeklyGoal), [sessions, settings.weeklyGoal]);
   const week = useMemo(() => volumeByWeek(sessions), [sessions]);
   const summaries = useMemo(() => exerciseSummaries(sessions), [sessions]);
   const recent = useMemo(

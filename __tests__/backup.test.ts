@@ -98,6 +98,6 @@ describe('parseBackup rechaza', () => {
 });
 
 test('resumen y nombre de archivo', () => {
-  expect(describeBackup(backupWith({}))).toBe('1 entrenamiento · 1 split propio · 2 favoritos');
+  expect(describeBackup(backupWith({}))).toBe('1 entrenamiento · 1 rutina propia · 2 favoritos');
   expect(backupFileName(new Date(2026, 9, 8))).toBe('gymbro-copia-2026-10-08.zip');
 });

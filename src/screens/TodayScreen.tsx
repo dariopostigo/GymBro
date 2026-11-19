@@ -148,7 +148,7 @@ export default function TodayScreen() {
       <SafeAreaView style={styles.safeArea} edges={['top']}>
         <ScreenHeader overline="Entrenamiento" title="Hoy" left={<MenuButton />} />
         <EmptyState
-          title="No hay split activo"
+          title="No hay rutina activa"
           hint="Elige una rutina desde el menú principal para empezar a entrenar."
         />
       </SafeAreaView>
@@ -282,7 +282,7 @@ export default function TodayScreen() {
   const handleFinish = () => {
     Alert.alert(
       'Terminar entrenamiento',
-      `¿Marcar "${currentDay.name}" como completado y pasar al siguiente día del split?`,
+      `¿Marcar "${currentDay.name}" como completado y pasar al siguiente día de la rutina?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {

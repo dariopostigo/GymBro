@@ -98,7 +98,7 @@ export default function DrawerContent() {
           <View>
             <Text style={styles.brand}>GymBro</Text>
             <Text style={styles.brandMeta}>
-              {activeSplit ? activeSplit.name : 'Sin split activo'}
+              {activeSplit ? activeSplit.name : 'Sin rutina activa'}
             </Text>
           </View>
         </View>
@@ -128,7 +128,7 @@ export default function DrawerContent() {
           ) : null}
           <NavRow
             Icon={CalendarIcon}
-            label="Cambiar de split"
+            label="Cambiar de rutina"
             active={false}
             onPress={goToSplitSelection}
           />

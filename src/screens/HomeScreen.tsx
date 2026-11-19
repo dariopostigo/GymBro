@@ -7,6 +7,7 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useRoutine } from '../context/RoutineContext';
 import { useSession } from '../context/SessionContext';
+import { useSettings } from '../context/SettingsContext';
 import { useTabScreenBottomSpace } from '../components/RestTimerBar';
 import { BodyMap } from '../components/BodyFigure';
 import { DumbbellIcon, FlameIcon } from '../components/icons';
@@ -51,7 +52,8 @@ export default function HomeScreen() {
   const exercises = useMemo(() => todayExercises(currentDay, overrides), [currentDay, overrides]);
   const { sessions, getActiveSession } = useSession();
 
-  const stats = useMemo(() => totalStats(sessions), [sessions]);
+  const { settings } = useSettings();
+  const stats = useMemo(() => totalStats(sessions, settings.weeklyGoal), [sessions, settings.weeklyGoal]);
   const week = useMemo(() => volumeByWeek(sessions), [sessions]);
   const maxVolume = Math.max(1, ...week.map(d => d.volume));
   const muscles = useMemo(() => musclesWorked(exercises.map(slot => slot.exerciseId)), [exercises]);
@@ -72,9 +74,13 @@ export default function HomeScreen() {
         title="GymBro"
         left={<MenuButton />}
         right={
-          <View style={styles.streakPill}>
+          <View
+            style={styles.streakPill}
+            accessible
+            accessibilityLabel={`Racha: ${plural(stats.streak, 'semana', 'semanas')} seguidas entrenando ${settings.weeklyGoal} días o más`}
+          >
             <FlameIcon size={14} color={colors.accent} />
-            <Text style={styles.streakText}>{stats.streak}</Text>
+            <Text style={styles.streakText}>{stats.streak} sem</Text>
           </View>
         }
       />
@@ -89,7 +95,7 @@ export default function HomeScreen() {
                 <Overline>Entrenamiento de hoy</Overline>
                 <Text style={styles.heroTitle}>{currentDay?.name ?? 'Sin día activo'}</Text>
                 <Text style={styles.heroMeta}>
-                  {activeSplit?.name ?? 'Elige un split para empezar'}
+                  {activeSplit?.name ?? 'Elige una rutina para empezar'}
                   {currentDay ? ` · ${plural(exercises.length, 'ejercicio', 'ejercicios')}` : ''}
                 </Text>
               </View>
@@ -122,7 +128,11 @@ export default function HomeScreen() {
           <StatTile value={stats.sessions} label="Sesiones" />
           <StatTile value={stats.sets} label="Series" />
           <StatTile {...volumeParts(stats.volume)} label="Volumen" />
-          <StatTile value={stats.streak} label="Racha" accent />
+          <StatTile
+            value={`${stats.daysThisWeek}/${settings.weeklyGoal}`}
+            label="Esta semana"
+            accent={stats.daysThisWeek >= settings.weeklyGoal}
+          />
         </FadeInView>
 
         <FadeInView delay={210}>

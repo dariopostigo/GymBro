@@ -93,7 +93,7 @@ export default function RootNavigator() {
             name="CreateCustomSplit"
             component={CreateCustomSplitScreen}
             options={{
-              title: 'Nuevo split',
+              title: 'Nueva rutina',
               presentation: 'modal',
               animation: 'slide_from_bottom',
             }}
